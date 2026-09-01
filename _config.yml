@@ -1,0 +1,47 @@
+# ============================================================
+# Jupyter Book configuration
+# 1KB570 — Data Handling, Statistics & DoE for Material Scientists
+# Uppsala University — Department of Chemistry–Ångström
+# ============================================================
+
+title: "Data Handling, Statistics & Design of Experiments for Material Scientists"
+author: "Department of Chemistry–Ångström, Uppsala University"
+only_build_toc_files: true
+
+# ---- Execution ----
+execute:
+  execute_notebooks: cache   # use 'off' to skip execution
+  timeout: 300
+  stderr_output: show
+
+# ---- HTML output ----
+html:
+  home_page_in_navbar: true
+  use_issues_button: false
+  use_repository_button: false
+  extra_navbar: ""
+
+# ---- MyST extensions ----
+parse:
+  myst_enable_extensions:
+    - amsmath
+    - colon_fence
+    - dollarmath
+    - linkify
+  myst_url_schemes: [mailto, http, https]
+
+# ---- Sphinx ----
+sphinx:
+  config:
+    language: en
+    html_show_copyright: false
+
+# ---- Repository (needed for launch buttons below) ----
+repository:
+  url: https://github.com/peterbmob/1KB570
+  branch: main
+
+# ---- Launch buttons: open a notebook directly in Google Colab ----
+launch_buttons:
+  colab_url: "https://colab.research.google.com"
+  notebook_interface: "jupyterlab"

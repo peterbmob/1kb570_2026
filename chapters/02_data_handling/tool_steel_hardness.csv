@@ -1,0 +1,13 @@
+sample_id,temperature_C,time_h,quench_medium,hardness_HV
+TS-001,800,0.5,oil,489.9
+TS-002,800,1.0,oil,486.7
+TS-003,800,1.0,water,561.0
+TS-004,825,0.5,oil,503.8
+TS-005,825,1.0,oil,488.1
+TS-006,825,1.0,water,553.3
+TS-007,850,0.5,oil,506.0
+TS-008,850,1.0,oil,510.0
+TS-009,850,1.0,water,572.4
+TS-010,875,0.5,oil,506.9
+TS-011,875,1.0,oil,528.3
+TS-012,875,1.0,water,587.5

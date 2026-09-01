@@ -1,0 +1,96 @@
+format: jb-book
+root: intro
+parts:
+
+- caption: "Part I: Prerequisites — Python for Data Analysis"
+  chapters:
+  - file: chapters/01_python_intro/overview
+    sections:
+    - file: chapters/01_python_intro/01_python_basics
+    - file: chapters/01_python_intro/02_numpy_arrays
+    - file: chapters/01_python_intro/03_pandas_dataframes
+    - file: chapters/01_python_intro/04_matplotlib_seaborn
+    - file: chapters/01_python_intro/05_plotly_interactive
+    - file: chapters/01_python_intro/06_environment_setup
+    - file: chapters/01_python_intro/07_git_github_collaboration
+
+- caption: "Part II: Data Handling & Materials Ontologies"
+  chapters:
+  - file: chapters/02_data_handling/overview
+    sections:
+    - file: chapters/02_data_handling/01_fair_data_and_metadata
+    - file: chapters/02_data_handling/02_ontologies_and_emmo
+    - file: chapters/02_data_handling/03_databases_sql_nosql
+    - file: chapters/02_data_handling/04_nomad_oasis_database
+    - file: chapters/02_data_handling/05_building_a_fair_dataset
+    - file: chapters/02_data_handling/06_live_tutorial_1_sql_nosql
+    - file: chapters/02_data_handling/07_nomad_api_live_tutorial
+
+- caption: "Part III: Applied Statistics"
+  chapters:
+  - file: chapters/02_statistics/overview
+    sections:
+    - file: chapters/02_statistics/theory
+    - file: chapters/02_statistics/01_descriptive_stats
+    - file: chapters/02_statistics/02_distributions
+    - file: chapters/02_statistics/03_hypothesis_testing
+    - file: chapters/02_statistics/04_anova
+    - file: chapters/02_statistics/05_simple_regression
+    - file: chapters/02_statistics/06_live_tutorial_1_ttests
+    - file: chapters/02_statistics/07_live_tutorial_2_anova_regression
+
+- caption: "Part IV: Multivariate Analysis"
+  chapters:
+  - file: chapters/03_multivariate/overview
+    sections:
+    - file: chapters/03_multivariate/theory
+    - file: chapters/03_multivariate/01_mlr
+    - file: chapters/03_multivariate/02_pca
+    - file: chapters/03_multivariate/03_lda
+    - file: chapters/03_multivariate/04_fa
+    - file: chapters/03_multivariate/05_pls
+    - file: chapters/03_multivariate/06_live_tutorial_1_pca_fa
+    - file: chapters/03_multivariate/07_live_tutorial_2_pls_lda
+
+- caption: "Part V: Design of Experiments"
+  chapters:
+  - file: chapters/04_doe/overview
+    sections:
+    - file: chapters/04_doe/theory
+    - file: chapters/04_doe/01_intro_doe
+    - file: chapters/04_doe/02_full_factorial
+    - file: chapters/04_doe/03_fractional_factorial
+    - file: chapters/04_doe/04_rsm
+    - file: chapters/04_doe/05_optimization_doe
+    - file: chapters/04_doe/06_simplex
+    - file: chapters/04_doe/07_live_tutorial_1_factorial_designs
+    - file: chapters/04_doe/08_live_tutorial_2_minitab_to_sixfactor
+    - file: chapters/04_doe/09_live_tutorial_3_model_reduction_fractional
+    - file: chapters/04_doe/10_live_tutorial_4_optimization_mixture
+
+- caption: "Part VI: Introduction to AI and Machine Learning (Extra Material)"
+  chapters:
+  - file: chapters/05_ml/overview
+    sections:
+    - file: chapters/05_ml/01_clustering
+    - file: chapters/05_ml/02_gaussian_process
+    - file: chapters/05_ml/03_bayesian_optimization
+    - file: chapters/05_ml/04_ensemble_methods
+    - file: chapters/05_ml/05_neural_networks
+
+- caption: "Part VII: Course Project"
+  chapters:
+  - file: chapters/06_project/project
+    sections:
+    - file: chapters/06_project/data_access
+
+- caption: "Part VIII: Exercise Solutions"
+  chapters:
+  - file: chapters/07_solutions/overview
+    sections:
+    - file: chapters/07_solutions/01_python_solutions
+    - file: chapters/07_solutions/02_data_handling_solutions
+    - file: chapters/07_solutions/03_statistics_solutions
+    - file: chapters/07_solutions/04_multivariate_solutions
+    - file: chapters/07_solutions/05_doe_solutions
+    - file: chapters/07_solutions/06_ml_solutions

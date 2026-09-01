@@ -1,0 +1,13 @@
+{
+  "quantity": "Vickers hardness",
+  "value": 188,
+  "unit": "HV",
+  "sample_id": "STL-2024-014",
+  "instrument": {
+    "name": "Struers Duramin-40",
+    "serial_number": "DM40-3381",
+    "last_calibrated": "2024-11-02"
+  },
+  "operator": "A. Lindqvist",
+  "date": "2025-01-15"
+}

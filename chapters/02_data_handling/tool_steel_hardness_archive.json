@@ -1,0 +1,269 @@
+{
+  "dataset": {
+    "identifier": "urn:uuid:51a2070f-d398-42e3-b2a6-0e91fadbdd82",
+    "title": "Quenched-and-tempered tool-steel hardness dataset",
+    "creator": "A. Lindqvist, Dept. of Chemistry, Uppsala University",
+    "created": "2026-08-25",
+    "licence": "CC-BY-4.0",
+    "keywords": [
+      "tool steel",
+      "quenching",
+      "hardness",
+      "heat treatment"
+    ]
+  },
+  "records": [
+    {
+      "identifier": "urn:uuid:23c65b6f-566a-4f7d-9bb2-2b4e42294a6a",
+      "sample_id": "TS-001",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 800,
+        "time_h": 0.5,
+        "quench_medium": "oil",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 489.9,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:38c89f7a-cacb-4549-9879-867e4e84748a",
+      "sample_id": "TS-002",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 800,
+        "time_h": 1.0,
+        "quench_medium": "oil",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 486.7,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:1e191d23-65bf-4bdc-86e1-403d87a99d77",
+      "sample_id": "TS-003",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 800,
+        "time_h": 1.0,
+        "quench_medium": "water",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 561.0,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:c05921aa-45b2-43a8-a138-da1c3a7cd2cc",
+      "sample_id": "TS-004",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 825,
+        "time_h": 0.5,
+        "quench_medium": "oil",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 503.8,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:540e6488-7d5c-4cf0-a3ae-52ec3e2d7217",
+      "sample_id": "TS-005",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 825,
+        "time_h": 1.0,
+        "quench_medium": "oil",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 488.1,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:7aaf6a09-fb44-4342-9a1f-b785e576f0af",
+      "sample_id": "TS-006",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 825,
+        "time_h": 1.0,
+        "quench_medium": "water",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 553.3,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:4cadf43f-40b7-414e-87f1-b79d0abed66b",
+      "sample_id": "TS-007",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 850,
+        "time_h": 0.5,
+        "quench_medium": "oil",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 506.0,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:69fa8192-89c7-4ff9-b317-a16e6d87a6a5",
+      "sample_id": "TS-008",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 850,
+        "time_h": 1.0,
+        "quench_medium": "oil",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 510.0,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:7d4e3cc3-d6b4-47ca-af53-052bf3559e02",
+      "sample_id": "TS-009",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 850,
+        "time_h": 1.0,
+        "quench_medium": "water",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 572.4,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:0dcd66e5-6273-4809-bc42-6005ed990c61",
+      "sample_id": "TS-010",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 875,
+        "time_h": 0.5,
+        "quench_medium": "oil",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 506.9,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:1e8588ab-c89c-4a6d-b852-e674a81aae40",
+      "sample_id": "TS-011",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 875,
+        "time_h": 1.0,
+        "quench_medium": "oil",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 528.3,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    },
+    {
+      "identifier": "urn:uuid:b469bae1-ed74-4c73-93e9-b221ecc9e600",
+      "sample_id": "TS-012",
+      "creator": "A. Lindqvist",
+      "created": "2026-08-25",
+      "process": {
+        "temperature_C": 875,
+        "time_h": 1.0,
+        "quench_medium": "water",
+        "quantity_kind_iri": {
+          "temperature_C": "emmo:ThermodynamicTemperature",
+          "time_h": "emmo:Time"
+        }
+      },
+      "results": {
+        "hardness_HV": 587.5,
+        "quantity_kind_iri": {
+          "hardness_HV": "local:VickersHardness"
+        }
+      }
+    }
+  ]
+}

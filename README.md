@@ -1,2 +1,2 @@
-# 1kb570_2026
-2026 version of 1KB750 open for students
+# 1KB570
+Course material for 1KB570

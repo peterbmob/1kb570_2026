@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="http://example.org/mini_materials_onto.owl"
+         xmlns="http://example.org/mini_materials_onto.owl#">
+
+<owl:Ontology rdf:about="http://example.org/mini_materials_onto.owl"/>
+
+<owl:ObjectProperty rdf:about="#hasQuantitativeProperty">
+  <rdfs:domain rdf:resource="#PhysicalEntity"/>
+  <rdfs:range rdf:resource="#Quantity"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSynthesisTemperature">
+  <rdfs:subPropertyOf rdf:resource="#hasQuantitativeProperty"/>
+  <rdfs:domain rdf:resource="#SynthesisProcess"/>
+  <rdfs:range rdf:resource="#ThermodynamicTemperature"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasMeasuredCapacity">
+  <rdfs:subPropertyOf rdf:resource="#hasQuantitativeProperty"/>
+  <rdfs:domain rdf:resource="#CathodeMaterial"/>
+  <rdfs:range rdf:resource="#ElectricCharge"/>
+</owl:ObjectProperty>
+
+<owl:Class rdf:about="#Item">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PhysicalEntity">
+  <rdfs:subClassOf rdf:resource="#Item"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Quantity">
+  <rdfs:subClassOf rdf:resource="#Item"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MaterialObject">
+  <rdfs:subClassOf rdf:resource="#PhysicalEntity"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Process">
+  <rdfs:subClassOf rdf:resource="#PhysicalEntity"/>
+</owl:Class>
+
+<owl:Class rdf:about="#CathodeMaterial">
+  <rdfs:subClassOf rdf:resource="#MaterialObject"/>
+</owl:Class>
+
+<owl:Class rdf:about="#SynthesisProcess">
+  <rdfs:subClassOf rdf:resource="#Process"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ThermodynamicTemperature">
+  <rdfs:subClassOf rdf:resource="#Quantity"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ElectricCharge">
+  <rdfs:subClassOf rdf:resource="#Quantity"/>
+</owl:Class>
+
+<owl:NamedIndividual rdf:about="#LiFePO4_batch_07">
+  <rdf:type rdf:resource="#CathodeMaterial"/>
+  <hasMeasuredCapacity rdf:resource="#capacity_batch_07"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#synthesis_of_batch_07">
+  <rdf:type rdf:resource="#SynthesisProcess"/>
+  <hasSynthesisTemperature rdf:resource="#T_synthesis_batch_07"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T_synthesis_batch_07">
+  <rdf:type rdf:resource="#ThermodynamicTemperature"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capacity_batch_07">
+  <rdf:type rdf:resource="#ElectricCharge"/>
+</owl:NamedIndividual>
+
+
+</rdf:RDF>
