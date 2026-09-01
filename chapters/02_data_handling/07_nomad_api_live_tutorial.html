@@ -1,0 +1,1429 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7. Live Tutorial 2: Querying and Plotting Real NOMAD Data &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/02_data_handling/07_nomad_api_live_tutorial';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Part III: Applied Statistics" href="../02_statistics/overview.html" />
+    <link rel="prev" title="6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice" href="06_live_tutorial_1_sql_nosql.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/02_data_handling/07_nomad_api_live_tutorial.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/02_data_handling/07_nomad_api_live_tutorial.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-you-need-an-api-key">7.1 Do You Need an API Key?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#your-first-request-just-a-url">7.2 Your First Request: Just a URL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-structured-search-with-post-entries-query">7.3 A Structured Search with <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/entries/query</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-json-to-a-dataframe-to-a-plot">From JSON to a DataFrame to a Plot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#query-semantics-all-vs-any">7.4 Query Semantics: <code class="docutils literal notranslate"><span class="pre">all</span></code> vs. <code class="docutils literal notranslate"><span class="pre">any</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paginating-through-thousands-of-results">7.5 Paginating Through Thousands of Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-search-hit-to-one-full-record">7.6 From a Search Hit to One Full Record</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-properties-done-right-band-gaps">7.7 Numeric Properties Done Right: Band Gaps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-fetch-each-archive-convert-units-build-a-table">Step 2: Fetch Each Archive, Convert Units, Build a Table</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#personal-access-tokens-nomad-s-api-key">7.8 Personal Access Tokens: NOMAD’s API Key</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-token-get-users-me">Testing the Token: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/users/me</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-a-key-actually-unlocks-get-uploads">What a Key Actually Unlocks: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/uploads</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-anonymous-vs-authenticated">7.9 Summary: Anonymous vs. Authenticated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="live-tutorial-2-querying-and-plotting-real-nomad-data">
+<h1>7. Live Tutorial 2: Querying and Plotting Real NOMAD Data<a class="headerlink" href="#live-tutorial-2-querying-and-plotting-real-nomad-data" title="Link to this heading">#</a></h1>
+<p>Notebooks 1–5 built the <em>concepts</em> — FAIR metadata, EMMO, and NOMAD’s data
+model — using local Python so nothing depended on network access, and
+Notebook 6 turned those concepts into a live, hands-on SQL/NoSQL
+investigation of your own local data. This notebook is a second live
+session, and the payoff specifically for NOMAD: we connect to the <strong>real,
+public NOMAD repository</strong> at <code class="docutils literal notranslate"><span class="pre">nomad-lab.eu</span></code> and use it exactly the way you
+would for a real project — searching, paginating, extracting numeric
+properties, and plotting the results with the tools from Part I
+(<code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>).</p>
+<p>Read the explanation, run the cell, look at the output, then do the
+linked exercise before moving on. Every cell that talks to the network is
+guarded so the notebook degrades gracefully (with a clear message) if you
+lose your connection mid-session — re-run the guard cell in Section 7.1 to
+reconnect.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>Do you need an API key? (short answer: not for this)</p></li>
+<li><p>Your first request: a URL you can paste into a browser</p></li>
+<li><p>A structured search with <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/entries/query</span></code>, and your first plot</p></li>
+<li><p>Understanding query semantics (<code class="docutils literal notranslate"><span class="pre">all</span></code> vs <code class="docutils literal notranslate"><span class="pre">any</span></code>)</p></li>
+<li><p>Paginating through thousands of results</p></li>
+<li><p>From a search hit to one full record</p></li>
+<li><p>Numeric properties done right: band gaps and unit conversion</p></li>
+<li><p>Personal Access Tokens: NOMAD’s API key, and what it unlocks</p></li>
+<li><p>Summary: anonymous vs. authenticated</p></li>
+</ol>
+<section id="do-you-need-an-api-key">
+<h2>7.1 Do You Need an API Key?<a class="headerlink" href="#do-you-need-an-api-key" title="Link to this heading">#</a></h2>
+<p><strong>No — not for reading published data.</strong> NOMAD’s central repository is
+built around open science: anyone can query and download <em>published</em>
+entries anonymously, with no account, no registration, and no API key. You
+only need credentials for things that are inherently personal or private —
+uploading data, seeing your own unpublished entries, or acting as a
+specific user. Section 7.8 covers that; everything before it works for
+absolutely anyone.</p>
+<p>Run the cell below once now. It checks connectivity and sets a flag,
+<code class="docutils literal notranslate"><span class="pre">NOMAD_ONLINE</span></code>, that every later cell checks before making a request — if
+your connection drops partway through the session, just re-run this cell
+to pick up again without re-running everything above it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s1">&#39;https://nomad-lab.eu/prod/v1/api/v1&#39;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_nomad_online</span><span class="p">(</span><span class="n">attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The very first request to a server can be slow (cold connection,</span>
+<span class="sd">    DNS, TLS handshake) — retry a couple of times before giving up.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">attempts</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/info&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+<span class="n">NOMAD_ONLINE</span> <span class="o">=</span> <span class="n">check_nomad_online</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Connected to NOMAD — no API key was sent, and none was required.&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Could not reach NOMAD right now. Check your connection and re-run this cell&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;before continuing — every later cell depends on NOMAD_ONLINE.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Connected to NOMAD — no API key was sent, and none was required.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="your-first-request-just-a-url">
+<h2>7.2 Your First Request: Just a URL<a class="headerlink" href="#your-first-request-just-a-url" title="Link to this heading">#</a></h2>
+<p>The simplest NOMAD search is a plain <code class="docutils literal notranslate"><span class="pre">GET</span></code> request with query parameters —
+exactly the kind of URL you could paste into a browser address bar and get
+JSON back. <code class="docutils literal notranslate"><span class="pre">requests.get</span></code> does the same thing from Python. Let’s ask for
+entries containing iron (the same element used as the running example in
+Notebooks 1–4, and in the Materials Project examples in the
+<a class="reference internal" href="../06_project/project.html"><span class="std std-doc">course project guide</span></a> — the same chemical
+system, two different repositories).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="s1">&#39;Fe&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Status code:&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;You could paste this straight into a browser:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;page_url&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total entries containing iron in all of NOMAD:&#39;</span><span class="p">,</span>
+          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Status code: 200
+You could paste this straight into a browser:
+  https://nomad-lab.eu/prod/v1/api/v1/entries?results.material.elements=Fe&amp;page_size=3
+
+Total entries containing iron in all of NOMAD: 759,366
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-structured-search-with-post-entries-query">
+<h2>7.3 A Structured Search with <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/entries/query</span></code><a class="headerlink" href="#a-structured-search-with-post-entries-query" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/entries</span></code> endpoint above is fine for a single filter, but real
+searches usually need several conditions and specific fields back —
+NOMAD’s <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/entries/query</span></code> endpoint takes a JSON <strong>request body</strong>
+instead of URL parameters, which scales much better. It has three parts,
+which you will reuse for the rest of this notebook:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">query</span></code></strong> — which entries to match (like a <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause)</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">pagination</span></code></strong> — how many results per page (<code class="docutils literal notranslate"><span class="pre">page_size</span></code>), and where to
+resume (Section 7.5)</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">required</span></code></strong> — which fields to actually return (<code class="docutils literal notranslate"><span class="pre">required.include</span></code>) —
+without this, NOMAD returns a large default set of fields you usually
+don’t need</p></li>
+</ul>
+<p>Let’s search for materials containing both iron and oxygen, and pull back
+just the fields needed to build a small table: the formula and the crystal
+system.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fe&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">],</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
+        <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s1">&#39;entry_id&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;results.material.chemical_formula_reduced&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;results.material.symmetry.crystal_system&#39;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Status code:&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Fe-O entries in NOMAD:&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Entries returned this page:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Status code: 200
+Total Fe-O entries in NOMAD: 48,765
+Entries returned this page: 50
+</pre></div>
+</div>
+</div>
+</div>
+<section id="from-json-to-a-dataframe-to-a-plot">
+<h3>From JSON to a DataFrame to a Plot<a class="headerlink" href="#from-json-to-a-dataframe-to-a-plot" title="Link to this heading">#</a></h3>
+<p>Each hit in <code class="docutils literal notranslate"><span class="pre">result['data']</span></code> is a nested dictionary — exactly the shape
+Notebooks 1 and 4 had you build by hand. Flattening nested JSON into a flat
+table is one of the single most common real-world data-handling tasks, and
+it is just a list comprehension over dictionary access, the same pattern
+Part I, Notebook 3 (pandas) used for building DataFrames from records.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]:</span>
+        <span class="n">mat</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;material&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;entry_id&#39;</span><span class="p">:</span>       <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;formula&#39;</span><span class="p">:</span>        <span class="n">mat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chemical_formula_reduced&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;crystal_system&#39;</span><span class="p">:</span> <span class="n">mat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;crystal_system&#39;</span><span class="p">),</span>
+        <span class="p">})</span>
+
+    <span class="n">df_feo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_feo</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Missing crystal_system (not every entry has full symmetry data):&#39;</span><span class="p">,</span>
+          <span class="n">df_feo</span><span class="p">[</span><span class="s1">&#39;crystal_system&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_feo</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                       entry_id          formula crystal_system
+0  --4Tz9cNrqRCfi4VSIv3SMzYNGd_           FeO7P2     monoclinic
+1  --BVaNqRoGysH9uT0RCIbjuyRV5U        Cr3Fe2O12      triclinic
+2  --ErPNNAPdNaz113PtGg4Aea8xEQ  C72FeH44N6O16U2           None
+3  --HZrISlofqr8C1W0wWuPLEEFSLe        FeMoO6Sr2          cubic
+4  --UWIIVuUzXxO6ohF0bUAR1co6SZ            Fe4O4          cubic
+5  --hRM6fRWogvxygyl9HIT3oMkmXR          Ba3FeO5     tetragonal
+6  --jIt82ioQ70cDpXKgKQ6nMPpvkt           BiFeO3           None
+7  --kSFBxgDBRnC5DHkG-dnhYnMfzq          F3Fe4O5      triclinic
+8  --l53thMRxzfX6rdDT66taWedWIM           FeO3Rh          cubic
+9  --xiVBGQ0Kh7da_RvtRqr3Y7VemV       Fe2O2P2Sm2     tetragonal
+
+Missing crystal_system (not every entry has full symmetry data): 5 / 50
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+
+<span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">df_feo</span><span class="p">[</span><span class="s1">&#39;crystal_system&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">counts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;colorblind&#39;</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Crystal system&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Number of entries (this page)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Fe–O entries in NOMAD, by crystal system&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/73bd900f3d753f3e5f403c9bb8ec5affa2bcd4e45a26de786109a8321859ccd8.png" src="../../_images/73bd900f3d753f3e5f403c9bb8ec5affa2bcd4e45a26de786109a8321859ccd8.png" />
+</div>
+</div>
+<p><strong>Checkpoint / Exercise 1</strong>: Change the element list in Section 7.3 from
+<code class="docutils literal notranslate"><span class="pre">['Fe',</span> <span class="pre">'O']</span></code> to a binary system of your choice (e.g. <code class="docutils literal notranslate"><span class="pre">['Ti',</span> <span class="pre">'O']</span></code> or
+<code class="docutils literal notranslate"><span class="pre">['Zn',</span> <span class="pre">'O']</span></code>), re-run Sections 7.3–7.3’s plotting cell, and compare the
+crystal-system distribution to iron oxide’s. Which system has more
+structural diversity?</p>
+</section>
+</section>
+<section id="query-semantics-all-vs-any">
+<h2>7.4 Query Semantics: <code class="docutils literal notranslate"><span class="pre">all</span></code> vs. <code class="docutils literal notranslate"><span class="pre">any</span></code><a class="headerlink" href="#query-semantics-all-vs-any" title="Link to this heading">#</a></h2>
+<p>One subtlety worth getting right before you trust a query’s results:
+<code class="docutils literal notranslate"><span class="pre">'results.material.elements':</span> <span class="pre">['Fe',</span> <span class="pre">'O']</span></code> means <em>“contains <strong>all</strong> of Fe
+<strong>and</strong> O, possibly plus other elements too”</em> — not <em>“is exactly Fe and O
+and nothing else.”</em> You can see this in the formulas returned above (some
+have three or more elements). To restrict to <em>exactly</em> binary Fe–O
+compounds, add a second condition on the element <strong>count</strong>, which is
+exactly what an <code class="docutils literal notranslate"><span class="pre">AND</span></code> of two conditions in the <code class="docutils literal notranslate"><span class="pre">query</span></code> dict gives you.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">query_exact_binary</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fe&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;results.material.n_elements&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>     <span class="c1"># exactly two elements — no ternaries</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
+        <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">,</span> <span class="s1">&#39;results.material.chemical_formula_reduced&#39;</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">query_exact_binary</span><span class="p">)</span>
+    <span class="n">result_binary</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">formulas</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">][</span><span class="s1">&#39;chemical_formula_reduced&#39;</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">result_binary</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result_binary</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> strictly binary Fe-O entries in total.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Distinct formulas on this page:&#39;</span><span class="p">,</span> <span class="n">formulas</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2,376 strictly binary Fe-O entries in total.
+Distinct formulas on this page: [&#39;Fe11O12&#39;, &#39;Fe2O3&#39;, &#39;Fe2O6&#39;, &#39;Fe3O4&#39;, &#39;Fe4O4&#39;, &#39;Fe8O9&#39;, &#39;FeO&#39;, &#39;FeO2&#39;, &#39;FeO3&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="paginating-through-thousands-of-results">
+<h2>7.5 Paginating Through Thousands of Results<a class="headerlink" href="#paginating-through-thousands-of-results" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">page_size</span></code> caps how many entries come back in one response — NOMAD will
+not hand you all 48,000+ Fe–O entries at once. To collect more than one
+page, follow the cursor NOMAD gives you back:
+<code class="docutils literal notranslate"><span class="pre">pagination['next_page_after_value']</span></code>, passed as <code class="docutils literal notranslate"><span class="pre">page_after_value</span></code> on the
+next request — the same cursor-based pattern most large web APIs use.
+The loop below collects five pages (250 entries) into a single DataFrame,
+sleeping briefly between requests to stay a polite, well-behaved client of
+a shared public service — a good habit for <em>any</em> API, not just NOMAD’s.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fetch_pages</span><span class="p">(</span><span class="n">query_body</span><span class="p">,</span> <span class="n">n_pages</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">sleep_s</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect n_pages of results into a single list of entries.&quot;&quot;&quot;</span>
+    <span class="n">all_entries</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">query_body</span><span class="p">))</span>    <span class="c1"># deep copy, safe to mutate</span>
+    <span class="n">body</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="n">page_size</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_pages</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">all_entries</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">page</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+        <span class="n">after</span> <span class="o">=</span> <span class="n">page</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;next_page_after_value&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">after</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">break</span>                                  <span class="c1"># ran out of results</span>
+        <span class="n">body</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;page_after_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">after</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">all_entries</span>
+
+
+<span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">query_binary_feo</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fe&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">],</span> <span class="s1">&#39;results.material.n_elements&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+        <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">,</span> <span class="s1">&#39;results.material.chemical_formula_reduced&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;results.material.symmetry.space_group_number&#39;</span><span class="p">]},</span>
+    <span class="p">}</span>
+    <span class="n">entries_500</span> <span class="o">=</span> <span class="n">fetch_pages</span><span class="p">(</span><span class="n">query_binary_feo</span><span class="p">,</span> <span class="n">n_pages</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Collected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">entries_500</span><span class="p">)</span><span class="si">}</span><span class="s1"> entries across 5 pages.&#39;</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[{</span>
+        <span class="s1">&#39;formula&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chemical_formula_reduced&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;space_group_number&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;space_group_number&#39;</span><span class="p">),</span>
+    <span class="p">}</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entries_500</span><span class="p">]</span>
+    <span class="n">df_binary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_binary</span><span class="p">[</span><span class="s1">&#39;space_group_number&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collected 250 entries across 5 pages.
+count    237.000000
+mean     189.662447
+std       69.473840
+min        1.000000
+25%      187.000000
+50%      225.000000
+75%      225.000000
+max      225.000000
+Name: space_group_number, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">df_binary</span><span class="p">[</span><span class="s1">&#39;space_group_number&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Space group number (1–230)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Space group distribution — strictly binary Fe–O entries&#39;</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">df_binary</span><span class="p">[</span><span class="s1">&#39;space_group_number&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_binary</span><span class="p">)</span><span class="si">}</span><span class="s2"> entries &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;have no symmetry data — dropped from the histogram, same as Part I&#39;s df.dropna().&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/bfae730c4657ec44966fbea43b5483ad7e05687fa782cda4454deb02bb62e1a0.png" src="../../_images/bfae730c4657ec44966fbea43b5483ad7e05687fa782cda4454deb02bb62e1a0.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>13 of 250 entries have no symmetry data — dropped from the histogram, same as Part I&#39;s df.dropna().
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 2</strong>: Rewrite <code class="docutils literal notranslate"><span class="pre">fetch_pages</span></code> (or call it differently) to keep
+paging until you have collected <strong>at least 300</strong> binary Fe–O entries,
+instead of a fixed <code class="docutils literal notranslate"><span class="pre">n_pages=5</span></code>. Hint: use a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop (Part I, Notebook 1,
+Section 1.3) instead of a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop, and check <code class="docutils literal notranslate"><span class="pre">len(all_entries)</span></code> at the
+top of each iteration.</p>
+</section>
+<section id="from-a-search-hit-to-one-full-record">
+<h2>7.6 From a Search Hit to One Full Record<a class="headerlink" href="#from-a-search-hit-to-one-full-record" title="Link to this heading">#</a></h2>
+<p>A search result gives you a summary. To see <em>everything</em> NOMAD has for one
+specific material, <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/entries/{entry_id}</span></code> — no query body needed. This
+is the single-record view: the same “drill into one entry” idea as
+Notebook 4’s <code class="docutils literal notranslate"><span class="pre">nomad_style_entry</span></code>, now against real, published data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="c1"># pick one real entry_id from the 500 collected in Section 7.5</span>
+    <span class="n">one_entry_id</span> <span class="o">=</span> <span class="n">entries_500</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;entry_id&#39;</span><span class="p">]</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/</span><span class="si">{</span><span class="n">one_entry_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">material</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Material name:      &#39;</span><span class="p">,</span> <span class="n">material</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;material_name&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Formula:             &#39;</span><span class="p">,</span> <span class="n">material</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chemical_formula_descriptive&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Structural type:     &#39;</span><span class="p">,</span> <span class="n">material</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;structural_type&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Compound type:       &#39;</span><span class="p">,</span> <span class="n">material</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;compound_type&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Functional type(s):  &#39;</span><span class="p">,</span> <span class="n">material</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;functional_type&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Space group:         &#39;</span><span class="p">,</span> <span class="n">material</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;space_group_symbol&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Material name:       Iron(II) Oxide
+Formula:              Fe4O4
+Structural type:      bulk
+Compound type:        [&#39;oxide&#39;]
+Functional type(s):   [&#39;antiferromagnet AFM&#39;, &#39;intermediate valence&#39;, &#39;nonmetal&#39;, &#39;semiconductor&#39;]
+Space group:          Fm-3m
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="numeric-properties-done-right-band-gaps">
+<h2>7.7 Numeric Properties Done Right: Band Gaps<a class="headerlink" href="#numeric-properties-done-right-band-gaps" title="Link to this heading">#</a></h2>
+<p>Here is a genuinely important, easy-to-miss lesson about working with a
+real search API: <strong>not every field you can filter on is a field you can
+directly retrieve from a search result.</strong> NOMAD’s search index knows
+<em>whether</em> an entry has a computed band gap (fast to check, at any scale),
+but the actual numeric value sometimes has to be fetched from that entry’s
+<strong>full archive</strong> individually. This is a completely normal pattern for
+large data infrastructures — the search index is optimised for filtering
+millions of records, not for handing back every deeply nested number — and
+it means the correct workflow has two steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Search</strong> for entries that <em>have</em> the property you want (fast, scales
+to any number of entries)</p></li>
+<li><p><strong>Fetch</strong> the full archive for each matching entry to get the actual
+value (slower — do this only for the entries you actually kept)</p></li>
+</ol>
+<p>Step 1 uses <code class="docutils literal notranslate"><span class="pre">results.properties.available_properties</span></code>, a field listing
+which property categories an entry actually has computed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">query_has_gap</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Zn&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;results.material.n_elements&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s1">&#39;results.properties.available_properties&#39;</span><span class="p">:</span> <span class="s1">&#39;electronic.band_structure_electronic.band_gap&#39;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span>
+        <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">,</span> <span class="s1">&#39;results.material.chemical_formula_reduced&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;results.material.symmetry.crystal_system&#39;</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">query_has_gap</span><span class="p">)</span>
+    <span class="n">result_gap</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result_gap</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> Zn-O entries have a computed band gap &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;(out of the total Zn-O entries in NOMAD).&quot;</span><span class="p">)</span>
+    <span class="n">candidates</span> <span class="o">=</span> <span class="n">result_gap</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Using the first </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span><span class="si">}</span><span class="s1"> as candidates for Step 2.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1,121 Zn-O entries have a computed band gap (out of the total Zn-O entries in NOMAD).
+Using the first 20 as candidates for Step 2.
+</pre></div>
+</div>
+</div>
+</div>
+<section id="step-2-fetch-each-archive-convert-units-build-a-table">
+<h3>Step 2: Fetch Each Archive, Convert Units, Build a Table<a class="headerlink" href="#step-2-fetch-each-archive-convert-units-build-a-table" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/entries/{entry_id}/archive/query</span></code> returns the full archive for one
+entry, optionally restricted to just the section you need (keeps the
+response small). NOMAD stores physical quantities in <strong>SI base units</strong>
+internally — energy in <strong>joules</strong>, not electronvolts — so every band gap
+needs converting before it means anything to a materials scientist. This
+is the same unit-discipline lesson as Part I, Notebook 1’s molar-mass
+calculation, just applied to data coming from a server instead of values
+you typed in yourself.</p>
+<div class="math notranslate nohighlight">
+\[E_{\text{gap}}~[\text{eV}] = \frac{E_{\text{gap}}~[\text{J}]}{1.602176634 \times 10^{-19}}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">J_TO_EV</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">1.602176634e-19</span>    <span class="c1"># CODATA elementary charge, in coulombs</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fetch_band_gap_eV</span><span class="p">(</span><span class="n">entry_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetch one entry&#39;s archive and return its first band gap in eV, or NaN.&quot;&quot;&quot;</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;electronic&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;band_gap&#39;</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">}}}}}</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/</span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s1">/archive/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">band_gaps</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;archive&#39;</span><span class="p">,</span> <span class="p">{})</span>
+                 <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">,</span> <span class="p">{})</span>
+                 <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;electronic&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;band_gap&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+    <span class="k">return</span> <span class="n">band_gaps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">J_TO_EV</span> <span class="k">if</span> <span class="n">band_gaps</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+
+<span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+        <span class="n">mat</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">]</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;entry_id&#39;</span><span class="p">:</span>       <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;formula&#39;</span><span class="p">:</span>        <span class="n">mat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chemical_formula_reduced&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;crystal_system&#39;</span><span class="p">:</span> <span class="n">mat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;crystal_system&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;band_gap_eV&#39;</span><span class="p">:</span>    <span class="n">fetch_band_gap_eV</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">]),</span>
+        <span class="p">})</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>                              <span class="c1"># stay polite — one request per iteration</span>
+
+    <span class="n">df_gap</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_gap</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">df_gap</span><span class="p">[</span><span class="s1">&#39;band_gap_eV&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_gap</span><span class="p">)</span><span class="si">}</span><span class="s2"> candidates actually &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;yielded a value — &#39;available&#39; doesn&#39;t always mean &#39;present in the exact &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;section this query asked for&#39;. Real APIs are like this; always check.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                        entry_id formula crystal_system  band_gap_eV
+0   -0mvu5hr9nwhfgdOnDpoRYjYyYOY     OZn          cubic     0.710400
+1   -DrgCOn5qnufoBsVLsUk9siZibYF   O4Zn4          cubic          NaN
+2   -EvIwv71QwOBa5q8bnz94EOKTyU5   O4Zn4          cubic     0.480480
+3   -HbeP0aVfKzn_1Tj3MooCDJlh7W9   O4Zn4          cubic     0.000000
+4   -VbZr_Bj5mqQtbOXaB6fn90yqODQ   O4Zn4          cubic          NaN
+5   -b3lD-N_GIYU7q12M9jqrNZ2WHCw     OZn      hexagonal     0.788280
+6   -doTw-zFC1Xeouh8K56CzZEf4grp   O4Zn4          cubic     0.570571
+7   -eGA4Wr9l7HWtpSmI0EswygNlOKn   O4Zn4          cubic          NaN
+8   -fKzxesjnMzSYCrsJGvQobLAUhri   O4Zn4          cubic          NaN
+9   -kXXgRtyrVlCVYbbGgLQ93aKdLZ0   O4Zn4          cubic     0.480480
+10  0-iLUmskMfIi4LgN0Y1E1tJYNf7p   O4Zn4          cubic          NaN
+11  02EkbIH-9_n6bs3EotF0-G1XHRJ7   O4Zn4          cubic          NaN
+12  03m9DWb0_uVUOA0ZsEljKGyQfwa6   O8Zn8          cubic     1.117750
+13  0BKjKS9uvR0Xx_szRJwXCXBDFLE5   O4Zn4          cubic     0.030030
+14  0H5RcspuRvTmSKEStNnGh2S43lHU   O4Zn4          cubic          NaN
+15  0N3rxS6O5eWETRl936EWetAmiC51   O4Zn4          cubic          NaN
+16  0Q8ssqoLv0DPKW0QYYq3_HTM1c-k   O4Zn4          cubic          NaN
+17  0RFcurIfYu1QuRovO_uX4Huy2rP7   O4Zn4          cubic     0.480480
+18  0_id6hoagwb5auJihObtAnxIPiJ5   O4Zn4          cubic     0.450450
+19  0mXC3oQIb-gdBMEBjPbSFIAFWK9j   O4Zn4          cubic     0.630780
+
+11 of 20 candidates actually yielded a value — &#39;available&#39; doesn&#39;t always mean &#39;present in the exact section this query asked for&#39;. Real APIs are like this; always check.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">gaps</span> <span class="o">=</span> <span class="n">df_gap</span><span class="p">[</span><span class="s1">&#39;band_gap_eV&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">gaps</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mf">3.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Experimental ZnO gap ≈ 3.4 eV&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Computed band gap (eV)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;DFT-computed band gaps — ZnO polymorphs (NOMAD)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mean computed gap: </span><span class="si">{</span><span class="n">gaps</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> eV vs. experimental ≈ 3.4 eV.&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This gap-underestimation is a well-known artefact of standard DFT functionals&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;(GGA/LDA) — a good reminder that a *computed* property and an *experimental*&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;property are not interchangeable without checking the method (Part III onward&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;will give you the statistical tools to quantify exactly this kind of systematic bias).&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0856941489cdc68dbd9cfccdd8217f54f10c1229ea822a37aa592ffd738f3298.png" src="../../_images/0856941489cdc68dbd9cfccdd8217f54f10c1229ea822a37aa592ffd738f3298.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean computed gap: 0.52 eV vs. experimental ≈ 3.4 eV.
+This gap-underestimation is a well-known artefact of standard DFT functionals
+(GGA/LDA) — a good reminder that a *computed* property and an *experimental*
+property are not interchangeable without checking the method (Part III onward
+will give you the statistical tools to quantify exactly this kind of systematic bias).
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 3</strong>: Repeat Section 7.7 for a different oxide system (e.g.
+<code class="docutils literal notranslate"><span class="pre">['Ti',</span> <span class="pre">'O']</span></code> for TiO₂ or <code class="docutils literal notranslate"><span class="pre">['Ga',</span> <span class="pre">'N']</span></code> for GaN — not an oxide, but the
+same query pattern). Look up that material’s experimental band gap and add
+it as a second <code class="docutils literal notranslate"><span class="pre">axvline</span></code> for comparison, the same way ZnO’s was added above.</p>
+<p><strong>Exercise 4</strong>: <code class="docutils literal notranslate"><span class="pre">fetch_band_gap_eV</span></code> silently returns <code class="docutils literal notranslate"><span class="pre">NaN</span></code> on any non-200
+response. Modify it to also <code class="docutils literal notranslate"><span class="pre">print</span></code> a warning with the entry_id and status
+code when that happens, so failures are visible instead of silent — this
+is the same defensive-but-transparent error handling principle used by the
+<code class="docutils literal notranslate"><span class="pre">validate_entry</span></code> function in Notebook 4.</p>
+</section>
+</section>
+<section id="personal-access-tokens-nomad-s-api-key">
+<h2>7.8 Personal Access Tokens: NOMAD’s API Key<a class="headerlink" href="#personal-access-tokens-nomad-s-api-key" title="Link to this heading">#</a></h2>
+<p>Everything above worked with zero credentials because it only <em>read</em>
+<em>published</em> data. An <strong>API key</strong> — NOMAD calls it a <strong>Personal Access
+Token (PAT)</strong> — becomes necessary the moment you want to act <em>as
+yourself</em>: see your own unpublished uploads, or (in a NOMAD Oasis, Notebook
+4) work with your institution’s private data.</p>
+<p><strong>Getting one</strong> (you need a free NOMAD account first — register at
+<code class="docutils literal notranslate"><span class="pre">nomad-lab.eu</span></code>):</p>
+<ol class="arabic simple">
+<li><p>Log in on the NOMAD website.</p></li>
+<li><p>Open your account/profile menu and find <strong>“Personal access tokens”</strong>
+(or equivalent account-settings page for API access).</p></li>
+<li><p>Create a new token, giving it a name and an expiry. <strong>Copy the raw token
+immediately — it is shown only once.</strong></p></li>
+</ol>
+<p>Programmatically, the same thing happens via two calls: <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/auth/token</span></code>
+with your username and password gets you a short-lived login token, which
+you then use once to call <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/auth/pats</span></code> and mint a long-lived PAT — the
+GUI does exactly this for you, which is why it is the easier path for most
+people.</p>
+<p>Once you have a token, you send it in the <code class="docutils literal notranslate"><span class="pre">Authorization</span></code> header on every
+request: <code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Bearer</span> <span class="pre">&lt;your_token&gt;</span></code>. The cell below looks for a
+token in the <code class="docutils literal notranslate"><span class="pre">NOMAD_TOKEN</span></code> variable; if you have one, paste it in and
+re-run the cell. If you don’t, leave it as-is — the rest of this section
+still runs and shows you exactly what changes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NOMAD_TOKEN</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>   <span class="c1"># paste your Personal Access Token here, or leave blank</span>
+
+<span class="n">HEADERS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="n">NOMAD_TOKEN</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span> <span class="k">if</span> <span class="n">NOMAD_TOKEN</span> <span class="k">else</span> <span class="p">{}</span>
+
+<span class="k">if</span> <span class="n">NOMAD_TOKEN</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;A token is set — requests below will be authenticated as you.&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No token set — requests below will run anonymously, and the &quot;protected&quot;&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;calls are expected to fail with 401 Unauthorized. That failure is the point:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;it shows you exactly which endpoints need a key and which do not.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No token set — requests below will run anonymously, and the &quot;protected&quot;
+calls are expected to fail with 401 Unauthorized. That failure is the point:
+it shows you exactly which endpoints need a key and which do not.
+</pre></div>
+</div>
+</div>
+</div>
+<section id="testing-the-token-get-users-me">
+<h3>Testing the Token: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/users/me</span></code><a class="headerlink" href="#testing-the-token-get-users-me" title="Link to this heading">#</a></h3>
+<p>This endpoint answers one question: <em>“who does the server think I am?”</em> —
+a good sanity check right after getting a token, before using it for
+anything else.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/users/me&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">HEADERS</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Status code:&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">me</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Authenticated as:&#39;</span><span class="p">,</span> <span class="n">me</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="n">me</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&gt;&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Response:&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Status code: 401
+Response: {&#39;detail&#39;: &#39;Authentication required.&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-a-key-actually-unlocks-get-uploads">
+<h3>What a Key Actually Unlocks: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/uploads</span></code><a class="headerlink" href="#what-a-key-actually-unlocks-get-uploads" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">/uploads</span></code> lists <strong>your own</strong> uploads — including anything unpublished,
+which by definition no anonymous request can ever see. Compare the status
+code here with every request earlier in this notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">NOMAD_ONLINE</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/uploads&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">HEADERS</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Status code:&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">uploads</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;You have </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">uploads</span><span class="p">)</span><span class="si">}</span><span class="s1"> upload(s).&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;401 Unauthorized — exactly what every anonymous request in this notebook&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;avoided until now, because /uploads is about *your* private data, not the&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;public repository. This is the FAIR &quot;Accessible&quot; principle (Notebook 1) in&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;action: public data is openly accessible, private data is not, by design.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Status code: 401
+401 Unauthorized — exactly what every anonymous request in this notebook
+avoided until now, because /uploads is about *your* private data, not the
+public repository. This is the FAIR &quot;Accessible&quot; principle (Notebook 1) in
+action: public data is openly accessible, private data is not, by design.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary-anonymous-vs-authenticated">
+<h2>7.9 Summary: Anonymous vs. Authenticated<a class="headerlink" href="#summary-anonymous-vs-authenticated" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Capability</p></th>
+<th class="head"><p>Anonymous</p></th>
+<th class="head"><p>With a Personal Access Token</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Search published entries (<code class="docutils literal notranslate"><span class="pre">/entries/query</span></code>)</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fetch a published entry’s full archive</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>See your own unpublished uploads (<code class="docutils literal notranslate"><span class="pre">/uploads</span></code>)</p></td>
+<td><p>❌ 401</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>Upload new data</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>See who you’re authenticated as (<code class="docutils literal notranslate"><span class="pre">/users/me</span></code>)</p></td>
+<td><p>❌ 401</p></td>
+<td><p>✅</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Everything in Sections 7.1–7.7 — which is most of what a materials
+scientist analysing <em>published</em> data needs — never required a key at all.
+Keep that distinction in mind before assuming an API needs registration:
+check what you are actually trying to do first.</p>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p><em>(Exercises 1–4 are inline above, at the point in the notebook where you
+have the context to attempt them. The following are additional practice
+beyond the core session.)</em></p>
+<ol class="arabic simple" start="5">
+<li><p><strong>New element system, full pipeline</strong>: Pick a binary compound system
+you are curious about (check its experimental band gap online first, so
+you have something to compare against). Repeat Sections 7.3, 7.5, and
+7.7 for it: a crystal-system bar chart, a paginated space-group
+histogram (≥150 entries), and a band-gap histogram with an <code class="docutils literal notranslate"><span class="pre">axvline</span></code> for
+the experimental value.</p></li>
+<li><p><strong>Scatter plot across two properties</strong>: Using the 500-entry
+<code class="docutils literal notranslate"><span class="pre">entries_500</span></code> collected in Section 7.5, also collect
+<code class="docutils literal notranslate"><span class="pre">results.material.n_elements</span></code> for each entry (add it to <code class="docutils literal notranslate"><span class="pre">required.include</span></code>
+and rebuild the DataFrame). Make a scatter plot of <code class="docutils literal notranslate"><span class="pre">space_group_number</span></code>
+vs. <code class="docutils literal notranslate"><span class="pre">n_elements</span></code>, colouring points by whether <code class="docutils literal notranslate"><span class="pre">n_elements</span> <span class="pre">==</span> <span class="pre">2</span></code> — does
+symmetry correlate with compositional complexity in this dataset?</p></li>
+<li><p><strong>Robust pagination</strong>: <code class="docutils literal notranslate"><span class="pre">fetch_pages</span></code> in Section 7.5 has no error
+handling — if one request in the middle of a long loop fails (network
+hiccup, server error), the whole function crashes and you lose every
+page already fetched. Rewrite it to catch <code class="docutils literal notranslate"><span class="pre">requests.exceptions.RequestException</span></code>
+per request, retry once, and otherwise skip that page and continue,
+printing a warning (the same defensive pattern as Exercise 4).</p></li>
+<li><p><strong>Connect it to Notebook 1</strong>: Take the flat <code class="docutils literal notranslate"><span class="pre">df_binary</span></code> DataFrame from
+Section 7.5. Write a <code class="docutils literal notranslate"><span class="pre">fair_check</span></code>-style record (Notebook 1, Section 1.6)
+documenting this dataset: identifier, title, creator, <code class="docutils literal notranslate"><span class="pre">created</span></code> date,
+licence, and a <code class="docutils literal notranslate"><span class="pre">keywords</span></code> list — then save both the DataFrame (as CSV)
+and the FAIR record (as JSON) to disk, exactly the way Notebook 5’s
+capstone did for the synthetic tool-steel dataset. You have now built a
+FAIR archive from <em>real, live</em> repository data, start to finish.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\02_data_handling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_live_tutorial_1_sql_nosql.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../02_statistics/overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Part III: Applied Statistics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-you-need-an-api-key">7.1 Do You Need an API Key?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#your-first-request-just-a-url">7.2 Your First Request: Just a URL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-structured-search-with-post-entries-query">7.3 A Structured Search with <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/entries/query</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-json-to-a-dataframe-to-a-plot">From JSON to a DataFrame to a Plot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#query-semantics-all-vs-any">7.4 Query Semantics: <code class="docutils literal notranslate"><span class="pre">all</span></code> vs. <code class="docutils literal notranslate"><span class="pre">any</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paginating-through-thousands-of-results">7.5 Paginating Through Thousands of Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-search-hit-to-one-full-record">7.6 From a Search Hit to One Full Record</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-properties-done-right-band-gaps">7.7 Numeric Properties Done Right: Band Gaps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-fetch-each-archive-convert-units-build-a-table">Step 2: Fetch Each Archive, Convert Units, Build a Table</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#personal-access-tokens-nomad-s-api-key">7.8 Personal Access Tokens: NOMAD’s API Key</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-token-get-users-me">Testing the Token: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/users/me</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-a-key-actually-unlocks-get-uploads">What a Key Actually Unlocks: <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/uploads</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-anonymous-vs-authenticated">7.9 Summary: Anonymous vs. Authenticated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

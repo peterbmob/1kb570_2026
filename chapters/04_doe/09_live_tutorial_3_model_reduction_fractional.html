@@ -1,0 +1,950 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>24. Live Tutorial 3: Model Reduction and Fractional Designs &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/04_doe/09_live_tutorial_3_model_reduction_fractional';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="25. Live Tutorial 4: Optimization and Mixture Designs" href="10_live_tutorial_4_optimization_mixture.html" />
+    <link rel="prev" title="23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect" href="08_live_tutorial_2_minitab_to_sixfactor.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part V: Design of Experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/04_doe/09_live_tutorial_3_model_reduction_fractional.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/04_doe/09_live_tutorial_3_model_reduction_fractional.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>24. Live Tutorial 3: Model Reduction and Fractional Designs</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-why-screening-needs-model-reduction">24.1 Recap: Why Screening Needs Model Reduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-reduction-from-a-candidate-list-to-a-defensible-model">24.2 Model Reduction: From a Candidate List to a Defensible Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fractional-factorial-revisited-through-a-reduction-lens">24.3 Fractional Factorial, Revisited Through a Reduction Lens</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="live-tutorial-3-model-reduction-and-fractional-designs">
+<h1>24. Live Tutorial 3: Model Reduction and Fractional Designs<a class="headerlink" href="#live-tutorial-3-model-reduction-and-fractional-designs" title="Link to this heading">#</a></h1>
+<p>A screening design (Notebook 18) deliberately writes down more candidate
+terms than are likely to survive — main effects, plus every interaction a
+process engineer has a physical reason to suspect. This session is about
+what happens <em>after</em> those runs come back: turning an over-specified
+candidate model into a defensible, reduced one, and understanding exactly
+what you’re trusting (and risking) when you do it on a design that isn’t
+full resolution.</p>
+<p>This session builds directly on Notebook 12 (Live Tutorial 2, Statistics)’s
+backward elimination and Notebook 18’s aliasing theory rather than
+introducing either from scratch, so it moves faster than this course’s
+other live tutorials.</p>
+<p><strong>Session plan</strong></p>
+<ol class="arabic simple">
+<li><p>Recap: why screening needs model reduction</p></li>
+<li><p>Model reduction: from a candidate list to a defensible model</p></li>
+<li><p>Fractional factorial, revisited through a reduction lens</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span><span class="p">,</span> <span class="n">combinations</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyDOE3</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">303</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="recap-why-screening-needs-model-reduction">
+<h2>24.1 Recap: Why Screening Needs Model Reduction<a class="headerlink" href="#recap-why-screening-needs-model-reduction" title="Link to this heading">#</a></h2>
+<p>A screening design (Notebook 18; Notebook 23 §23.7) exists to answer <em>“which
+of many candidate factors actually matter?”</em> cheaply — which means you
+deliberately write down <strong>more candidate terms than you expect to survive</strong>
+(main effects, plausible interactions the process engineer suspects). The
+raw fitted model is therefore usually cluttered with terms that are not
+really significant. <strong>Model reduction</strong> — Notebook 12 (Live Tutorial 2, Statistics)
+§12.5 introduced backward elimination for ordinary regression — is exactly
+as necessary here, and the mechanics are identical, because a factorial
+ANOVA <em>is</em> a regression (that notebook’s central point) on coded
+columns.</p>
+</section>
+<section id="model-reduction-from-a-candidate-list-to-a-defensible-model">
+<h2>24.2 Model Reduction: From a Candidate List to a Defensible Model<a class="headerlink" href="#model-reduction-from-a-candidate-list-to-a-defensible-model" title="Link to this heading">#</a></h2>
+<p><strong>Adhesive bonding study</strong>: five process factors, lap-shear strength
+(MPa) response.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Factor</p></th>
+<th class="head"><p>Low (<span class="math notranslate nohighlight">\(-1\)</span>)</p></th>
+<th class="head"><p>High (<span class="math notranslate nohighlight">\(+1\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A — Surface treatment time</p></td>
+<td><p>30 s</p></td>
+<td><p>90 s</p></td>
+</tr>
+<tr class="row-odd"><td><p>B — Cure temperature</p></td>
+<td><p>60°C</p></td>
+<td><p>100°C</p></td>
+</tr>
+<tr class="row-even"><td><p>C — Clamp pressure</p></td>
+<td><p>0.5 MPa</p></td>
+<td><p>2.0 MPa</p></td>
+</tr>
+<tr class="row-odd"><td><p>D — Bondline thickness</p></td>
+<td><p>0.1 mm</p></td>
+<td><p>0.3 mm</p></td>
+</tr>
+<tr class="row-even"><td><p>E — Humidity during cure</p></td>
+<td><p>30% RH</p></td>
+<td><p>70% RH</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A <span class="math notranslate nohighlight">\(2^{5-1}\)</span> half-fraction (generator <span class="math notranslate nohighlight">\(I=ABCDE\)</span>, Resolution V — Notebook 18’s
+construction) gives 16 runs. Rather than fit <em>every</em> possible interaction
+(most would be unestimable — only 16 runs total), the process engineer
+writes down a <strong>candidate list</strong>: all 5 main effects, plus 4 interactions
+she has a physical reason to suspect.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">design_gen</span> <span class="o">=</span> <span class="n">pyDOE3</span><span class="o">.</span><span class="n">fracfact</span><span class="p">(</span><span class="s1">&#39;a b c d abcd&#39;</span><span class="p">)</span>     <span class="c1"># 2^(5-1), Resolution V, I=ABCDE</span>
+<span class="n">df_adh</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">design_gen</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">])</span>
+
+<span class="c1"># ── True model: some candidate terms are real, two are included but null ──────</span>
+<span class="n">true_strength</span> <span class="o">=</span> <span class="p">(</span><span class="mi">18</span>
+                  <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">A</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">B</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">C</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">D</span> <span class="o">-</span> <span class="mi">1</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">E</span>
+                  <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">A</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">B</span>          <span class="c1"># genuine: longer treatment helps MORE at high cure temp</span>
+                  <span class="o">-</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">C</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">D</span>        <span class="c1"># genuine: pressure matters less as bondline thins</span>
+                  <span class="o">+</span> <span class="mi">0</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">B</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">C</span>          <span class="c1"># candidate, but NOT real</span>
+                  <span class="o">+</span> <span class="mi">0</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">A</span><span class="o">*</span><span class="n">df_adh</span><span class="o">.</span><span class="n">E</span><span class="p">)</span>         <span class="c1"># candidate, but NOT real</span>
+<span class="n">df_adh</span><span class="p">[</span><span class="s1">&#39;strength_MPa&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">true_strength</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_adh</span><span class="p">)))</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_adh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      A    B    C    D    E  strength_MPa
+0  -1.0 -1.0 -1.0 -1.0  1.0          5.73
+1  -1.0 -1.0 -1.0  1.0 -1.0          7.05
+2  -1.0 -1.0  1.0 -1.0 -1.0         16.63
+3  -1.0 -1.0  1.0  1.0  1.0          8.74
+4  -1.0  1.0 -1.0 -1.0 -1.0         15.82
+5  -1.0  1.0 -1.0  1.0  1.0         15.12
+6  -1.0  1.0  1.0 -1.0  1.0         22.45
+7  -1.0  1.0  1.0  1.0 -1.0         17.49
+8   1.0 -1.0 -1.0 -1.0 -1.0         11.18
+9   1.0 -1.0 -1.0  1.0  1.0          9.90
+10  1.0 -1.0  1.0 -1.0  1.0         18.34
+11  1.0 -1.0  1.0  1.0 -1.0         15.57
+12  1.0  1.0 -1.0 -1.0  1.0         25.71
+13  1.0  1.0 -1.0  1.0 -1.0         28.24
+14  1.0  1.0  1.0 -1.0 -1.0         39.42
+15  1.0  1.0  1.0  1.0  1.0         27.72
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">candidate_formula</span> <span class="o">=</span> <span class="s1">&#39;strength_MPa ~ A + B + C + D + E + A:B + C:D + B:C + A:E&#39;</span>
+<span class="n">model_candidate</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">candidate_formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_adh</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_candidate</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Residual df: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">model_candidate</span><span class="o">.</span><span class="n">df_resid</span><span class="p">)</span><span class="si">}</span><span class="s1">  (16 runs - 9 candidate terms - 1 intercept)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept     17.8194      0.249     71.518      0.000      17.210      18.429
+A              4.1906      0.249     16.819      0.000       3.581       4.800
+B              6.1769      0.249     24.791      0.000       5.567       6.787
+C              2.9756      0.249     11.943      0.000       2.366       3.585
+D             -1.5906      0.249     -6.384      0.001      -2.200      -0.981
+E             -1.1056      0.249     -4.437      0.004      -1.715      -0.496
+A:B            2.0856      0.249      8.371      0.000       1.476       2.695
+C:D           -1.8244      0.249     -7.322      0.000      -2.434      -1.215
+B:C           -0.2019      0.249     -0.810      0.449      -0.812       0.408
+A:E           -0.4869      0.249     -1.954      0.099      -1.097       0.123
+==============================================================================
+
+Residual df: 6  (16 runs - 9 candidate terms - 1 intercept)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Reuse Notebook 12 (Live Tutorial 2, Statistics)&#39;s backward_elimination ─────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">backward_elimination</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">candidate_terms</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">terms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">candidate_terms</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1"> ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="n">pvalues</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">pvalues</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">)</span>
+        <span class="n">worst_term</span><span class="p">,</span> <span class="n">worst_p</span> <span class="o">=</span> <span class="n">pvalues</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span> <span class="n">pvalues</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">worst_p</span> <span class="o">&lt;=</span> <span class="n">alpha</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fit</span><span class="p">,</span> <span class="n">terms</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dropping </span><span class="si">{</span><span class="n">worst_term</span><span class="si">!r}</span><span class="s1"> (p=</span><span class="si">{</span><span class="n">worst_p</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+        <span class="n">terms</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">worst_term</span><span class="p">)</span>
+
+
+<span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;A:B&#39;</span><span class="p">,</span> <span class="s1">&#39;C:D&#39;</span><span class="p">,</span> <span class="s1">&#39;B:C&#39;</span><span class="p">,</span> <span class="s1">&#39;A:E&#39;</span><span class="p">]</span>
+<span class="n">model_reduced</span><span class="p">,</span> <span class="n">kept_terms</span> <span class="o">=</span> <span class="n">backward_elimination</span><span class="p">(</span><span class="n">df_adh</span><span class="p">,</span> <span class="s1">&#39;strength_MPa&#39;</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Final terms kept:&#39;</span><span class="p">,</span> <span class="n">kept_terms</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Candidate model: R2_adj=</span><span class="si">{</span><span class="n">model_candidate</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, AIC=</span><span class="si">{</span><span class="n">model_candidate</span><span class="o">.</span><span class="n">aic</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reduced model:   R2_adj=</span><span class="si">{</span><span class="n">model_reduced</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, AIC=</span><span class="si">{</span><span class="n">model_reduced</span><span class="o">.</span><span class="n">aic</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dropping &#39;B:C&#39; (p=0.449)
+Dropping &#39;A:E&#39; (p=0.085)
+
+Final terms kept: [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;A:B&#39;, &#39;C:D&#39;]
+
+Candidate model: R2_adj=0.988, AIC=49.6
+Reduced model:   R2_adj=0.984, AIC=54.5
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint</strong>: backward elimination should have removed <code class="docutils literal notranslate"><span class="pre">B:C</span></code> and <code class="docutils literal notranslate"><span class="pre">A:E</span></code>
+— exactly the two terms built with a true coefficient of zero in Section
+24.2 — while keeping every genuinely non-zero term. This is model reduction
+doing its job: a screening design’s whole purpose is separating real
+effects from a longer list of <em>plausible</em> ones, and this workflow makes
+that separation defensible (p-values and AIC) rather than a judgement
+call.</p>
+</section>
+<section id="fractional-factorial-revisited-through-a-reduction-lens">
+<h2>24.3 Fractional Factorial, Revisited Through a Reduction Lens<a class="headerlink" href="#fractional-factorial-revisited-through-a-reduction-lens" title="Link to this heading">#</a></h2>
+<p>Notebook 18 covered aliasing in the abstract (defining relations, Resolution
+III/IV/V). Model reduction adds a practical safety concern: <strong>a term
+backward elimination drops might not be truly zero — it might be aliased
+with something that cancels it out</strong>, or a term it <em>keeps</em> might actually
+be estimating the sum of two confounded effects. Resolution V (used above)
+keeps all main effects and 2-factor interactions alias-free of each other,
+which is exactly why Section 24.2’s reduction could trust each p-value at
+face value. Drop to a coarser Resolution III design and that safety net
+disappears — worth confirming directly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A Resolution III design for the same 5 factors: only 8 runs, but every</span>
+<span class="c1"># 2-factor interaction is now aliased with some main effect</span>
+<span class="n">design_res3</span> <span class="o">=</span> <span class="n">pyDOE3</span><span class="o">.</span><span class="n">fracfact</span><span class="p">(</span><span class="s1">&#39;a b c ab ac&#39;</span><span class="p">)</span>    <span class="c1"># 2^(5-2), Resolution III: D=AB, E=AC</span>
+<span class="n">df_res3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">design_res3</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_res3</span><span class="p">)</span><span class="si">}</span><span class="s1">-run Resolution III design for the same 5 factors (vs. </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_adh</span><span class="p">)</span><span class="si">}</span><span class="s1"> for Resolution V).&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">At Resolution III, main effects are aliased with 2-factor interactions --&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;e.g. D and E here are literally defined as D=AB, E=AC, so a &quot;D main effect&quot;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;estimate is inseparably D + AB, not D alone. Always check a design</span><span class="se">\&#39;</span><span class="s1">s resolution&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;before trusting that a &quot;significant effect&quot; is the effect its name suggests.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-run Resolution III design for the same 5 factors (vs. 16 for Resolution V).
+
+At Resolution III, main effects are aliased with 2-factor interactions --
+e.g. D and E here are literally defined as D=AB, E=AC, so a &quot;D main effect&quot;
+estimate is inseparably D + AB, not D alone. Always check a design&#39;s resolution
+before trusting that a &quot;significant effect&quot; is the effect its name suggests.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint / Exercise</strong>: Fit <code class="docutils literal notranslate"><span class="pre">strength_MPa</span> <span class="pre">~</span> <span class="pre">A</span> <span class="pre">+</span> <span class="pre">B</span> <span class="pre">+</span> <span class="pre">C</span> <span class="pre">+</span> <span class="pre">D</span> <span class="pre">+</span> <span class="pre">E</span></code> on a
+freshly simulated response for <code class="docutils literal notranslate"><span class="pre">df_res3</span></code> (reuse Section 24.2’s true model,
+substituting <code class="docutils literal notranslate"><span class="pre">df_res3</span></code>’s columns). Compare the fitted coefficient for <code class="docutils literal notranslate"><span class="pre">D</span></code>
+to its true value (<code class="docutils literal notranslate"><span class="pre">-2</span></code>) — given <code class="docutils literal notranslate"><span class="pre">D</span></code> is aliased with <code class="docutils literal notranslate"><span class="pre">A:B</span></code> here, and <code class="docutils literal notranslate"><span class="pre">A:B</span></code>
+has a real, nonzero true effect, in which direction would you expect the
+estimate to be biased? Run it and check.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Exercise: simulate a response on the Resolution III design and check the bias ──</span>
+<span class="n">true_strength_res3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">18</span>
+                       <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">df_res3</span><span class="o">.</span><span class="n">A</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">df_res3</span><span class="o">.</span><span class="n">B</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">df_res3</span><span class="o">.</span><span class="n">C</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">df_res3</span><span class="o">.</span><span class="n">D</span> <span class="o">-</span> <span class="mi">1</span><span class="o">*</span><span class="n">df_res3</span><span class="o">.</span><span class="n">E</span>
+                       <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">df_res3</span><span class="o">.</span><span class="n">A</span><span class="o">*</span><span class="n">df_res3</span><span class="o">.</span><span class="n">B</span> <span class="o">-</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">df_res3</span><span class="o">.</span><span class="n">C</span><span class="o">*</span><span class="n">df_res3</span><span class="o">.</span><span class="n">D</span><span class="p">)</span>
+<span class="n">df_res3</span><span class="p">[</span><span class="s1">&#39;strength_MPa&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">true_strength_res3</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_res3</span><span class="p">)))</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">model_res3</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ A + B + C + D + E&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_res3</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_res3</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Fitted D coefficient: </span><span class="si">{</span><span class="n">model_res3</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  (true D effect: -2.0)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;D is aliased with A:B (true A:B effect: +2.0) -- the fitted D coefficient should be&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pulled toward -2.0 + 2.0 = 0.0, i.e. biased upward (less negative) from the true -2.0.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercept    17.704
+A             4.176
+B             6.024
+C             3.729
+D            -0.739
+E            -1.034
+dtype: float64
+
+Fitted D coefficient: -0.739  (true D effect: -2.0)
+D is aliased with A:B (true A:B effect: +2.0) -- the fitted D coefficient should be
+pulled toward -2.0 + 2.0 = 0.0, i.e. biased upward (less negative) from the true -2.0.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>On the Resolution V design, backward elimination dropped exactly the two
+null terms it should have — <code class="docutils literal notranslate"><span class="pre">B:C</span></code> (p=0.449) and <code class="docutils literal notranslate"><span class="pre">A:E</span></code> (p=0.085) — while
+every genuinely non-zero candidate survived with its fitted coefficient
+close to true (e.g. <code class="docutils literal notranslate"><span class="pre">A:B</span></code> 2.09 vs. true 2.0, <code class="docutils literal notranslate"><span class="pre">C:D</span></code> -1.82 vs. true -1.5).
+On the Resolution III design, the fitted <code class="docutils literal notranslate"><span class="pre">D</span></code> coefficient came out at
+<strong>-0.739</strong> — nowhere near its true value of <strong>-2.0</strong>, but also not simply
+noisy: it landed almost exactly where the aliasing predicts. <code class="docutils literal notranslate"><span class="pre">D</span></code> is
+literally <code class="docutils literal notranslate"><span class="pre">D=AB</span></code> on this design, so the fit can only ever report <code class="docutils literal notranslate"><span class="pre">D</span></code>’s
+effect <em>plus</em> <code class="docutils literal notranslate"><span class="pre">A:B</span></code>’s effect (true value +2.0) as one inseparable number;
+<span class="math notranslate nohighlight">\(-2.0 + 2.0 = 0.0\)</span>, and the observed <span class="math notranslate nohighlight">\(-0.739\)</span> sits between that
+alias-contaminated prediction and the clean <span class="math notranslate nohighlight">\(-2.0\)</span> (with sampling noise
+on top). <strong>Resolution is not a detail you check after the fact — it
+determines whether “the model said X” is even a meaningful sentence.</strong></p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Design efficiency comparison</strong>: For the 5-factor adhesive study,
+compare the <span class="math notranslate nohighlight">\(2^{5-1}\)</span> Resolution V design (16 runs, used in Section 24.2)
+to a <span class="math notranslate nohighlight">\(2^{5-2}\)</span> Resolution III design (8 runs, Section 24.3) fit on the
+<em>same simulated system</em>. Does the Resolution III design still correctly
+identify <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">D</span></code>, <code class="docutils literal notranslate"><span class="pre">E</span></code> as significant main effects, and what
+happens to the <code class="docutils literal notranslate"><span class="pre">A:B</span></code> interaction — where does its effect “hide” once you
+can no longer estimate it separately?</p></li>
+<li><p><strong>A different aliasing pattern</strong>: Generate a second Resolution III
+design for the same 5 factors using a different set of generators (hint:
+<code class="docutils literal notranslate"><span class="pre">pyDOE3.fracfact('a</span> <span class="pre">b</span> <span class="pre">c</span> <span class="pre">bc</span> <span class="pre">ac')</span></code> or similar — check <code class="docutils literal notranslate"><span class="pre">pyDOE3</span></code>’s
+documentation for valid generator strings). Confirm it aliases <code class="docutils literal notranslate"><span class="pre">D</span></code> and
+<code class="docutils literal notranslate"><span class="pre">E</span></code> with <em>different</em> interactions than Section 24.3’s design did, and
+repeat the bias check from the Checkpoint exercise for the new aliasing
+structure.</p></li>
+<li><p><strong>Fold-over</strong>: A folded-over Resolution III design (running a second
+fraction with all factor signs reversed) can separate main effects from
+their aliased 2-factor interactions. Generate the fold-over of Section
+24.3’s design (<code class="docutils literal notranslate"><span class="pre">-1</span> <span class="pre">*</span> <span class="pre">design_res3</span></code> in coded units), combine both halves
+into one 16-run dataset, and confirm the combined design now estimates
+<code class="docutils literal notranslate"><span class="pre">A:B</span></code> and <code class="docutils literal notranslate"><span class="pre">D</span></code> as fully separable effects again.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\04_doe"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="08_live_tutorial_2_minitab_to_sixfactor.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="10_live_tutorial_4_optimization_mixture.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">25. Live Tutorial 4: Optimization and Mixture Designs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-why-screening-needs-model-reduction">24.1 Recap: Why Screening Needs Model Reduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-reduction-from-a-candidate-list-to-a-defensible-model">24.2 Model Reduction: From a Candidate List to a Defensible Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fractional-factorial-revisited-through-a-reduction-lens">24.3 Fractional Factorial, Revisited Through a Reduction Lens</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

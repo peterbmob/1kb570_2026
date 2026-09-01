@@ -1,0 +1,1616 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>15. Partial Least Squares (PLS) &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/03_multivariate/05_pls';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database" href="06_live_tutorial_1_pca_fa.html" />
+    <link rel="prev" title="14. Factor Analysis (FA)" href="04_fa.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part IV: Multivariate Analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/03_multivariate/05_pls.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/03_multivariate/05_pls.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>15. Partial Least Squares (PLS)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-nir-spectral-dataset">15.1 Generate NIR Spectral Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-number-of-pls-components">15.2 Choosing the Number of PLS Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-component-selection-plot">Interpreting the Component Selection Plot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fit-final-pls-model">15.3 Fit Final PLS Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-calibration-and-cross-validation-plots">Interpreting the Calibration and Cross-Validation Plots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-importance-in-projection-vip">15.4 Variable Importance in Projection (VIP)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-vip-scores-and-pls-score-plot">Interpreting the VIP Scores and PLS Score Plot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-regression-pcr">15.5 Principal Component Regression (PCR)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-pcr-results">Interpreting PCR Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pls-vs-pcr-side-by-side-comparison">15.6 PLS vs PCR: Side-by-Side Comparison</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-comparison">Interpreting the Comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-does-pls-actually-win-a-nuisance-dominated-example">15.7 When Does PLS Actually Win? A Nuisance-Dominated Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-latent-components-pcr-vs-pls">15.8 Interpreting Latent Components: PCR vs PLS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#should-you-always-use-pls">Should You Always Use PLS?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="partial-least-squares-pls">
+<h1>15. Partial Least Squares (PLS)<a class="headerlink" href="#partial-least-squares-pls" title="Link to this heading">#</a></h1>
+<p>PCA (previous notebook) finds directions of maximum variance in your
+spectra with no regard for whether that variance actually relates to the
+property you want to predict (here, glass transition temperature Tg). If
+the Tg-relevant signal is a small slice of the total spectral variation,
+PCA might spend its first components on irrelevant variation, needing many
+components before it stumbles onto the useful ones. PLS finds latent
+components that simultaneously decompose X and y, maximising the
+<strong>covariance</strong> between X scores and y scores — every component it extracts
+is chosen <em>because</em> it helps predict y, so PLS typically needs far fewer
+components to reach the same accuracy. See Section 6 of the <a class="reference internal" href="theory.html"><span class="std std-doc">theory
+page</span></a> for how the NIPALS algorithm builds these components one
+at a time.
+It excels when X has many (possibly collinear) predictors and few observations.</p>
+<p>Two variants are common:</p>
+<ul class="simple">
+<li><p><strong>PLS1</strong> — one response variable</p></li>
+<li><p><strong>PLS2</strong> — multiple response variables</p></li>
+</ul>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>PLS and PCR algorithm overview</p></li>
+<li><p>PLSRegression with scikit-learn</p></li>
+<li><p>Choosing the number of components (cross-validation)</p></li>
+<li><p>Scores, loadings, and the inner relation</p></li>
+<li><p>Variable Importance in Projection (VIP)</p></li>
+<li><p>Case study: predicting polymer Tg from NIR spectra</p></li>
+<li><p>PCR vs PLS comparison — when they tie, and when PLS actually wins</p></li>
+<li><p>Interpreting latent components: what PC1 and PLS component 1 each mean</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cross_decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PLSRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_val_predict</span><span class="p">,</span> <span class="n">KFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">55</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="generate-nir-spectral-dataset">
+<h2>15.1 Generate NIR Spectral Dataset<a class="headerlink" href="#generate-nir-spectral-dataset" title="Link to this heading">#</a></h2>
+<p>Near-infrared (NIR) spectra for 100 polymer blends (HDPE/PP copolymers).<br />
+Each spectrum has 50 wavenumber channels (3000–4000 cm⁻¹).<br />
+The response is the <strong>glass transition temperature Tg (°C)</strong>.</p>
+<p>The spectra are constructed from five underlying latent spectral profiles
+so that the data has genuine collinear structure.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">n_waves</span>   <span class="o">=</span> <span class="mi">50</span>
+<span class="n">wavenums</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="n">n_waves</span><span class="p">)</span>
+
+<span class="c1"># Five latent spectral profiles (Gaussian bands)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span> <span class="o">/</span> <span class="n">width</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">profiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span>
+    <span class="n">gaussian</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="mi">3100</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+    <span class="n">gaussian</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="mi">3300</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>
+    <span class="n">gaussian</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="mi">3500</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="n">gaussian</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="mi">3700</span><span class="p">,</span> <span class="mi">70</span><span class="p">),</span>
+    <span class="n">gaussian</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="mi">3900</span><span class="p">,</span> <span class="mi">55</span><span class="p">),</span>
+<span class="p">])</span>  <span class="c1"># shape (n_waves, 5)</span>
+
+<span class="c1"># Latent scores (concentrations / composition variables)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Tg depends primarily on latent factors 1 and 3</span>
+<span class="n">Tg</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">40</span> <span class="o">+</span> <span class="mi">15</span><span class="o">*</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">8</span><span class="o">*</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">12</span><span class="o">*</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+      <span class="o">+</span>  <span class="mi">5</span><span class="o">*</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span>
+      <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">))</span>
+
+<span class="c1"># Spectra = profiles × latent scores + noise</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">C</span> <span class="o">@</span> <span class="n">profiles</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_waves</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;X shape: </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Tg range: </span><span class="si">{</span><span class="n">Tg</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> – </span><span class="si">{</span><span class="n">Tg</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> °C&#39;</span><span class="p">)</span>
+
+<span class="c1"># Show a few spectra</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wavenumber (cm$^{-1}$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Absorbance (a.u.)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;NIR Spectra (every 10th sample shown)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X shape: (100, 50)
+Tg range: -90.6 – 15.7 °C
+</pre></div>
+</div>
+<img alt="../../_images/67f87042d483efcd390ea8c4a7812e11209bad35f847affaf6fcad80bb7809ce.png" src="../../_images/67f87042d483efcd390ea8c4a7812e11209bad35f847affaf6fcad80bb7809ce.png" />
+</div>
+</div>
+</section>
+<section id="choosing-the-number-of-pls-components">
+<h2>15.2 Choosing the Number of PLS Components<a class="headerlink" href="#choosing-the-number-of-pls-components" title="Link to this heading">#</a></h2>
+<p>Cross-validate RMSECV (Root Mean Squared Error of Cross-Validation) as a function
+of the number of PLS components.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Standardise X (Tg is already centred implicitly by PLS)</span>
+<span class="n">scaler_X</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">max_comp</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">rmsecv</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">q2</span>     <span class="o">=</span> <span class="p">[]</span>
+<span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">pls_tmp</span> <span class="o">=</span> <span class="n">PLSRegression</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">nc</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">Tg_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">pls_tmp</span><span class="p">,</span> <span class="n">X_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">rmsecv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred</span><span class="p">)))</span>
+    <span class="n">q2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r2_score</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred</span><span class="p">))</span>
+
+<span class="n">opt_nc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">rmsecv</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Optimal number of components: </span><span class="si">{</span><span class="n">opt_nc</span><span class="si">}</span><span class="s1">  (RMSECV = </span><span class="si">{</span><span class="n">rmsecv</span><span class="p">[</span><span class="n">opt_nc</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C)&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">rmsecv</span><span class="p">,</span> <span class="s1">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;RMSECV&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">opt_nc</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">q2</span><span class="p">,</span> <span class="s1">&#39;rs-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Q²&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of PLS components&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;RMSECV (°C)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Q² (CV R²)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">lines1</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">lines2</span><span class="p">,</span> <span class="n">labels2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines1</span><span class="o">+</span><span class="n">lines2</span><span class="p">,</span> <span class="n">labels1</span><span class="o">+</span><span class="n">labels2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PLS Component Selection (optimal = </span><span class="si">{</span><span class="n">opt_nc</span><span class="si">}</span><span class="s1"> components)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimal number of components: 5  (RMSECV = 2.13 °C)
+</pre></div>
+</div>
+<img alt="../../_images/3c9dff953af9ae5df179274e147ad3b99128264c68dce67a402ea9b4587f15d2.png" src="../../_images/3c9dff953af9ae5df179274e147ad3b99128264c68dce67a402ea9b4587f15d2.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>5 components minimise RMSECV at 2.13°C — down from 50 raw spectral channels to 5 latent components, matching the 5 latent spectral profiles the data was actually built from (Section 15.1). That is not a coincidence: PLS’s whole job is finding exactly this kind of compact, Tg-relevant structure hidden inside 50 correlated channels.</p></li>
+<li><p>Q² rises steeply through the first few components and then flattens — the classic “first minimum” pattern described above. Adding a 6th or 7th component would buy at most a fraction of a degree of extra accuracy while making the model harder to interpret; 5 is the right stopping point by both the RMSECV-minimum and parsimony criteria.</p></li>
+</ul>
+</div>
+<section id="interpreting-the-component-selection-plot">
+<h3>Interpreting the Component Selection Plot<a class="headerlink" href="#interpreting-the-component-selection-plot" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>RMSECV (blue, left axis)</strong> — the cross-validated prediction error in the same units as the response (°C here). Choose the number of components at the <strong>first minimum</strong> or the point where further reduction in RMSECV is marginal (&lt; 5 % improvement).</p></li>
+<li><p><strong>Q² (red, right axis)</strong> — the cross-validated R². A value &gt; 0.5 is acceptable; &gt; 0.8 is good. Q² should be close to the training R²; a large gap indicates overfitting.</p></li>
+<li><p><strong>Overfitting signal</strong> — if RMSECV starts to increase again after the minimum, you have added components that fit noise in the calibration set but do not generalise.</p></li>
+<li><p><strong>Parsimony principle</strong> — prefer fewer components when prediction performance is similar, as simpler models are more robust and interpretable.</p></li>
+</ul>
+</section>
+</section>
+<section id="fit-final-pls-model">
+<h2>15.3 Fit Final PLS Model<a class="headerlink" href="#fit-final-pls-model" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pls</span> <span class="o">=</span> <span class="n">PLSRegression</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">opt_nc</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pls</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">)</span>
+
+<span class="n">Tg_pred_train</span> <span class="o">=</span> <span class="n">pls</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">Tg_pred_cv</span>    <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">pls</span><span class="p">,</span> <span class="n">X_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">r2_train</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_train</span><span class="p">)</span>
+<span class="n">r2_cv</span>    <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_cv</span><span class="p">)</span>
+<span class="n">rmse_cv</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_cv</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;R²      (train) = </span><span class="si">{</span><span class="n">r2_train</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Q²      (CV)    = </span><span class="si">{</span><span class="n">r2_cv</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;RMSECV         = </span><span class="si">{</span><span class="n">rmse_cv</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">Tg_p</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+    <span class="n">axes</span><span class="p">,</span>
+    <span class="p">[(</span><span class="n">Tg_pred_train</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Calibration  R²=</span><span class="si">{</span><span class="n">r2_train</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;steelblue&#39;</span><span class="p">),</span>
+     <span class="p">(</span><span class="n">Tg_pred_cv</span><span class="p">,</span>   <span class="sa">f</span><span class="s1">&#39;Cross-val  Q²=</span><span class="si">{</span><span class="n">r2_cv</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>      <span class="s1">&#39;crimson&#39;</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_p</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">lims</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">Tg</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Tg_p</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">Tg</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">Tg_p</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lims</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Measured Tg (°C)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Predicted Tg (°C)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;PLS Model: Predicted vs Measured Tg&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R²      (train) = 0.9919
+Q²      (CV)    = 0.9910
+RMSECV         = 2.13 °C
+</pre></div>
+</div>
+<img alt="../../_images/23541345d09298584f3ddfb0842897b697f1e411bd42fc5b56afdb9c62adedae.png" src="../../_images/23541345d09298584f3ddfb0842897b697f1e411bd42fc5b56afdb9c62adedae.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>R² (train, 0.992) and Q² (CV, 0.991) sit almost on top of each other — a very small optimism gap, meaning the model is not overfitting the calibration spectra despite having 50 correlated input channels. This is the payoff of choosing components by cross-validated RMSECV in Section 15.2 rather than by training R² alone, which would have kept adding components indefinitely.</p></li>
+<li><p>RMSECV=2.13°C against a Tg range of roughly −90 to +16°C (about 106°C span) is a relative error of only about 2% of the full range — a genuinely precise calibration, consistent with Tg being strongly and fairly linearly encoded in this synthetic spectral data.</p></li>
+</ul>
+</div>
+<section id="interpreting-the-calibration-and-cross-validation-plots">
+<h3>Interpreting the Calibration and Cross-Validation Plots<a class="headerlink" href="#interpreting-the-calibration-and-cross-validation-plots" title="Link to this heading">#</a></h3>
+<p>Both panels show predicted versus measured Tg. A perfect model would have all points on the dashed 1:1 line.</p>
+<ul class="simple">
+<li><p><strong>Calibration (R², blue)</strong> — how well the model fits the data it was trained on. This is always optimistic because the model was built on these exact points.</p></li>
+<li><p><strong>Cross-validation (Q², red)</strong> — a far more honest measure of predictive performance. Points that stray far from the 1:1 line in the CV panel are samples the model generalises poorly for.</p></li>
+<li><p><strong>Systematic curvature</strong> — if points form a curve (not a straight line) around the 1:1 reference, the model is missing a nonlinear relationship. Consider adding polynomial terms or increasing the number of PLS components.</p></li>
+<li><p><strong>Outlier samples</strong> — isolated points far from the line in <em>both</em> panels may indicate measurement errors or samples outside the calibration domain.</p></li>
+</ul>
+</section>
+</section>
+<section id="variable-importance-in-projection-vip">
+<h2>15.4 Variable Importance in Projection (VIP)<a class="headerlink" href="#variable-importance-in-projection-vip" title="Link to this heading">#</a></h2>
+<p>Each PLS component is a <em>blend</em> of all 50 spectral channels, so it isn’t
+immediately obvious from the components alone which original wavenumbers
+actually mattered. VIP re-expresses each variable’s total contribution
+across all retained components as a single importance score. Variables with
+VIP &gt; 1 are considered important.</p>
+<div class="math notranslate nohighlight">
+\[\text{VIP}_j = \sqrt{\frac{p}{R^2_{\text{total}}} \sum_{k=1}^{K} w_{kj}^2 \, R_k^2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(w_{kj}\)</span> is the weight of variable <span class="math notranslate nohighlight">\(j\)</span> in component <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(R_k^2\)</span> is
+the variance explained by component <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_vip</span><span class="p">(</span><span class="n">pls_model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;VIP scores for PLSRegression.&quot;&quot;&quot;</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">pls_model</span><span class="o">.</span><span class="n">x_scores_</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">pls_model</span><span class="o">.</span><span class="n">x_weights_</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">pls_model</span><span class="o">.</span><span class="n">y_loadings_</span>
+    <span class="n">p</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">SSY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">SSY_comp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">T</span><span class="p">[:,</span> <span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">Q</span><span class="p">[:,</span> <span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">vip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">W</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SSY_comp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="n">SSY</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">vip</span>
+
+<span class="n">vip_scores</span> <span class="o">=</span> <span class="n">compute_vip</span><span class="p">(</span><span class="n">pls</span><span class="p">,</span> <span class="n">X_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">pls</span><span class="o">.</span><span class="n">x_scores_</span>   <span class="c1"># X scores needed for the scatter plot below</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># VIP by wavenumber</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">colors_vip</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;lightgray&#39;</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vip_scores</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="n">vip_scores</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="p">(</span><span class="n">wavenums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">wavenums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mf">0.9</span><span class="p">,</span>
+       <span class="n">color</span><span class="o">=</span><span class="n">colors_vip</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;VIP = 1 threshold&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wavenumber (cm$^{-1}$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;VIP score&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Variable Importance in Projection (VIP)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="c1"># PLS scores plot (T₁ vs T₂)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">Tg</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu_r&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tg (°C)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;PLS Score $T_1$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;PLS Score $T_2$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PLS Score Plot Coloured by Tg&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/49538f45dcde04f3b88ae22ecc3bff4f3d37df602fd35b91d5b3be2c1a539fb6.png" src="../../_images/49538f45dcde04f3b88ae22ecc3bff4f3d37df602fd35b91d5b3be2c1a539fb6.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>The VIP spectrum isn’t flat noise — it peaks at specific wavenumber bands and drops toward zero between them, tracing out which of the five latent Gaussian bands (Section 15.1) actually carry Tg-relevant information versus which mostly just add spectral bulk.</p></li>
+<li><p>In the score plot, colour (Tg) shifts smoothly along T₁ — exactly what you’d want from the <em>first</em> PLS component, since by construction PLS chooses T₁ specifically to correlate with y as strongly as possible, unlike PCA’s PC1 which chases X-variance with no regard for Tg at all.</p></li>
+</ul>
+</div>
+<section id="interpreting-the-vip-scores-and-pls-score-plot">
+<h3>Interpreting the VIP Scores and PLS Score Plot<a class="headerlink" href="#interpreting-the-vip-scores-and-pls-score-plot" title="Link to this heading">#</a></h3>
+<p><strong>VIP bar chart (left)</strong></p>
+<ul class="simple">
+<li><p>Spectral channels with <strong>VIP &gt; 1</strong> (blue bars) contribute more to the Tg prediction than average and should be prioritised in any reduced model or physical interpretation.</p></li>
+<li><p>Channels with VIP &lt; 1 (grey) can be removed with little loss of predictive power — useful when building simplified multivariate calibration models.</p></li>
+<li><p>The <em>positions</em> of the important bands correspond to known NIR absorption modes (e.g. overtones of C–H, O–H, N–H bonds), enabling chemical assignment.</p></li>
+</ul>
+<p><strong>PLS Score Plot (right)</strong></p>
+<ul class="simple">
+<li><p>The horizontal gradient from blue to red shows that T₁ captures the dominant variance in Tg. Samples on the right (high T₁ score) tend to have higher Tg.</p></li>
+<li><p>A second colour gradient along T₂ indicates that the second latent component captures a secondary source of Tg variation, likely related to a different blend composition axis.</p></li>
+</ul>
+</section>
+</section>
+<section id="principal-component-regression-pcr">
+<h2>15.5 Principal Component Regression (PCR)<a class="headerlink" href="#principal-component-regression-pcr" title="Link to this heading">#</a></h2>
+<p>PCR is a two-step procedure:</p>
+<ol class="arabic simple">
+<li><p><strong>PCA on X</strong> → orthogonal score matrix <strong>T</strong> (captures X-variance)</p></li>
+<li><p><strong>OLS regression of y on the first <em>k</em> PC scores</strong></p></li>
+</ol>
+<p>Because PCA maximises <em>X-variance</em> (not X–y covariance), PCR may require more
+components than PLS when only a small fraction of the spectral variance is
+related to Tg.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="c1"># Cross-validate PCR across 1..12 components</span>
+<span class="n">rmsecv_pcr</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">q2_pcr</span>     <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">pcr_pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">&#39;pca&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">nc</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span>  <span class="n">LinearRegression</span><span class="p">()),</span>
+    <span class="p">])</span>
+    <span class="n">Tg_pred_pcr</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">pcr_pipe</span><span class="p">,</span> <span class="n">X_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">rmsecv_pcr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_pcr</span><span class="p">)))</span>
+    <span class="n">q2_pcr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r2_score</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_pcr</span><span class="p">))</span>
+
+<span class="n">opt_nc_pcr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">rmsecv_pcr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Optimal PCR components: </span><span class="si">{</span><span class="n">opt_nc_pcr</span><span class="si">}</span><span class="s1">  (RMSECV = </span><span class="si">{</span><span class="n">rmsecv_pcr</span><span class="p">[</span><span class="n">opt_nc_pcr</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C)&#39;</span><span class="p">)</span>
+
+<span class="c1"># ── Component selection plot ──────────────────────────────────────────────────</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">rmsecv_pcr</span><span class="p">,</span> <span class="s1">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;RMSECV&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">opt_nc_pcr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">q2_pcr</span><span class="p">,</span> <span class="s1">&#39;rs-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Q²&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of PCR components&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;RMSECV (°C)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Q² (CV R²)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">lines1</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">lines2</span><span class="p">,</span> <span class="n">labels2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines1</span><span class="o">+</span><span class="n">lines2</span><span class="p">,</span> <span class="n">labels1</span><span class="o">+</span><span class="n">labels2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PCR Component Selection (optimal = </span><span class="si">{</span><span class="n">opt_nc_pcr</span><span class="si">}</span><span class="s1"> components)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimal PCR components: 5  (RMSECV = 2.14 °C)
+</pre></div>
+</div>
+<img alt="../../_images/f45251551b5bd37fb2c1659c780fd8041b0fdfa50c8a772a03905d9db54ed06c.png" src="../../_images/f45251551b5bd37fb2c1659c780fd8041b0fdfa50c8a772a03905d9db54ed06c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Fit final PCR model ───────────────────────────────────────────────────────</span>
+<span class="n">pcr</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;pca&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">opt_nc_pcr</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span>  <span class="n">LinearRegression</span><span class="p">()),</span>
+<span class="p">])</span>
+<span class="n">pcr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">)</span>
+
+<span class="n">Tg_pred_pcr_train</span> <span class="o">=</span> <span class="n">pcr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<span class="n">Tg_pred_pcr_cv</span>    <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">pcr</span><span class="p">,</span> <span class="n">X_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">r2_pcr_train</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_pcr_train</span><span class="p">)</span>
+<span class="n">r2_pcr_cv</span>    <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_pcr_cv</span><span class="p">)</span>
+<span class="n">rmse_pcr_cv</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_pcr_cv</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PCR R² (train)  = </span><span class="si">{</span><span class="n">r2_pcr_train</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PCR Q² (CV)     = </span><span class="si">{</span><span class="n">r2_pcr_cv</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PCR RMSECV      = </span><span class="si">{</span><span class="n">rmse_pcr_cv</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">Tg_p</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+    <span class="n">axes</span><span class="p">,</span>
+    <span class="p">[(</span><span class="n">Tg_pred_pcr_train</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Calibration  R²=</span><span class="si">{</span><span class="n">r2_pcr_train</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;steelblue&#39;</span><span class="p">),</span>
+     <span class="p">(</span><span class="n">Tg_pred_pcr_cv</span><span class="p">,</span>   <span class="sa">f</span><span class="s1">&#39;Cross-val  Q²=</span><span class="si">{</span><span class="n">r2_pcr_cv</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>      <span class="s1">&#39;crimson&#39;</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_p</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">lims</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">Tg</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Tg_p</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">Tg</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">Tg_p</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lims</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Measured Tg (°C)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Predicted Tg (°C)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;PCR Model: Predicted vs Measured Tg&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PCR R² (train)  = 0.9918
+PCR Q² (CV)     = 0.9909
+PCR RMSECV      = 2.14 °C
+</pre></div>
+</div>
+<img alt="../../_images/d5d92eac0e9467f4e4d98a93fefc87874d241b0a55965edbdaae567f1f93d663.png" src="../../_images/d5d92eac0e9467f4e4d98a93fefc87874d241b0a55965edbdaae567f1f93d663.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>PCR needed the same 5 components as PLS to reach its minimum RMSECV (2.14°C vs. PLS’s 2.13°C) — essentially tied. That is the expected outcome specifically when, as Section 15.5 notes, the Tg-relevant variance and the dominant spectral variance are well-aligned; PCR’s blind-to-y components happened to already point in a Tg-relevant direction here.</p></li>
+</ul>
+</div>
+<section id="interpreting-pcr-results">
+<h3>Interpreting PCR Results<a class="headerlink" href="#interpreting-pcr-results" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>PCR maximises <em>X-variance</em>, so the first PC is the direction of greatest spectral variation — which may or may not correlate with Tg.</p></li>
+<li><p>When the y-relevant variance is a small fraction of total X-variance (common in spectroscopy), PCR needs more components than PLS to find it.</p></li>
+<li><p>The RMSECV and Q² curves should be compared directly with those of PLS in the next section.</p></li>
+</ul>
+</section>
+</section>
+<section id="pls-vs-pcr-side-by-side-comparison">
+<h2>15.6 PLS vs PCR: Side-by-Side Comparison<a class="headerlink" href="#pls-vs-pcr-side-by-side-comparison" title="Link to this heading">#</a></h2>
+<p>This section quantifies the trade-off between the two approaches:</p>
+<ul class="simple">
+<li><p><strong>PLS</strong> simultaneously decomposes X and y — latent components are biased towards Tg-relevant variance.</p></li>
+<li><p><strong>PCR</strong> decomposes X first (blind to y), then regresses — safer against overfitting but potentially less efficient.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── 1. RMSECV curves together ─────────────────────────────────────────────────</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">rmsecv</span><span class="p">,</span>     <span class="s1">&#39;b-o&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;PLS  (opt=</span><span class="si">{</span><span class="n">opt_nc</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">rmsecv_pcr</span><span class="p">,</span> <span class="s1">&#39;r-s&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;PCR  (opt=</span><span class="si">{</span><span class="n">opt_nc_pcr</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">opt_nc</span><span class="p">,</span>     <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">opt_nc_pcr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>  <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of components&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;RMSECV (°C)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Cross-Validated Prediction Error&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">q2</span><span class="p">,</span>     <span class="s1">&#39;b-o&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;PLS  Q²&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">q2_pcr</span><span class="p">,</span> <span class="s1">&#39;r-s&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;PCR  Q²&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of components&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Q² (CV R²)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Cross-Validated Q²&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;PLS vs PCR — Component Selection Comparison&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># ── 2. Predicted vs actual – both methods ─────────────────────────────────────</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">Tg_p</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+    <span class="n">axes</span><span class="p">,</span>
+    <span class="p">[(</span><span class="n">Tg_pred_cv</span><span class="p">,</span>     <span class="sa">f</span><span class="s1">&#39;PLS (Q²=</span><span class="si">{</span><span class="n">r2_cv</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, RMSECV=</span><span class="si">{</span><span class="n">rmse_cv</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°C)&#39;</span><span class="p">,</span>     <span class="s1">&#39;steelblue&#39;</span><span class="p">),</span>
+     <span class="p">(</span><span class="n">Tg_pred_pcr_cv</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;PCR (Q²=</span><span class="si">{</span><span class="n">r2_pcr_cv</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, RMSECV=</span><span class="si">{</span><span class="n">rmse_pcr_cv</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°C)&#39;</span><span class="p">,</span> <span class="s1">&#39;crimson&#39;</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_p</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">lims</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">Tg</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Tg_p</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">Tg</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">Tg_p</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lims</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Measured Tg (°C)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Predicted Tg (°C)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Predicted vs Measured — Cross-Validation&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># ── 3. Coefficient profiles in original variable space ────────────────────────</span>
+<span class="c1"># PCR regression coefficients in X-space: V_k @ b_lr where V_k are PC loadings</span>
+<span class="n">pcr_pca</span>   <span class="o">=</span> <span class="n">pcr</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;pca&#39;</span><span class="p">]</span>
+<span class="n">pcr_lr</span>    <span class="o">=</span> <span class="n">pcr</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span>
+<span class="n">coef_pcr</span>  <span class="o">=</span> <span class="n">pcr_pca</span><span class="o">.</span><span class="n">components_</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">pcr_lr</span><span class="o">.</span><span class="n">coef_</span>       <span class="c1"># shape (n_waves,)</span>
+
+<span class="c1"># PLS regression coefficients in X-space</span>
+<span class="n">coef_pls</span>  <span class="o">=</span> <span class="n">pls</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>   <span class="c1"># shape (n_waves,)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="n">coef_pls</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coef_pls</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;PLS (normalised)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="n">coef_pcr</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coef_pcr</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span>   <span class="n">label</span><span class="o">=</span><span class="s1">&#39;PCR (normalised)&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wavenumber (cm$^{-1}$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Normalised regression coefficient&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Regression Coefficients in Spectral Space: PLS vs PCR&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># ── 4. Summary table ──────────────────────────────────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Method&#39;</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Components&#39;</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;RMSECV (°C)&#39;</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Q²&#39;</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;R² train&#39;</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">54</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;PLS&#39;</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">opt_nc</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">rmse_cv</span><span class="si">:</span><span class="s2">&gt;12.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r2_cv</span><span class="si">:</span><span class="s2">&gt;8.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r2_train</span><span class="si">:</span><span class="s2">&gt;10.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;PCR&#39;</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">opt_nc_pcr</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">rmse_pcr_cv</span><span class="si">:</span><span class="s2">&gt;12.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r2_pcr_cv</span><span class="si">:</span><span class="s2">&gt;8.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r2_pcr_train</span><span class="si">:</span><span class="s2">&gt;10.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/03c784b24b10b58c3025c8283e245b1a8feb75c26588a960433df842adcc8cd6.png" src="../../_images/03c784b24b10b58c3025c8283e245b1a8feb75c26588a960433df842adcc8cd6.png" />
+<img alt="../../_images/55e0d01fb133250e55e670e5e441168a17efacfc4d05a6ea5b66e426cd1e0cd9.png" src="../../_images/55e0d01fb133250e55e670e5e441168a17efacfc4d05a6ea5b66e426cd1e0cd9.png" />
+<img alt="../../_images/40bc2bb84e26e48c4e158c802f55e37ce0400c872256f1a02ff4f65d2a530170.png" src="../../_images/40bc2bb84e26e48c4e158c802f55e37ce0400c872256f1a02ff4f65d2a530170.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Method   Components  RMSECV (°C)       Q²   R² train
+------------------------------------------------------
+PLS               5         2.13   0.9910     0.9919
+PCR               5         2.14   0.9909     0.9918
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>The head-to-head numbers confirm what Section 15.6’s table predicts in the abstract: PLS (5 components, Q²=0.991, RMSECV=2.13°C) and PCR (5 components, Q²=0.991, RMSECV=2.14°C) are statistically indistinguishable here — a real difference between the methods would show up as a gap in either the number of components needed or the achieved Q², and neither gap is present in this dataset.</p></li>
+<li><p>This is the case where PLS’s usual advantage (needing fewer components) simply has nothing to bite on, precisely because the latent composition variables driving Tg also happen to dominate the spectral variance overall — don’t generalise “PLS and PCR are basically the same” from this one well-behaved example; Notebook 17 (Live Tutorial 2)’s messier spectra are a better test of when the two genuinely diverge.</p></li>
+</ul>
+</div>
+<section id="interpreting-the-comparison">
+<h3>Interpreting the Comparison<a class="headerlink" href="#interpreting-the-comparison" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Criterion</p></th>
+<th class="head"><p>PLS</p></th>
+<th class="head"><p>PCR</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Objective</p></td>
+<td><p>Maximise X–y covariance</p></td>
+<td><p>Maximise X-variance</p></td>
+</tr>
+<tr class="row-odd"><td><p>Components needed</p></td>
+<td><p>Fewer (biased towards y)</p></td>
+<td><p>More (may ignore y-relevant PCs)</p></td>
+</tr>
+<tr class="row-even"><td><p>Risk of overfitting</p></td>
+<td><p>Higher (uses y during decomposition)</p></td>
+<td><p>Lower (X decomposition blind to y)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Regression coefficients</p></td>
+<td><p>Can be sparse / physically interpretable</p></td>
+<td><p>Spread across more PCs</p></td>
+</tr>
+<tr class="row-even"><td><p>Best used when</p></td>
+<td><p>Many collinear predictors, y-relevant structure is small fraction of X-variance</p></td>
+<td><p>X-variance and y-relevant variance are well-aligned</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Key observations in this NIR example:</strong></p>
+<ul class="simple">
+<li><p>Both methods achieve similar Q² because the latent composition variables (which drive Tg) also dominate the spectral variance — the gap between PLS and PCR is small.</p></li>
+<li><p>In real datasets where Tg-relevant bands are buried under dominant baseline variation, PLS typically requires fewer components and achieves better Q².</p></li>
+<li><p>The regression coefficient profiles (spectral “fingerprints”) differ in magnitude but highlight similar spectral regions, confirming that both methods find the same chemically meaningful bands.</p></li>
+</ul>
+</section>
+</section>
+<section id="when-does-pls-actually-win-a-nuisance-dominated-example">
+<h2>15.7 When Does PLS Actually Win? A Nuisance-Dominated Example<a class="headerlink" href="#when-does-pls-actually-win-a-nuisance-dominated-example" title="Link to this heading">#</a></h2>
+<p>Section 15.6’s table lists “y-relevant structure is a small fraction of
+X-variance” as PLS’s home turf — but the dataset built in Section 15.1 was
+never actually like that: all five latent factors contribute comparable
+variance to the spectra, <em>and</em> all five feed into Tg, so the direction of
+greatest X-variance and the direction most relevant to Tg were never far
+apart. That is exactly why PCR tied PLS. Real spectra are frequently less
+generous: NIR and Raman measurements routinely carry large-amplitude
+<strong>physical artifacts</strong> — baseline drift, particle-size scattering, detector
+or illumination variation — that are often the single largest source of
+spectral variance and have nothing to do with the chemistry you actually
+care about.</p>
+<p>To see the effect this has, we reuse <em>exactly</em> the same chemistry and the
+same Tg values from Section 15.1 (so nothing about the property being
+predicted changes) and add one thing: a smooth, large-amplitude baseline
+term, uncorrelated with Tg by construction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A smooth baseline/scatter artifact -- common in real NIR/Raman spectra</span>
+<span class="c1"># (particle-size scattering, illumination drift), unrelated to Tg by</span>
+<span class="c1"># construction, with amplitude much larger than the ~1-unit latent scores in C.</span>
+<span class="n">baseline_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">wavenums</span> <span class="o">-</span> <span class="n">wavenums</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">wavenums</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">wavenums</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="n">baseline_amp</span>   <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+<span class="n">baseline</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">baseline_amp</span><span class="p">,</span> <span class="n">baseline_shape</span><span class="p">)</span>
+
+<span class="n">X_ns</span> <span class="o">=</span> <span class="n">X</span> <span class="o">+</span> <span class="n">baseline</span>   <span class="c1"># same chemistry as Section 15.1, plus a dominant artifact</span>
+
+<span class="n">corr_baseline_Tg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">baseline_amp</span><span class="p">,</span> <span class="n">Tg</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Correlation of baseline amplitude with Tg: </span><span class="si">{</span><span class="n">corr_baseline_Tg</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">  &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;(should be ~0 -- unrelated by construction)&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="n">X_ns</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wavenumber (cm$^{-1}$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Absorbance (a.u.)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Same Chemistry as Section 15.1, Plus a Dominant Baseline Artifact&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Correlation of baseline amplitude with Tg: 0.024  (should be ~0 -- unrelated by construction)
+</pre></div>
+</div>
+<img alt="../../_images/78b68499554bcbce3c92e9c74cdfb2e55bddb1c89837721f63e6dbe523856e3e.png" src="../../_images/78b68499554bcbce3c92e9c74cdfb2e55bddb1c89837721f63e6dbe523856e3e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># How much of the X-variance is the artifact, and does PC1 &quot;see&quot; Tg at all?</span>
+<span class="n">scaler_ns</span>   <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_ns_scaled</span> <span class="o">=</span> <span class="n">scaler_ns</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_ns</span><span class="p">)</span>
+
+<span class="n">pca_check</span>  <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_ns_scaled</span><span class="p">)</span>
+<span class="n">pc1_scores</span> <span class="o">=</span> <span class="n">pca_check</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_ns_scaled</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">corr_pc1_Tg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">pc1_scores</span><span class="p">,</span> <span class="n">Tg</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Variance explained by first 5 PCs:&#39;</span><span class="p">,</span>
+      <span class="n">pca_check</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Correlation of PC1 scores with Tg: </span><span class="si">{</span><span class="n">corr_pc1_Tg</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Variance explained by first 5 PCs: [0.879 0.091 0.014 0.012 0.003]
+Correlation of PC1 scores with Tg: 0.067
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Re-run the same component-selection CV loop as Sections 15.2/15.5, now on X_ns --</span>
+<span class="c1"># search further than max_comp this time, since a dominant nuisance direction</span>
+<span class="c1"># can push PCR&#39;s optimum well past where it landed on the original data.</span>
+<span class="n">max_comp_ns</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">rmsecv_ns</span><span class="p">,</span> <span class="n">q2_ns</span>         <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="n">rmsecv_pcr_ns</span><span class="p">,</span> <span class="n">q2_pcr_ns</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp_ns</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">pls_tmp</span> <span class="o">=</span> <span class="n">PLSRegression</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">nc</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">Tg_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">pls_tmp</span><span class="p">,</span> <span class="n">X_ns_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">rmsecv_ns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred</span><span class="p">)))</span>
+    <span class="n">q2_ns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r2_score</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred</span><span class="p">))</span>
+
+    <span class="n">pcr_tmp</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;pca&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">nc</span><span class="p">)),</span> <span class="p">(</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">())])</span>
+    <span class="n">Tg_pred_pcr</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">pcr_tmp</span><span class="p">,</span> <span class="n">X_ns_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">rmsecv_pcr_ns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_pcr</span><span class="p">)))</span>
+    <span class="n">q2_pcr_ns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r2_score</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">Tg_pred_pcr</span><span class="p">))</span>
+
+<span class="n">opt_nc_ns</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">rmsecv_ns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">opt_nc_pcr_ns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">rmsecv_pcr_ns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PLS optimal components: </span><span class="si">{</span><span class="n">opt_nc_ns</span><span class="si">}</span><span class="s1">  (RMSECV = </span><span class="si">{</span><span class="n">rmsecv_ns</span><span class="p">[</span><span class="n">opt_nc_ns</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PCR optimal components: </span><span class="si">{</span><span class="n">opt_nc_pcr_ns</span><span class="si">}</span><span class="s1">  (RMSECV = </span><span class="si">{</span><span class="n">rmsecv_pcr_ns</span><span class="p">[</span><span class="n">opt_nc_pcr_ns</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C)&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp_ns</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">rmsecv_ns</span><span class="p">,</span>     <span class="s1">&#39;b-o&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;PLS  (opt=</span><span class="si">{</span><span class="n">opt_nc_ns</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_comp_ns</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">rmsecv_pcr_ns</span><span class="p">,</span> <span class="s1">&#39;r-s&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;PCR  (opt=</span><span class="si">{</span><span class="n">opt_nc_pcr_ns</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">opt_nc_ns</span><span class="p">,</span>     <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">opt_nc_pcr_ns</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>  <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of components&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;RMSECV (°C)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Component Selection — Nuisance-Dominated Spectra&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PLS optimal components: 7  (RMSECV = 2.41 °C)
+PCR optimal components: 12  (RMSECV = 2.34 °C)
+</pre></div>
+</div>
+<img alt="../../_images/1912342150b7ff99ef00c8707ef9948284633262df31aa850f6e9330c1f551e1.png" src="../../_images/1912342150b7ff99ef00c8707ef9948284633262df31aa850f6e9330c1f551e1.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>PC1 alone captures 87.9% of the total spectral variance but correlates
+only 0.067 with Tg — “the direction with the most variance” and “the
+direction that matters for prediction” turn out to be almost completely
+different things here, exactly the failure mode PCR is vulnerable to and
+that Section 15.1’s original dataset was too well-behaved to expose.</p></li>
+<li><p>PLS reaches its RMSECV minimum (2.41°C) using 7 components; PCR needs 12
+— nearly double — to reach its own minimum (2.34°C). Compare both counts
+to Section 15.6, where the <em>same two methods tied at 5 components each</em>
+on the original, baseline-free data: that jump (7 and 12, vs. 5 and 5) is
+entirely the effect of the injected artifact, since Tg and the underlying
+chemistry never changed.</p></li>
+<li><p>Notice PCR’s RMSECV (2.34°C) actually ends up marginally <em>lower</em> than
+PLS’s (2.41°C) despite needing far more components — so the advantage
+PLS demonstrates here is component economy, not necessarily lower error;
+given enough components, PCR can eventually reconstruct the useful
+subspace too. Don’t conflate “needs fewer components” with “is more
+accurate” — Notebook 17 (Live Tutorial 2), §17.3–17.4, hits the same
+caveat on a different dataset.</p></li>
+</ul>
+</div>
+</section>
+<section id="interpreting-latent-components-pcr-vs-pls">
+<h2>15.8 Interpreting Latent Components: PCR vs PLS<a class="headerlink" href="#interpreting-latent-components-pcr-vs-pls" title="Link to this heading">#</a></h2>
+<p>Is PCR “easier to interpret” than PLS, as is sometimes claimed? <strong>Partly —
+it depends on what question you’re asking a component to answer.</strong></p>
+<ul class="simple">
+<li><p><strong>PCA components (PCR) are computed from X alone.</strong> PC1 is, by
+construction, whatever direction captures the most variance in your
+spectra — full stop, with no reference to Tg or any other property. That
+makes PC1 <strong>generic and reusable</strong>: it is the same PC1 whether you go on
+to predict Tg, density, or nothing at all, and if it happens to line up
+with a real physical or instrumental phenomenon (a baseline, a scattering
+effect, a genuine dominant chemical mode), that phenomenon is usually
+recognisable and physically clean in the loading spectrum. The catch is
+that “explains the most X-variance” and “matters for the property you
+care about” are two different claims — Section 15.7 is exactly the case
+where they come apart, and nothing about PC1 alone tells you which
+situation you’re in. You have to go check (as that section did, via the
+PC-score/Tg correlation).</p></li>
+<li><p><strong>PLS components are computed to covary with y.</strong> T₁ is, by construction,
+whatever direction in X best predicts Tg — so it directly answers “what
+matters for this prediction,” which is usually the question you actually
+want answered, and is exactly what VIP scores (Section 15.4) formalise.
+The catch is the opposite one: T₁ is a <em>blend</em> of whatever combination of
+spectral features happens to correlate with Tg in this particular
+calibration set, which can mix together several distinct physical
+phenomena into one component, is specific to Tg (a different response
+measured on the same spectra would generally produce a different T₁),
+and — because it uses y during the decomposition itself — is more prone
+to fitting noise in a small calibration set than a PCA component ever
+can be.</p></li>
+</ul>
+<p>The plot below makes this concrete on the nuisance-dominated data from
+Section 15.7: PC1’s loading and PLS’s first-component weight, side by side,
+with the five true chemical band centres marked.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fit both models on the nuisance-dominated data at their own optimal component counts</span>
+<span class="n">pca_ns</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">opt_nc_pcr_ns</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_ns_scaled</span><span class="p">)</span>
+<span class="n">pls_ns</span> <span class="o">=</span> <span class="n">PLSRegression</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">opt_nc_ns</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_ns_scaled</span><span class="p">,</span> <span class="n">Tg</span><span class="p">)</span>
+
+<span class="n">pc1_loading</span> <span class="o">=</span> <span class="n">pca_ns</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">t1_weight</span>   <span class="o">=</span> <span class="n">pls_ns</span><span class="o">.</span><span class="n">x_weights_</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">band_centers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3100</span><span class="p">,</span> <span class="mi">3300</span><span class="p">,</span> <span class="mi">3500</span><span class="p">,</span> <span class="mi">3700</span><span class="p">,</span> <span class="mi">3900</span><span class="p">]</span>   <span class="c1"># true chemical bands from Section 15.1</span>
+
+<span class="c1"># Quantify what each component 1 actually tracks: the injected baseline shape,</span>
+<span class="c1"># or the bands that Section 15.1 built Tg&#39;s largest terms from (profile 1 @3100,</span>
+<span class="c1"># profile 3 @3500 -- coefficients +15 and +12, the two largest in Tg&#39;s formula)</span>
+<span class="n">r_pc1_baseline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">pc1_loading</span><span class="p">,</span> <span class="n">baseline_shape</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">r_pc1_band1</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">pc1_loading</span><span class="p">,</span> <span class="n">profiles</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">r_t1_baseline</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">t1_weight</span><span class="p">,</span>   <span class="n">baseline_shape</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">r_t1_band1</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">t1_weight</span><span class="p">,</span>   <span class="n">profiles</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">r_t1_band3</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">t1_weight</span><span class="p">,</span>   <span class="n">profiles</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PC1 loading  vs baseline shape:         r = </span><span class="si">{</span><span class="n">r_pc1_baseline</span><span class="si">:</span><span class="s1">+.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PC1 loading  vs band @3100 (profile 1): r = </span><span class="si">{</span><span class="n">r_pc1_band1</span><span class="si">:</span><span class="s1">+.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;T1 weight    vs baseline shape:         r = </span><span class="si">{</span><span class="n">r_t1_baseline</span><span class="si">:</span><span class="s1">+.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;T1 weight    vs band @3100 (profile 1): r = </span><span class="si">{</span><span class="n">r_t1_band1</span><span class="si">:</span><span class="s1">+.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;T1 weight    vs band @3500 (profile 3): r = </span><span class="si">{</span><span class="n">r_t1_band3</span><span class="si">:</span><span class="s1">+.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">band_centers</span><span class="p">:</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="n">pc1_loading</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wavenumber (cm$^{-1}$)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;PC1 loading&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PCR: PC1 loading (</span><span class="si">{</span><span class="n">pca_ns</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">% of X-variance)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">band_centers</span><span class="p">:</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wavenums</span><span class="p">,</span> <span class="n">t1_weight</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wavenumber (cm$^{-1}$)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$T_1$ weight&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PLS: component 1 weight (chosen to covary with Tg)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;What Does &quot;Component 1&quot; Actually Look At? (dotted lines = true chemical bands)&#39;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PC1 loading  vs baseline shape:         r = +0.905
+PC1 loading  vs band @3100 (profile 1): r = -0.519
+T1 weight    vs baseline shape:         r = +0.187
+T1 weight    vs band @3100 (profile 1): r = -0.060
+T1 weight    vs band @3500 (profile 3): r = +0.796
+</pre></div>
+</div>
+<img alt="../../_images/da0805227b7e6bd0e48b22e8f506d65279abda35d61bddad9d15a84b873a5e51.png" src="../../_images/da0805227b7e6bd0e48b22e8f506d65279abda35d61bddad9d15a84b873a5e51.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>The numbers confirm the plot: PC1’s loading correlates strongly with the
+injected baseline shape (r=+0.905) and only moderately — and in a
+direction that doesn’t reflect its variance ranking — with the genuinely
+Tg-relevant band at 3100 cm<span class="math notranslate nohighlight">\(^{-1}\)</span> (r=−0.519). Chemically, PC1 is mostly
+an artifact.</p></li>
+<li><p>T1’s weight does the opposite: it barely touches the baseline (r=+0.187)
+or the 3100 cm<span class="math notranslate nohighlight">\(^{-1}\)</span> band (r=−0.060), but strongly tracks the
+3500 cm<span class="math notranslate nohighlight">\(^{-1}\)</span> band (r=+0.796) — the other large-coefficient term in
+Tg’s true formula (Section 15.1). T1 isn’t “cleaner” in some abstract
+sense; it is specifically built to line up with whatever in X predicts
+Tg, and here that happens to be the 3500 cm<span class="math notranslate nohighlight">\(^{-1}\)</span> band.</p></li>
+<li><p>Neither component isolates a single physical cause perfectly — both are
+blends, exactly as the discussion above predicts. The practical
+difference is what each blend is biased toward: PC1’s dominant
+ingredient is the artifact you’d have to explicitly rule out before
+trusting it; T1’s dominant ingredient is already the property-relevant
+chemistry. That PC1 doesn’t cover the 3100 cm<span class="math notranslate nohighlight">\(^{-1}\)</span> band either is
+exactly why PLS needed 7 components (not 1) to do the job properly —
+VIP scores (Section 15.4), which pool across <em>all</em> retained components,
+are the tool built for seeing the full picture rather than reading too
+much into component 1 alone.</p></li>
+</ul>
+</div>
+<section id="should-you-always-use-pls">
+<h3>Should You Always Use PLS?<a class="headerlink" href="#should-you-always-use-pls" title="Link to this heading">#</a></h3>
+<p>No. The two examples in this notebook bracket the honest answer:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Situation</p></th>
+<th class="head"><p>Prefer</p></th>
+<th class="head"><p>Why</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>y-relevant variance is a small fraction of total X-variance (Section 15.7’s baseline case; often true of real NIR/Raman)</p></td>
+<td><p><strong>PLS</strong></p></td>
+<td><p>PCR wastes early components on variance that has nothing to do with y; PLS ignores it by construction.</p></td>
+</tr>
+<tr class="row-odd"><td><p>X-variance and y-relevance are well-aligned (Section 15.1’s original case)</p></td>
+<td><p><strong>Either</strong></p></td>
+<td><p>Both reach the same accuracy with the same number of components — PLS has nothing to win here.</p></td>
+</tr>
+<tr class="row-even"><td><p>You need components that mean the same thing across several different responses, or want a first, purely exploratory look at X (batch effects, outliers, instrument drift) before committing to any one property</p></td>
+<td><p><strong>PCR / plain PCA</strong></p></td>
+<td><p>PCA components don’t depend on which y you eventually model; PLS components are re-derived, and can change shape, for every new response.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Small sample size, many collinear predictors, and overfitting risk is your main worry</p></td>
+<td><p><strong>PCR</strong>, or PLS with conservative, CV-chosen components</p></td>
+<td><p>PCA’s decomposition step cannot use y, so it cannot fit noise in y the way a PLS decomposition in principle can — Notebook 17 (Live Tutorial 2) §17.3–17.4 is a real instance where PCR’s held-out test score edged out PLS’s despite PLS needing fewer components.</p></td>
+</tr>
+<tr class="row-even"><td><p>You need to explain <em>which spectral regions matter</em> for the property to a chemist</p></td>
+<td><p><strong>PLS</strong>, read via VIP (Section 15.4)</p></td>
+<td><p>That is literally the question PLS components are built to answer; a PCR loading may or may not be relevant to y at all, as Section 15.8’s plot shows directly.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The practical habit worth taking from this notebook: <strong>fit both</strong>, look at
+how many components each needs and what their leading components actually
+look like (as Sections 15.6–15.8 did), and only then decide which one you
+trust — rather than picking one algorithm as a house style and assuming
+its answer is automatically the right one.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>PLS2 — multiple responses</strong>: Add a second response (e.g. Young’s modulus)
+that depends on latent factors 2 and 4. Fit a <code class="docutils literal notranslate"><span class="pre">PLSRegression</span></code> with two
+response columns. Compare the Q² for each response vs PLS1.</p></li>
+<li><p><strong>PLS vs MLR</strong>: Fit an ordinary MLR using all 50 spectral channels as
+predictors. Does it converge? Why? What happens if you use only the 10
+channels with the highest VIP scores as MLR predictors?</p></li>
+<li><p><strong>Concentration residuals</strong>: A common NIR QC tool is the X-residuals:
+the part of the spectrum not captured by the PLS model. Compute them as
+<code class="docutils literal notranslate"><span class="pre">X_res</span> <span class="pre">=</span> <span class="pre">X_scaled</span> <span class="pre">-</span> <span class="pre">pls.x_scores_</span> <span class="pre">&#64;</span> <span class="pre">pls.x_loadings_.T</span></code>.
+Plot the sum of squared residuals per sample and identify any outlier spectra.</p></li>
+<li><p><strong>Nuisance amplitude sweep</strong>: Repeat Section 15.7 for several baseline
+amplitudes (<code class="docutils literal notranslate"><span class="pre">rng.normal(0,</span> <span class="pre">a,</span> <span class="pre">n_samples)</span></code> for <code class="docutils literal notranslate"><span class="pre">a</span></code> in, say,
+<code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">2,</span> <span class="pre">5,</span> <span class="pre">10,</span> <span class="pre">15,</span> <span class="pre">25]</span></code>), recording <code class="docutils literal notranslate"><span class="pre">opt_nc_ns</span></code> and <code class="docutils literal notranslate"><span class="pre">opt_nc_pcr_ns</span></code> (and
+each method’s best RMSECV) at every amplitude. Plot components-needed vs
+<code class="docutils literal notranslate"><span class="pre">a</span></code> for both methods. At roughly what amplitude does PCR start needing
+visibly more components than PLS? Does PLS’s RMSECV change much across
+the sweep — should it, given how PLS is supposed to behave?</p></li>
+<li><p><strong>Which PC is the real signal?</strong> For the nuisance-dominated dataset
+(<code class="docutils literal notranslate"><span class="pre">X_ns_scaled</span></code>), compute the correlation of each of the first 8 PCA
+scores individually with Tg (not just PC1, as Section 15.7 did). Which
+PC number is the first to show a strong correlation? Then fit a PCR
+model using <em>only</em> that single PC as the predictor — how does its
+RMSECV compare to the full, CV-optimal PCR model from Section 15.7?
+What does this tell you about the difference between “PCR needs more
+components” and “PCR ignores the useful information entirely”?</p></li>
+<li><p><strong>Interpretability under the original (aligned) dataset</strong>: Repeat
+Section 15.8’s PC1-vs-T1 loading comparison, but on the <em>original</em>
+<code class="docutils literal notranslate"><span class="pre">X_scaled</span></code>/<code class="docutils literal notranslate"><span class="pre">pls</span></code>/<code class="docutils literal notranslate"><span class="pre">pcr</span></code> from Sections 15.1–15.6 instead of the
+nuisance-dominated data. Are the two loading spectra now more similar
+to each other than they were in Section 15.8? Relate your answer to
+why Section 15.6 found PLS and PCR essentially tied on this dataset.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\03_multivariate"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_fa.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">14. Factor Analysis (FA)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06_live_tutorial_1_pca_fa.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-nir-spectral-dataset">15.1 Generate NIR Spectral Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-number-of-pls-components">15.2 Choosing the Number of PLS Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-component-selection-plot">Interpreting the Component Selection Plot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fit-final-pls-model">15.3 Fit Final PLS Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-calibration-and-cross-validation-plots">Interpreting the Calibration and Cross-Validation Plots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-importance-in-projection-vip">15.4 Variable Importance in Projection (VIP)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-vip-scores-and-pls-score-plot">Interpreting the VIP Scores and PLS Score Plot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-regression-pcr">15.5 Principal Component Regression (PCR)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-pcr-results">Interpreting PCR Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pls-vs-pcr-side-by-side-comparison">15.6 PLS vs PCR: Side-by-Side Comparison</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-comparison">Interpreting the Comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-does-pls-actually-win-a-nuisance-dominated-example">15.7 When Does PLS Actually Win? A Nuisance-Dominated Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-latent-components-pcr-vs-pls">15.8 Interpreting Latent Components: PCR vs PLS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#should-you-always-use-pls">Should You Always Use PLS?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

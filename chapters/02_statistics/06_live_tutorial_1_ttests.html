@@ -1,0 +1,1221 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/02_statistics/06_live_tutorial_1_ttests';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish" href="07_live_tutorial_2_anova_regression.html" />
+    <link rel="prev" title="10. Simple Linear Regression" href="05_simple_regression.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part III: Applied Statistics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/02_statistics/06_live_tutorial_1_ttests.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/02_statistics/06_live_tutorial_1_ttests.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-framework-in-60-seconds">11.1 The Framework, in 60 Seconds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#incoming-inspection-one-sample-t-test">11.2 Incoming Inspection: One-Sample <em>t</em>-Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-suppliers-one-decision-two-sample-t-test">11.3 Two Suppliers, One Decision: Two-Sample <em>t</em>-Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-size-and-confidence-intervals-what-the-p-value-doesn-t-tell-you">11.4 Effect Size and Confidence Intervals: What the p-Value Doesn’t Tell You</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#did-the-process-change-help-paired-t-test">11.5 Did the Process Change Help? Paired <em>t</em>-Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#porosity-data-won-t-cooperate-mannwhitney-u">11.6 Porosity Data Won’t Cooperate: Mann–Whitney U</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#going-further-bootstrap-confidence-intervals">11.7 Going Further: Bootstrap Confidence Intervals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#going-further-planning-tomorrow-s-sample-size">11.8 Going Further: Planning Tomorrow’s Sample Size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="live-tutorial-1-a-day-in-the-quality-lab-t-tests-in-practice">
+<h1>11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice<a class="headerlink" href="#live-tutorial-1-a-day-in-the-quality-lab-t-tests-in-practice" title="Link to this heading">#</a></h1>
+<p>Notebook 8 (Hypothesis Testing) introduced each t-test in isolation. This
+session puts them to work the way you actually will: as a sequence of real
+decisions made over one working day by a materials-testing quality
+engineer at an aluminium-casting supplier. Every dataset below is
+synthetic but built to behave like real measurement data (realistic means,
+realistic noise, occasional awkward non-normality) — the statistics and
+the <em>decisions</em> they lead to are the point, not the specific numbers.</p>
+<p>Each section pairs a short concept recap with a worked example and a
+checkpoint exercise; “Going Further” sections (11.7–11.8) and the exercise
+list at the end are substantial <strong>self-study material</strong>, beyond the core
+session.</p>
+<p><strong>Session plan</strong></p>
+<ol class="arabic simple">
+<li><p>60-second recap: the hypothesis-testing framework</p></li>
+<li><p>Incoming inspection: does this batch meet spec? (one-sample <em>t</em>)</p></li>
+<li><p>Two suppliers, one decision: which is better? (two-sample <em>t</em>, Welch)</p></li>
+<li><p>Effect size and confidence intervals: what the p-value doesn’t tell you</p></li>
+<li><p>Did the process change help? (paired <em>t</em>)</p></li>
+<li><p>Porosity data won’t cooperate (Mann–Whitney U)</p></li>
+<li><p><em>Going further</em>: bootstrap confidence intervals</p></li>
+<li><p><em>Going further</em>: planning tomorrow’s sample size (power analysis)</p></li>
+</ol>
+<section id="the-framework-in-60-seconds">
+<h2>11.1 The Framework, in 60 Seconds<a class="headerlink" href="#the-framework-in-60-seconds" title="Link to this heading">#</a></h2>
+<p>Every test below follows the same five steps — internalise this checklist
+once and every test in this notebook (and Notebook 8) is just “which
+formula goes in step 3”:</p>
+<ol class="arabic simple">
+<li><p><strong>State H0 and H1</strong> in terms of the real quantity you care about (a
+population mean, a difference of means), not the sample you happened to
+collect.</p></li>
+<li><p><strong>Check assumptions</strong> relevant to the test (normality, equal variances,
+independence) — this determines <em>which</em> test you’re even allowed to use.</p></li>
+<li><p><strong>Compute the test statistic and p-value</strong> — how surprising is your
+sample, if H0 were actually true?</p></li>
+<li><p><strong>Compare to α</strong> (your pre-agreed false-positive tolerance, almost
+always 0.05 in this course) and decide.</p></li>
+<li><p><strong>Report an effect size and a confidence interval</strong>, not just “p &lt; 0.05”
+— Section 11.4 explains why step 5 is not optional in real reporting.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">2024</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="incoming-inspection-one-sample-t-test">
+<h2>11.2 Incoming Inspection: One-Sample <em>t</em>-Test<a class="headerlink" href="#incoming-inspection-one-sample-t-test" title="Link to this heading">#</a></h2>
+<p>A truck of A356-T6 aluminium castings just arrived from <strong>Supplier A</strong>.
+Contract spec requires a mean ultimate tensile strength (UTS) of at least
+<strong>275 MPa</strong>. You pull 18 castings for destructive testing.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(H_0: \mu \geq 275\)</span> MPa (the batch meets spec)</p></li>
+<li><p><span class="math notranslate nohighlight">\(H_1: \mu &lt; 275\)</span> MPa (the batch is below spec)</p></li>
+</ul>
+<p>This is a <strong>one-sided</strong> test — you only care about failure in one
+direction (nobody rejects a batch for being <em>too</em> strong).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Supplier A incoming batch ─────────────────────────────────────────────────</span>
+<span class="n">supplier_A</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">279</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># MPa</span>
+<span class="n">spec_min</span> <span class="o">=</span> <span class="mi">275</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Supplier A UTS (MPa):&#39;</span><span class="p">,</span> <span class="n">supplier_A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Sample mean: </span><span class="si">{</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> MPa   Sample std: </span><span class="si">{</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> MPa&#39;</span><span class="p">)</span>
+
+<span class="c1"># Assumption check: is 18 samples roughly normal? Shapiro-Wilk + Q-Q</span>
+<span class="n">stat</span><span class="p">,</span> <span class="n">p_shapiro</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">shapiro</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Shapiro-Wilk normality check: W=</span><span class="si">{</span><span class="n">stat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_shapiro</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="s2">&quot;consistent with normal&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p_shapiro</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;departs from normal&quot;</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Supplier A UTS (MPa): [287.2 292.1 288.2 271.2 267.9 279.5 285.9 283.1 293.5 285.  284.1 273.1
+ 270.1 290.9 279.4 285.5 268.  275.5]
+Sample mean: 281.12 MPa   Sample std: 8.38 MPa
+
+Shapiro-Wilk normality check: W=0.933, p=0.218 (consistent with normal)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── One-sided one-sample t-test ───────────────────────────────────────────────</span>
+<span class="n">t_stat</span><span class="p">,</span> <span class="n">p_two_sided</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_1samp</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">popmean</span><span class="o">=</span><span class="n">spec_min</span><span class="p">)</span>
+<span class="c1"># ttest_1samp always returns the two-sided p-value; halve it for one-sided</span>
+<span class="c1"># H1: mu &lt; spec_min (and only trust the halved value if t_stat points that way,</span>
+<span class="c1"># i.e. the sample mean fell below spec_min, making t_stat negative)</span>
+<span class="n">p_one_sided</span> <span class="o">=</span> <span class="n">p_two_sided</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">t_stat</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_two_sided</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;t-statistic: </span><span class="si">{</span><span class="n">t_stat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;One-sided p-value (H1: mu &lt; </span><span class="si">{</span><span class="n">spec_min</span><span class="si">}</span><span class="s1">): </span><span class="si">{</span><span class="n">p_one_sided</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">decision</span> <span class="o">=</span> <span class="s1">&#39;ACCEPT batch&#39;</span> <span class="k">if</span> <span class="n">p_one_sided</span> <span class="o">&gt;</span> <span class="n">alpha</span> <span class="k">else</span> <span class="s1">&#39;REJECT batch&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Decision at alpha=</span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">decision</span><span class="si">}</span><span class="s1"> &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;(sample mean </span><span class="si">{</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> MPa vs spec </span><span class="si">{</span><span class="n">spec_min</span><span class="si">}</span><span class="s1"> MPa)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>t-statistic: 3.098
+One-sided p-value (H1: mu &lt; 275): 0.9967
+
+Decision at alpha=0.05: ACCEPT batch (sample mean 281.1 MPa vs spec 275 MPa)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint</strong>: the p-value is large — we have <em>no evidence</em> the batch is
+below spec. Note carefully what that does and does not mean: it does
+<strong>not</strong> prove <span class="math notranslate nohighlight">\(\mu \geq 275\)</span>; it means the data are consistent with that
+claim. Failing to reject H0 is never proof of H0 — a lesson worth
+remembering every time you write up a QC report.</p>
+</section>
+<section id="two-suppliers-one-decision-two-sample-t-test">
+<h2>11.3 Two Suppliers, One Decision: Two-Sample <em>t</em>-Test<a class="headerlink" href="#two-suppliers-one-decision-two-sample-t-test" title="Link to this heading">#</a></h2>
+<p>Procurement wants to know if switching to <strong>Supplier B</strong> (cheaper, new
+contract) risks quality. You already have Supplier A’s 18 measurements
+from this morning; now test 15 castings from Supplier B.</p>
+<p>Before comparing means, check the assumption every two-sample <em>t</em>-test
+depends on: <strong>do the two groups have equal variance?</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Supplier B batch — similar mean, but a much less consistent process ──────</span>
+<span class="n">supplier_B</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">271</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">26</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># MPa</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Supplier A: n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">)</span><span class="si">}</span><span class="s1">, mean=</span><span class="si">{</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, std=</span><span class="si">{</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Supplier B: n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_B</span><span class="p">)</span><span class="si">}</span><span class="s1">, mean=</span><span class="si">{</span><span class="n">supplier_B</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, std=</span><span class="si">{</span><span class="n">supplier_B</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">supplier_B</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;Supplier A&#39;</span><span class="p">,</span> <span class="s1">&#39;Supplier B&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;UTS (MPa)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">spec_min</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Spec min (</span><span class="si">{</span><span class="n">spec_min</span><span class="si">}</span><span class="s1"> MPa)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Supplier A: n=18, mean=281.1, std=8.4
+Supplier B: n=15, mean=265.5, std=17.2
+</pre></div>
+</div>
+<img alt="../../_images/b5326d6ddda6e890268552577054e431e94805e1f742080dbbd9905bb675e390.png" src="../../_images/b5326d6ddda6e890268552577054e431e94805e1f742080dbbd9905bb675e390.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Levene&#39;s test: are the variances equal? ───────────────────────────────────</span>
+<span class="n">levene_stat</span><span class="p">,</span> <span class="n">levene_p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">levene</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">supplier_B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Levene&#39;s test: F=</span><span class="si">{</span><span class="n">levene_stat</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">levene_p</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">equal_var</span> <span class="o">=</span> <span class="n">levene_p</span> <span class="o">&gt;</span> <span class="mf">0.05</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Equal variance assumption: </span><span class="si">{</span><span class="s2">&quot;holds&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">equal_var</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;VIOLATED&quot;</span><span class="si">}</span><span class="s1"> at alpha=0.05&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;-&gt; use </span><span class="si">{</span><span class="s2">&quot;Student&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">equal_var</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;Welch&quot;</span><span class="si">}</span><span class="s1"> t-test&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Levene&#39;s test: F=6.536, p=0.0157
+Equal variance assumption: VIOLATED at alpha=0.05
+-&gt; use Welch t-test
+</pre></div>
+</div>
+</div>
+</div>
+<p>Levene’s test flags unequal variance here — Supplier B’s process is
+noticeably less consistent than Supplier A’s (compare the two standard
+deviations printed above), not just a coincidence of sampling. Using the
+standard (pooled-variance) <em>t</em>-test anyway would
+understate the true uncertainty in the comparison. <strong>Welch’s <em>t</em>-test</strong>
+fixes this by not assuming equal variances — it’s implemented in
+<code class="docutils literal notranslate"><span class="pre">scipy.stats.ttest_ind</span></code> via <code class="docutils literal notranslate"><span class="pre">equal_var=False</span></code>, and unlike the standard
+test, its degrees of freedom are <em>not</em> simply <span class="math notranslate nohighlight">\(n_1+n_2-2\)</span> (Welch–Satterthwaite
+approximation instead) — one more reason to let the function compute it
+rather than doing it by hand.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">supplier_B</span><span class="p">,</span> <span class="n">equal_var</span><span class="o">=</span><span class="n">equal_var</span><span class="p">)</span>
+<span class="n">test_name</span> <span class="o">=</span> <span class="s1">&#39;Student&#39;</span> <span class="k">if</span> <span class="n">equal_var</span> <span class="k">else</span> <span class="s1">&#39;Welch&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="se">\&#39;</span><span class="s1">s two-sample t-test:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  t-statistic: </span><span class="si">{</span><span class="n">t_stat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  p-value (two-sided): </span><span class="si">{</span><span class="n">p_val</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  Decision at alpha=0.05: &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;reject H0 -- means differ&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p_val</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;fail to reject H0 -- no evidence of a difference&quot;</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Welch&#39;s two-sample t-test:
+  t-statistic: 3.218
+  p-value (two-sided): 0.0044
+  Decision at alpha=0.05: reject H0 -- means differ
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint / Exercise A</strong>: Re-run Section 11.3 forcing <code class="docutils literal notranslate"><span class="pre">equal_var=True</span></code>
+regardless of what Levene’s test said. Does the conclusion change? This is
+exactly the mistake Levene’s test exists to catch — note it down as a
+reason to <em>always</em> check the variance assumption before choosing which
+flavour of <em>t</em>-test to run.</p>
+</section>
+<section id="effect-size-and-confidence-intervals-what-the-p-value-doesn-t-tell-you">
+<h2>11.4 Effect Size and Confidence Intervals: What the p-Value Doesn’t Tell You<a class="headerlink" href="#effect-size-and-confidence-intervals-what-the-p-value-doesn-t-tell-you" title="Link to this heading">#</a></h2>
+<p>A p-value answers <em>“is there evidence of a difference?”</em> — it says nothing
+about <strong>how big</strong> that difference is, and a large sample can make a
+practically meaningless difference statistically “significant.” Two
+numbers fix this, and a real QC report should always include them
+alongside the p-value:</p>
+<ul class="simple">
+<li><p><strong>Cohen’s <em>d</em></strong> — the difference in means, measured in units of pooled
+standard deviation: <span class="math notranslate nohighlight">\(d = (\bar{x}_1-\bar{x}_2)/s_{\text{pooled}}\)</span>. Rules
+of thumb: <span class="math notranslate nohighlight">\(|d|\approx0.2\)</span> small, <span class="math notranslate nohighlight">\(0.5\)</span> medium, <span class="math notranslate nohighlight">\(0.8\)</span> large.</p></li>
+<li><p><strong>Confidence interval on the difference</strong> — a range of plausible values
+for the true mean difference, which lets an engineer judge <em>practical</em>
+significance (“is a 5 MPa gap something we actually care about?”) in a
+way a single p-value cannot.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cohens_d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">pooled_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">nx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">ny</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">nx</span> <span class="o">+</span> <span class="n">ny</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">pooled_std</span>
+
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">cohens_d</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">supplier_B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cohen&#39;s d = </span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 95% CI on the difference of means (Welch-adjusted, matching the test above)</span>
+<span class="n">diff</span> <span class="o">=</span> <span class="n">supplier_A</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">supplier_B</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">se_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">)</span> <span class="o">+</span> <span class="n">supplier_B</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_B</span><span class="p">))</span>
+<span class="n">df_welch</span> <span class="o">=</span> <span class="p">(</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">)</span> <span class="o">+</span> <span class="n">supplier_B</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_B</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+    <span class="p">(</span><span class="n">supplier_B</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_B</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_B</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">t_crit</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">df_welch</span><span class="p">)</span>
+<span class="n">ci_low</span><span class="p">,</span> <span class="n">ci_high</span> <span class="o">=</span> <span class="n">diff</span> <span class="o">-</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">se_diff</span><span class="p">,</span> <span class="n">diff</span> <span class="o">+</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">se_diff</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mean difference (A - B): </span><span class="si">{</span><span class="n">diff</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> MPa&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;95% CI on the difference: [</span><span class="si">{</span><span class="n">ci_low</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">ci_high</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">] MPa&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Report this as: &quot;A exceeded B by </span><span class="si">{</span><span class="n">diff</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> MPa (95% CI [</span><span class="si">{</span><span class="n">ci_low</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">ci_high</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">]), &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;a </span><span class="si">{</span><span class="s2">&quot;large&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">&gt;=</span><span class="mf">0.8</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">&gt;=</span><span class="mf">0.5</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;small&quot;</span><span class="si">}</span><span class="s1"> effect (d=</span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">), &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;significant&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p_val</span><span class="o">&lt;</span><span class="mf">0.05</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;not significant&quot;</span><span class="si">}</span><span class="s1"> at alpha=0.05.&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cohen&#39;s d = 1.19
+Mean difference (A - B): 15.7 MPa
+95% CI on the difference: [5.5, 25.8] MPa
+
+Report this as: &quot;A exceeded B by 15.7 MPa (95% CI [5.5, 25.8]), a large effect (d=1.19), significant at alpha=0.05.&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="did-the-process-change-help-paired-t-test">
+<h2>11.5 Did the Process Change Help? Paired <em>t</em>-Test<a class="headerlink" href="#did-the-process-change-help-paired-t-test" title="Link to this heading">#</a></h2>
+<p>The plant floor supervisor extended the T6 artificial-ageing step by 30
+minutes, hoping to raise strength. To isolate the effect of <em>just</em> the
+process change (and not part-to-part variation in raw material), the
+<strong>same 15 casting moulds</strong> are tested before and after — a <strong>paired</strong>
+design. Pairing pays off when the two measurements on a unit are
+<em>correlated</em> — here, each mould has its own baseline quality level that
+carries over from “before” to “after,” so subtracting removes that shared
+baseline and isolates the treatment effect. (If the pairing variable were
+unrelated to the outcome, pairing would only cost degrees of freedom
+without any variance reduction to show for it — see the theory page’s
+t-test section for that caveat.) We’ll prove the power gain for <em>this</em>
+correlated case, not just assert it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Paired before/after measurements on the same 15 moulds ───────────────────</span>
+<span class="n">n_pairs</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">mould_baseline_effect</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">n_pairs</span><span class="p">)</span>   <span class="c1"># each mould&#39;s own &quot;quality level&quot;</span>
+<span class="n">before</span> <span class="o">=</span> <span class="mi">274</span> <span class="o">+</span> <span class="n">mould_baseline_effect</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_pairs</span><span class="p">)</span>
+<span class="n">after</span>  <span class="o">=</span> <span class="mi">274</span> <span class="o">+</span> <span class="n">mould_baseline_effect</span> <span class="o">+</span> <span class="mi">6</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_pairs</span><span class="p">)</span>   <span class="c1"># true +6 MPa improvement</span>
+
+<span class="n">df_paired</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;mould_id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;M</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_pairs</span><span class="p">)],</span>
+                           <span class="s1">&#39;before&#39;</span><span class="p">:</span> <span class="n">before</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;after&#39;</span><span class="p">:</span> <span class="n">after</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)})</span>
+<span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;after&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;before&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_paired</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   mould_id  before  after  improvement
+0       M01   280.6  287.9          7.3
+1       M02   271.2  274.7          3.5
+2       M03   283.5  290.6          7.1
+3       M04   270.8  275.2          4.4
+4       M05   268.3  276.9          8.6
+5       M06   285.3  288.5          3.2
+6       M07   275.2  277.8          2.6
+7       M08   273.8  275.2          1.4
+8       M09   263.1  270.3          7.2
+9       M10   261.2  273.3         12.1
+10      M11   279.6  284.1          4.5
+11      M12   266.4  274.6          8.2
+12      M13   276.8  286.7          9.9
+13      M14   282.8  294.3         11.5
+14      M15   271.4  278.6          7.2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_paired</span><span class="p">,</span> <span class="n">p_paired</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_rel</span><span class="p">(</span><span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;after&#39;</span><span class="p">],</span> <span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;before&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Paired t-test:   t=</span><span class="si">{</span><span class="n">t_paired</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_paired</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Compare to (incorrectly) treating this as two independent samples</span>
+<span class="n">t_unpaired</span><span class="p">,</span> <span class="n">p_unpaired</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;after&#39;</span><span class="p">],</span> <span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;before&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unpaired t-test: t=</span><span class="si">{</span><span class="n">t_unpaired</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_unpaired</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">   (same data, wrong analysis)&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mean improvement: </span><span class="si">{</span><span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MPa&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The paired test is more powerful here because it subtracts out each&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mould&#39;s own baseline quality level before testing -- exactly the&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;between-mould variance that inflates the unpaired test</span><span class="se">\&#39;</span><span class="s1">s uncertainty.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paired t-test:   t=7.875, p=0.00000
+Unpaired t-test: t=2.426, p=0.02194   (same data, wrong analysis)
+
+Mean improvement: 6.58 MPa
+The paired test is more powerful here because it subtracts out each
+mould&#39;s own baseline quality level before testing -- exactly the
+between-mould variance that inflates the unpaired test&#39;s uncertainty.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint / Exercise B</strong>: Increase <code class="docutils literal notranslate"><span class="pre">mould_baseline_effect</span></code>’s standard
+deviation in Section 11.5 from <code class="docutils literal notranslate"><span class="pre">6</span></code> to <code class="docutils literal notranslate"><span class="pre">20</span></code> (bigger part-to-part variability)
+and re-run. What happens to the <em>gap</em> between the paired and unpaired
+p-values as between-unit variability grows? This is exactly why paired /
+blocked designs matter more the noisier your material system is — a
+concept Part III, Notebook 9 §9.4 (two-way ANOVA) and this course’s
+Notebook 7 (Live Tutorial 2, Section 7.3) revisit as <strong>blocking</strong>.</p>
+</section>
+<section id="porosity-data-won-t-cooperate-mannwhitney-u">
+<h2>11.6 Porosity Data Won’t Cooperate: Mann–Whitney U<a class="headerlink" href="#porosity-data-won-t-cooperate-mannwhitney-u" title="Link to this heading">#</a></h2>
+<p>The day’s last comparison: casting <strong>porosity</strong> (% void volume, from
+CT scan) for two processes — gravity die casting vs. sand casting.
+Porosity is bounded at zero and often right-skewed (most castings are
+good, a long tail of worse ones) — exactly the kind of variable that
+should make you suspicious of a <em>t</em>-test before you even plot it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Porosity: right-skewed, simulated via a gamma distribution ────────────────</span>
+<span class="n">porosity_die</span>  <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>    <span class="c1"># % porosity</span>
+<span class="n">porosity_sand</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>    <span class="c1"># sand casting: more porous</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">porosity_die</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Die casting&#39;</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Porosity (%)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">porosity_sand</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Sand casting&#39;</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Porosity (%)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">&#39;Die&#39;</span><span class="p">,</span> <span class="n">porosity_die</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Sand&#39;</span><span class="p">,</span> <span class="n">porosity_sand</span><span class="p">)]:</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">p_sw</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">shapiro</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> casting Shapiro-Wilk p = </span><span class="si">{</span><span class="n">p_sw</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> &#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="s2">&quot;normal-ish&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p_sw</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;NOT normal -- avoid the t-test&quot;</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/b955822809c9beef6b3ae97f87db6e6317cb067bb43f18fdc8088f4e9af058c1.png" src="../../_images/b955822809c9beef6b3ae97f87db6e6317cb067bb43f18fdc8088f4e9af058c1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Die casting Shapiro-Wilk p = 0.0002 (NOT normal -- avoid the t-test)
+Sand casting Shapiro-Wilk p = 0.0098 (NOT normal -- avoid the t-test)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Mann-Whitney U: compares *ranks*, not means -- valid without normality ────</span>
+<span class="n">u_stat</span><span class="p">,</span> <span class="n">p_mw</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">porosity_die</span><span class="p">,</span> <span class="n">porosity_sand</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s1">&#39;two-sided&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mann-Whitney U = </span><span class="si">{</span><span class="n">u_stat</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, p = </span><span class="si">{</span><span class="n">p_mw</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Median porosity: die=</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">porosity_die</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%, sand=</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">porosity_sand</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Decision at alpha=0.05: &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;processes differ significantly&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p_mw</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;no significant difference detected&quot;</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mann-Whitney U = 102.0, p = 0.0084
+Median porosity: die=1.00%, sand=1.68%
+
+Decision at alpha=0.05: processes differ significantly
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>Median porosity is 1.00% for die casting vs. 1.68% for sand casting — sand casting produces roughly 68% more void volume in a typical part, and p=0.008 says that gap is unlikely to be sampling noise.</p></li>
+<li><p>Because Mann-Whitney compares <em>ranks</em> rather than means, “sand casting tends to rank higher” is the precise claim being tested — not a difference in average porosity as such, though here both point the same direction.</p></li>
+</ul>
+</div>
+</section>
+<section id="going-further-bootstrap-confidence-intervals">
+<h2>11.7 Going Further: Bootstrap Confidence Intervals<a class="headerlink" href="#going-further-bootstrap-confidence-intervals" title="Link to this heading">#</a></h2>
+<p>Every CI so far came from a <em>formula</em> that assumes a particular
+distribution shape. The <strong>bootstrap</strong> sidesteps that assumption entirely:
+resample your own data (with replacement) thousands of times, recompute
+the statistic each time, and use the spread of those resampled statistics
+directly as your confidence interval. It works for almost any statistic —
+including the median, which has no simple textbook formula for a CI at
+all — which is exactly why we apply it to the skewed porosity data below
+rather than the well-behaved UTS data from earlier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">bootstrap_ci</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">stat_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Percentile-method bootstrap CI for any statistic (mean, median, ...).&quot;&quot;&quot;</span>
+    <span class="n">boot_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">boot_stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_boot</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">):</span>
+        <span class="n">resample</span> <span class="o">=</span> <span class="n">boot_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">boot_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">stat_func</span><span class="p">(</span><span class="n">resample</span><span class="p">)</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">boot_stats</span><span class="p">,</span> <span class="p">[(</span><span class="mi">1</span><span class="o">-</span><span class="n">ci</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">ci</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="mi">100</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">boot_stats</span>
+
+
+<span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">boot_medians</span> <span class="o">=</span> <span class="n">bootstrap_ci</span><span class="p">(</span><span class="n">porosity_sand</span><span class="p">,</span> <span class="n">stat_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Sand casting median porosity: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">porosity_sand</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;95% bootstrap CI on the median: [</span><span class="si">{</span><span class="n">lo</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">hi</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">]%  (from </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">boot_medians</span><span class="p">)</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> resamples)&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">boot_medians</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)[</span><span class="mi">3</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">hi</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Bootstrap resampled median porosity (%)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Bootstrap distribution of the sample median&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sand casting median porosity: 1.68%
+95% bootstrap CI on the median: [1.35, 2.02]%  (from 10,000 resamples)
+</pre></div>
+</div>
+<img alt="../../_images/da0c0b6b3d817c48a64b20a0f31c50171b6c5f5d1a37f0a1e6ebbb1dcc0a9f06.png" src="../../_images/da0c0b6b3d817c48a64b20a0f31c50171b6c5f5d1a37f0a1e6ebbb1dcc0a9f06.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>The bootstrap CI [1.35, 2.02]% is centred near the reported median (1.68%), as expected — the <em>width</em> of the histogram above, not any textbook formula, is what generated this interval.</p></li>
+<li><p>Read it as: a follow-up batch’s median porosity landing anywhere in [1.35, 2.02]% would not be surprising, given the scatter already present in this one 20-part sample.</p></li>
+</ul>
+</div>
+</section>
+<section id="going-further-planning-tomorrow-s-sample-size">
+<h2>11.8 Going Further: Planning Tomorrow’s Sample Size<a class="headerlink" href="#going-further-planning-tomorrow-s-sample-size" title="Link to this heading">#</a></h2>
+<p>Procurement wants stronger evidence on the Supplier A vs. B question
+before signing a new contract. Given today’s estimated effect size, how
+many castings per supplier would tomorrow’s test need to reliably detect
+it? This is exactly Notebook 8 §8.5’s power-analysis idea, applied here to
+plan a <strong>real follow-up experiment</strong> from today’s pilot data — the
+realistic way sample-size planning actually happens.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.stats.power</span><span class="w"> </span><span class="kn">import</span> <span class="n">TTestIndPower</span>
+
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">TTestIndPower</span><span class="p">()</span>
+<span class="n">d_observed</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">cohens_d</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">supplier_B</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">power_target</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.90</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">):</span>
+    <span class="n">n_needed</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">solve_power</span><span class="p">(</span><span class="n">effect_size</span><span class="o">=</span><span class="n">d_observed</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                                     <span class="n">power</span><span class="o">=</span><span class="n">power_target</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Power=</span><span class="si">{</span><span class="n">power_target</span><span class="si">:</span><span class="s1">.0%</span><span class="si">}</span><span class="s1">: need n=</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n_needed</span><span class="p">)</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> per supplier &#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;(observed d=</span><span class="si">{</span><span class="n">d_observed</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Today</span><span class="se">\&#39;</span><span class="s1">s pilot used n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">)</span><span class="si">}</span><span class="s1"> and n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_B</span><span class="p">)</span><span class="si">}</span><span class="s1"> --&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;compare that to the numbers above and judge whether today</span><span class="se">\&#39;</span><span class="s1">s test was adequately powered.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Power=80%: need n=13 per supplier (observed d=1.19)
+Power=90%: need n=16 per supplier (observed d=1.19)
+Power=95%: need n=20 per supplier (observed d=1.19)
+
+Today&#39;s pilot used n=18 and n=15 -- compare that to the numbers above and judge whether today&#39;s test was adequately powered.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>Today’s pilot used n=18 (Supplier A) and n=15 (Supplier B) — comfortably above the n=13 needed for 80% power, and close to (but just short of) the n=16 needed for 90% power. By the conventional 80% standard, today’s test was adequately powered; by a stricter 90–95% standard some contracts might require, it was slightly under.</p></li>
+<li><p>These required-n numbers are only as good as the effect size they’re based on (today’s observed d=1.19) — if the true difference is smaller than this pilot happened to show, tomorrow’s test would need more castings than planned here to keep the same power.</p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p><strong>Core practice</strong></p>
+<ol class="arabic simple">
+<li><p><strong>One-sided vs two-sided</strong>: Section 11.2 used a one-sided test because
+only low strength matters. Re-run it as a two-sided test
+(<code class="docutils literal notranslate"><span class="pre">stats.ttest_1samp</span></code> gives the two-sided p-value directly) and compare
+the p-value to the one-sided value computed manually. Which is larger,
+and can you explain why from the shape of the t-distribution?</p></li>
+<li><p><strong>A third supplier</strong>: Generate <code class="docutils literal notranslate"><span class="pre">supplier_C</span> <span class="pre">=</span> <span class="pre">rng.normal(285,</span> <span class="pre">10,</span> <span class="pre">20)</span></code>.
+Run the full Section 11.3–11.4 workflow (Levene → correct <em>t</em>-test →
+Cohen’s <em>d</em> → CI) comparing Supplier A vs. Supplier C. Would you
+recommend switching from A to C?</p></li>
+<li><p><strong>Wilcoxon signed-rank</strong>: Section 11.5 assumed the paired <em>differences</em>
+are roughly normal (a <em>t</em>-test assumption you did not explicitly check).
+Run <code class="docutils literal notranslate"><span class="pre">stats.shapiro</span></code> on <code class="docutils literal notranslate"><span class="pre">df_paired['improvement']</span></code>, and if you were
+unconvinced it was normal, redo the test with
+<code class="docutils literal notranslate"><span class="pre">stats.wilcoxon(df_paired['after'],</span> <span class="pre">df_paired['before'])</span></code> — the paired
+analogue of Mann–Whitney U. Compare the p-values.</p></li>
+</ol>
+<p><strong>Deeper practice</strong></p>
+<ol class="arabic simple" start="4">
+<li><p><strong>Type I and Type II error, simulated</strong>: Write a loop that runs 1,000
+two-sample <em>t</em>-tests on data where you <em>know</em> H0 is exactly true (both
+groups drawn from the identical distribution, e.g.
+<code class="docutils literal notranslate"><span class="pre">rng.normal(275,</span> <span class="pre">10,</span> <span class="pre">15)</span></code> for both). What fraction reject H0 at
+alpha=0.05? It should be close to 5% — this <em>is</em> the definition of
+alpha, demonstrated empirically rather than asserted. Then repeat with a
+<em>true</em> difference of 5 MPa between groups and report the fraction that
+correctly reject H0 (this fraction is the test’s empirical <strong>power</strong>).</p></li>
+<li><p><strong>Bootstrap the mean, not just the median</strong>: Apply <code class="docutils literal notranslate"><span class="pre">bootstrap_ci</span></code> from
+Section 11.7 to <code class="docutils literal notranslate"><span class="pre">supplier_A</span></code> with <code class="docutils literal notranslate"><span class="pre">stat_func=np.mean</span></code>, and compare the
+resulting interval to the classical <em>t</em>-interval
+(<code class="docutils literal notranslate"><span class="pre">stats.t.interval(0.95,</span> <span class="pre">df=len(supplier_A)-1,</span> <span class="pre">loc=supplier_A.mean(),</span> <span class="pre">scale=stats.sem(supplier_A))</span></code>). They should be close — bootstrap and
+classical methods should largely agree when the classical assumptions
+actually hold, which is a useful sanity check to run in both directions.</p></li>
+<li><p><strong>Multiple comparisons</strong>: If you ran Exercises 1–3 <em>and</em> the original
+Sections 11.2–11.6, you have performed roughly seven hypothesis tests
+today. What is the probability that <em>at least one</em> falsely rejects a
+true H0, purely by chance, if each individually runs at alpha=0.05?
+(Hint: <span class="math notranslate nohighlight">\(P(\text{at least one false positive}) = 1-(1-\alpha)^k\)</span> for <span class="math notranslate nohighlight">\(k\)</span>
+independent tests.) This is exactly the problem ANOVA’s omnibus F-test
+is designed to avoid when comparing more than two groups at once —
+Notebook 7 (Live Tutorial 2) picks this up directly.</p></li>
+<li><p><strong>Design your own QC scenario</strong>: Pick a materials system from earlier
+in the course (steel hardness, battery capacity, ceramic density —
+Notebooks 6–10) and write a one-paragraph QC scenario of your own,
+modelled on this notebook’s “day in the lab” structure. Generate
+synthetic data for it and carry out whichever <em>t</em>-test the scenario
+calls for, including the assumption checks and effect size/CI
+reporting from Section 11.4.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\02_statistics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05_simple_regression.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">10. Simple Linear Regression</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07_live_tutorial_2_anova_regression.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-framework-in-60-seconds">11.1 The Framework, in 60 Seconds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#incoming-inspection-one-sample-t-test">11.2 Incoming Inspection: One-Sample <em>t</em>-Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-suppliers-one-decision-two-sample-t-test">11.3 Two Suppliers, One Decision: Two-Sample <em>t</em>-Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-size-and-confidence-intervals-what-the-p-value-doesn-t-tell-you">11.4 Effect Size and Confidence Intervals: What the p-Value Doesn’t Tell You</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#did-the-process-change-help-paired-t-test">11.5 Did the Process Change Help? Paired <em>t</em>-Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#porosity-data-won-t-cooperate-mannwhitney-u">11.6 Porosity Data Won’t Cooperate: Mann–Whitney U</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#going-further-bootstrap-confidence-intervals">11.7 Going Further: Bootstrap Confidence Intervals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#going-further-planning-tomorrow-s-sample-size">11.8 Going Further: Planning Tomorrow’s Sample Size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

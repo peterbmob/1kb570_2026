@@ -1,0 +1,1498 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Ontologies &amp; EMMO &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/02_data_handling/02_ontologies_and_emmo';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3. Databases for FAIR Data: SQL and Document Stores" href="03_databases_sql_nosql.html" />
+    <link rel="prev" title="1. FAIR Data &amp; Metadata" href="01_fair_data_and_metadata.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/02_data_handling/02_ontologies_and_emmo.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/02_data_handling/02_ontologies_and_emmo.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2. Ontologies & EMMO</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-words-are-not-reliable-identifiers">2.1 The Problem: Words Are Not Reliable Identifiers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-ontology">2.2 What Is an Ontology?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controlled-vocabulary-vs-taxonomy-vs-ontology">2.3 Controlled Vocabulary vs. Taxonomy vs. Ontology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introducing-emmo">2.4 Introducing EMMO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-building-a-small-ontology-with-owlready2">2.5 Hands-on: Building a Small Ontology with <code class="docutils literal notranslate"><span class="pre">owlready2</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#individuals-describing-one-real-sample">Individuals: describing one real sample</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-exploring-the-real-emmo">2.6 Hands-on: Exploring the Real EMMO</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-ontology-s-own-metadata">Reading the ontology’s own metadata</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#walking-a-real-ancestor-chain-crystal">Walking a real ancestor chain: <code class="docutils literal notranslate"><span class="pre">Crystal</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-payoff-a-quantity-is-modelled-as-a-sign">The payoff: a <em>quantity</em> is modelled as a <em>sign</em></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seeing-the-ontology-as-a-graph">2.7 Seeing the Ontology as a Graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reasoning-getting-facts-you-never-typed-in">2.8 Reasoning: Getting Facts You Never Typed In</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#closing-the-loop-synonymy-revisited">2.9 Closing the Loop: Synonymy, Revisited</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#catching-a-dimensionally-wrong-unit">2.10 Catching a Dimensionally Wrong Unit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ontologies-emmo">
+<h1>2. Ontologies &amp; EMMO<a class="headerlink" href="#ontologies-emmo" title="Link to this heading">#</a></h1>
+<p>Notebook 1 showed that a value needs metadata to be reusable — a number
+needs a name, a unit, a sample ID. This notebook asks the next question:
+how do you make sure <em>your</em> name for something (“yield strength”) means
+exactly the same thing as <em>someone else’s</em> name for it, to both a human
+reader and a piece of software? That is the problem <strong>ontologies</strong> solve,
+and <strong>EMMO</strong> (the European Materials Modelling Ontology) is the specific
+ontology this course uses as a worked example.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>The problem: same word, different meaning (and vice versa)</p></li>
+<li><p>What an ontology actually is (classes, individuals, “is-a” relations)</p></li>
+<li><p>Controlled vocabulary vs. taxonomy vs. ontology</p></li>
+<li><p>EMMO: what it is, and why materials science needs one</p></li>
+<li><p>Hands-on: building a small ontology in Python with <code class="docutils literal notranslate"><span class="pre">owlready2</span></code></p></li>
+<li><p>Hands-on: exploring the real EMMO with <code class="docutils literal notranslate"><span class="pre">rdflib</span></code> and SPARQL</p></li>
+<li><p>Seeing the ontology as a graph (visualising it with <code class="docutils literal notranslate"><span class="pre">networkx</span></code>)</p></li>
+<li><p>Reasoning: deriving facts that were never explicitly stated</p></li>
+<li><p>Closing the loop: fixing the synonymy problem from Section 2.1</p></li>
+<li><p>Catching a dimensionally wrong unit a plain CSV column would miss</p></li>
+</ol>
+<section id="the-problem-words-are-not-reliable-identifiers">
+<h2>2.1 The Problem: Words Are Not Reliable Identifiers<a class="headerlink" href="#the-problem-words-are-not-reliable-identifiers" title="Link to this heading">#</a></h2>
+<p>Two failure modes show up constantly when combining datasets from different
+labs, instruments, or papers:</p>
+<ul class="simple">
+<li><p><strong>Synonymy</strong> — the same concept, different words. “Yield strength”,
+“0.2% proof stress”, and “<span class="math notranslate nohighlight">\(\sigma_y\)</span>” all refer to the same physical
+quantity; a script that filters by the exact string <code class="docutils literal notranslate"><span class="pre">&quot;yield_strength&quot;</span></code>
+will silently miss the other two.</p></li>
+<li><p><strong>Homonymy</strong> — the same word, different concepts. “Annealing” means
+something different in metallurgy (a heat treatment to relieve stress)
+than in molecular biology (letting DNA strands re-anneal), and even within
+materials science, “conductivity” alone is ambiguous between electrical
+and thermal conductivity without a unit or qualifier attached.</p></li>
+</ul>
+<p>A spreadsheet column header is just a string — it cannot tell a computer
+which of these it means. An <strong>ontology</strong> fixes this by giving every concept
+a single, unambiguous, machine-readable identity (in practice: a URI) and
+by formally stating how concepts relate to one another, so software (and
+careful humans) can tell “these two columns mean the same thing” from
+“these two columns merely look similar.</p>
+</section>
+<section id="what-is-an-ontology">
+<h2>2.2 What Is an Ontology?<a class="headerlink" href="#what-is-an-ontology" title="Link to this heading">#</a></h2>
+<p>Strip away the jargon and an ontology is a formal, computer-readable version
+of something you already build informally whenever you organise ideas: a
+hierarchy of <strong>classes</strong> (“kinds of thing”), <strong>individuals</strong> (“specific
+instances of a kind”), and <strong>relations</strong> between them, plus a rule that a
+more specific class <strong>inherits</strong> everything true of the more general class
+above it — usually called an <strong>“is-a” hierarchy</strong>.</p>
+<p>A familiar, non-materials example: biological taxonomy.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Animal
+ └── Mammal
+      └── Carnivore
+           └── Felidae (cats)
+                └── Panthera leo (lion)   ← an individual: &quot;Simba&quot;
+</pre></div>
+</div>
+<p>“Every <code class="docutils literal notranslate"><span class="pre">Felidae</span></code> is a <code class="docutils literal notranslate"><span class="pre">Carnivore</span></code>” is a class-level statement (an <strong>axiom</strong>);
+“Simba is a <code class="docutils literal notranslate"><span class="pre">Panthera</span> <span class="pre">leo</span></code>” relates a specific <strong>individual</strong> to a class.
+Because the hierarchy is explicit, a query for “all carnivores” automatically
+includes lions without anyone having to list every species by hand — the
+same benefit you want when querying “all thermodynamic quantities” in a
+materials database and getting temperature, entropy, <em>and</em> heat capacity
+back, without hand-maintaining that list yourself.</p>
+<p>Ontologies add one more ingredient beyond a plain hierarchy: <strong>relations</strong>
+other than “is-a” — e.g. “a <code class="docutils literal notranslate"><span class="pre">SynthesisProcess</span></code> <strong>has</strong> a <code class="docutils literal notranslate"><span class="pre">Temperature</span></code>” —
+which is what lets an ontology describe not just categories, but how real
+things are connected.</p>
+</section>
+<section id="controlled-vocabulary-vs-taxonomy-vs-ontology">
+<h2>2.3 Controlled Vocabulary vs. Taxonomy vs. Ontology<a class="headerlink" href="#controlled-vocabulary-vs-taxonomy-vs-ontology" title="Link to this heading">#</a></h2>
+<p>These three terms are often used loosely; it helps to know where each one
+stops.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Level</p></th>
+<th class="head"><p>What it provides</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>Limitation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Controlled vocabulary</strong></p></td>
+<td><p>A fixed, agreed-upon list of allowed terms</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{&quot;as-cast&quot;,</span> <span class="pre">&quot;annealed&quot;,</span> <span class="pre">&quot;quenched&quot;}</span></code> for a “condition” field</p></td>
+<td><p>No structure between terms — flat list only</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Taxonomy</strong></p></td>
+<td><p>A controlled vocabulary <em>plus</em> an is-a hierarchy</p></td>
+<td><p>Linnaean biological classification</p></td>
+<td><p>Only one relation type (is-a); no formal logic</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Ontology</strong></p></td>
+<td><p>A taxonomy <em>plus</em> additional relations, properties, and formal logical axioms that software can reason over</p></td>
+<td><p>EMMO</p></td>
+<td><p>Requires more upfront modelling effort</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Materials data often starts life governed only by a controlled vocabulary
+(a dropdown menu in a lab’s electronic notebook). An ontology is what you
+reach for once you need software to <em>combine</em> data across many such
+vocabularies automatically — which is precisely the situation a shared
+European materials-data infrastructure is in.</p>
+</section>
+<section id="introducing-emmo">
+<h2>2.4 Introducing EMMO<a class="headerlink" href="#introducing-emmo" title="Link to this heading">#</a></h2>
+<p><strong>EMMO</strong> — the <strong>E</strong>uropean <strong>M</strong>aterials &amp; <strong>M</strong>odelling <strong>O</strong>ntology
+(originally: Elementary Multiperspective Material Ontology) — is a
+<em>foundational</em> (or “top-level”) ontology purpose-built for physical
+science and engineering. It is developed and maintained by the <strong>European
+Materials Modelling Council (EMMC)</strong> as an open, versioned OWL ontology,
+published at the persistent identifier <code class="docutils literal notranslate"><span class="pre">https://w3id.org/emmo</span></code> and hosted
+on GitHub at <code class="docutils literal notranslate"><span class="pre">github.com/emmo-repo/EMMO</span></code> under a CC-BY-4.0 licence.</p>
+<p>What makes EMMO different from “just another controlled vocabulary” is that
+it is grounded in formal philosophy and physics rather than convenience:
+every concept ultimately derives from a single root class (<code class="docutils literal notranslate"><span class="pre">Item</span></code>), and
+reality is organised through several formal <strong>“Perspectives”</strong> — for
+example a <em>causal</em> perspective (how things influence each other) and a
+<em>semiotic</em> perspective (how signs, symbols, and data represent things) —
+rather than one flat “is-a” tree. You do not need to master this philosophy
+to use EMMO productively, but it is why EMMO can precisely represent a
+subtlety that trips up simpler vocabularies: <strong>a measured value is not the
+same thing as the physical property it describes</strong> — “188 HV” is a <em>sign</em>
+that represents a real hardness, and EMMO models that distinction
+explicitly (you will see this concretely in Section 2.6).</p>
+<p>EMMO is not meant to be used alone — domain-specific ontologies are built
+<em>on top of</em> it so that different domains stay interoperable through a
+shared foundation. <strong>BattINFO</strong> (the Battery Interface Ontology), used for
+FAIR battery data across European projects, is a well-known example built
+this way. <strong>NOMAD</strong> (Notebook 4) increasingly annotates its own schemas with
+EMMO concepts for exactly this reason: so that a “temperature” recorded in
+NOMAD means the same formal thing as a “temperature” recorded anywhere else
+that also uses EMMO.</p>
+</section>
+<section id="hands-on-building-a-small-ontology-with-owlready2">
+<h2>2.5 Hands-on: Building a Small Ontology with <code class="docutils literal notranslate"><span class="pre">owlready2</span></code><a class="headerlink" href="#hands-on-building-a-small-ontology-with-owlready2" title="Link to this heading">#</a></h2>
+<p>The real EMMO’s top level is organised around formal Perspectives rather
+than a simple two-branch split, which is more machinery than we need for a
+first hands-on exercise. Instead, we will build a small, EMMO-<em>inspired</em>
+toy ontology from scratch — materials as physical objects, syntheses as
+processes, and properties as quantities — using the same basic building
+blocks (classes, subclass axioms, relations, individuals) that EMMO itself
+is built from. <code class="docutils literal notranslate"><span class="pre">owlready2</span></code> lets you define an ontology using ordinary Python
+class syntax.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">owlready2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Thing</span><span class="p">,</span> <span class="n">ObjectProperty</span><span class="p">,</span> <span class="n">get_ontology</span><span class="p">,</span> <span class="n">default_world</span>
+
+<span class="n">onto</span> <span class="o">=</span> <span class="n">get_ontology</span><span class="p">(</span><span class="s1">&#39;http://example.org/mini_materials_onto.owl&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">onto</span><span class="p">:</span>
+    <span class="c1"># ── Top-level split (simplified — see note above about the real EMMO) ────</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Item</span><span class="p">(</span><span class="n">Thing</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Root class: everything nameable in this toy ontology is an Item.&quot;&quot;&quot;</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">PhysicalEntity</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Something that exists independently in space and time.&quot;&quot;&quot;</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Quantity</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A sign that encodes a measured magnitude: a number plus a unit.&quot;&quot;&quot;</span>
+
+    <span class="c1"># ── Physical entities split into persisting objects and processes ────────</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">MaterialObject</span><span class="p">(</span><span class="n">PhysicalEntity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A physical object considered as a whole persisting through time.&quot;&quot;&quot;</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Process</span><span class="p">(</span><span class="n">PhysicalEntity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A physical entity considered as it unfolds through time.&quot;&quot;&quot;</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">CathodeMaterial</span><span class="p">(</span><span class="n">MaterialObject</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">SynthesisProcess</span><span class="p">(</span><span class="n">Process</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">ThermodynamicTemperature</span><span class="p">(</span><span class="n">Quantity</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">ElectricCharge</span><span class="p">(</span><span class="n">Quantity</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># ── Relations: how entities connect to quantities ─────────────────────────</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">hasQuantitativeProperty</span><span class="p">(</span><span class="n">PhysicalEntity</span> <span class="o">&gt;&gt;</span> <span class="n">Quantity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Relates a physical object/process to a quantity describing it.&quot;&quot;&quot;</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">hasSynthesisTemperature</span><span class="p">(</span><span class="n">SynthesisProcess</span> <span class="o">&gt;&gt;</span> <span class="n">ThermodynamicTemperature</span><span class="p">):</span>
+        <span class="n">is_a</span> <span class="o">=</span> <span class="p">[</span><span class="n">hasQuantitativeProperty</span><span class="p">]</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">hasMeasuredCapacity</span><span class="p">(</span><span class="n">CathodeMaterial</span> <span class="o">&gt;&gt;</span> <span class="n">ElectricCharge</span><span class="p">):</span>
+        <span class="n">is_a</span> <span class="o">=</span> <span class="p">[</span><span class="n">hasQuantitativeProperty</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classes defined:&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">onto</span><span class="o">.</span><span class="n">classes</span><span class="p">()])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Classes defined: [&#39;Item&#39;, &#39;PhysicalEntity&#39;, &#39;Quantity&#39;, &#39;MaterialObject&#39;, &#39;Process&#39;, &#39;CathodeMaterial&#39;, &#39;SynthesisProcess&#39;, &#39;ThermodynamicTemperature&#39;, &#39;ElectricCharge&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that the classes exist, we can ask the same kind of questions you would
+ask of the real EMMO: what is a subclass of what, and what does a given
+class ultimately descend from?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Subclasses of PhysicalEntity:&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">PhysicalEntity</span><span class="o">.</span><span class="n">subclasses</span><span class="p">()])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Subclasses of Quantity:      &#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Quantity</span><span class="o">.</span><span class="n">subclasses</span><span class="p">()])</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CathodeMaterial.is_a (direct parents):&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CathodeMaterial</span><span class="o">.</span><span class="n">is_a</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CathodeMaterial ancestors (full chain):&#39;</span><span class="p">,</span>
+      <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CathodeMaterial</span><span class="o">.</span><span class="n">ancestors</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Subclasses of PhysicalEntity: [&#39;MaterialObject&#39;, &#39;Process&#39;]
+Subclasses of Quantity:       [&#39;ThermodynamicTemperature&#39;, &#39;ElectricCharge&#39;]
+
+CathodeMaterial.is_a (direct parents): [&#39;MaterialObject&#39;]
+CathodeMaterial ancestors (full chain): [&#39;CathodeMaterial&#39;, &#39;MaterialObject&#39;, &#39;PhysicalEntity&#39;, &#39;Thing&#39;, &#39;Item&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="individuals-describing-one-real-sample">
+<h3>Individuals: describing one real sample<a class="headerlink" href="#individuals-describing-one-real-sample" title="Link to this heading">#</a></h3>
+<p>Classes describe <em>kinds</em> of thing; <strong>individuals</strong> are the specific
+instances — this is where your actual lab data enters the ontology. Compare
+this to <code class="docutils literal notranslate"><span class="pre">cathode_record</span></code> in Notebook 1: there, <code class="docutils literal notranslate"><span class="pre">'quantity_kind_iri'</span></code> was a
+plain string comment pointing at a concept; here, the link is a real,
+machine-checkable relation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample</span> <span class="o">=</span> <span class="n">CathodeMaterial</span><span class="p">(</span><span class="s1">&#39;LiFePO4_batch_07&#39;</span><span class="p">)</span>
+<span class="n">synthesis</span> <span class="o">=</span> <span class="n">SynthesisProcess</span><span class="p">(</span><span class="s1">&#39;synthesis_of_batch_07&#39;</span><span class="p">)</span>
+<span class="n">T_synth</span> <span class="o">=</span> <span class="n">ThermodynamicTemperature</span><span class="p">(</span><span class="s1">&#39;T_synthesis_batch_07&#39;</span><span class="p">)</span>
+<span class="n">capacity</span> <span class="o">=</span> <span class="n">ElectricCharge</span><span class="p">(</span><span class="s1">&#39;capacity_batch_07&#39;</span><span class="p">)</span>
+
+<span class="n">synthesis</span><span class="o">.</span><span class="n">hasSynthesisTemperature</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T_synth</span><span class="p">)</span>
+<span class="n">sample</span><span class="o">.</span><span class="n">hasMeasuredCapacity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">capacity</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sample</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> is a </span><span class="si">{</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">sample</span><span class="o">.</span><span class="n">is_a</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">synthesis</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> hasSynthesisTemperature -&gt; &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">synthesis</span><span class="o">.</span><span class="n">hasSynthesisTemperature</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sample</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> hasMeasuredCapacity -&gt; &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">sample</span><span class="o">.</span><span class="n">hasMeasuredCapacity</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LiFePO4_batch_07 is a [&#39;CathodeMaterial&#39;]
+synthesis_of_batch_07 hasSynthesisTemperature -&gt; [&#39;T_synthesis_batch_07&#39;]
+LiFePO4_batch_07 hasMeasuredCapacity -&gt; [&#39;capacity_batch_07&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, save the ontology to disk. This is a real, valid OWL file —
+exactly the kind of artefact EMMO itself is distributed as (just far
+larger), and one that any OWL-aware tool (Protégé, <code class="docutils literal notranslate"><span class="pre">owlready2</span></code>, <code class="docutils literal notranslate"><span class="pre">rdflib</span></code>,
+NOMAD’s schema tooling) can open.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">onto</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;mini_materials_onto.owl&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;rdfxml&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mini_materials_onto.owl&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Saved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s1"> characters of OWL/XML.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">[:</span><span class="mi">600</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">...&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved 2680 characters of OWL/XML.
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;rdf:RDF xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+         xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema#&quot;
+         xmlns:rdfs=&quot;http://www.w3.org/2000/01/rdf-schema#&quot;
+         xmlns:owl=&quot;http://www.w3.org/2002/07/owl#&quot;
+         xml:base=&quot;http://example.org/mini_materials_onto.owl&quot;
+         xmlns=&quot;http://example.org/mini_materials_onto.owl#&quot;&gt;
+
+&lt;owl:Ontology rdf:about=&quot;http://example.org/mini_materials_onto.owl&quot;/&gt;
+
+&lt;owl:ObjectProperty rdf:about=&quot;#hasQuantitativeProperty&quot;&gt;
+  &lt;rdfs:domain rdf:resource=&quot;#PhysicalEntity&quot;/&gt;
+  &lt;rdfs:range rdf:resource=&quot;#Quantity&quot;/&gt;
+&lt;
+...
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="hands-on-exploring-the-real-emmo">
+<h2>2.6 Hands-on: Exploring the Real EMMO<a class="headerlink" href="#hands-on-exploring-the-real-emmo" title="Link to this heading">#</a></h2>
+<p>Now let’s look at the real thing. EMMO is published as Turtle (<code class="docutils literal notranslate"><span class="pre">.ttl</span></code>), and
+<code class="docutils literal notranslate"><span class="pre">rdflib</span></code> can load it directly from its canonical URL — no download step
+needed, no account or API key required (this is a public ontology file, not
+a database query, so it fits the “conceptual, read-only” spirit of this
+part). Loading it fetches roughly 60,000 triples and can take a few seconds;
+if you have no internet connection right now, read the expected output in
+the surrounding text and come back to run this cell later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rdflib</span>
+
+<span class="n">emmo</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="n">emmo_loaded</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">emmo</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;https://w3id.org/emmo&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;turtle&#39;</span><span class="p">)</span>
+    <span class="n">emmo_loaded</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Loaded EMMO: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">emmo</span><span class="p">)</span><span class="si">}</span><span class="s1"> triples&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Could not reach EMMO right now (</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">).&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Skip ahead and re-run this cell later when you have a connection.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded EMMO: 61530 triples
+</pre></div>
+</div>
+</div>
+</div>
+<section id="reading-the-ontology-s-own-metadata">
+<h3>Reading the ontology’s own metadata<a class="headerlink" href="#reading-the-ontology-s-own-metadata" title="Link to this heading">#</a></h3>
+<p>An ontology describes itself, too — this is the same idea as the FAIR
+metadata from Notebook 1, applied to EMMO itself. Every well-published
+ontology should be able to answer “what version am I, who publishes me,
+under what licence?” directly from its own file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">emmo_loaded</span><span class="p">:</span>
+    <span class="n">q_meta</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    PREFIX dcterms: &lt;http://purl.org/dc/terms/&gt;</span>
+<span class="s2">    PREFIX owl: &lt;http://www.w3.org/2002/07/owl#&gt;</span>
+<span class="s2">    SELECT ?title ?version ?license ?homepage WHERE {</span>
+<span class="s2">        ?ont a owl:Ontology .</span>
+<span class="s2">        OPTIONAL { ?ont dcterms:title ?title }</span>
+<span class="s2">        OPTIONAL { ?ont owl:versionInfo ?version }</span>
+<span class="s2">        OPTIONAL { ?ont dcterms:license ?license }</span>
+<span class="s2">        OPTIONAL { ?ont &lt;http://xmlns.com/foaf/0.1/homepage&gt; ?homepage }</span>
+<span class="s2">    }</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">emmo</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">q_meta</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Title:   &#39;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Version: &#39;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Licence: &#39;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">license</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Homepage:&#39;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">homepage</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Title:    EMMO Maximal (EMAX)
+Version:  1.0.3
+Licence:  https://creativecommons.org/licenses/by/4.0/legalcode
+Homepage: https://github.com/emmo-repo/EMMO
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="walking-a-real-ancestor-chain-crystal">
+<h3>Walking a real ancestor chain: <code class="docutils literal notranslate"><span class="pre">Crystal</span></code><a class="headerlink" href="#walking-a-real-ancestor-chain-crystal" title="Link to this heading">#</a></h3>
+<p>This is the payoff of Section 2.2’s “is-a” idea, at full scale. We ask EMMO:
+<em>“what is a <code class="docutils literal notranslate"><span class="pre">Crystal</span></code>, ultimately?”</em> — and follow every <code class="docutils literal notranslate"><span class="pre">rdfs:subClassOf</span></code>
+link upward with a single SPARQL query using the <code class="docutils literal notranslate"><span class="pre">+</span></code> (one-or-more) path
+operator.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">find_class_by_label</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span>
+<span class="s2">    SELECT ?s WHERE </span><span class="se">{{</span><span class="s2"> ?s rdfs:label &quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;@en </span><span class="se">}}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span>
+<span class="s2">        SELECT ?s WHERE </span><span class="se">{{</span><span class="s2"> ?s rdfs:label ?l . FILTER(STR(?l) = &quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;) </span><span class="se">}}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">rows</span> <span class="k">else</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ancestor_chain</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">class_iri</span><span class="p">):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span>
+<span class="s2">    SELECT ?anc ?label WHERE </span><span class="se">{{</span>
+<span class="s2">        &lt;</span><span class="si">{</span><span class="n">class_iri</span><span class="si">}</span><span class="s2">&gt; rdfs:subClassOf+ ?anc .</span>
+<span class="s2">        FILTER(isIRI(?anc))</span>
+<span class="s2">        OPTIONAL </span><span class="se">{{</span><span class="s2"> ?anc rdfs:label ?label </span><span class="se">}}</span>
+<span class="s2">    </span><span class="se">}}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">label</span><span class="p">]</span>
+
+
+<span class="k">if</span> <span class="n">emmo_loaded</span><span class="p">:</span>
+    <span class="n">crystal_iri</span> <span class="o">=</span> <span class="n">find_class_by_label</span><span class="p">(</span><span class="n">emmo</span><span class="p">,</span> <span class="s1">&#39;Crystal&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Crystal IRI:&#39;</span><span class="p">,</span> <span class="n">crystal_iri</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Named ancestors of Crystal:&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ancestor_chain</span><span class="p">(</span><span class="n">emmo</span><span class="p">,</span> <span class="n">crystal_iri</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Crystal IRI: https://w3id.org/emmo#EMMO_0bb3b434_73aa_428f_b4e8_2a2468648e19
+Named ancestors of Crystal:
+  CrystallineMaterial
+  MaterialByStructure
+  MaterialByClassicalMaterialsScience
+  Material
+  OrdinaryMatter
+  MatterByType
+  Matter
+  PhysicalObject
+  InteractingSystem
+  GenericPhysicalSystem
+  CausalSystem
+  CausalCluster
+  Fusion
+  EMMO
+  CausalStructure
+  Item
+  Substance
+  MatterByStructure
+  CompositePhysicalObject
+  PhysicalObjectByBond
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that <code class="docutils literal notranslate"><span class="pre">Crystal</span></code> climbs through <code class="docutils literal notranslate"><span class="pre">CrystallineMaterial</span></code>, <code class="docutils literal notranslate"><span class="pre">Material</span></code>,
+<code class="docutils literal notranslate"><span class="pre">OrdinaryMatter</span></code>, <code class="docutils literal notranslate"><span class="pre">PhysicalObject</span></code>, all the way up to the root <code class="docutils literal notranslate"><span class="pre">Item</span></code> — a
+much deeper and more careful hierarchy than a spreadsheet dropdown could
+ever encode, and precisely why a query for “all <code class="docutils literal notranslate"><span class="pre">PhysicalObject</span></code>” would
+correctly retrieve a <code class="docutils literal notranslate"><span class="pre">Crystal</span></code> sample without you ever writing that
+connection by hand.</p>
+</section>
+<section id="the-payoff-a-quantity-is-modelled-as-a-sign">
+<h3>The payoff: a <em>quantity</em> is modelled as a <em>sign</em><a class="headerlink" href="#the-payoff-a-quantity-is-modelled-as-a-sign" title="Link to this heading">#</a></h3>
+<p>Now repeat the same query for <code class="docutils literal notranslate"><span class="pre">SpecificHeatCapacity</span></code> — a physical
+<strong>quantity</strong>, not a physical <strong>object</strong> like <code class="docutils literal notranslate"><span class="pre">Crystal</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">emmo_loaded</span><span class="p">:</span>
+    <span class="n">shc_iri</span> <span class="o">=</span> <span class="n">find_class_by_label</span><span class="p">(</span><span class="n">emmo</span><span class="p">,</span> <span class="s1">&#39;SpecificHeatCapacity&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SpecificHeatCapacity IRI:&#39;</span><span class="p">,</span> <span class="n">shc_iri</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Named ancestors of SpecificHeatCapacity:&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ancestor_chain</span><span class="p">(</span><span class="n">emmo</span><span class="p">,</span> <span class="n">shc_iri</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpecificHeatCapacity IRI: https://w3id.org/emmo#EMMO_b4f4ed28_d24c_4a00_9583_62ab839abeca
+Named ancestors of SpecificHeatCapacity:
+  ISQDerivedQuantity
+  DerivedQuantity
+  PhysicalQuantiyByDefinition
+  PhysicalQuantity
+  QuantityByPhysicalNature
+  Quantity
+  Property
+  CodedByStructure
+  Coded
+  Conventional
+  SignByReferent
+  Sign
+  SemioticEntity
+  Semiotics
+  Perspective
+  CausalStructure
+  Fusion
+  EMMO
+  Item
+  InternationalSystemOfQuantity
+  StandardizedPhysicalQuantity
+  Intensive
+  CategorizedPhysicalQuantity
+  ThermodynamicalQuantity
+  ISO80000Categorised
+</pre></div>
+</div>
+</div>
+</div>
+<p>Look closely at that list: <code class="docutils literal notranslate"><span class="pre">SpecificHeatCapacity</span></code> passes through <code class="docutils literal notranslate"><span class="pre">Sign</span></code>,
+<code class="docutils literal notranslate"><span class="pre">SemioticEntity</span></code>, and <code class="docutils literal notranslate"><span class="pre">Semiotics</span></code> on its way up — the same “semiotic
+perspective” mentioned in Section 2.4. EMMO is formally stating that a
+<em>quantity</em> (a number with a unit) is a <strong>sign that represents</strong> a real
+physical property, not the property itself. This is exactly the distinction
+Notebook 1 asked you to keep straight informally (“188 HV” is not the
+hardness itself, it is a <em>record</em> of the hardness) — EMMO simply makes it a
+first-class, queryable fact instead of a habit you have to remember.</p>
+</section>
+</section>
+<section id="seeing-the-ontology-as-a-graph">
+<h2>2.7 Seeing the Ontology as a Graph<a class="headerlink" href="#seeing-the-ontology-as-a-graph" title="Link to this heading">#</a></h2>
+<p>Everything built in Section 2.5 has been graph structure the whole time:
+classes linked by <code class="docutils literal notranslate"><span class="pre">is_a</span></code> edges, individuals linked to their classes, and
+individuals linked to <em>each other</em> by object properties
+(<code class="docutils literal notranslate"><span class="pre">hasSynthesisTemperature</span></code>, <code class="docutils literal notranslate"><span class="pre">hasMeasuredCapacity</span></code>). Drawing it as an actual
+graph makes that concrete — this is what people mean by <strong>knowledge
+graph</strong>: not a metaphor, a literal network of typed nodes and labelled
+edges that both a person and a SPARQL query can traverse.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+<span class="n">class_nodes</span><span class="p">,</span> <span class="n">ind_nodes</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">onto</span><span class="o">.</span><span class="n">classes</span><span class="p">():</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;class&#39;</span><span class="p">)</span>
+    <span class="n">class_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_a</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">parent</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;Thing&#39;</span><span class="p">:</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;is-a&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">onto</span><span class="o">.</span><span class="n">individuals</span><span class="p">():</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">ind</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;individual&#39;</span><span class="p">)</span>
+    <span class="n">ind_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ind</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">ind</span><span class="o">.</span><span class="n">is_a</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">ind</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;is-a&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">ind</span><span class="o">.</span><span class="n">get_properties</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">prop</span><span class="p">[</span><span class="n">ind</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+                <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">ind</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">prop</span><span class="o">.</span><span class="n">python_name</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Graph: </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span><span class="si">}</span><span class="s1"> nodes, </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span><span class="si">}</span><span class="s1"> edges&#39;</span><span class="p">)</span>
+
+<span class="c1"># This toy ontology has strict single inheritance, so the is-a + instance-of</span>
+<span class="c1"># edges form a real tree rooted at Item. Lay it out like a dendrogram instead</span>
+<span class="c1"># of a generic force-directed layout: each node&#39;s depth is its distance from</span>
+<span class="c1"># Item, and each parent is centred above the midpoint of its own children --</span>
+<span class="c1"># this gives a crossing-free hierarchy instead of a tangle of crossing edges.</span>
+<span class="n">is_a_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;is-a&#39;</span><span class="p">]</span>
+<span class="n">is_a_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">(</span><span class="n">is_a_edges</span><span class="p">)</span>
+
+<span class="n">depth</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Item&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">class_nodes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">cls</span> <span class="o">!=</span> <span class="s1">&#39;Item&#39;</span><span class="p">:</span>
+        <span class="n">depth</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path_length</span><span class="p">(</span><span class="n">is_a_graph</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="s1">&#39;Item&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">ind_nodes</span><span class="p">:</span>
+    <span class="n">parent_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">ind</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;is-a&#39;</span><span class="p">]</span>
+    <span class="n">depth</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">depth</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parent_classes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">children</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">is_a_edges</span><span class="p">:</span>
+    <span class="n">children</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+<span class="n">x_counter</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">pos_x</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">assign_x</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="n">kids</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">children</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="p">[]))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kids</span><span class="p">:</span>
+        <span class="n">pos_x</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">x_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kids</span><span class="p">:</span>
+        <span class="n">assign_x</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">pos_x</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pos_x</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kids</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">kids</span><span class="p">)</span>
+
+
+<span class="n">assign_x</span><span class="p">(</span><span class="s1">&#39;Item&#39;</span><span class="p">)</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="p">(</span><span class="n">pos_x</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="n">depth</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.6</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span> <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">pos_x</span><span class="p">}</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">nodelist</span><span class="o">=</span><span class="n">class_nodes</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;#a6c8ff&#39;</span><span class="p">,</span>
+                        <span class="n">node_shape</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">1700</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;#4472c4&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;class (is-a hierarchy)&#39;</span><span class="p">)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">nodelist</span><span class="o">=</span><span class="n">ind_nodes</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;#ffd27f&#39;</span><span class="p">,</span>
+                        <span class="n">node_shape</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">1100</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;#c99a2e&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;individual (real data)&#39;</span><span class="p">)</span>
+
+<span class="n">rel_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;is-a&#39;</span><span class="p">]</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edgelist</span><span class="o">=</span><span class="n">is_a_edges</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;#999999&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                        <span class="n">arrowsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">1700</span><span class="p">)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edgelist</span><span class="o">=</span><span class="n">rel_edges</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;#c0392b&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                        <span class="n">arrowsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">1.6</span><span class="p">,</span> <span class="n">connectionstyle</span><span class="o">=</span><span class="s1">&#39;arc3,rad=0.25&#39;</span><span class="p">,</span>
+                        <span class="n">node_size</span><span class="o">=</span><span class="mi">1100</span><span class="p">)</span>
+
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">edge_labels</span> <span class="o">=</span> <span class="p">{(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;is-a&#39;</span><span class="p">}</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edge_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="n">edge_labels</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+                              <span class="n">font_color</span><span class="o">=</span><span class="s1">&#39;#c0392b&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                              <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">scatterpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower center&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.08</span><span class="p">),</span>
+          <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Toy materials ontology as a knowledge graph</span><span class="se">\n</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;blue squares = classes (top-down is-a hierarchy); orange circles = individuals from Section 2.5&#39;</span><span class="p">,</span>
+              <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Graph: 13 nodes, 14 edges
+</pre></div>
+</div>
+<img alt="../../_images/0d1bb818d1f4c3a096d648f7b40b0c201edfc64f0c2c59743e9e7b2d611472f9.png" src="../../_images/0d1bb818d1f4c3a096d648f7b40b0c201edfc64f0c2c59743e9e7b2d611472f9.png" />
+</div>
+</div>
+<p>Notice the two edge colours doing different jobs: grey <strong>is-a</strong> edges are
+the taxonomy backbone from Section 2.2; red edges are the relations that
+make this a knowledge graph rather than a tree — <code class="docutils literal notranslate"><span class="pre">LiFePO4_batch_07</span></code>
+connects to <code class="docutils literal notranslate"><span class="pre">capacity_batch_07</span></code> via <code class="docutils literal notranslate"><span class="pre">hasMeasuredCapacity</span></code>, the same “has-a”
+relation described back in Section 2.2. A real EMMO-based dataset looks
+exactly like this, just with many more nodes.</p>
+</section>
+<section id="reasoning-getting-facts-you-never-typed-in">
+<h2>2.8 Reasoning: Getting Facts You Never Typed In<a class="headerlink" href="#reasoning-getting-facts-you-never-typed-in" title="Link to this heading">#</a></h2>
+<p>Every fact you have seen so far was one that a cell explicitly stated. An
+ontology’s class and property hierarchy also lets software <strong>derive new
+facts that logically follow</strong>, without anyone stating them directly — this
+is what “reasoning” means in the OWL sense, and it is the one capability
+the graph picture in Section 2.7 does not show you on its own.</p>
+<p>Recall from Section 2.5 that both <code class="docutils literal notranslate"><span class="pre">hasSynthesisTemperature</span></code> and
+<code class="docutils literal notranslate"><span class="pre">hasMeasuredCapacity</span></code> were declared as <strong>sub-properties</strong> of the more
+general <code class="docutils literal notranslate"><span class="pre">hasQuantitativeProperty</span></code>. That means “if X hasSynthesisTemperature
+Y, then X hasQuantitativeProperty Y” follows logically — but it was never
+<em>asserted</em>. Check the saved ontology file directly for
+<code class="docutils literal notranslate"><span class="pre">hasQuantitativeProperty</span></code> facts:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rdflib</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;mini_materials_onto.owl&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;xml&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Triples loaded:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+
+<span class="n">q_direct</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">PREFIX ex: &lt;http://example.org/mini_materials_onto.owl#&gt;</span>
+<span class="s2">SELECT ?s ?o WHERE { ?s ex:hasQuantitativeProperty ?o }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;hasQuantitativeProperty facts BEFORE reasoning:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">q_direct</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Triples loaded: 40
+hasQuantitativeProperty facts BEFORE reasoning: 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Zero — nobody wrote that triple by hand, only the more specific
+<code class="docutils literal notranslate"><span class="pre">hasSynthesisTemperature</span></code> and <code class="docutils literal notranslate"><span class="pre">hasMeasuredCapacity</span></code> triples exist in the
+file. Now bring in a reasoner. <code class="docutils literal notranslate"><span class="pre">owlrl</span></code> is a lightweight, pure-Python OWL-RL
+reasoner (no external solver or Java runtime required) that
+<strong>materialises</strong> every fact the ontology’s axioms logically entail,
+writing them into the graph as ordinary triples.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">owlrl</span>
+
+<span class="n">owlrl</span><span class="o">.</span><span class="n">DeductiveClosure</span><span class="p">(</span><span class="n">owlrl</span><span class="o">.</span><span class="n">OWLRL_Semantics</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Triples after reasoning:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;hasQuantitativeProperty facts AFTER reasoning:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">q_direct</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;-&gt;&#39;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">o</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Triples after reasoning: 253
+
+hasQuantitativeProperty facts AFTER reasoning:
+  synthesis_of_batch_07 -&gt; T_synthesis_batch_07
+  LiFePO4_batch_07 -&gt; capacity_batch_07
+</pre></div>
+</div>
+</div>
+</div>
+<p>The two facts that follow logically from the sub-property axioms are now
+real, queryable triples — even though neither was ever typed in directly.
+This is what reasoning buys you at scale: a query for “every individual’s
+quantitative properties” works correctly across <em>any</em> number of specific
+sub-relations someone adds later, without the query author needing to know
+all of their names in advance.</p>
+</section>
+<section id="closing-the-loop-synonymy-revisited">
+<h2>2.9 Closing the Loop: Synonymy, Revisited<a class="headerlink" href="#closing-the-loop-synonymy-revisited" title="Link to this heading">#</a></h2>
+<p>Section 2.1 opened with a concrete failure mode: “yield strength” and
+“0.2% proof stress” are the same physical quantity, but a script filtering
+on the exact string <code class="docutils literal notranslate"><span class="pre">&quot;yield_strength&quot;</span></code> will silently miss data recorded
+under the other name. Reproduce that failure, then fix it the ontology way.</p>
+<p>Suppose two labs record the same kind of measurement under their own
+naming habits:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">onto</span><span class="p">:</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">YieldStrength</span><span class="p">(</span><span class="n">Quantity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;0.2% proof stress and &#39;yield strength&#39; are the same EMMO concept.&quot;&quot;&quot;</span>
+
+<span class="n">sigma_y_labA</span> <span class="o">=</span> <span class="n">YieldStrength</span><span class="p">(</span><span class="s1">&#39;yield_strength_labA&#39;</span><span class="p">)</span>
+<span class="n">sigma_y_labB</span> <span class="o">=</span> <span class="n">YieldStrength</span><span class="p">(</span><span class="s1">&#39;proof_stress_02pct_labB&#39;</span><span class="p">)</span>
+
+<span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;yield_strength_labA&#39;</span><span class="p">,</span> <span class="s1">&#39;proof_stress_02pct_labB&#39;</span><span class="p">,</span> <span class="s1">&#39;T_synthesis_batch_07&#39;</span><span class="p">]</span>
+
+<span class="n">naive_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">column_names</span> <span class="k">if</span> <span class="s1">&#39;yield_strength&#39;</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Naive string search for &quot;yield_strength&quot;:&#39;</span><span class="p">,</span> <span class="n">naive_matches</span><span class="p">)</span>
+
+<span class="n">ontology_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">YieldStrength</span><span class="o">.</span><span class="n">instances</span><span class="p">()]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Ontology query for all YieldStrength individuals:  &#39;</span><span class="p">,</span> <span class="n">ontology_matches</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Naive string search for &quot;yield_strength&quot;: [&#39;yield_strength_labA&#39;]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ontology query for all YieldStrength individuals:   [&#39;yield_strength_labA&#39;, &#39;proof_stress_02pct_labB&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The naive string search finds exactly one of the two — Lab B’s column is
+silently missed, precisely the failure mode Section 2.1 described. The
+ontology query finds both, because it asks “which individuals are of type
+<code class="docutils literal notranslate"><span class="pre">YieldStrength</span></code>” rather than “which strings look like <code class="docutils literal notranslate"><span class="pre">yield_strength</span></code>” —
+class membership does not care what label a lab happened to use, which is
+the entire point of giving the concept one shared identity in the first
+place.</p>
+</section>
+<section id="catching-a-dimensionally-wrong-unit">
+<h2>2.10 Catching a Dimensionally Wrong Unit<a class="headerlink" href="#catching-a-dimensionally-wrong-unit" title="Link to this heading">#</a></h2>
+<p>Notebook 1’s <code class="docutils literal notranslate"><span class="pre">measurement.json</span></code> recorded a hardness of <strong>188 HV</strong> for
+sample <code class="docutils literal notranslate"><span class="pre">STL-2024-014</span></code> — <code class="docutils literal notranslate"><span class="pre">HV</span></code> (Vickers hardness) is not just a text label
+there, it names a real <em>kind</em> of unit. An ontology can encode “a
+<code class="docutils literal notranslate"><span class="pre">HardnessValue</span></code> must be expressed in a <code class="docutils literal notranslate"><span class="pre">HardnessUnit</span></code>” as a formal
+relationship, and then catch the kind of transcription mistake a bare CSV
+column of numbers would never flag: someone accidentally recording a
+hardness in <code class="docutils literal notranslate"><span class="pre">GPa</span></code> (a <em>pressure</em> unit, easy to reach for out of habit since
+hardness and pressure numbers get casually associated in conversation, but
+not the same dimension at all).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">onto</span><span class="p">:</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Unit</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">HardnessUnit</span><span class="p">(</span><span class="n">Unit</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">PressureUnit</span><span class="p">(</span><span class="n">Unit</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">HardnessValue</span><span class="p">(</span><span class="n">Quantity</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">hasUnit</span><span class="p">(</span><span class="n">Quantity</span> <span class="o">&gt;&gt;</span> <span class="n">Unit</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<span class="n">HV</span> <span class="o">=</span> <span class="n">HardnessUnit</span><span class="p">(</span><span class="s1">&#39;HV&#39;</span><span class="p">)</span>
+<span class="n">GPa</span> <span class="o">=</span> <span class="n">PressureUnit</span><span class="p">(</span><span class="s1">&#39;GPa&#39;</span><span class="p">)</span>
+
+<span class="n">expected_unit_class</span> <span class="o">=</span> <span class="p">{</span><span class="n">HardnessValue</span><span class="p">:</span> <span class="n">HardnessUnit</span><span class="p">}</span>
+
+<span class="c1"># STL-2024-014 is the real sample from Notebook 1&#39;s measurement.json (188 HV)</span>
+<span class="n">steel_hardness_good</span> <span class="o">=</span> <span class="n">HardnessValue</span><span class="p">(</span><span class="s1">&#39;STL-2024-014_hardness&#39;</span><span class="p">)</span>
+<span class="n">steel_hardness_good</span><span class="o">.</span><span class="n">hasUnit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">HV</span><span class="p">)</span>
+
+<span class="c1"># a second, fictional record with a transcription mistake</span>
+<span class="n">steel_hardness_bad</span> <span class="o">=</span> <span class="n">HardnessValue</span><span class="p">(</span><span class="s1">&#39;STL-2024-099_hardness&#39;</span><span class="p">)</span>
+<span class="n">steel_hardness_bad</span><span class="o">.</span><span class="n">hasUnit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">GPa</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_units</span><span class="p">(</span><span class="n">individuals</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Flag any individual whose declared unit isn&#39;t of the expected unit class.&quot;&quot;&quot;</span>
+    <span class="n">problems</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">individuals</span><span class="p">:</span>
+        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">ind</span><span class="o">.</span><span class="n">is_a</span><span class="p">:</span>
+            <span class="n">expected</span> <span class="o">=</span> <span class="n">expected_unit_class</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">expected</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">ind</span><span class="o">.</span><span class="n">hasUnit</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">expected</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unit</span><span class="o">.</span><span class="n">is_a</span><span class="p">:</span>
+                    <span class="n">problems</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ind</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">unit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">expected</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">problems</span>
+
+
+<span class="k">for</span> <span class="n">ind_name</span><span class="p">,</span> <span class="n">bad_unit</span><span class="p">,</span> <span class="n">expected_name</span> <span class="ow">in</span> <span class="n">check_units</span><span class="p">([</span><span class="n">steel_hardness_good</span><span class="p">,</span> <span class="n">steel_hardness_bad</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;MISMATCH: </span><span class="si">{</span><span class="n">ind_name</span><span class="si">}</span><span class="s1"> is declared in &quot;</span><span class="si">{</span><span class="n">bad_unit</span><span class="si">}</span><span class="s1">&quot;, &#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;but a HardnessValue should use a </span><span class="si">{</span><span class="n">expected_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MISMATCH: STL-2024-099_hardness is declared in &quot;GPa&quot;, but a HardnessValue should use a HardnessUnit
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">STL-2024-014_hardness</span></code> (using <code class="docutils literal notranslate"><span class="pre">HV</span></code>) passes silently; <code class="docutils literal notranslate"><span class="pre">STL-2024-099_hardness</span></code>
+(using <code class="docutils literal notranslate"><span class="pre">GPa</span></code>) is flagged, because the ontology knows <code class="docutils literal notranslate"><span class="pre">GPa</span></code> is a
+<code class="docutils literal notranslate"><span class="pre">PressureUnit</span></code>, not a <code class="docutils literal notranslate"><span class="pre">HardnessUnit</span></code> — a distinction that only exists
+because <code class="docutils literal notranslate"><span class="pre">Unit</span></code> itself was modelled as a class hierarchy, not a free-text
+field. A plain CSV column named <code class="docutils literal notranslate"><span class="pre">&quot;unit&quot;</span></code> holding the string <code class="docutils literal notranslate"><span class="pre">&quot;GPa&quot;</span></code> would
+never trigger this check; it would just be one more string, exactly the
+problem Section 2.1 opened with, now shown one level down at the level of
+units instead of quantities.</p>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Extend the toy ontology</strong>: In Section 2.5, add a new class <code class="docutils literal notranslate"><span class="pre">Alloy</span></code>
+(subclass of <code class="docutils literal notranslate"><span class="pre">MaterialObject</span></code>) and a new quantity class
+<code class="docutils literal notranslate"><span class="pre">TensileStrength</span></code> (subclass of <code class="docutils literal notranslate"><span class="pre">Quantity</span></code>), plus a relation
+<code class="docutils literal notranslate"><span class="pre">hasTensileStrength</span></code> connecting them (following the pattern of
+<code class="docutils literal notranslate"><span class="pre">hasMeasuredCapacity</span></code>). Create one individual of each and link them.</p></li>
+<li><p><strong>Ancestors of your own choice</strong>: Using <code class="docutils literal notranslate"><span class="pre">find_class_by_label</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ancestor_chain</span></code> from Section 2.6, look up the real EMMO ancestor chain
+for <code class="docutils literal notranslate"><span class="pre">&quot;Alloy&quot;</span></code> and for <code class="docutils literal notranslate"><span class="pre">&quot;Density&quot;</span></code> (if <code class="docutils literal notranslate"><span class="pre">emmo_loaded</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>). Are they
+under the same branch as <code class="docutils literal notranslate"><span class="pre">Crystal</span></code>, or different?</p></li>
+<li><p><strong>Compare vocabularies</strong>: Revisit the <code class="docutils literal notranslate"><span class="pre">fair_check</span></code> function from
+Notebook 1. Write one sentence for each FAIR letter explaining whether
+using EMMO IRIs (instead of plain strings) for the <code class="docutils literal notranslate"><span class="pre">quantity_kind_iri</span></code>
+field makes that letter easier or harder to satisfy, and why.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\02_data_handling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_fair_data_and_metadata.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">1. FAIR Data &amp; Metadata</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_databases_sql_nosql.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">3. Databases for FAIR Data: SQL and Document Stores</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-words-are-not-reliable-identifiers">2.1 The Problem: Words Are Not Reliable Identifiers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-ontology">2.2 What Is an Ontology?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controlled-vocabulary-vs-taxonomy-vs-ontology">2.3 Controlled Vocabulary vs. Taxonomy vs. Ontology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introducing-emmo">2.4 Introducing EMMO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-building-a-small-ontology-with-owlready2">2.5 Hands-on: Building a Small Ontology with <code class="docutils literal notranslate"><span class="pre">owlready2</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#individuals-describing-one-real-sample">Individuals: describing one real sample</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-exploring-the-real-emmo">2.6 Hands-on: Exploring the Real EMMO</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-ontology-s-own-metadata">Reading the ontology’s own metadata</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#walking-a-real-ancestor-chain-crystal">Walking a real ancestor chain: <code class="docutils literal notranslate"><span class="pre">Crystal</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-payoff-a-quantity-is-modelled-as-a-sign">The payoff: a <em>quantity</em> is modelled as a <em>sign</em></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seeing-the-ontology-as-a-graph">2.7 Seeing the Ontology as a Graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reasoning-getting-facts-you-never-typed-in">2.8 Reasoning: Getting Facts You Never Typed In</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#closing-the-loop-synonymy-revisited">2.9 Closing the Loop: Synonymy, Revisited</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#catching-a-dimensionally-wrong-unit">2.10 Catching a Dimensionally Wrong Unit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

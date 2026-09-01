@@ -1,0 +1,1350 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Course Project: Independent Data Analysis &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/06_project/project';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Data Access Guide" href="data_access.html" />
+    <link rel="prev" title="20. Neural Networks and Deep Learning Basics" href="../05_ml/05_neural_networks.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Course Project: Independent Data Analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/06_project/project.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/06_project/project.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../../_sources/chapters/06_project/project.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Course Project: Independent Data Analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-outcomes">Learning Outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deliverables">Deliverables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presentation-format-10-minutes">Presentation Format (10 Minutes)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-databases">Suggested Databases</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#materials-project">1. Materials Project</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matbench-ready-to-use-benchmark-datasets">2. MatBench — ready-to-use benchmark datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aflow-high-throughput-computational-materials">3. AFLOW — High-Throughput Computational Materials</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uci-machine-learning-repository-materials-datasets">4. UCI Machine Learning Repository — Materials Datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zenodo-figshare-dataset-from-published-papers">5. Zenodo &amp; Figshare — Dataset from Published Papers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nist-standard-reference-database">6. NIST Standard Reference Database</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-project-topics">Suggested Project Topics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-a-alloy-strength-prediction-steel-strength-dataset">Project A — Alloy Strength Prediction (steel_strength dataset)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-b-ceramic-compressive-strength-concrete-dataset">Project B — Ceramic Compressive Strength (Concrete dataset)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-c-glass-composition-classification-glass-dataset">Project C — Glass Composition Classification (Glass dataset)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-d-materials-project-band-gap-prediction">Project D — Materials Project Band Gap Prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-e-superconductor-critical-temperature">Project E — Superconductor Critical Temperature</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-analysis-requirements">Minimum Analysis Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grading-criteria">Grading Criteria</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-fast-exploration-and-featurization">Tips: Fast Exploration and Featurization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-eda-with-ydata-profiling">Automated EDA with <code class="docutils literal notranslate"><span class="pre">ydata-profiling</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#featurizing-chemical-formulae-with-cbfv">Featurizing chemical formulae with CBFV</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start-template">Quick-Start Template</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="course-project-independent-data-analysis">
+<h1>Course Project: Independent Data Analysis<a class="headerlink" href="#course-project-independent-data-analysis" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The course project gives you the opportunity to integrate everything you have
+learned — from descriptive statistics and hypothesis testing through multivariate
+analysis and experimental design — in a realistic materials science context of
+your own choosing.</p>
+<p>You will:</p>
+<ol class="arabic simple">
+<li><p><strong>Select</strong> a publicly available materials science dataset</p></li>
+<li><p><strong>Explore</strong> it with statistical and multivariate methods</p></li>
+<li><p><strong>Model</strong> one or more responses using regression, PLS, or DoE methods</p></li>
+<li><p><strong>Document</strong> your analysis in a reproducible Jupyter Notebook</p></li>
+<li><p><strong>Present</strong> your findings in a 10-minute talk — this presentation, not a
+written hand-in, is the graded deliverable (see “Presentation Format”
+below)</p></li>
+</ol>
+<p>Optionally, you may also <strong>compare</strong> classical methods with one or more
+AI/ML approaches from Part VI of this course (clustering, GPR, ensemble methods,
+neural networks).</p>
+</section>
+<hr class="docutils" />
+<section id="learning-outcomes">
+<h2>Learning Outcomes<a class="headerlink" href="#learning-outcomes" title="Link to this heading">#</a></h2>
+<p>By completing this project you will have demonstrated the ability to:</p>
+<ul class="simple">
+<li><p>Import, clean, and describe a real dataset (Parts I–III)</p></li>
+<li><p>Document that dataset’s origin, licence, and variable definitions well
+enough for someone else to reuse it (Part II)</p></li>
+<li><p>Apply multivariate analysis and dimensionality reduction (Part IV)</p></li>
+<li><p>Design or interpret an existing experimental design and optimise a response
+(Part V)</p></li>
+<li><p>Interpret all results in their physical/chemical context</p></li>
+<li><p>(Optional) Apply at least one AI/ML method from Part VI and compare its
+performance with a classical approach</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="deliverables">
+<h2>Deliverables<a class="headerlink" href="#deliverables" title="Link to this heading">#</a></h2>
+<p>There is no written report to hand in. The graded deliverable is a
+<strong>10-minute presentation</strong> of your results (see “Presentation Format”
+below). That talk is backed by a single <strong>Jupyter Notebook</strong> (<code class="docutils literal notranslate"><span class="pre">.ipynb</span></code>) that a marker can run
+top-to-bottom without errors — it is where your analysis actually lives and
+is checked for reproducibility, but you will not submit it as a stand-alone
+report. Structure the notebook the same way you will structure the talk, so
+that preparing one prepares the other:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Section</p></th>
+<th class="head"><p>Content</p></th>
+<th class="head"><p>Approx. length</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Introduction</strong></p></td>
+<td><p>Physical context, research question, why the dataset is relevant</p></td>
+<td><p>~0.5 page</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. Data description</strong></p></td>
+<td><p>Source, licence, variables, units, sample size (i.e. minimal FAIR metadata — Part II); descriptive statistics and visualisation</p></td>
+<td><p>~1 page</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Hypothesis / question</strong></p></td>
+<td><p>Clearly stated hypothesis or optimisation goal</p></td>
+<td><p>2–4 sentences</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Methods</strong></p></td>
+<td><p>Methods chosen from the course with justification</p></td>
+<td><p>~0.5 page</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. Results</strong></p></td>
+<td><p>Figures and tables with captions; all code that produces them</p></td>
+<td><p>~2–3 pages</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>6. Interpretation</strong></p></td>
+<td><p>Physical/chemical meaning of findings</p></td>
+<td><p>~1 page</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>7. (Optional) ML comparison</strong></p></td>
+<td><p>Apply ≥ 1 ML method, compare metrics to classical approach</p></td>
+<td><p>~0.5–1 page</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>8. Conclusions</strong></p></td>
+<td><p>Key findings, limitations, suggested next steps</p></td>
+<td><p>~0.5 page</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>References</strong></p></td>
+<td><p>Dataset citation + key methodological references</p></td>
+<td><p>APA or numeric style</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="presentation-format-10-minutes">
+<h2>Presentation Format (10 Minutes)<a class="headerlink" href="#presentation-format-10-minutes" title="Link to this heading">#</a></h2>
+<p>Ten minutes is short — about the length of one full lap of the notebook
+sections above, at roughly <strong>one slide per minute</strong>. The single biggest risk
+is running out of time before reaching your results, so the timing below
+front-loads the parts a marker can assess in seconds (what did you do, and
+why) and protects a solid block for the parts that actually demonstrate your
+analysis (what did you find, and what does it mean).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Section</p></th>
+<th class="head"><p>Suggested time</p></th>
+<th class="head"><p>Cumulative</p></th>
+<th class="head"><p>Slides</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Introduction &amp; research question</p></td>
+<td><p>1:00</p></td>
+<td><p>1:00</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Data description (source, size, cleaning)</p></td>
+<td><p>1:30</p></td>
+<td><p>2:30</p></td>
+<td><p>1–2</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Hypothesis / optimisation goal</p></td>
+<td><p>0:30</p></td>
+<td><p>3:00</p></td>
+<td><p>1 (can share a slide with §1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Methods, with justification</p></td>
+<td><p>1:00</p></td>
+<td><p>4:00</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p><strong>Results</strong> — figures, tables, key numbers</p></td>
+<td><p>3:30</p></td>
+<td><p>7:30</p></td>
+<td><p>3–4</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Interpretation — physical/chemical meaning</p></td>
+<td><p>1:00</p></td>
+<td><p>8:30</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>(Optional) ML comparison</p></td>
+<td><p>0:45</p></td>
+<td><p>9:15</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>Conclusions, limitations, next steps</p></td>
+<td><p>0:45</p></td>
+<td><p>10:00</p></td>
+<td><p>1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>If you skip the optional ML comparison (item 7), give its 45 seconds to
+Results or Interpretation instead — do not compress the whole talk to leave
+a gap. Aim for <strong>8–10 slides total</strong>; a title slide and a “questions/backup”
+slide with material you expect to be asked about (a table you didn’t have
+room for, an alternative model you tried) do not count against the ten
+minutes and are worth preparing.</p>
+<p><strong>Delivery tips</strong>:</p>
+<ul class="simple">
+<li><p>Rehearse with a timer at least once, out loud, before the real thing — the
+first read-through is always longer than you expect.</p></li>
+<li><p>Show finished plots (exported as static images), not a live-running
+notebook — re-running cells live burns time unpredictably and risks a
+crash mid-talk. Keep the notebook itself as a backup/reproducibility
+artifact, not your presentation surface.</p></li>
+<li><p>One clear message per results slide beats a dense grid of subplots; if a
+figure needs more than 15 seconds of explanation to make its point, it
+is probably two slides.</p></li>
+<li><p>Practise the transition into Results (end of §4) and out of it (start of
+§6) — that boundary is where talks most often lose the thread under time
+pressure.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="suggested-databases">
+<h2>Suggested Databases<a class="headerlink" href="#suggested-databases" title="Link to this heading">#</a></h2>
+<section id="materials-project">
+<h3>1. Materials Project<a class="headerlink" href="#materials-project" title="Link to this heading">#</a></h3>
+<p><strong>URL</strong>: <a class="reference external" href="https://materialsproject.org">materialsproject.org</a><br />
+<strong>Type</strong>: DFT-computed properties of inorganic crystals<br />
+<strong>Size</strong>: &gt;150 000 materials<br />
+<strong>Good for</strong>: band gap prediction, formation energy, elastic constants, PCA of
+crystal structure features, clustering by composition</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Requires: pip install mp-api</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mp_api.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPRester</span>
+
+<span class="k">with</span> <span class="n">MPRester</span><span class="p">(</span><span class="s2">&quot;YOUR_API_KEY&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>   <span class="c1"># free API key at materialsproject.org</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="n">mpr</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+        <span class="n">elements</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Fe&quot;</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="p">],</span>
+        <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;material_id&quot;</span><span class="p">,</span> <span class="s2">&quot;formula_pretty&quot;</span><span class="p">,</span> <span class="s2">&quot;band_gap&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;formation_energy_per_atom&quot;</span><span class="p">,</span> <span class="s2">&quot;energy_above_hull&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="s2">&quot;volume&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="n">df_mp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">d</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Example questions</strong>:</p>
+<ul class="simple">
+<li><p>Do different iron-oxide polymorphs form distinct clusters in PCA space?</p></li>
+<li><p>Can MLR or PLS predict the band gap from structural features?</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="matbench-ready-to-use-benchmark-datasets">
+<h3>2. MatBench — ready-to-use benchmark datasets<a class="headerlink" href="#matbench-ready-to-use-benchmark-datasets" title="Link to this heading">#</a></h3>
+<p><strong>URL</strong>: <a class="reference external" href="https://matbench.chemml.io">matbench.chemml.io</a> /
+<a class="reference external" href="https://hackingmaterials.lbl.gov/matminer/">matminer</a><br />
+<strong>Type</strong>: Curated property-prediction datasets (experimental + computed)<br />
+<strong>Access</strong>: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">matminer</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matminer.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+
+<span class="c1"># Steel fatigue/strength dataset (300+ alloys, 6 composition + process features)</span>
+<span class="n">df_steel</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;steel_strength&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_steel</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_steel</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="c1"># Experimental band gaps (~4600 materials)</span>
+<span class="n">df_gap</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;matbench_expt_gap&quot;</span><span class="p">)</span>
+
+<span class="c1"># Dielectric constant (4764 DFT computed)</span>
+<span class="n">df_diel</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;matbench_dielectric&quot;</span><span class="p">)</span>
+
+<span class="c1"># Superconductor critical temperature (~16 000 compounds)</span>
+<span class="n">df_sc</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;matbench_superconductivity&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dataset</p></th>
+<th class="head"><p>n</p></th>
+<th class="head"><p>Features</p></th>
+<th class="head"><p>Response</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">steel_strength</span></code></p></td>
+<td><p>312</p></td>
+<td><p>6 (C, Mn, Si, Cr, Ni, Mo + process)</p></td>
+<td><p>UTS (MPa)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matbench_expt_gap</span></code></p></td>
+<td><p>4604</p></td>
+<td><p>formula string</p></td>
+<td><p>Eg (eV)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">matbench_dielectric</span></code></p></td>
+<td><p>4764</p></td>
+<td><p>structure</p></td>
+<td><p>Dielectric constant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matbench_superconductivity</span></code></p></td>
+<td><p>16 414</p></td>
+<td><p>formula + Eg</p></td>
+<td><p>Tc (K)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Example questions (steel dataset)</strong>:</p>
+<ul class="simple">
+<li><p>Which alloying elements most strongly affect tensile strength? (MLR, PLS)</p></li>
+<li><p>Are there compositionally distinct clusters? (K-Means, PCA)</p></li>
+<li><p>Fit a surrogate and predict the optimal composition for maximum UTS (GPR, BO)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="aflow-high-throughput-computational-materials">
+<h3>3. AFLOW — High-Throughput Computational Materials<a class="headerlink" href="#aflow-high-throughput-computational-materials" title="Link to this heading">#</a></h3>
+<p><strong>URL</strong>: <a class="reference external" href="http://aflow.org">aflow.org</a><br />
+<strong>Access</strong>: REST API or <code class="docutils literal notranslate"><span class="pre">aflow</span></code> Python package</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install aflow</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">aflow</span>
+
+<span class="c1"># Fetch binary oxides with band gap data</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">(</span><span class="n">aflow</span><span class="o">.</span><span class="n">search</span><span class="p">()</span>
+           <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">aflow</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">nspecies</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">aflow</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">Egap</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">aflow</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">compound</span><span class="p">,</span>
+                   <span class="n">aflow</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">Egap</span><span class="p">,</span>
+                   <span class="n">aflow</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">energy_atom</span><span class="p">,</span>
+                   <span class="n">aflow</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">agl_thermal_conductivity_300K</span><span class="p">,</span>
+                   <span class="n">aflow</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">density</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">orderby</span><span class="p">(</span><span class="n">aflow</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">Egap</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="n">df_aflow</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="uci-machine-learning-repository-materials-datasets">
+<h3>4. UCI Machine Learning Repository — Materials Datasets<a class="headerlink" href="#uci-machine-learning-repository-materials-datasets" title="Link to this heading">#</a></h3>
+<p><strong>URL</strong>: <a class="reference external" href="https://archive.ics.uci.edu">archive.ics.uci.edu</a></p>
+<p>Readily accessible via <code class="docutils literal notranslate"><span class="pre">pandas</span></code> or <code class="docutils literal notranslate"><span class="pre">ucimlrepo</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install ucimlrepo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ucimlrepo</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_ucirepo</span>
+
+<span class="c1"># Concrete compressive strength (1030 samples, 8 mix design + age → strength)</span>
+<span class="n">concrete</span> <span class="o">=</span> <span class="n">fetch_ucirepo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">165</span><span class="p">)</span>
+<span class="n">df_concrete</span> <span class="o">=</span> <span class="n">concrete</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">concrete</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span>
+
+<span class="c1"># Steel plates faults (1941 samples, 27 features, 7 fault types)</span>
+<span class="n">steel_faults</span> <span class="o">=</span> <span class="n">fetch_ucirepo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">198</span><span class="p">)</span>
+
+<span class="c1"># Glass identification (214 samples, 9 oxide % → glass type)</span>
+<span class="n">glass</span> <span class="o">=</span> <span class="n">fetch_ucirepo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">df_glass</span> <span class="o">=</span> <span class="n">glass</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">glass</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ID</p></th>
+<th class="head"><p>Dataset</p></th>
+<th class="head"><p>n</p></th>
+<th class="head"><p>Variables</p></th>
+<th class="head"><p>Suggested analysis</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>165</p></td>
+<td><p>Concrete compressive strength</p></td>
+<td><p>1030</p></td>
+<td><p>8 mix + age</p></td>
+<td><p>MLR, RSM, RF</p></td>
+</tr>
+<tr class="row-odd"><td><p>42</p></td>
+<td><p>Glass identification</p></td>
+<td><p>214</p></td>
+<td><p>9 oxide %</p></td>
+<td><p>PCA, LDA, clustering</p></td>
+</tr>
+<tr class="row-even"><td><p>109</p></td>
+<td><p>Wine quality (proxy for ceramics QC)</p></td>
+<td><p>6497</p></td>
+<td><p>11 physicochemical</p></td>
+<td><p>PLS, RF, clustering</p></td>
+</tr>
+<tr class="row-odd"><td><p>462</p></td>
+<td><p>Corrosion of carbon steel</p></td>
+<td><p>1000</p></td>
+<td><p>7 environmental</p></td>
+<td><p>Regression, BO</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="zenodo-figshare-dataset-from-published-papers">
+<h3>5. Zenodo &amp; Figshare — Dataset from Published Papers<a class="headerlink" href="#zenodo-figshare-dataset-from-published-papers" title="Link to this heading">#</a></h3>
+<p><strong>URL</strong>: <a class="reference external" href="https://zenodo.org">zenodo.org</a> | <a class="reference external" href="https://figshare.com">figshare.com</a></p>
+<p>Search with keywords like <em>“materials data”</em>, <em>“perovskite dataset”</em>,
+<em>“ionic conductivity dataset”</em>, etc. Most entries include a DOI-linked CSV.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Example: dataset from a published paper (replace URL with the actual Zenodo link)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://zenodo.org/record/XXXXXXX/files/dataset.csv&quot;</span>
+<span class="n">df_pub</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="nist-standard-reference-database">
+<h3>6. NIST Standard Reference Database<a class="headerlink" href="#nist-standard-reference-database" title="Link to this heading">#</a></h3>
+<p><strong>URL</strong>: <a class="reference external" href="https://www.nist.gov/srd">nist.gov/srd</a></p>
+<p>NIST provides thermophysical, mechanical, and spectroscopic data for a
+wide range of materials and compounds. Data can be downloaded as CSV or accessed
+via the NIST Chemistry WebBook API.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="suggested-project-topics">
+<h2>Suggested Project Topics<a class="headerlink" href="#suggested-project-topics" title="Link to this heading">#</a></h2>
+<p>Below are five concrete project suggestions to help you get started. You are
+welcome to choose your own topic as long as it has a materials science context
+and is sufficiently complex (see requirements above).</p>
+<hr class="docutils" />
+<section id="project-a-alloy-strength-prediction-steel-strength-dataset">
+<h3>Project A — Alloy Strength Prediction (steel_strength dataset)<a class="headerlink" href="#project-a-alloy-strength-prediction-steel-strength-dataset" title="Link to this heading">#</a></h3>
+<p><strong>Dataset</strong>: <code class="docutils literal notranslate"><span class="pre">matminer</span></code> → <code class="docutils literal notranslate"><span class="pre">steel_strength</span></code> (n = 312)<br />
+<strong>Analysis pathway</strong>:</p>
+<ol class="arabic simple">
+<li><p>Descriptive statistics and pairwise correlation plot</p></li>
+<li><p>PCA to visualise compositional space</p></li>
+<li><p>MLR and PLS to predict UTS; compare Q² values</p></li>
+<li><p>Feature importance: PLS VIP scores vs RF feature importances</p></li>
+<li><p>(Optional) GPR surrogate + BO to find the composition that maximises UTS</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="project-b-ceramic-compressive-strength-concrete-dataset">
+<h3>Project B — Ceramic Compressive Strength (Concrete dataset)<a class="headerlink" href="#project-b-ceramic-compressive-strength-concrete-dataset" title="Link to this heading">#</a></h3>
+<p><strong>Dataset</strong>: UCI ID 165 — concrete compressive strength<br />
+<strong>Analysis pathway</strong>:</p>
+<ol class="arabic simple">
+<li><p>Exploratory data analysis; identify non-linear relationships</p></li>
+<li><p>Full-factorial subset from the dataset at 2 levels of water/cement and age</p></li>
+<li><p>Fit RSM quadratic model; estimate optimum w/c ratio</p></li>
+<li><p>Compare MLR vs GBM vs RF predictions (cross-validated RMSECV)</p></li>
+<li><p>(Optional) Bayesian optimisation to maximise strength over the design space</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="project-c-glass-composition-classification-glass-dataset">
+<h3>Project C — Glass Composition Classification (Glass dataset)<a class="headerlink" href="#project-c-glass-composition-classification-glass-dataset" title="Link to this heading">#</a></h3>
+<p><strong>Dataset</strong>: UCI ID 42 — glass identification<br />
+<strong>Analysis pathway</strong>:</p>
+<ol class="arabic simple">
+<li><p>Descriptive stats per glass type; box plots of oxide %</p></li>
+<li><p>PCA — do different glass types separate in the score plot?</p></li>
+<li><p>LDA — discriminant functions for classification; confusion matrix</p></li>
+<li><p>Clustering (K-Means, hierarchical) — do clusters match known types?</p></li>
+<li><p>(Optional) Random Forest classification; compare accuracy with LDA</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="project-d-materials-project-band-gap-prediction">
+<h3>Project D — Materials Project Band Gap Prediction<a class="headerlink" href="#project-d-materials-project-band-gap-prediction" title="Link to this heading">#</a></h3>
+<p><strong>Dataset</strong>: Materials Project REST API (band gaps of binary or ternary oxides)<br />
+<strong>Analysis pathway</strong>:</p>
+<ol class="arabic simple">
+<li><p>Fetch 200–500 compounds; compute simple descriptors (electronegativity
+difference, cation charge, anion radius, …)</p></li>
+<li><p>MLR and PLS on the descriptors vs <span class="math notranslate nohighlight">\(E_g\)</span></p></li>
+<li><p>PCA to identify chemical groups</p></li>
+<li><p>RF and GBM regression; compare RMSE with PLS</p></li>
+<li><p>(Optional) GPR for uncertainty-aware prediction</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="project-e-superconductor-critical-temperature">
+<h3>Project E — Superconductor Critical Temperature<a class="headerlink" href="#project-e-superconductor-critical-temperature" title="Link to this heading">#</a></h3>
+<p><strong>Dataset</strong>: <code class="docutils literal notranslate"><span class="pre">matbench_superconductivity</span></code> (Tc ≥ 0, ~16 k compounds)<br />
+<strong>Analysis pathway</strong>:</p>
+<ol class="arabic simple">
+<li><p>Exploratory analysis: distribution of Tc; identify chemical families</p></li>
+<li><p>Compute Magpie-style elemental features with <code class="docutils literal notranslate"><span class="pre">matminer</span></code></p></li>
+<li><p>PLS regression; select optimal components with cross-validation</p></li>
+<li><p>Gradient Boosting and Random Forest; feature importance</p></li>
+<li><p>(Optional) Clustering by Tc range and elemental family; t-SNE visualisation</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="minimum-analysis-requirements">
+<h2>Minimum Analysis Requirements<a class="headerlink" href="#minimum-analysis-requirements" title="Link to this heading">#</a></h2>
+<p>Your project must include <strong>at least four</strong> of the following:</p>
+<ul class="simple">
+<li><p>[ ] Descriptive statistics (mean, std, IQR, pairwise correlation)</p></li>
+<li><p>[ ] At least one statistical test (t-test, ANOVA, or <span class="math notranslate nohighlight">\(\chi^2\)</span>)</p></li>
+<li><p>[ ] A regression model (MLR or PLS) with cross-validated <span class="math notranslate nohighlight">\(Q^2\)</span></p></li>
+<li><p>[ ] PCA or LDA with a properly labelled score plot</p></li>
+<li><p>[ ] An experimental design interpretation or optimization (DoE, RSM, or BO)</p></li>
+<li><p>[ ] A comparison between at least two modelling approaches with a common metric</p></li>
+</ul>
+<p>If you include an AI/ML method (Part VI), this replaces the optional item and
+counts toward the four minimum requirements.</p>
+</section>
+<hr class="docutils" />
+<section id="grading-criteria">
+<h2>Grading Criteria<a class="headerlink" href="#grading-criteria" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Criterion</p></th>
+<th class="head"><p>Weight</p></th>
+<th class="head"><p>Excellent (A)</p></th>
+<th class="head"><p>Satisfactory (C)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Reproducibility</strong></p></td>
+<td><p>20 %</p></td>
+<td><p>Notebook runs without errors; all cells output correct results</p></td>
+<td><p>Minor issues, all fixable in &lt; 5 min</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Depth of analysis</strong></p></td>
+<td><p>25 %</p></td>
+<td><p>≥ 4 methods applied, all with cross-validation/significance tests</p></td>
+<td><p>3 methods, some without validation</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Physical interpretation</strong></p></td>
+<td><p>25 %</p></td>
+<td><p>Every result is interpreted in terms of materials science</p></td>
+<td><p>Results presented without context</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Visualisation</strong></p></td>
+<td><p>15 %</p></td>
+<td><p>Publication-quality figures with proper labels, captions</p></td>
+<td><p>Adequate plots, missing labels</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Presentation &amp; structure</strong></p></td>
+<td><p>15 %</p></td>
+<td><p>All 8 sections covered, on time (±30 s), clear delivery</p></td>
+<td><p>Most sections present; noticeably over/under time</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tips-fast-exploration-and-featurization">
+<h2>Tips: Fast Exploration and Featurization<a class="headerlink" href="#tips-fast-exploration-and-featurization" title="Link to this heading">#</a></h2>
+<p>Two techniques from the course’s <strong>Advanced Regression</strong> exercise
+(<a class="reference external" href="https://colab.research.google.com/github/peterbmob/DHMVADoE/blob/main/Excercises/AdvancedRegression_new.ipynb">open in Colab</a>)
+are worth reusing directly in your project — they turn two of the more
+time-consuming steps (Section 2: Data description, and turning raw chemical
+formulae into model-ready numbers) into a few lines of code.</p>
+<section id="automated-eda-with-ydata-profiling">
+<h3>Automated EDA with <code class="docutils literal notranslate"><span class="pre">ydata-profiling</span></code><a class="headerlink" href="#automated-eda-with-ydata-profiling" title="Link to this heading">#</a></h3>
+<p>Instead of hand-writing <code class="docutils literal notranslate"><span class="pre">.describe()</span></code>, histograms, and a correlation
+heatmap one at a time for Section 2, generate a full exploratory report in
+one call:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install ydata-profiling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ydata_profiling</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProfileReport</span>
+
+<span class="n">profile</span> <span class="o">=</span> <span class="n">ProfileReport</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Profiling Report&#39;</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;full_width&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}})</span>
+<span class="n">profile</span><span class="o">.</span><span class="n">to_notebook_iframe</span><span class="p">()</span>      <span class="c1"># inline in Jupyter/Colab</span>
+<span class="c1"># profile.to_file(&#39;report.html&#39;)  # or save as a standalone HTML file</span>
+</pre></div>
+</div>
+<p>In under a minute this gives you missing-value counts, per-variable
+distributions, warnings for unrealistic values (negative temperatures,
+implausible outliers), and a full pairwise correlation matrix — everything
+Section 2 of the notebook template asks for, plus a “high cardinality”
+warning that flags, for example, when a composition column has far fewer
+unique formulae than rows — exactly the situation that makes the leakage-safe
+split below necessary. Export or screenshot the two or three most
+informative panels (missing-values overview, top correlations) for your
+Data slide rather than the raw report — the report itself is for your own
+exploration, not for the audience.</p>
+</section>
+<section id="featurizing-chemical-formulae-with-cbfv">
+<h3>Featurizing chemical formulae with CBFV<a class="headerlink" href="#featurizing-chemical-formulae-with-cbfv" title="Link to this heading">#</a></h3>
+<p>Several suggested datasets (<code class="docutils literal notranslate"><span class="pre">matbench_expt_gap</span></code>, <code class="docutils literal notranslate"><span class="pre">matbench_superconductivity</span></code>,
+and the NIST-JANAF heat-capacity data used in the Advanced Regression
+exercise) give you only a <strong>chemical formula string</strong> (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Fe2O3&quot;</span></code>) as
+input — not usable directly by MLR, PLS, PCA, or any <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> model,
+all of which need numeric features. <strong>CBFV</strong> (composition-based feature
+vectors) solves this by converting a formula into a numeric vector using
+tables of elemental properties (electronegativity, atomic radius, valence
+electron count, …), one of the standard featurization approaches described
+in <a class="reference external" href="https://pubs.acs.org/doi/full/10.1021/acs.chemmater.0c01907">Machine Learning for Materials Scientists: An Introductory Guide toward
+Best Practices</a>,
+which the Advanced Regression exercise follows step by step.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone once per session (Colab/Jupyter shell syntax — drop the leading &quot;!&quot;</span>
+<span class="c1"># for a plain terminal)</span>
+!git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Kaaiian/CBFV.git
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">CBFV.cbfv.composition</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_features</span>
+
+<span class="c1"># generate_features expects a DataFrame with a &#39;formula&#39; column and a</span>
+<span class="c1"># &#39;target&#39; column -- rename your response column first</span>
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Cp&#39;</span><span class="p">:</span> <span class="s1">&#39;target&#39;</span><span class="p">})</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">formulae_train</span><span class="p">,</span> <span class="n">skipped_train</span> <span class="o">=</span> <span class="n">generate_features</span><span class="p">(</span>
+    <span class="n">df_train</span><span class="p">,</span>
+    <span class="n">elem_prop</span><span class="o">=</span><span class="s1">&#39;oliynyk&#39;</span><span class="p">,</span>      <span class="c1"># or &#39;magpie&#39;, &#39;jarvis&#39;, &#39;mat2vec&#39;, ...</span>
+    <span class="n">drop_duplicates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>    <span class="c1"># keep repeated formulae measured under different conditions</span>
+    <span class="n">extend_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>     <span class="c1"># carry extra columns (e.g. temperature) through as features</span>
+    <span class="n">sum_feat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>            <span class="c1"># add sum-based, not just mean-based, elemental features</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Two gotchas the exercise notebook demonstrates, both worth avoiding from
+the start:</p>
+<ul class="simple">
+<li><p><strong>Split by formula, not by row, before featurizing.</strong> The same compound
+measured under several conditions (e.g. heat capacity at different
+temperatures) produces multiple rows with the same formula. A plain
+<code class="docutils literal notranslate"><span class="pre">train_test_split</span></code> on rows lets the same compound leak into both the
+training and test sets, so the model can “memorise” it instead of
+generalising — inflating your test score. Get the list of unique
+formulae first, split <em>that</em> list into train/val/test, then filter the
+row-level DataFrame by which set each formula landed in.</p></li>
+<li><p><strong>Scale (and optionally normalise) <em>after</em> featurizing, fit only on the
+training set.</strong> <code class="docutils literal notranslate"><span class="pre">StandardScaler().fit_transform()</span></code> on <code class="docutils literal notranslate"><span class="pre">X_train</span></code>, then
+<code class="docutils literal notranslate"><span class="pre">.transform()</span></code> (never <code class="docutils literal notranslate"><span class="pre">.fit_transform()</span></code> again) on <code class="docutils literal notranslate"><span class="pre">X_val</span></code>/<code class="docutils literal notranslate"><span class="pre">X_test</span></code> —
+exactly as in Part IV’s PCA/PLS notebooks — since fitting the scaler on
+data that includes the validation or test set is another, subtler form
+of leakage.</p></li>
+</ul>
+<p>The full worked example — profiling, leakage-safe splitting, CBFV
+featurization, scaling, and comparing Linear/Ridge/Kernel-Ridge regression
+on the same heat-capacity dataset — is the Advanced Regression exercise
+notebook linked above; it is a reasonable template to adapt directly if
+your chosen dataset gives you formulae rather than ready-made descriptors.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="quick-start-template">
+<h2>Quick-Start Template<a class="headerlink" href="#quick-start-template" title="Link to this heading">#</a></h2>
+<p>The following cell structure is a minimal starting template. Copy it into a new
+notebook and adapt to your chosen dataset:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── 0. Imports ────────────────────────────────────────────────────────────────</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cross_decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PLSRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_val_predict</span><span class="p">,</span> <span class="n">KFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">2024</span><span class="p">)</span>
+
+<span class="c1"># ── 1. Load data ───────────────────────────────────────────────────────────────</span>
+<span class="c1"># df = pd.read_csv(&quot;your_data.csv&quot;)</span>
+<span class="c1"># OR</span>
+<span class="c1"># from matminer.datasets import load_dataset</span>
+<span class="c1"># df = load_dataset(&quot;steel_strength&quot;)</span>
+
+<span class="c1"># ── 2. Descriptive statistics ─────────────────────────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="c1"># df.hist(figsize=(12, 8))</span>
+
+<span class="c1"># ── 3. Preprocessing ──────────────────────────────────────────────────────────</span>
+<span class="c1"># X = df[feature_cols].values</span>
+<span class="c1"># y = df[target_col].values</span>
+<span class="c1"># scaler = StandardScaler()</span>
+<span class="c1"># X_sc = scaler.fit_transform(X)</span>
+
+<span class="c1"># ── 4. PCA ────────────────────────────────────────────────────────────────────</span>
+<span class="c1"># pca = PCA()</span>
+<span class="c1"># T = pca.fit_transform(X_sc)</span>
+<span class="c1"># ...</span>
+
+<span class="c1"># ── 5. PLS regression ─────────────────────────────────────────────────────────</span>
+<span class="c1"># kf = KFold(n_splits=10, shuffle=True, random_state=42)</span>
+<span class="c1"># pls = PLSRegression(n_components=nc, scale=False)</span>
+<span class="c1"># y_cv = cross_val_predict(pls, X_sc, y, cv=kf)</span>
+<span class="c1"># Q2 = r2_score(y, y_cv)</span>
+<span class="c1"># RMSECV = np.sqrt(mean_squared_error(y, y_cv))</span>
+</pre></div>
+</div>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\06_project"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../05_ml/05_neural_networks.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">20. Neural Networks and Deep Learning Basics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="data_access.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Access Guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-outcomes">Learning Outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deliverables">Deliverables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presentation-format-10-minutes">Presentation Format (10 Minutes)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-databases">Suggested Databases</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#materials-project">1. Materials Project</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matbench-ready-to-use-benchmark-datasets">2. MatBench — ready-to-use benchmark datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aflow-high-throughput-computational-materials">3. AFLOW — High-Throughput Computational Materials</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uci-machine-learning-repository-materials-datasets">4. UCI Machine Learning Repository — Materials Datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zenodo-figshare-dataset-from-published-papers">5. Zenodo &amp; Figshare — Dataset from Published Papers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nist-standard-reference-database">6. NIST Standard Reference Database</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-project-topics">Suggested Project Topics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-a-alloy-strength-prediction-steel-strength-dataset">Project A — Alloy Strength Prediction (steel_strength dataset)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-b-ceramic-compressive-strength-concrete-dataset">Project B — Ceramic Compressive Strength (Concrete dataset)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-c-glass-composition-classification-glass-dataset">Project C — Glass Composition Classification (Glass dataset)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-d-materials-project-band-gap-prediction">Project D — Materials Project Band Gap Prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-e-superconductor-critical-temperature">Project E — Superconductor Critical Temperature</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-analysis-requirements">Minimum Analysis Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grading-criteria">Grading Criteria</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-fast-exploration-and-featurization">Tips: Fast Exploration and Featurization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-eda-with-ydata-profiling">Automated EDA with <code class="docutils literal notranslate"><span class="pre">ydata-profiling</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#featurizing-chemical-formulae-with-cbfv">Featurizing chemical formulae with CBFV</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start-template">Quick-Start Template</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

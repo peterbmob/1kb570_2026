@@ -1,0 +1,1536 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Part III Solutions: Applied Statistics &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/07_solutions/03_statistics_solutions';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Part IV Solutions: Multivariate Analysis" href="04_multivariate_solutions.html" />
+    <link rel="prev" title="Part II Solutions: Data Handling &amp; Materials Ontologies" href="02_data_handling_solutions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part VIII: Exercise Solutions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/07_solutions/03_statistics_solutions.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Part III Solutions: Applied Statistics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-6-descriptive-statistics">Notebook 6: Descriptive Statistics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-7-probability-distributions">Notebook 7: Probability Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-8-hypothesis-testing">Notebook 8: Hypothesis Testing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-9-analysis-of-variance-anova">Notebook 9: Analysis of Variance (ANOVA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-10-simple-linear-regression">Notebook 10: Simple Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-11-live-tutorial-1-t-tests-in-practice">Notebook 11: Live Tutorial 1 — t-Tests in Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-12-live-tutorial-2-anova-regression">Notebook 12: Live Tutorial 2 — ANOVA &amp; Regression</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="part-iii-solutions-applied-statistics">
+<h1>Part III Solutions: Applied Statistics<a class="headerlink" href="#part-iii-solutions-applied-statistics" title="Link to this heading">#</a></h1>
+<p>Solutions to the exercises in Notebooks 6–12 (Part III uses the book’s
+global notebook numbering, continuing on from Part I/II). Code blocks below
+are written to be pasted directly into the corresponding notebook (they
+assume its imports, <code class="docutils literal notranslate"><span class="pre">rng</span></code>, and variables already exist in your session) —
+they are not executed as part of building this page. Every numeric result
+quoted here was independently computed with the same seeded
+<code class="docutils literal notranslate"><span class="pre">rng</span> <span class="pre">=</span> <span class="pre">np.random.default_rng(...)</span></code> as the source notebook, so re-running
+the code below in a fresh copy of that notebook reproduces it exactly.</p>
+<section id="notebook-6-descriptive-statistics">
+<h2>Notebook 6: Descriptive Statistics<a class="headerlink" href="#notebook-6-descriptive-statistics" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Grubbs test</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Grubbs’ test statistic is <span class="math notranslate nohighlight">\(G = \max_i|x_i-\bar x|/s\)</span> — the
+largest absolute Z-score, essentially — compared against a critical value
+built from the t-distribution:
+<span class="math notranslate nohighlight">\(G_{\text{crit}} = \frac{n-1}{\sqrt n}\sqrt{\dfrac{t^2_{\alpha/(2n),\,n-2}}{n-2+t^2_{\alpha/(2n),\,n-2}}}\)</span>.
+<code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> has no <code class="docutils literal notranslate"><span class="pre">grubbs</span></code> function directly, so this is one of the few
+tests in this course you build from the formula rather than calling
+straight off the shelf.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">grubbs_test</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">abs_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">abs_dev</span><span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">abs_dev</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">/</span> <span class="n">std</span>
+    <span class="n">t_crit</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">),</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">G_crit</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t_crit</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t_crit</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">G</span><span class="p">,</span> <span class="n">G_crit</span><span class="p">,</span> <span class="n">idx</span>
+
+<span class="n">G</span><span class="p">,</span> <span class="n">G_crit</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">grubbs_test</span><span class="p">(</span><span class="n">batch_A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;G = </span><span class="si">{</span><span class="n">G</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">,  G_crit(alpha=0.05, n=40) = </span><span class="si">{</span><span class="n">G_crit</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Flagged index: </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s1">  (value </span><span class="si">{</span><span class="n">batch_A</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> MPa)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Outlier detected:&#39;</span><span class="p">,</span> <span class="n">G</span> <span class="o">&gt;</span> <span class="n">G_crit</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">G</span> <span class="pre">=</span> <span class="pre">3.8497</span></code>, <code class="docutils literal notranslate"><span class="pre">G_crit</span> <span class="pre">=</span> <span class="pre">3.0361</span></code> — since G &gt; G_crit, index 15
+(26.0 MPa) is flagged as a significant outlier at α=0.05. This is the same
+point the Z-score and IQR methods in Section 6.4 already agreed on; Grubbs’
+test is really a formalised version of the Z-score check, with a critical
+value corrected for the fact that you’re testing the <em>maximum</em> of 40 Z-scores
+at once, not a single pre-chosen one.</p>
+</div>
+</details><p><strong>Exercise 2 — Cleaned statistics</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">np.delete(batch_A,</span> <span class="pre">15)</span></code> drops the outlier by position, not by
+value — safer than filtering on <code class="docutils literal notranslate"><span class="pre">!=</span> <span class="pre">26.0</span></code>, which would silently do nothing
+if a legitimate future measurement happened to also read 26.0.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">batch_A_clean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">batch_A</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">&#39;Before (n=40)&#39;</span><span class="p">,</span> <span class="n">batch_A</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;After (n=39)&#39;</span><span class="p">,</span> <span class="n">batch_A_clean</span><span class="p">)]:</span>
+    <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">: mean=</span><span class="si">{</span><span class="n">mean</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> MPa, std=</span><span class="si">{</span><span class="n">std</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> MPa, CV=</span><span class="si">{</span><span class="n">std</span><span class="o">/</span><span class="n">mean</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: mean goes from 34.413 to 34.629 MPa (+0.22 MPa, a small shift),
+while std drops from 2.185 to 1.729 MPa (a much bigger, −21% relative
+change) and CV from 6.35% to 4.99%. This is the quantitative version of
+Section 6.1/6.2’s message: a single bad point barely moves the <em>centre</em>
+(mean) but inflates the <em>spread</em> (std, CV) far more — spread statistics are
+generally more outlier-sensitive than location statistics, for the same
+reason variance uses squared deviations.</p>
+</div>
+</details><p><strong>Exercise 3 — Bootstrapped confidence interval</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Resample <code class="docutils literal notranslate"><span class="pre">data</span></code> <strong>with replacement</strong> (<code class="docutils literal notranslate"><span class="pre">rng.choice(data,</span> <span class="pre">size=n,</span> <span class="pre">replace=True)</span></code>) <code class="docutils literal notranslate"><span class="pre">n_boot</span></code> times, compute the mean of each resample, and take
+the 2.5th/97.5th percentiles of that distribution of means — the same
+percentile-bootstrap idea Section 11.7 applies later to a median.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">bootstrap_mean_ci</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">boot_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">boot_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">boot_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">)])</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">boot_means</span><span class="p">,</span> <span class="p">[(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ci</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">ci</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">100</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">&#39;Batch A&#39;</span><span class="p">,</span> <span class="n">batch_A</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Batch B&#39;</span><span class="p">,</span> <span class="n">batch_B</span><span class="p">)]:</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">bootstrap_mean_ci</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">t_lo</span><span class="p">,</span> <span class="n">t_hi</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                   <span class="n">loc</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">: bootstrap CI=(</span><span class="si">{</span><span class="n">lo</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">hi</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">),  &#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;analytical t-CI=(</span><span class="si">{</span><span class="n">t_lo</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">t_hi</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: Batch A — bootstrap (33.68, 35.02) vs. analytical (33.71, 35.11);
+Batch B — bootstrap (35.82, 36.62) vs. analytical (35.80, 36.64). The two
+methods agree closely for both batches, including Batch A with its
+outlier — reassuring, since the bootstrap makes no distributional
+assumption at all while the analytical <code class="docutils literal notranslate"><span class="pre">t.interval</span></code> formula assumes
+(approximate) normality. Close agreement here is itself evidence the
+normality assumption was not badly wrong for the mean, even with one
+contaminated point.</p>
+</div>
+</details></section>
+<section id="notebook-7-probability-distributions">
+<h2>Notebook 7: Probability Distributions<a class="headerlink" href="#notebook-7-probability-distributions" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Log-transformation</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">np.log(particle_size)</span></code> (natural log) is enough — you don’t need
+<code class="docutils literal notranslate"><span class="pre">log10</span></code> here, since Shapiro-Wilk and the Q-Q plot only care about the
+<em>shape</em> of the distribution, and a log-normal variable’s natural log is
+exactly normal by definition, regardless of log base.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">log_particle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">particle_size</span><span class="p">)</span>
+<span class="n">W</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">shapiro</span><span class="p">(</span><span class="n">log_particle</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Log-transformed particle size: W=</span><span class="si">{</span><span class="n">W</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">osm</span><span class="p">,</span> <span class="n">osr</span><span class="p">),</span> <span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">log_particle</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="s1">&#39;norm&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Q-Q r² = </span><span class="si">{</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">W=0.9771,</span> <span class="pre">p=0.7444</span></code> (comfortably normal now, vs. <code class="docutils literal notranslate"><span class="pre">p=0.0003</span></code> for the
+untransformed data) with a Q-Q r² of 0.974. This is the expected result —
+<code class="docutils literal notranslate"><span class="pre">particle_size</span></code> was generated with <code class="docutils literal notranslate"><span class="pre">rng.lognormal</span></code>, i.e. <em>by construction</em>
+<code class="docutils literal notranslate"><span class="pre">log(particle_size)</span></code> is normal — but it’s also the general-purpose fix for
+right-skewed, strictly-positive materials data (particle sizes, grain
+sizes, concentrations): log-transform first, then apply the same
+normal-theory tests (t-tests, ANOVA) to the transformed variable.</p>
+</div>
+</details><p><strong>Exercise 2 — Probability calculation</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Both parts are direct reads off <code class="docutils literal notranslate"><span class="pre">stats.norm(mu,</span> <span class="pre">sigma)</span></code>:
+<code class="docutils literal notranslate"><span class="pre">.cdf(x)</span></code> gives <span class="math notranslate nohighlight">\(P(X&lt;x)\)</span>, and <code class="docutils literal notranslate"><span class="pre">.ppf(q)</span></code> is the <em>inverse</em> CDF — the value
+below which a given fraction <code class="docutils literal notranslate"><span class="pre">q</span></code> of the distribution falls.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dist</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">3.85</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.04</span><span class="p">)</span>
+<span class="n">p_below_spec</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mf">3.78</span><span class="p">)</span>
+<span class="n">p99</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.99</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;P(density &lt; 3.78 g/cm3) = </span><span class="si">{</span><span class="n">p_below_spec</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">  (</span><span class="si">{</span><span class="n">p_below_spec</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;99th percentile density = </span><span class="si">{</span><span class="n">p99</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> g/cm3&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">P(density</span> <span class="pre">&lt;</span> <span class="pre">3.78)</span> <span class="pre">=</span> <span class="pre">0.0401</span></code> (4.0% of parts fall below spec) and the
+99th percentile sits at <code class="docutils literal notranslate"><span class="pre">3.9431</span> <span class="pre">g/cm3</span></code>. Both numbers come from the same
+<code class="docutils literal notranslate"><span class="pre">N(3.85,</span> <span class="pre">0.04²)</span></code> model — exactly the point Section 7.1’s take-home message
+makes with the grain-size example: once μ and σ are fixed, every
+probability question is just a different read-off of the same curve.</p>
+</div>
+</details><p><strong>Exercise 3 — Central Limit Theorem demonstration</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Draw one big <code class="docutils literal notranslate"><span class="pre">(10000,</span> <span class="pre">n)</span></code> array with <code class="docutils literal notranslate"><span class="pre">rng.uniform(0,</span> <span class="pre">1,</span> <span class="pre">size=(10000,</span> <span class="pre">n))</span></code>
+and average along <code class="docutils literal notranslate"><span class="pre">axis=1</span></code> — far faster than a Python loop over 10,000
+individual samples, and it gives you 10,000 sample means to histogram in
+one line.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">clt_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">n_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">]):</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">clt_rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">n_</span><span class="p">))</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;n = </span><span class="si">{</span><span class="n">n_</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Sample mean&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;n=</span><span class="si">{</span><span class="n">n_</span><span class="si">}</span><span class="s1">: mean=</span><span class="si">{</span><span class="n">means</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, std=</span><span class="si">{</span><span class="n">means</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> &#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;(theory: 1/sqrt(12n) = </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">n_</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: the standard deviation of the sample means shrinks exactly as
+theory predicts (<span class="math notranslate nohighlight">\(\sigma/\sqrt n\)</span>, with <span class="math notranslate nohighlight">\(\sigma=1/\sqrt{12}\)</span> for a
+Uniform(0,1)) — 0.285 at n=1, 0.128 at n=5, 0.053 at n=30 — while the
+<em>shape</em> visibly morphs from the flat uniform histogram at n=1 into a
+recognisable bell curve by n=30, even though the original distribution has
+no bell shape at all. That’s the Central Limit Theorem in one figure: the
+sampling distribution of the mean approaches normal regardless of the
+shape you started from.</p>
+</div>
+</details></section>
+<section id="notebook-8-hypothesis-testing">
+<h2>Notebook 8: Hypothesis Testing<a class="headerlink" href="#notebook-8-hypothesis-testing" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — One-tailed test</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">stats.ttest_1samp</span></code> always returns the two-sided p-value —
+Section 11.2 (Live Tutorial 1) shows the halving rule explicitly:
+<code class="docutils literal notranslate"><span class="pre">p_one_sided</span> <span class="pre">=</span> <span class="pre">p_two_sided/2</span></code> only when the t-statistic actually points
+the direction H1 claims, otherwise <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">-</span> <span class="pre">p_two_sided/2</span></code>.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t_stat</span><span class="p">,</span> <span class="n">p_two_sided</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_1samp</span><span class="p">(</span><span class="n">hardness</span><span class="p">,</span> <span class="n">popmean</span><span class="o">=</span><span class="n">mu_spec</span><span class="p">)</span>
+<span class="c1"># H1: mu &gt; 200, so a positive t_stat is &quot;pointing the right way&quot;</span>
+<span class="n">p_one_sided</span> <span class="o">=</span> <span class="n">p_two_sided</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">t_stat</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_two_sided</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;t = </span><span class="si">{</span><span class="n">t_stat</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Two-sided p = </span><span class="si">{</span><span class="n">p_two_sided</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;One-sided p (H1: mu &gt; 200) = </span><span class="si">{</span><span class="n">p_one_sided</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">1.7608</span></code>, two-sided <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">=</span> <span class="pre">0.1001</span></code>, one-sided <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">=</span> <span class="pre">0.0500</span></code>. Halving
+the two-sided p-value makes the one-sided test more sensitive in the
+direction it’s aimed at — here it happens to land right at the α=0.05
+boundary (0.050042, technically still a fail-to-reject), illustrating why a
+one-sided test should only be chosen <em>before</em> looking at the data, for a
+genuine physical reason (as Section 11.2 does with “nobody rejects a batch
+for being too strong”) — never after peeking at a two-sided result to see
+which one-sided framing would cross the line.</p>
+</div>
+</details><p><strong>Exercise 2 — Simulation study</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Generate both groups from the <em>same</em> distribution inside the
+loop (<code class="docutils literal notranslate"><span class="pre">rng.normal(207,</span> <span class="pre">12,</span> <span class="pre">15)</span></code> twice) so H0 is true by construction, run
+<code class="docutils literal notranslate"><span class="pre">stats.ttest_ind</span></code>, and count how often <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">&lt;</span> <span class="pre">0.05</span></code> purely from sampling
+noise — this is an empirical demonstration of what α actually means.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sim_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">2024</span><span class="p">)</span>
+<span class="n">n_sims</span><span class="p">,</span> <span class="n">rejects</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sims</span><span class="p">):</span>
+    <span class="n">g1</span> <span class="o">=</span> <span class="n">sim_rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">207</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+    <span class="n">g2</span> <span class="o">=</span> <span class="n">sim_rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">207</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>   <span class="c1"># same population -&gt; H0 is exactly true</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">:</span>
+        <span class="n">rejects</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;False-positive rate: </span><span class="si">{</span><span class="n">rejects</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">n_sims</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">rejects</span><span class="o">/</span><span class="n">n_sims</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">56/1000</span> <span class="pre">=</span> <span class="pre">5.6%</span></code> — close to the nominal α=0.05, as it should be:
+the Type I error rate is <em>defined</em> as the long-run false-positive rate
+when H0 is true, and this simulation is that definition made concrete
+rather than taken on faith. A different random seed would give a slightly
+different count (5.6% vs. the “true” 5.0% is itself just sampling noise on
+a proportion from 1000 trials), but it will always hover close to 5%.</p>
+</div>
+</details><p><strong>Exercise 3 — Sample size for tight tolerance</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> This is a <strong>one-sample</strong> test (comparing the new process’s mean
+to a single target, 3.85 g/cm³), so use <code class="docutils literal notranslate"><span class="pre">TTestPower</span></code> (not
+<code class="docutils literal notranslate"><span class="pre">TTestIndPower</span></code>, which is for two independent groups) with Cohen’s
+<span class="math notranslate nohighlight">\(d = \delta/\sigma = 0.02/0.025\)</span>.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.stats.power</span><span class="w"> </span><span class="kn">import</span> <span class="n">TTestPower</span>
+
+<span class="n">effect_size</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="o">/</span> <span class="mf">0.025</span>   <span class="c1"># d = 0.8</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">TTestPower</span><span class="p">()</span>
+<span class="n">n_required</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">solve_power</span><span class="p">(</span><span class="n">effect_size</span><span class="o">=</span><span class="n">effect_size</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                                   <span class="n">power</span><span class="o">=</span><span class="mf">0.90</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s1">&#39;two-sided&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cohen&#39;s d = </span><span class="si">{</span><span class="n">effect_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Required n (alpha=0.01, power=0.90): </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n_required</span><span class="p">)</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">0.80</span></code>, requiring <strong>n = 27</strong> samples. Compare this to Section
+8.6’s two-sample example, which needed only 24 per group for a similar
+effect size (d≈0.83) but a looser α=0.05/power=0.80 target — tightening
+both α (0.05→0.01) and the power target (0.80→0.90) simultaneously here
+pushes the requirement up, even for a comparably sized effect, which is
+exactly why stricter acceptance criteria (common for safety-critical specs)
+translate directly into more expensive testing programmes.</p>
+</div>
+</details></section>
+<section id="notebook-9-analysis-of-variance-anova">
+<h2>Notebook 9: Analysis of Variance (ANOVA)<a class="headerlink" href="#notebook-9-analysis-of-variance-anova" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Kruskal-Wallis test</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">stats.kruskal(*groups)</span></code> takes the same star-unpacked group
+arrays as <code class="docutils literal notranslate"><span class="pre">stats.f_oneway</span></code> did in Section 9.1 — same calling convention,
+different underlying test (ranks instead of means).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">H</span><span class="p">,</span> <span class="n">p_kw</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">kruskal</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">groups</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">T_labels</span><span class="p">])</span>
+<span class="n">F</span><span class="p">,</span> <span class="n">p_anova</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">groups</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">T_labels</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Kruskal-Wallis: H=</span><span class="si">{</span><span class="n">H</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_kw</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;One-way ANOVA:  F=</span><span class="si">{</span><span class="n">F</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_anova</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">  (for comparison)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">H=24.87,</span> <span class="pre">p=0.000016</span></code> vs. ANOVA’s <code class="docutils literal notranslate"><span class="pre">F=40.52,</span> <span class="pre">p≈1e-10</span></code> — both reject
+H0 overwhelmingly, reaching the identical conclusion despite Kruskal-Wallis
+making no normality assumption. This agreement is expected here, since
+Section 9.3 already confirmed the ANOVA’s normality assumption holds
+(Shapiro-Wilk on residuals, p=0.40) — Kruskal-Wallis is the tool to reach
+for when that check <em>fails</em>, not a replacement to run routinely once
+normality is already confirmed.</p>
+</div>
+</details><p><strong>Exercise 2 — Effect size (η²)</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Both <code class="docutils literal notranslate"><span class="pre">SS_between</span></code> and <code class="docutils literal notranslate"><span class="pre">SS_total</span></code> are already sitting in the
+<code class="docutils literal notranslate"><span class="pre">anova_table</span></code> built manually in Section 9.1 — no new computation needed,
+just divide.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eta_sq</span> <span class="o">=</span> <span class="n">SS_between</span> <span class="o">/</span> <span class="n">SS_total</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SS_between = </span><span class="si">{</span><span class="n">SS_between</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, SS_total = </span><span class="si">{</span><span class="n">SS_total</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;eta-squared = </span><span class="si">{</span><span class="n">eta_sq</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">eta²</span> <span class="pre">=</span> <span class="pre">0.813</span></code> — sintering temperature alone explains about 81% of
+the total variance in flexural strength, leaving 19% as within-group
+scatter. By the conventional benchmarks (η²≈0.01 small, 0.06 medium, 0.14
+large), this is a very large effect, consistent with the F-statistic of
+~40 already flagged in Section 9.1’s take-home message as “the between-group
+variability is about 40 times the within-group (noise) variability.”</p>
+</div>
+</details><p><strong>Exercise 3 — Unbalanced design</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">np.append</span></code> (or drawing two fresh values with <code class="docutils literal notranslate"><span class="pre">rng.normal</span></code>) onto
+just the 1400°C group’s array is enough to make the design unbalanced;
+rebuild the long-form DataFrame and rerun <code class="docutils literal notranslate"><span class="pre">stats.f_oneway</span></code> and
+<code class="docutils literal notranslate"><span class="pre">sm.stats.anova_lm(...,</span> <span class="pre">typ=2)</span></code> / <code class="docutils literal notranslate"><span class="pre">typ=3</span></code> on the new data.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extra</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">340</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>          <span class="c1"># 2 more 1400°C measurements</span>
+<span class="n">groups_unbal</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">groups_unbal</span><span class="p">[</span><span class="s1">&#39;1400°C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;1400°C&#39;</span><span class="p">],</span> <span class="n">extra</span><span class="p">])</span>
+
+<span class="n">rows_unbal</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">groups_unbal</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">rows_unbal</span><span class="o">.</span><span class="n">extend</span><span class="p">({</span><span class="s1">&#39;Temperature&#39;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s1">&#39;Strength_MPa&#39;</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">)</span>
+<span class="n">df_unbal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows_unbal</span><span class="p">)</span>
+
+<span class="n">F_unbal</span><span class="p">,</span> <span class="n">p_unbal</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">groups_unbal</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">T_labels</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unbalanced ANOVA: F=</span><span class="si">{</span><span class="n">F_unbal</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_unbal</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">  &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;(balanced was F=</span><span class="si">{</span><span class="n">F</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+<span class="n">model_unbal</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;Strength_MPa ~ C(Temperature)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_unbal</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Type II SS:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model_unbal</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Type III SS:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model_unbal</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">F=47.42</span></code> (up from 40.52 — extra data at an already-strong group
+sharpens the signal slightly), still <code class="docutils literal notranslate"><span class="pre">p≈0</span></code>. As the exercise text anticipates,
+<code class="docutils literal notranslate"><span class="pre">C(Temperature)</span></code> gets the <em>exact same</em> sum of squares (81146.1) whichever
+<code class="docutils literal notranslate"><span class="pre">typ=</span></code> you request, because with only one factor there’s no ambiguity about
+“what to adjust for” — Type I/II/III SS only start to disagree once a model
+has more than one factor and the design is unbalanced <em>across their
+combinations</em>, which is exactly Section 9.4’s two-way case, not this one.</p>
+</div>
+</details></section>
+<section id="notebook-10-simple-linear-regression">
+<h2>Notebook 10: Simple Linear Regression<a class="headerlink" href="#notebook-10-simple-linear-regression" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Calibration curve</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">-1</span> <span class="pre">+</span> <span class="pre">conc_mM</span></code> in the formula string removes the intercept term
+— that’s what “regression through the origin” means in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>
+formula syntax, forcing the fitted line through (0, 0).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conc_mM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">absorbance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.098</span><span class="p">,</span> <span class="mf">0.191</span><span class="p">,</span> <span class="mf">0.287</span><span class="p">,</span> <span class="mf">0.384</span><span class="p">,</span> <span class="mf">0.479</span><span class="p">])</span>
+<span class="n">df_cal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;conc_mM&#39;</span><span class="p">:</span> <span class="n">conc_mM</span><span class="p">,</span> <span class="s1">&#39;absorbance&#39;</span><span class="p">:</span> <span class="n">absorbance</span><span class="p">})</span>
+
+<span class="n">model_cal</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;absorbance ~ -1 + conc_mM&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_cal</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">sensitivity</span> <span class="o">=</span> <span class="n">model_cal</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;conc_mM&#39;</span><span class="p">]</span>
+<span class="n">conc_unknown</span> <span class="o">=</span> <span class="mf">0.245</span> <span class="o">/</span> <span class="n">sensitivity</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Sensitivity (slope): </span><span class="si">{</span><span class="n">sensitivity</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> absorbance / mM&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;R² = </span><span class="si">{</span><span class="n">model_cal</span><span class="o">.</span><span class="n">rsquared</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown concentration at absorbance=0.245: </span><span class="si">{</span><span class="n">conc_unknown</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> mM&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: sensitivity <code class="docutils literal notranslate"><span class="pre">0.4793</span></code> absorbance units per mM, <code class="docutils literal notranslate"><span class="pre">R²=0.9999</span></code> (an
+excellent calibration), and an unknown at absorbance 0.245 corresponds to
+<code class="docutils literal notranslate"><span class="pre">0.5112</span> <span class="pre">mM</span></code>. Forcing the fit through the origin is standard practice for a
+calibration curve where “zero analyte → zero signal” is physically
+required — letting the intercept float instead would let noise near
+<code class="docutils literal notranslate"><span class="pre">conc_mM=0</span></code> (the point 0.005 instead of exactly 0.000) pull the whole line
+off true zero.</p>
+</div>
+</details><p><strong>Exercise 2 — Transformation</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Convert the <em>fitted line</em>, not the raw data: evaluate
+<span class="math notranslate nohighlight">\(\widehat{\log_{10}\sigma} = \beta_0+\beta_1 x\)</span> on a grid of x, then
+<code class="docutils literal notranslate"><span class="pre">10**</span></code> the result to get conductivity back in S/cm — plotting that on a
+log y-axis (<code class="docutils literal notranslate"><span class="pre">ax.set_yscale('log')</span></code>) should look like a straight line
+again, since you’re just undoing the log you started with.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">log_sigma_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Intercept&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Nb_at_pct&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_pred</span>
+<span class="n">sigma_pred</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">log_sigma_pred</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Nb_at_pct&#39;</span><span class="p">],</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;log10_sigma&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pred</span><span class="p">,</span> <span class="n">sigma_pred</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fitted (back-transformed)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Nb content (at%)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Conductivity σ (S/cm)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sigma at 0 at%: </span><span class="si">{</span><span class="mi">10</span><span class="o">**</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;Intercept&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.3e</span><span class="si">}</span><span class="s1"> S/cm&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sigma at 8 at%: </span><span class="si">{</span><span class="n">sigma_pred</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3e</span><span class="si">}</span><span class="s1"> S/cm&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Ratio: </span><span class="si">{</span><span class="n">sigma_pred</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">10</span><span class="o">**</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;Intercept&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">x&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: conductivity rises from <code class="docutils literal notranslate"><span class="pre">1.11e-4</span> <span class="pre">S/cm</span></code> at 0 at% Nb to <code class="docutils literal notranslate"><span class="pre">2.63</span> <span class="pre">S/cm</span></code>
+at 8 at% — roughly a <strong>23,700-fold</strong> increase, matching
+<span class="math notranslate nohighlight">\(10^{0.547\times8}\approx23{,}745\)</span> almost exactly, since that’s precisely
+what a constant slope on a log10 scale means. On the log y-axis the
+back-transformed fit is a straight line (log scale undoes the
+transformation), while the same fit on a <em>linear</em> y-axis would look like a
+sharply upward-curving exponential — the same information, two very
+different-looking plots.</p>
+</div>
+</details><p><strong>Exercise 3 — Outlier effect</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">model.get_influence().cooks_distance[0]</span></code> returns Cook’s
+distance for every observation in the fit — compare its value at index 5
+before and after the edit, not just its rank among the other points.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_outlier</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_outlier</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;log10_sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
+<span class="n">model_outlier</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;log10_sigma ~ Nb_at_pct&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_outlier</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="n">cooks_before</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_influence</span><span class="p">()</span><span class="o">.</span><span class="n">cooks_distance</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cooks_after</span> <span class="o">=</span> <span class="n">model_outlier</span><span class="o">.</span><span class="n">get_influence</span><span class="p">()</span><span class="o">.</span><span class="n">cooks_distance</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Slope:  </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;Nb_at_pct&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> -&gt; </span><span class="si">{</span><span class="n">model_outlier</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;Nb_at_pct&quot;</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;R²:     </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">rsquared</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> -&gt; </span><span class="si">{</span><span class="n">model_outlier</span><span class="o">.</span><span class="n">rsquared</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cook&#39;s D at index 5: </span><span class="si">{</span><span class="n">cooks_before</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">cooks_after</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: the slope only drifts from 0.547 to 0.523, but R² collapses from
+0.988 to 0.831, and Cook’s distance at the edited point jumps from a
+negligible 0.0002 to 0.482 — by far the largest influence value in the
+edited dataset. This is a useful contrast with Exercise 1’s calibration
+curve: R² (a <em>goodness-of-fit</em> measure) is far more sensitive to one bad
+point than the slope (a <em>parameter estimate</em>) is, because a single point
+near the middle of the x-range mostly just adds unexplained scatter rather
+than dragging the whole line toward it — an edge point (like index 1 in the
+original data, which already has the highest Cook’s D at 0.925) would move
+the slope much more.</p>
+</div>
+</details></section>
+<section id="notebook-11-live-tutorial-1-t-tests-in-practice">
+<h2>Notebook 11: Live Tutorial 1 — t-Tests in Practice<a class="headerlink" href="#notebook-11-live-tutorial-1-t-tests-in-practice" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — One-sided vs two-sided</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">stats.ttest_1samp(supplier_A,</span> <span class="pre">popmean=spec_min)</span></code> gives the
+two-sided p-value directly — compare it to Section 11.2’s manually
+halved one-sided value, remembering that Section 11.2’s H1 was
+<code class="docutils literal notranslate"><span class="pre">mu</span> <span class="pre">&lt;</span> <span class="pre">275</span></code>, the <em>opposite</em> direction from where Supplier A’s sample mean
+actually landed.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t_stat</span><span class="p">,</span> <span class="n">p_two_sided</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_1samp</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">popmean</span><span class="o">=</span><span class="n">spec_min</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;t = </span><span class="si">{</span><span class="n">t_stat</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">,  two-sided p = </span><span class="si">{</span><span class="n">p_two_sided</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;(Section 11.2 one-sided p, H1: mu &lt; 275) = 0.9967&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: two-sided <code class="docutils literal notranslate"><span class="pre">p=0.0065</span></code> — much <em>smaller</em> than the one-sided p-value of
+0.9967 computed in Section 11.2. This looks backwards at first (one-sided
+tests are usually more powerful, i.e. smaller p, in the direction they’re
+aimed at) until you notice <em>why</em>: Supplier A’s sample mean (≈281 MPa) sits
+well <em>above</em> 275, but Section 11.2’s H1 specifically claims the mean is
+<em>below</em> 275. A one-sided test pointed the wrong way essentially cannot
+reject, no matter how extreme the data — almost the entire t-distribution’s
+mass counts as “not evidence for H1” in that case, which is exactly what
+inflates that one-sided p-value toward 1. This is the sharpest possible
+illustration of why the direction of a one-sided test must be chosen for a
+real physical reason <em>before</em> seeing the data, never after.</p>
+</div>
+</details><p><strong>Exercise 2 — A third supplier</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Follow Sections 11.3–11.4’s exact four-step recipe in order —
+Levene’s test decides <code class="docutils literal notranslate"><span class="pre">equal_var</span></code> for <code class="docutils literal notranslate"><span class="pre">ttest_ind</span></code>, then Cohen’s <em>d</em> and
+the Welch-adjusted CI use the same formulas already defined earlier in
+the notebook (<code class="docutils literal notranslate"><span class="pre">cohens_d</span></code>, <code class="docutils literal notranslate"><span class="pre">se_diff</span></code>, <code class="docutils literal notranslate"><span class="pre">df_welch</span></code>).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">supplier_C</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">285</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="n">levene_stat</span><span class="p">,</span> <span class="n">levene_p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">levene</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">supplier_C</span><span class="p">)</span>
+<span class="n">equal_var</span> <span class="o">=</span> <span class="n">levene_p</span> <span class="o">&gt;</span> <span class="mf">0.05</span>
+<span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">supplier_C</span><span class="p">,</span> <span class="n">equal_var</span><span class="o">=</span><span class="n">equal_var</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">cohens_d</span><span class="p">(</span><span class="n">supplier_C</span><span class="p">,</span> <span class="n">supplier_A</span><span class="p">)</span>
+
+<span class="n">diff</span> <span class="o">=</span> <span class="n">supplier_C</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">supplier_A</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">se_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">)</span> <span class="o">+</span> <span class="n">supplier_C</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_C</span><span class="p">))</span>
+<span class="n">df_w</span> <span class="o">=</span> <span class="n">se_diff</span><span class="o">**</span><span class="mi">4</span> <span class="o">/</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+    <span class="p">(</span><span class="n">supplier_C</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_C</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_C</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">t_crit</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">df_w</span><span class="p">)</span>
+<span class="n">ci</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff</span> <span class="o">-</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">se_diff</span><span class="p">,</span> <span class="n">diff</span> <span class="o">+</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">se_diff</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Levene p=</span><span class="si">{</span><span class="n">levene_p</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> -&gt; </span><span class="si">{</span><span class="s2">&quot;Student&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">equal_var</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;Welch&quot;</span><span class="si">}</span><span class="s1"> t-test&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;t=</span><span class="si">{</span><span class="n">t_stat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_val</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cohen&#39;s d = </span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mean diff (C-A) = </span><span class="si">{</span><span class="n">diff</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> MPa, 95% CI [</span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">] MPa&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: Levene passes (<code class="docutils literal notranslate"><span class="pre">p=0.227</span></code>, equal variances, Student’s t-test used),
+<code class="docutils literal notranslate"><span class="pre">t=-1.08,</span> <span class="pre">p=0.288</span></code> — <strong>not significant</strong> — with Cohen’s <code class="docutils literal notranslate"><span class="pre">d=0.35</span></code> (a small
+effect) and a 95% CI of <code class="docutils literal notranslate"><span class="pre">[-3.21,</span> <span class="pre">10.80]</span></code> MPa that comfortably includes
+zero. <strong>Recommendation: don’t switch on this evidence.</strong> Although Supplier
+C’s sample mean (≈285 MPa) numerically beats both A and B, this pilot’s
+<code class="docutils literal notranslate"><span class="pre">n=20</span></code> isn’t enough to distinguish it from A with any confidence — contrast
+this with Section 11.3’s A-vs-B comparison, where a larger observed effect
+(d≈1.2 there) <em>was</em> detectable at similar sample sizes. The lesson from
+Section 11.8 applies directly: a formal power analysis, not eyeballing the
+means, should decide whether more castings are worth testing before
+switching suppliers.</p>
+</div>
+</details><p><strong>Exercise 3 — Wilcoxon signed-rank</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Run <code class="docutils literal notranslate"><span class="pre">stats.shapiro</span></code> on the <em>differences</em> (<code class="docutils literal notranslate"><span class="pre">df_paired['improvement']</span></code>),
+not on <code class="docutils literal notranslate"><span class="pre">before</span></code>/<code class="docutils literal notranslate"><span class="pre">after</span></code> separately — a paired t-test’s normality
+assumption is about the distribution of the paired differences, not the
+two raw measurement sets.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">W_sh</span><span class="p">,</span> <span class="n">p_sh</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">shapiro</span><span class="p">(</span><span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;improvement&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Shapiro-Wilk on improvement: W=</span><span class="si">{</span><span class="n">W_sh</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_sh</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">w_stat</span><span class="p">,</span> <span class="n">p_wilcoxon</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">wilcoxon</span><span class="p">(</span><span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;after&#39;</span><span class="p">],</span> <span class="n">df_paired</span><span class="p">[</span><span class="s1">&#39;before&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Wilcoxon signed-rank: W=</span><span class="si">{</span><span class="n">w_stat</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_wilcoxon</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;(Paired t-test from Section 11.5: p=</span><span class="si">{</span><span class="n">p_paired</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: the differences pass normality comfortably (<code class="docutils literal notranslate"><span class="pre">p=0.646</span></code>), so the
+paired t-test’s assumption was fine all along — but it’s worth running the
+non-parametric alternative anyway as a sanity check. Wilcoxon gives
+<code class="docutils literal notranslate"><span class="pre">p=0.000061</span></code>, agreeing with the paired t-test’s <code class="docutils literal notranslate"><span class="pre">p=0.000002</span></code> on the
+conclusion (both far below 0.05) even though the exact p-values differ, as
+expected between a rank-based and a mean-based test. When a
+normality-sensitive test and its non-parametric counterpart agree this
+strongly, that’s good evidence the result isn’t an artefact of the
+normality assumption.</p>
+</div>
+</details><p><strong>Exercise 4 — Type I and Type II error, simulated</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Two separate loops: one where both groups share the <em>same</em> true
+mean (H0 exactly true — count how often <code class="docutils literal notranslate"><span class="pre">p&lt;0.05</span></code> anyway, that’s your
+empirical α), and one where the second group’s mean is shifted by +5 MPa
+(H1 exactly true — count how often <code class="docutils literal notranslate"><span class="pre">p&lt;0.05</span></code> correctly, that’s your
+empirical power).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sim_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span>
+<span class="n">n_sims</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="n">type1_rejects</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+    <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">sim_rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">275</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">sim_rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">275</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sims</span><span class="p">))</span>
+<span class="n">power_rejects</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+    <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">sim_rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">275</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">sim_rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">280</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sims</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Empirical Type I error rate: </span><span class="si">{</span><span class="n">type1_rejects</span><span class="o">/</span><span class="n">n_sims</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">  (target: 0.05)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Empirical power (true diff = 5 MPa): </span><span class="si">{</span><span class="n">power_rejects</span><span class="o">/</span><span class="n">n_sims</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: Type I error rate <code class="docutils literal notranslate"><span class="pre">5.6%</span></code> (56/1000) — close to the nominal 5%, same
+demonstration as Notebook 8, Exercise 2. Empirical power for a true 5 MPa
+difference comes out at only <code class="docutils literal notranslate"><span class="pre">25.7%</span></code> (257/1000) — far below the 80% target
+usually planned for. This isn’t a bug: at <code class="docutils literal notranslate"><span class="pre">n=15</span></code> per group and <code class="docutils literal notranslate"><span class="pre">sigma=10</span></code>,
+Cohen’s <code class="docutils literal notranslate"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">5/10</span> <span class="pre">=</span> <span class="pre">0.5</span></code> (a medium effect), and Section 8.6’s power
+analysis already showed that detecting <code class="docutils literal notranslate"><span class="pre">d≈0.83</span></code> reliably needed <code class="docutils literal notranslate"><span class="pre">n=24</span></code> per
+group — a smaller effect (<code class="docutils literal notranslate"><span class="pre">d=0.5</span></code>) at a smaller sample size (<code class="docutils literal notranslate"><span class="pre">n=15</span></code>) is
+exactly the underpowered regime that analysis warned about.</p>
+</div>
+</details><p><strong>Exercise 5 — Bootstrap the mean, not just the median</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Reuse <code class="docutils literal notranslate"><span class="pre">bootstrap_ci</span></code> from Section 11.7 exactly as written, just
+pass <code class="docutils literal notranslate"><span class="pre">stat_func=np.mean</span></code> instead of the default <code class="docutils literal notranslate"><span class="pre">np.median</span></code> — no other
+changes needed.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">bootstrap_ci</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">,</span> <span class="n">stat_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">t_lo</span><span class="p">,</span> <span class="n">t_hi</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                               <span class="n">loc</span><span class="o">=</span><span class="n">supplier_A</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">supplier_A</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Bootstrap CI on the mean: [</span><span class="si">{</span><span class="n">lo</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">hi</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">] MPa&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Classical t-interval:    [</span><span class="si">{</span><span class="n">t_lo</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">t_hi</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">] MPa&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: bootstrap <code class="docutils literal notranslate"><span class="pre">[277.39,</span> <span class="pre">284.86]</span></code> vs. classical <code class="docutils literal notranslate"><span class="pre">[276.95,</span> <span class="pre">285.29]</span></code> MPa —
+close, with the bootstrap interval very slightly narrower. This is the
+expected result: <code class="docutils literal notranslate"><span class="pre">supplier_A</span></code> is a reasonably well-behaved, roughly normal
+sample (Section 11.2’s Shapiro-Wilk check passed), so the assumption behind
+the classical <code class="docutils literal notranslate"><span class="pre">t.interval</span></code> formula holds, and the assumption-free bootstrap
+lands in essentially the same place. The two methods are worth running
+side by side specifically as this kind of sanity check — a <em>large</em>
+disagreement would be the signal to distrust the classical interval.</p>
+</div>
+</details><p><strong>Exercise 6 — Multiple comparisons</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <span class="math notranslate nohighlight">\(P(\text{at least one false positive}) = 1-(1-\alpha)^k\)</span> — plug
+in <span class="math notranslate nohighlight">\(k=7\)</span> for the seven tests run today (Sections 11.2, 11.3, 11.5, 11.6,
+plus Exercises 1–3).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">7</span>
+<span class="n">p_at_least_one</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span><span class="o">**</span><span class="n">k</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;P(at least one false positive across </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> tests) = </span><span class="si">{</span><span class="n">p_at_least_one</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">30.2%</span></code> — nearly a one-in-three chance that <em>something</em> today
+looked “significant” purely from running seven separate tests at α=0.05
+each, even if every null hypothesis were actually true. This is precisely
+the problem Notebook 9 (Live Tutorial 2, Section 12.1) opens with when
+motivating ANOVA over six separate pairwise t-tests for four groups — the
+fix there (one omnibus F-test, then a family-wise-corrected post-hoc test
+like Tukey HSD) generalises this notebook’s individual, uncorrected
+comparisons to the case of comparing several groups within <em>one</em> study.</p>
+</div>
+</details><p><strong>Exercise 7 — Design your own QC scenario</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Pick a <em>paired-vs-unpaired</em> or <em>one-sample-vs-target</em> structure
+like this notebook’s, not a from-scratch design — the goal is practising
+the same five-step checklist (Section 11.1) on new numbers, not inventing
+a new kind of test.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: does a new quench-and-temper recipe raise 4140 steel hardness</span>
+<span class="c1"># above the 28 HRC minimum spec?  (Modelled on Section 11.2&#39;s one-sample design.)</span>
+<span class="n">qc_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">hardness_HRC</span> <span class="o">=</span> <span class="n">qc_rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">29.5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">spec_min</span> <span class="o">=</span> <span class="mf">28.0</span>
+
+<span class="n">t_stat</span><span class="p">,</span> <span class="n">p_two</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_1samp</span><span class="p">(</span><span class="n">hardness_HRC</span><span class="p">,</span> <span class="n">popmean</span><span class="o">=</span><span class="n">spec_min</span><span class="p">)</span>
+<span class="n">p_one</span> <span class="o">=</span> <span class="n">p_two</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">t_stat</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_two</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="n">pooled_std</span> <span class="o">=</span> <span class="n">hardness_HRC</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">hardness_HRC</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">spec_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">pooled_std</span>
+<span class="n">ci</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">hardness_HRC</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                       <span class="n">loc</span><span class="o">=</span><span class="n">hardness_HRC</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scale</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">hardness_HRC</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mean hardness: </span><span class="si">{</span><span class="n">hardness_HRC</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> HRC (spec &gt;= </span><span class="si">{</span><span class="n">spec_min</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;t=</span><span class="si">{</span><span class="n">t_stat</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, one-sided p=</span><span class="si">{</span><span class="n">p_one</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Effect size vs spec: d=</span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;95% CI: [</span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">ci</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">] HRC&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Decision:&#39;</span><span class="p">,</span> <span class="s1">&#39;meets spec&#39;</span> <span class="k">if</span> <span class="n">p_one</span> <span class="o">&lt;</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="n">t_stat</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;inconclusive/fails&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">This is a template, not a fixed answer — the point of Exercise 7 is
+practising the full checklist from Section 11.1 (state H0/H1 → check
+assumptions → compute statistic and p-value → compare to α → report effect
+size and CI) on a scenario you construct yourself. Any of battery capacity,
+ceramic density, or a before/after coating treatment (Notebooks 6–10) works
+equally well; what matters is that the test you choose (one-sample,
+two-sample, or paired) actually matches the question you asked.</p>
+</div>
+</details></section>
+<section id="notebook-12-live-tutorial-2-anova-regression">
+<h2>Notebook 12: Live Tutorial 2 — ANOVA &amp; Regression<a class="headerlink" href="#notebook-12-live-tutorial-2-anova-regression" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — A fifth tool design</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Draw the fifth group’s data with <code class="docutils literal notranslate"><span class="pre">rng.normal(90,</span> <span class="pre">sigma,</span> <span class="pre">n_per_group)</span></code>
+(continuing the same <code class="docutils literal notranslate"><span class="pre">rng</span></code>, same <code class="docutils literal notranslate"><span class="pre">sigma=4.5</span></code>, same <code class="docutils literal notranslate"><span class="pre">n_per_group=10</span></code> as
+the original four), append it to <code class="docutils literal notranslate"><span class="pre">df_tools</span></code>, and rerun Section 12.2’s
+boxplot → Levene/Shapiro → ANOVA → η² → Tukey pipeline unchanged.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">strengths_5</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n_per_group</span><span class="p">)</span>
+<span class="n">df_tools5</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_tools</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;tool_design&#39;</span><span class="p">:</span> <span class="s1">&#39;Spiral&#39;</span><span class="p">,</span> <span class="s1">&#39;joint_efficiency_pct&#39;</span><span class="p">:</span> <span class="n">strengths_5</span><span class="p">})],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">groups5</span> <span class="o">=</span> <span class="p">[</span><span class="n">df_tools5</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_tools5</span><span class="o">.</span><span class="n">tool_design</span> <span class="o">==</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;joint_efficiency_pct&#39;</span><span class="p">]</span>
+           <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">tool_designs</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;Spiral&#39;</span><span class="p">]]</span>
+<span class="n">F5</span><span class="p">,</span> <span class="n">p5</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="n">groups5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;F=</span><span class="si">{</span><span class="n">F5</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p5</span><span class="si">:</span><span class="s1">.2e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">tukey5</span> <span class="o">=</span> <span class="n">pairwise_tukeyhsd</span><span class="p">(</span><span class="n">df_tools5</span><span class="p">[</span><span class="s1">&#39;joint_efficiency_pct&#39;</span><span class="p">],</span> <span class="n">df_tools5</span><span class="p">[</span><span class="s1">&#39;tool_design&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tukey5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">F=19.12,</span> <span class="pre">p≈2e-10</span></code> — still highly significant with five groups.
+The original four designs’ pairwise picture is essentially unchanged:
+Cylindrical remains distinguishable from all others (<code class="docutils literal notranslate"><span class="pre">reject=True</span></code>
+throughout), and Flared-vs-Threaded / Flared-vs-Triflute / Threaded-vs-Triflute
+stay non-significant, just as in Section 12.2 — adding a fifth,
+unrelated group doesn’t retroactively change what the <em>original</em> four
+groups’ data says about each other, though Tukey’s p-adj values do shift
+slightly because the family-wise correction now spans <span class="math notranslate nohighlight">\(\binom{5}{2}=10\)</span>
+comparisons instead of 6.</p>
+</div>
+</details><p><strong>Exercise 2 — Kruskal-Wallis</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Same call as Notebook 9’s Exercise 1 — <code class="docutils literal notranslate"><span class="pre">stats.kruskal(*groups)</span></code>
+on the same four group arrays already built in Section 12.2, <code class="docutils literal notranslate"><span class="pre">groups</span></code>.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">H</span><span class="p">,</span> <span class="n">p_kw</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">kruskal</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Kruskal-Wallis: H=</span><span class="si">{</span><span class="n">H</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_kw</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;(One-way ANOVA from Section 12.2: F=</span><span class="si">{</span><span class="n">f_stat</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">H=22.82,</span> <span class="pre">p=0.000044</span></code> vs. the ANOVA’s <code class="docutils literal notranslate"><span class="pre">F=21.62,</span> <span class="pre">p≈1e-9</span></code> — same
+conclusion (reject H0 decisively) by both routes. As in the parallel
+exercise in Notebook 9, this agreement is expected precisely <em>because</em>
+Section 12.2’s own assumption checks (Levene, Shapiro-Wilk on residuals)
+already passed — Kruskal-Wallis is the fallback for when they don’t, used
+here as a confirmatory cross-check rather than out of necessity.</p>
+</div>
+</details><p><strong>Exercise 3 — Verify the RCBD bridge</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Just drop the <code class="docutils literal notranslate"><span class="pre">C(...)</span></code> wrapper around <code class="docutils literal notranslate"><span class="pre">rotation_speed</span></code> in the
+formula string — <code class="docutils literal notranslate"><span class="pre">rotation_speed</span></code> (categorical, 3 fixed settings) becomes
+<code class="docutils literal notranslate"><span class="pre">rotation_speed</span></code> (continuous, assumes a straight-line trend across
+900/1200/1500 rpm) while <code class="docutils literal notranslate"><span class="pre">C(coil)</span></code> stays categorical either way, since
+“Coil-1/2/3/4” has no numeric ordering.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model_cont</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ rotation_speed + C(coil)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_block</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">anova_cont</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model_cont</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Continuous rotation_speed:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">anova_cont</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">R² = </span><span class="si">{</span><span class="n">model_cont</span><span class="o">.</span><span class="n">rsquared</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, df_resid = </span><span class="si">{</span><span class="n">model_cont</span><span class="o">.</span><span class="n">df_resid</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;(Categorical model from Section 12.3: R² = </span><span class="si">{</span><span class="n">model_block</span><span class="o">.</span><span class="n">rsquared</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;df_resid = </span><span class="si">{</span><span class="n">model_block</span><span class="o">.</span><span class="n">df_resid</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: the continuous model gives <code class="docutils literal notranslate"><span class="pre">R²=0.947</span></code> (<code class="docutils literal notranslate"><span class="pre">df_resid=7</span></code>, using only 1
+degree of freedom for <code class="docutils literal notranslate"><span class="pre">rotation_speed</span></code> instead of 2) against the
+categorical model’s <code class="docutils literal notranslate"><span class="pre">R²=0.974</span></code> (<code class="docutils literal notranslate"><span class="pre">df_resid=6</span></code>). Both still find
+<code class="docutils literal notranslate"><span class="pre">rotation_speed</span></code>/<code class="docutils literal notranslate"><span class="pre">C(rotation_speed)</span></code> highly significant (<code class="docutils literal notranslate"><span class="pre">p=0.00003</span></code> vs.
+<code class="docutils literal notranslate"><span class="pre">p=0.00005</span></code>). The categorical version fits slightly better because it can
+match each of the three speed means exactly, with no constraint that they
+lie on a straight line; the continuous version spends one fewer degree of
+freedom and <em>assumes</em> a linear trend, which pays off with more power <strong>if</strong>
+that trend really is linear (worth checking against a scatter plot),
+buys you a single interpretable “MPa per rpm” slope instead of three
+separate group means, and lets you predict strength at <em>speeds you didn’t
+test</em> — something the categorical version cannot do.</p>
+</div>
+</details><p><strong>Exercise 4 — Forward selection</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Mirror <code class="docutils literal notranslate"><span class="pre">backward_elimination</span></code>’s structure exactly, but flip the
+direction: start <code class="docutils literal notranslate"><span class="pre">selected</span> <span class="pre">=</span> <span class="pre">[]</span></code>, and at each step try adding <em>each</em>
+remaining candidate to <code class="docutils literal notranslate"><span class="pre">selected</span></code>, keep whichever addition has the
+smallest p-value, and stop as soon as the best remaining candidate
+wouldn’t be significant if added.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">forward_selection</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">candidate_terms</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">selected</span><span class="p">,</span> <span class="n">remaining</span> <span class="o">=</span> <span class="p">[],</span> <span class="nb">list</span><span class="p">(</span><span class="n">candidate_terms</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">remaining</span><span class="p">:</span>
+        <span class="n">best_term</span><span class="p">,</span> <span class="n">best_p</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">remaining</span><span class="p">:</span>
+            <span class="n">formula</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1"> ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">selected</span> <span class="o">+</span> <span class="p">[</span><span class="n">term</span><span class="p">])</span>
+            <span class="n">fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="n">term</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">best_p</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="n">best_p</span><span class="p">:</span>
+                <span class="n">best_term</span><span class="p">,</span> <span class="n">best_p</span> <span class="o">=</span> <span class="n">term</span><span class="p">,</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="n">best_p</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">selected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_term</span><span class="p">)</span>
+        <span class="n">remaining</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">best_term</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Adding </span><span class="si">{</span><span class="n">best_term</span><span class="si">!r}</span><span class="s1"> (p=</span><span class="si">{</span><span class="n">best_p</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="n">formula</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1"> ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span> <span class="k">if</span> <span class="n">selected</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1"> ~ 1&#39;</span>
+    <span class="k">return</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(),</span> <span class="n">selected</span>
+
+<span class="n">model_fwd</span><span class="p">,</span> <span class="n">fwd_terms</span> <span class="o">=</span> <span class="n">forward_selection</span><span class="p">(</span><span class="n">df_reg</span><span class="p">,</span> <span class="s1">&#39;strength_MPa&#39;</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Forward selection kept:&#39;</span><span class="p">,</span> <span class="n">fwd_terms</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Backward elimination kept:&#39;</span><span class="p">,</span> <span class="n">kept_terms</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Forward:  R²_adj=</span><span class="si">{</span><span class="n">model_fwd</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, AIC=</span><span class="si">{</span><span class="n">model_fwd</span><span class="o">.</span><span class="n">aic</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Backward: R²_adj=</span><span class="si">{</span><span class="n">model_reduced</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, AIC=</span><span class="si">{</span><span class="n">model_reduced</span><span class="o">.</span><span class="n">aic</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: forward selection adds terms in the order <code class="docutils literal notranslate"><span class="pre">rotation_rpm</span> <span class="pre">→</span> <span class="pre">traverse_mm_min</span> <span class="pre">→</span> <span class="pre">axial_force_kN</span> <span class="pre">→</span> <span class="pre">rotation_rpm:traverse_mm_min</span> <span class="pre">→</span> <span class="pre">plate_thickness_mm</span></code>, and — for this particular dataset — converges on
+<em>exactly</em> the same five terms backward elimination kept
+(<code class="docutils literal notranslate"><span class="pre">R²_adj=0.929,</span> <span class="pre">AIC=259.5</span></code> for both), correctly leaving out
+<code class="docutils literal notranslate"><span class="pre">ambient_humidity_pct</span></code> either way. That agreement is not guaranteed in
+general — forward and backward selection can disagree, particularly when
+candidate predictors are correlated with each other, since forward
+selection never reconsiders a term once several others have already been
+added around it, while backward elimination starts from the full picture
+and only removes. Seeing them agree here is a mild reassurance that the
+five real effects built into <code class="docutils literal notranslate"><span class="pre">strength_true</span></code> in Section 12.5 are each
+individually strong enough that the selection <em>path</em> doesn’t matter.</p>
+</div>
+</details><p><strong>Exercise 5 — Interaction plot</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">sns.catplot(data=df_3way,</span> <span class="pre">kind='point',</span> <span class="pre">x='rotation',</span> <span class="pre">y='strength_MPa',</span> <span class="pre">hue='tool',</span> <span class="pre">col='traverse')</span></code>
+produces two side-by-side panels (one per <code class="docutils literal notranslate"><span class="pre">traverse</span></code> level), each with
+two lines (one per <code class="docutils literal notranslate"><span class="pre">tool</span></code>) — look for the lines having visibly different
+<em>slopes</em> within each panel, not just different heights.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">catplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_3way</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;point&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;rotation&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;strength_MPa&#39;</span><span class="p">,</span>
+                 <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;tool&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;traverse&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">],</span>
+                 <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_axis_labels</span><span class="p">(</span><span class="s1">&#39;Rotation speed&#39;</span><span class="p">,</span> <span class="s1">&#39;Strength (MPa)&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_titles</span><span class="p">(</span><span class="s1">&#39;Traverse: </span><span class="si">{col_name}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sd-card-text">In both facets, tool B’s line rises more steeply from Low to High rotation
+than tool A’s does (e.g. at Traverse=Low: A goes from ≈81.1 to ≈85.2 MPa,
++4.1, while B goes from ≈81.8 to ≈89.6 MPa, +7.8) — visually, the two lines
+fan apart going left to right rather than staying parallel. That fanning
+<em>is</em> the rotation×tool interaction the ANOVA table in Section 12.7 detected
+at <code class="docutils literal notranslate"><span class="pre">p=0.046</span></code>: the effect of rotation speed depends on which tool you’re
+using, and it looks essentially the same in both the Traverse=Low and
+Traverse=High panels — consistent with the three-way interaction term
+<em>not</em> being significant in that same table.</p>
+</div>
+</details><p><strong>Exercise 6 — Full ANCOVA with interaction</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">C(tool_design)</span> <span class="pre">*</span> <span class="pre">rotation_speed</span></code> in the formula (as opposed to
+<code class="docutils literal notranslate"><span class="pre">+</span></code>) automatically adds the interaction term alongside both main effects
+— but centre <code class="docutils literal notranslate"><span class="pre">rotation_speed</span></code> first (subtract its mean) the way Section
+12.5 recommends for interaction terms, or the main-effect p-values become
+misleading for a reason that has nothing to do with the interaction
+itself.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_ancova</span><span class="p">[</span><span class="s1">&#39;speed_c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_ancova</span><span class="p">[</span><span class="s1">&#39;rotation_speed&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_ancova</span><span class="p">[</span><span class="s1">&#39;rotation_speed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">model_int</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ C(tool_design) * speed_c&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_ancova</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_int</span><span class="o">.</span><span class="n">pvalues</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: the interaction term <code class="docutils literal notranslate"><span class="pre">C(tool_design)[T.Triflute]:speed_c</span></code> has
+<code class="docutils literal notranslate"><span class="pre">p=0.985</span></code> — nowhere close to significant, so the two tools’ strength really
+does respond to rotation speed with the same slope, and Section 12.6’s
+simpler additive model (no interaction) was the right call. With speed
+centred, the tool main effect stays clearly significant (<code class="docutils literal notranslate"><span class="pre">p=0.0004</span></code>),
+matching Section 12.6’s finding almost exactly. <strong>The centring step
+matters</strong>: fitting the identical interaction model on <em>uncentred</em>
+<code class="docutils literal notranslate"><span class="pre">rotation_speed</span></code> instead gives the same interaction p-value (0.985, the
+interaction itself is unaffected by centring) but an apparently
+non-significant tool main effect (<code class="docutils literal notranslate"><span class="pre">p=0.597</span></code>) — an artefact of severe
+multicollinearity between <code class="docutils literal notranslate"><span class="pre">C(tool_design)</span></code> and the uncentred interaction
+term (condition number ≈31,000 vs. ≈465 once centred), not evidence the
+tool effect vanished. This is precisely the caution flagged in Section
+12.5’s take-home message about Cond. No. warnings, now showing up as a
+concrete wrong-conclusion risk rather than an abstract one.</p>
+</div>
+</details><p><strong>Exercise 7 — Design your own three-way study</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Copy Section 12.7’s nested-loop generation pattern directly —
+pick a <code class="docutils literal notranslate"><span class="pre">base</span></code> value, add a fixed bump for each factor’s “high” level, add
+one extra bump only when two specific factor levels co-occur (that’s your
+deliberate two-way interaction), and leave a third main effect with no
+such bonus anywhere (that’s your interaction-free effect).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: sintering temperature x atmosphere x powder particle size,</span>
+<span class="c1"># 2x2x2, n=4 replicates/cell, modelled on Section 12.7&#39;s structure.</span>
+<span class="n">levels_ex</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">],</span> <span class="s1">&#39;atmosphere&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Air&#39;</span><span class="p">,</span> <span class="s1">&#39;N2&#39;</span><span class="p">],</span> <span class="s1">&#39;particle&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Coarse&#39;</span><span class="p">,</span> <span class="s1">&#39;Fine&#39;</span><span class="p">]}</span>
+<span class="n">rows_ex</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">levels_ex</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">atm</span> <span class="ow">in</span> <span class="n">levels_ex</span><span class="p">[</span><span class="s1">&#39;atmosphere&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">levels_ex</span><span class="p">[</span><span class="s1">&#39;particle&#39;</span><span class="p">]:</span>
+            <span class="n">base</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">+</span> <span class="p">(</span><span class="mi">6</span> <span class="k">if</span> <span class="n">T</span> <span class="o">==</span> <span class="s1">&#39;High&#39;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="k">if</span> <span class="n">part</span> <span class="o">==</span> <span class="s1">&#39;Fine&#39;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">base</span> <span class="o">+=</span> <span class="mi">5</span> <span class="k">if</span> <span class="p">(</span><span class="n">T</span> <span class="o">==</span> <span class="s1">&#39;High&#39;</span> <span class="ow">and</span> <span class="n">atm</span> <span class="o">==</span> <span class="s1">&#39;N2&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>   <span class="c1"># genuine T x atmosphere interaction</span>
+            <span class="c1"># &#39;particle&#39; deliberately has NO interaction with anything else</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">rows_ex</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="s1">&#39;atmosphere&#39;</span><span class="p">:</span> <span class="n">atm</span><span class="p">,</span> <span class="s1">&#39;particle&#39;</span><span class="p">:</span> <span class="n">part</span><span class="p">,</span>
+                                 <span class="s1">&#39;density_pct&#39;</span><span class="p">:</span> <span class="n">base</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)})</span>
+<span class="n">df_ex</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows_ex</span><span class="p">)</span>
+
+<span class="n">model_ex</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;density_pct ~ C(temperature)*C(atmosphere)*C(particle)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_ex</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model_ex</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="sd-card-text">The ANOVA table should recover all three main effects as significant
+(temperature, atmosphere, particle size each move mean density on their
+own) plus the <code class="docutils literal notranslate"><span class="pre">C(temperature):C(atmosphere)</span></code> interaction — while every term
+involving <code class="docutils literal notranslate"><span class="pre">particle</span></code> beyond its own main effect (its two-way interactions
+with temperature and atmosphere, and the three-way term) should come back
+non-significant, since none of those were built into <code class="docutils literal notranslate"><span class="pre">base</span></code>. As Section
+12.7’s own take-home message notes, this “does the table find what I put
+in” check is exactly how you build confidence in the ANOVA machinery before
+trusting it on a real dataset where you don’t already know the answer.</p>
+</div>
+</details></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\07_solutions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_data_handling_solutions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Part II Solutions: Data Handling &amp; Materials Ontologies</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_multivariate_solutions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Part IV Solutions: Multivariate Analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-6-descriptive-statistics">Notebook 6: Descriptive Statistics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-7-probability-distributions">Notebook 7: Probability Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-8-hypothesis-testing">Notebook 8: Hypothesis Testing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-9-analysis-of-variance-anova">Notebook 9: Analysis of Variance (ANOVA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-10-simple-linear-regression">Notebook 10: Simple Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-11-live-tutorial-1-t-tests-in-practice">Notebook 11: Live Tutorial 1 — t-Tests in Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-12-live-tutorial-2-anova-regression">Notebook 12: Live Tutorial 2 — ANOVA &amp; Regression</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

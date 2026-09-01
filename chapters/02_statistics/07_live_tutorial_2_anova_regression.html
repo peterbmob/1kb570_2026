@@ -1,0 +1,1345 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/02_statistics/07_live_tutorial_2_anova_regression';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Part IV: Multivariate Analysis" href="../03_multivariate/overview.html" />
+    <link rel="prev" title="11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice" href="06_live_tutorial_1_ttests.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part III: Applied Statistics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/02_statistics/07_live_tutorial_2_anova_regression.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/02_statistics/07_live_tutorial_2_anova_regression.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>12. Live Tutorial 2: ANOVA & Regression — One Process Study, Start to Finish</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-why-not-just-run-six-t-tests">12.1 Recap: Why Not Just Run Six <em>t</em>-Tests?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#which-pin-design-gives-the-strongest-joint-one-way-anova">12.2 Which Pin Design Gives the Strongest Joint? One-Way ANOVA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controlling-for-coil-to-coil-variation-randomized-block-design">12.3 Controlling for Coil-to-Coil Variation: Randomized Block Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bridge-anova-is-regression">12.4 The Bridge: ANOVA <em>Is</em> Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-predictive-model-multiple-regression-variable-selection">12.5 Building a Predictive Model: Multiple Regression + Variable Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-elimination">Backward Elimination</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#does-tool-design-still-matter-ancova">12.6 Does Tool Design Still Matter? ANCOVA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#going-further-three-factors-at-once">12.7 Going Further: Three Factors at Once</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="live-tutorial-2-anova-regression-one-process-study-start-to-finish">
+<h1>12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish<a class="headerlink" href="#live-tutorial-2-anova-regression-one-process-study-start-to-finish" title="Link to this heading">#</a></h1>
+<p>This session follows a single materials-engineering investigation —
+<strong>friction-stir welding of Al 6061-T6 panels</strong> — through every technique
+in this notebook’s title. That is deliberate: ANOVA and regression are not
+two unrelated tools that happen to share a chapter. They are the <strong>same
+underlying model</strong> (the <em>general linear model</em>), and Section 12.4 proves it
+directly. Seeing both applied to one coherent process study, rather than
+four disconnected toy datasets, is the point of this “live tutorial”
+format.</p>
+<p>Sections 12.1–12.6 are core material; 12.7 is a short “going further”
+bonus; the exercise list is substantial self-study material.</p>
+<p><strong>Investigation log</strong></p>
+<ol class="arabic simple">
+<li><p>Recap: why not just run six pairwise <em>t</em>-tests? (multiple comparisons)</p></li>
+<li><p>Which tool pin design gives the strongest joint? (one-way ANOVA)</p></li>
+<li><p>Controlling for coil-to-coil variation (randomized block design)</p></li>
+<li><p>The bridge: ANOVA <em>is</em> regression</p></li>
+<li><p>Building a predictive model from process parameters (multiple regression</p>
+<ul class="simple">
+<li><p>variable selection)</p></li>
+</ul>
+</li>
+<li><p>Does tool design still matter once rotation speed is accounted for?
+(ANCOVA)</p></li>
+<li><p><em>Going further</em>: three factors at once (three-way ANOVA)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.stats.multicomp</span><span class="w"> </span><span class="kn">import</span> <span class="n">pairwise_tukeyhsd</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="recap-why-not-just-run-six-t-tests">
+<h2>12.1 Recap: Why Not Just Run Six <em>t</em>-Tests?<a class="headerlink" href="#recap-why-not-just-run-six-t-tests" title="Link to this heading">#</a></h2>
+<p>The welding team wants to compare four pin-tool designs. Comparing all
+pairs would mean <span class="math notranslate nohighlight">\(\binom{4}{2}=6\)</span> separate <em>t</em>-tests. Notebook 11, Exercise 6
+already showed the problem numerically: with six independent tests at
+<span class="math notranslate nohighlight">\(\alpha=0.05\)</span> each, the chance of <em>at least one</em> false positive is
+<span class="math notranslate nohighlight">\(1-(1-0.05)^6\approx 26\%\)</span> — a coin flip’s worth of “significant” results
+that are actually noise. <strong>ANOVA</strong> solves this with a single <strong>omnibus
+test</strong>: one F-statistic asking “is there evidence <em>any</em> group differs?” at
+a controlled, single <span class="math notranslate nohighlight">\(\alpha\)</span> — and only if that test is significant do you
+proceed to pairwise comparisons, using a correction (Tukey’s HSD, Section
+12.2) that accounts for having looked at all six pairs.</p>
+</section>
+<section id="which-pin-design-gives-the-strongest-joint-one-way-anova">
+<h2>12.2 Which Pin Design Gives the Strongest Joint? One-Way ANOVA<a class="headerlink" href="#which-pin-design-gives-the-strongest-joint-one-way-anova" title="Link to this heading">#</a></h2>
+<p>Four tool pin geometries — <strong>Cylindrical, Threaded, Triflute, Flared</strong> —
+are each used to weld 10 panel pairs (process parameters held fixed).
+Response: joint ultimate tensile strength as a <strong>percentage of the parent
+metal’s strength</strong> (a standard way welding strength is reported, since it
+normalises out base-material variation).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tool_designs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cylindrical&#39;</span><span class="p">,</span> <span class="s1">&#39;Threaded&#39;</span><span class="p">,</span> <span class="s1">&#39;Triflute&#39;</span><span class="p">,</span> <span class="s1">&#39;Flared&#39;</span><span class="p">]</span>
+<span class="n">true_means</span>   <span class="o">=</span> <span class="p">[</span><span class="mi">78</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="mi">85</span><span class="p">]</span>     <span class="c1"># % of parent-metal strength</span>
+<span class="n">n_per_group</span>  <span class="o">=</span> <span class="mi">10</span>
+<span class="n">sigma</span>        <span class="o">=</span> <span class="mf">4.5</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">design</span><span class="p">,</span> <span class="n">mu</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tool_designs</span><span class="p">,</span> <span class="n">true_means</span><span class="p">):</span>
+    <span class="n">strengths</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n_per_group</span><span class="p">)</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">extend</span><span class="p">({</span><span class="s1">&#39;tool_design&#39;</span><span class="p">:</span> <span class="n">design</span><span class="p">,</span> <span class="s1">&#39;joint_efficiency_pct&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">}</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strengths</span><span class="p">)</span>
+<span class="n">df_tools</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_tools</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;tool_design&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;joint_efficiency_pct&#39;</span><span class="p">,</span>
+            <span class="n">order</span><span class="o">=</span><span class="n">tool_designs</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;tool_design&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">,</span>
+            <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_tools</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;tool_design&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;joint_efficiency_pct&#39;</span><span class="p">,</span>
+              <span class="n">order</span><span class="o">=</span><span class="n">tool_designs</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pin tool design&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Joint efficiency (%)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df_tools</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;tool_design&#39;</span><span class="p">)[</span><span class="s1">&#39;joint_efficiency_pct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tool_designs</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/1655eb7b661535ed5bccf8d279c9a433cdfa67f4d2a8c820eb6d16288cbb8668.png" src="../../_images/1655eb7b661535ed5bccf8d279c9a433cdfa67f4d2a8c820eb6d16288cbb8668.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                  mean       std  count
+tool_design                            
+Cylindrical  78.313301  4.302429     10
+Threaded     89.463776  2.789919     10
+Triflute     88.169902  3.228943     10
+Flared       85.580415  3.032644     10
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Assumption checks before trusting the F-test ──────────────────────────────</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">df_tools</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_tools</span><span class="o">.</span><span class="n">tool_design</span> <span class="o">==</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;joint_efficiency_pct&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">tool_designs</span><span class="p">]</span>
+<span class="n">levene_stat</span><span class="p">,</span> <span class="n">levene_p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">levene</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Levene&#39;s test (equal variance across groups): p=</span><span class="si">{</span><span class="n">levene_p</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;joint_efficiency_pct ~ C(tool_design)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_tools</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">shapiro_stat</span><span class="p">,</span> <span class="n">shapiro_p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">shapiro</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">resid</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Shapiro-Wilk on residuals (normality): p=</span><span class="si">{</span><span class="n">shapiro_p</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Both checks pass -&gt; a standard one-way ANOVA is appropriate here.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Levene&#39;s test (equal variance across groups): p=0.730
+Shapiro-Wilk on residuals (normality): p=0.392
+Both checks pass -&gt; a standard one-way ANOVA is appropriate here.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── One-way ANOVA ──────────────────────────────────────────────────────────────</span>
+<span class="n">f_stat</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;F-statistic: </span><span class="si">{</span><span class="n">f_stat</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;p-value:     </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Effect size: eta-squared = SS_between / SS_total</span>
+<span class="n">anova_table</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">eta_sq</span> <span class="o">=</span> <span class="n">anova_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;C(tool_design)&#39;</span><span class="p">,</span> <span class="s1">&#39;sum_sq&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">anova_table</span><span class="p">[</span><span class="s1">&#39;sum_sq&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">eta-squared (variance explained by tool design): </span><span class="si">{</span><span class="n">eta_sq</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">anova_table</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>F-statistic: 21.62
+p-value:     0.000000
+
+eta-squared (variance explained by tool design): 0.64
+                    sum_sq    df         F        PR(&gt;F)
+C(tool_design)  744.391782   3.0  21.61532  3.522853e-08
+Residual        413.257889  36.0       NaN           NaN
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Which pairs actually differ? Tukey HSD (controls the family-wise error) ───</span>
+<span class="n">tukey</span> <span class="o">=</span> <span class="n">pairwise_tukeyhsd</span><span class="p">(</span><span class="n">df_tools</span><span class="p">[</span><span class="s1">&#39;joint_efficiency_pct&#39;</span><span class="p">],</span> <span class="n">df_tools</span><span class="p">[</span><span class="s1">&#39;tool_design&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tukey</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    Multiple Comparison of Means - Tukey HSD, FWER=0.05    
+===========================================================
+   group1    group2  meandiff p-adj   lower   upper  reject
+-----------------------------------------------------------
+Cylindrical   Flared   7.2671 0.0002  3.1863 11.3479   True
+Cylindrical Threaded  11.1505    0.0  7.0697 15.2313   True
+Cylindrical Triflute   9.8566    0.0  5.7758 13.9374   True
+     Flared Threaded   3.8834  0.067 -0.1975  7.9642  False
+     Flared Triflute   2.5895  0.334 -1.4913  6.6703  False
+   Threaded Triflute  -1.2939 0.8282 -5.3747  2.7869  False
+-----------------------------------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint</strong>: the omnibus F-test says the four designs are not all
+equal (<span class="math notranslate nohighlight">\(p\ll0.05\)</span>), and <span class="math notranslate nohighlight">\(\eta^2\)</span> says tool design explains a large share
+of the variance in joint efficiency. Tukey’s table then tells you <em>which</em>
+pairs are distinguishable — read off which comparisons have
+<code class="docutils literal notranslate"><span class="pre">reject=True</span></code>. Note this is exactly the workflow the multiple-comparisons
+problem in Section 12.1 warned you not to skip: omnibus test <strong>first</strong>,
+corrected pairwise comparisons <strong>second</strong>, never six raw <em>t</em>-tests.</p>
+</section>
+<section id="controlling-for-coil-to-coil-variation-randomized-block-design">
+<h2>12.3 Controlling for Coil-to-Coil Variation: Randomized Block Design<a class="headerlink" href="#controlling-for-coil-to-coil-variation-randomized-block-design" title="Link to this heading">#</a></h2>
+<p>Next question: does <strong>rotation speed</strong> (900 / 1200 / 1500 rpm) affect
+strength? The catch: aluminium coil stock varies batch-to-batch (thickness,
+temper, trace composition), and the welding team only has four coils
+available, each large enough for one weld at <em>each</em> of the three speeds.
+Coil is a real source of variation you are not interested in but cannot
+avoid — a <strong>nuisance variable</strong>. Ignoring it (treating this as an ordinary
+one-way ANOVA over 12 independent welds) would let coil-to-coil variation
+inflate the error term and potentially hide a genuine rotation-speed
+effect — exactly the same problem Notebook 11 §11.5 solved with <em>pairing</em>,
+generalised to more than two groups. The fix is a <strong>randomized complete
+block design (RCBD)</strong>: treat coil as a <strong>block</strong>, weld every speed on
+every coil, and remove block-to-block variation from the error term
+explicitly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">speeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">900</span><span class="p">,</span> <span class="mi">1200</span><span class="p">,</span> <span class="mi">1500</span><span class="p">]</span>        <span class="c1"># rpm -- the factor of interest</span>
+<span class="n">coils</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Coil-1&#39;</span><span class="p">,</span> <span class="s1">&#39;Coil-2&#39;</span><span class="p">,</span> <span class="s1">&#39;Coil-3&#39;</span><span class="p">,</span> <span class="s1">&#39;Coil-4&#39;</span><span class="p">]</span>   <span class="c1"># the blocking factor</span>
+<span class="n">coil_effect</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">coils</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]))</span>       <span class="c1"># each coil&#39;s own baseline offset</span>
+<span class="n">speed_effect</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">speeds</span><span class="p">,</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="mi">86</span><span class="p">,</span> <span class="mi">90</span><span class="p">]))</span>        <span class="c1"># true effect of speed</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">coil</span> <span class="ow">in</span> <span class="n">coils</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">speed</span> <span class="ow">in</span> <span class="n">speeds</span><span class="p">:</span>
+        <span class="n">strength</span> <span class="o">=</span> <span class="n">speed_effect</span><span class="p">[</span><span class="n">speed</span><span class="p">]</span> <span class="o">+</span> <span class="n">coil_effect</span><span class="p">[</span><span class="n">coil</span><span class="p">]</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;coil&#39;</span><span class="p">:</span> <span class="n">coil</span><span class="p">,</span> <span class="s1">&#39;rotation_speed&#39;</span><span class="p">:</span> <span class="n">speed</span><span class="p">,</span> <span class="s1">&#39;strength_MPa&#39;</span><span class="p">:</span> <span class="n">strength</span><span class="p">})</span>
+<span class="n">df_block</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_block</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;coil&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;rotation_speed&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;strength_MPa&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rotation_speed  900   1200  1500
+coil                            
+Coil-1          77.9  83.6  89.7
+Coil-2          81.8  89.3  92.9
+Coil-3          83.7  94.3  99.3
+Coil-4          76.2  87.5  90.1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── RCBD: rotation speed (factor) + coil (block), no interaction term ─────────</span>
+<span class="c1"># &#39;rotation_speed&#39; is coded as a category here -- we care about 3 discrete</span>
+<span class="c1"># settings, not (yet) a continuous trend; Section 12.5 revisits speed as</span>
+<span class="c1"># a continuous regression predictor.</span>
+<span class="n">model_block</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ C(rotation_speed) + C(coil)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_block</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">anova_block</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model_block</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">anova_block</span><span class="p">)</span>
+
+<span class="c1"># Compare to (incorrectly) ignoring the block entirely</span>
+<span class="n">model_noblock</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ C(rotation_speed)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_block</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">anova_noblock</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model_noblock</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Same data, ignoring the coil block:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">anova_noblock</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                       sum_sq   df          F    PR(&gt;F)
+C(rotation_speed)  358.674123  2.0  79.747779  0.000048
+C(coil)            140.912525  3.0  20.887040  0.001411
+Residual            13.492819  6.0        NaN       NaN
+
+Same data, ignoring the coil block:
+                       sum_sq   df          F    PR(&gt;F)
+C(rotation_speed)  358.674123  2.0  10.453223  0.004499
+Residual           154.405344  9.0        NaN       NaN
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Residual mean square WITH block:    </span><span class="si">{</span><span class="n">anova_block</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Residual&#39;</span><span class="p">,</span><span class="s1">&#39;sum_sq&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">anova_block</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Residual&#39;</span><span class="p">,</span><span class="s1">&#39;df&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Residual mean square WITHOUT block: </span><span class="si">{</span><span class="n">anova_noblock</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Residual&#39;</span><span class="p">,</span><span class="s1">&#39;sum_sq&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">anova_noblock</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Residual&#39;</span><span class="p">,</span><span class="s1">&#39;df&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Rotation speed p-value WITH block:    </span><span class="si">{</span><span class="n">anova_block</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;C(rotation_speed)&#39;</span><span class="p">,</span><span class="s1">&#39;PR(&gt;F)&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rotation speed p-value WITHOUT block: </span><span class="si">{</span><span class="n">anova_noblock</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;C(rotation_speed)&#39;</span><span class="p">,</span><span class="s1">&#39;PR(&gt;F)&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Blocking removed coil-to-coil variation from the error term, shrinking the&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;residual mean square and making the same rotation-speed effect easier to detect --&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;the ANOVA generalisation of the paired-vs-unpaired comparison from Notebook 11.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Residual mean square WITH block:    2.25
+Residual mean square WITHOUT block: 17.16
+
+Rotation speed p-value WITH block:    0.00005
+Rotation speed p-value WITHOUT block: 0.00450
+
+Blocking removed coil-to-coil variation from the error term, shrinking the
+residual mean square and making the same rotation-speed effect easier to detect --
+the ANOVA generalisation of the paired-vs-unpaired comparison from Notebook 11.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint / Exercise A</strong>: Increase the spread of <code class="docutils literal notranslate"><span class="pre">coil_effect</span></code> in
+Section 12.3 (e.g. <code class="docutils literal notranslate"><span class="pre">[-15,</span> <span class="pre">20,</span> <span class="pre">25,</span> <span class="pre">-10]</span></code>) and re-run. What happens to the gap
+between the “with block” and “without block” p-values as coil-to-coil
+variation grows? Compare your answer to Notebook 11, Exercise B, which asked
+the identical question about paired vs. unpaired <em>t</em>-tests.</p>
+</section>
+<section id="the-bridge-anova-is-regression">
+<h2>12.4 The Bridge: ANOVA <em>Is</em> Regression<a class="headerlink" href="#the-bridge-anova-is-regression" title="Link to this heading">#</a></h2>
+<p>Here is the idea this whole notebook has been building toward. <code class="docutils literal notranslate"><span class="pre">smf.ols</span></code>
+has been used for <em>every</em> ANOVA so far — because underneath, <code class="docutils literal notranslate"><span class="pre">C(tool_design)</span></code>
+means “create dummy (0/1) variables for the categories and fit an ordinary
+regression on them.” Let’s see it explicitly for the one-way tool-design
+data from Section 12.2.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Look at the actual design matrix statsmodels builds behind C(tool_design)</span>
+<span class="n">design_matrix</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;joint_efficiency_pct ~ C(tool_design)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_tools</span><span class="p">)</span><span class="o">.</span><span class="n">exog</span>
+<span class="n">design_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">design_matrix</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;joint_efficiency_pct ~ C(tool_design)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_tools</span><span class="p">)</span><span class="o">.</span><span class="n">exog_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;First 5 rows of the regression design matrix:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">design_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">corresponding tool_design values:&#39;</span><span class="p">,</span> <span class="n">df_tools</span><span class="p">[</span><span class="s1">&#39;tool_design&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>First 5 rows of the regression design matrix:
+   Intercept  C(tool_design)[T.Flared]  C(tool_design)[T.Threaded]  \
+0        1.0                       0.0                         0.0   
+1        1.0                       0.0                         0.0   
+2        1.0                       0.0                         0.0   
+3        1.0                       0.0                         0.0   
+4        1.0                       0.0                         0.0   
+
+   C(tool_design)[T.Triflute]  
+0                         0.0  
+1                         0.0  
+2                         0.0  
+3                         0.0  
+4                         0.0  
+
+corresponding tool_design values: [&#39;Cylindrical&#39;, &#39;Cylindrical&#39;, &#39;Cylindrical&#39;, &#39;Cylindrical&#39;, &#39;Cylindrical&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The F-test from `stats.f_oneway` and the F-test from an OLS regression on</span>
+<span class="c1"># these dummy variables are numerically identical.</span>
+<span class="n">f_anova</span><span class="p">,</span> <span class="n">p_anova</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">)</span>
+<span class="n">f_regression</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fvalue</span>     <span class="c1"># `model` is the same OLS fit from Section 12.2</span>
+<span class="n">p_regression</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">f_pvalue</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;f_oneway:        F=</span><span class="si">{</span><span class="n">f_anova</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_anova</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;OLS regression:  F=</span><span class="si">{</span><span class="n">f_regression</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_regression</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Identical (to floating-point precision): </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">f_anova</span><span class="p">,</span><span class="w"> </span><span class="n">f_regression</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">This is why statsmodels can run every ANOVA in this notebook through the&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exact same `ols()` + `anova_lm()` pair you would use for a regression --&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;there is only one underlying model.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>f_oneway:        F=21.6153, p=0.000000
+OLS regression:  F=21.6153, p=0.000000
+
+Identical (to floating-point precision): True
+
+This is why statsmodels can run every ANOVA in this notebook through the
+exact same `ols()` + `anova_lm()` pair you would use for a regression --
+there is only one underlying model.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="building-a-predictive-model-multiple-regression-variable-selection">
+<h2>12.5 Building a Predictive Model: Multiple Regression + Variable Selection<a class="headerlink" href="#building-a-predictive-model-multiple-regression-variable-selection" title="Link to this heading">#</a></h2>
+<p>Now treat the process parameters as <strong>continuous</strong> and build a model that
+<em>predicts</em> joint strength anywhere in the operating window, not just at
+the specific settings tested. Start from a <strong>saturated model</strong> with every
+candidate term the welding engineers can think of — including two that
+turn out to be red herrings, deliberately, to demonstrate what variable
+selection is supposed to catch.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">rotation_rpm</span>  <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">1600</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">traverse_mm_min</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">axial_force_kN</span>  <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">plate_thickness_mm</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>      <span class="c1"># a genuine predictor</span>
+<span class="n">ambient_humidity_pct</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>  <span class="c1"># a red herring -- no real effect</span>
+
+<span class="n">rotation_c</span> <span class="o">=</span> <span class="p">(</span><span class="n">rotation_rpm</span> <span class="o">-</span> <span class="n">rotation_rpm</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">rotation_rpm</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">traverse_c</span> <span class="o">=</span> <span class="p">(</span><span class="n">traverse_mm_min</span> <span class="o">-</span> <span class="n">traverse_mm_min</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">traverse_mm_min</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="c1"># True model: rotation, traverse, force, thickness matter; humidity does NOT.</span>
+<span class="c1"># A mild rotation x traverse interaction is baked in (heat input depends on both).</span>
+<span class="n">strength_true</span> <span class="o">=</span> <span class="p">(</span><span class="mi">86</span>
+                  <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">rotation_c</span>
+                  <span class="o">-</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">traverse_c</span>
+                  <span class="o">+</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">rotation_c</span> <span class="o">*</span> <span class="n">traverse_c</span>
+                  <span class="o">+</span> <span class="mf">1.2</span> <span class="o">*</span> <span class="p">(</span><span class="n">axial_force_kN</span> <span class="o">-</span> <span class="n">axial_force_kN</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+                  <span class="o">-</span> <span class="mf">1.8</span> <span class="o">*</span> <span class="p">(</span><span class="n">plate_thickness_mm</span> <span class="o">-</span> <span class="n">plate_thickness_mm</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+<span class="n">strength_MPa</span> <span class="o">=</span> <span class="n">strength_true</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="n">df_reg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;strength_MPa&#39;</span><span class="p">:</span> <span class="n">strength_MPa</span><span class="p">,</span>
+    <span class="s1">&#39;rotation_rpm&#39;</span><span class="p">:</span> <span class="n">rotation_rpm</span><span class="p">,</span>
+    <span class="s1">&#39;traverse_mm_min&#39;</span><span class="p">:</span> <span class="n">traverse_mm_min</span><span class="p">,</span>
+    <span class="s1">&#39;axial_force_kN&#39;</span><span class="p">:</span> <span class="n">axial_force_kN</span><span class="p">,</span>
+    <span class="s1">&#39;plate_thickness_mm&#39;</span><span class="p">:</span> <span class="n">plate_thickness_mm</span><span class="p">,</span>
+    <span class="s1">&#39;ambient_humidity_pct&#39;</span><span class="p">:</span> <span class="n">ambient_humidity_pct</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_reg</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       strength_MPa  rotation_rpm  traverse_mm_min  axial_force_kN  \
+count         60.00         60.00            60.00           60.00   
+mean          86.06       1152.83           164.45            8.13   
+std            7.51        250.43            69.55            2.22   
+min           68.96        814.37            57.18            4.09   
+25%           80.32        927.78           109.44            6.37   
+50%           87.90       1086.65           170.35            8.26   
+75%           91.64       1394.39           218.96           10.07   
+max           96.34       1599.04           294.85           11.93   
+
+       plate_thickness_mm  ambient_humidity_pct  
+count               60.00                 60.00  
+mean                 5.42                 48.85  
+std                  1.46                 11.83  
+min                  3.15                 30.09  
+25%                  4.05                 38.94  
+50%                  5.25                 47.56  
+75%                  6.62                 58.99  
+max                  7.85                 68.30  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Saturated model: every candidate main effect + the rotation:traverse interaction ─</span>
+<span class="n">full_formula</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;strength_MPa ~ rotation_rpm + traverse_mm_min + axial_force_kN + &#39;</span>
+                 <span class="s1">&#39;plate_thickness_mm + ambient_humidity_pct + rotation_rpm:traverse_mm_min&#39;</span><span class="p">)</span>
+<span class="n">model_full</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">full_formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_reg</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_full</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:           strength_MPa   R-squared:                       0.937
+Model:                            OLS   Adj. R-squared:                  0.930
+Method:                 Least Squares   F-statistic:                     131.4
+Date:                Tue, 01 Sep 2026   Prob (F-statistic):           5.28e-30
+Time:                        17:41:56   Log-Likelihood:                -122.68
+No. Observations:                  60   AIC:                             259.4
+Df Residuals:                      53   BIC:                             274.0
+Df Model:                           6                                         
+Covariance Type:            nonrobust                                         
+================================================================================================
+                                   coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------------------------
+Intercept                       99.1727      3.501     28.328      0.000      92.151     106.195
+rotation_rpm                    -0.0054      0.003     -2.065      0.044      -0.011      -0.000
+traverse_mm_min                 -0.2362      0.018    -12.857      0.000      -0.273      -0.199
+axial_force_kN                   1.3758      0.121     11.387      0.000       1.133       1.618
+plate_thickness_mm              -1.6448      0.183     -9.005      0.000      -2.011      -1.278
+ambient_humidity_pct            -0.0306      0.022     -1.379      0.174      -0.075       0.014
+rotation_rpm:traverse_mm_min     0.0002   1.59e-05     10.347      0.000       0.000       0.000
+==============================================================================
+Omnibus:                        6.776   Durbin-Watson:                   1.985
+Prob(Omnibus):                  0.034   Jarque-Bera (JB):                5.925
+Skew:                          -0.641   Prob(JB):                       0.0517
+Kurtosis:                       3.852   Cond. No.                     2.85e+06
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 2.85e+06. This might indicate that there are
+strong multicollinearity or other numerical problems.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>R²=0.937 (adjusted 0.930) says the five process parameters plus their interaction explain 93.7% of the variation in joint strength — a strong predictive model even before any variable selection has been applied.</p></li>
+<li><p>Notice the “Cond. No. is large, 2.85e+06” warning at the bottom — not a bug, but <code class="docutils literal notranslate"><span class="pre">rotation_rpm</span></code> and <code class="docutils literal notranslate"><span class="pre">traverse_mm_min</span></code> being highly correlated with their own interaction term because neither was centred before multiplying (unlike the centred <code class="docutils literal notranslate"><span class="pre">rotation_c</span></code>/<code class="docutils literal notranslate"><span class="pre">traverse_c</span></code> used only to <em>generate</em> the synthetic data in Section 12.5 above). The coefficients and p-values are still valid, but their standard errors are somewhat inflated by this — centring continuous predictors before forming interaction terms is standard practice specifically to avoid this warning.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ambient_humidity_pct</span></code> has p=0.174, clearly the weakest term in the table — exactly the “red herring” flagged in Section 12.5’s introduction, and the first term backward elimination removes below.</p></li>
+</ul>
+</div>
+<section id="backward-elimination">
+<h3>Backward Elimination<a class="headerlink" href="#backward-elimination" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ambient_humidity_pct</span></code> almost certainly has the least significant
+coefficient above (check its p-value) — exactly as designed, since it has
+no real effect on strength. <strong>Backward elimination</strong> is the simplest
+variable-selection algorithm: fit the full model, drop the single least
+significant term, refit, and repeat until every remaining term is
+significant (or a fixed number of terms remain). It is crude compared to
+modern penalised methods (LASSO/ridge — beyond this course, but worth
+knowing by name), but it is transparent, and transparency matters when you
+have to explain a model to a process engineer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">backward_elimination</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">candidate_terms</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Iteratively drop the least-significant term until all p &lt; alpha.&quot;&quot;&quot;</span>
+    <span class="n">terms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">candidate_terms</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1"> ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="n">pvalues</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">pvalues</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">)</span>
+        <span class="n">worst_term</span><span class="p">,</span> <span class="n">worst_p</span> <span class="o">=</span> <span class="n">pvalues</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span> <span class="n">pvalues</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">worst_p</span> <span class="o">&lt;=</span> <span class="n">alpha</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fit</span><span class="p">,</span> <span class="n">terms</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dropping </span><span class="si">{</span><span class="n">worst_term</span><span class="si">!r}</span><span class="s1"> (p=</span><span class="si">{</span><span class="n">worst_p</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+        <span class="c1"># statsmodels names interaction terms like &#39;rotation_rpm:traverse_mm_min&#39; --</span>
+        <span class="c1"># matches a candidate term string directly, so this simple removal works</span>
+        <span class="n">terms</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">worst_term</span><span class="p">)</span>
+
+
+<span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rotation_rpm&#39;</span><span class="p">,</span> <span class="s1">&#39;traverse_mm_min&#39;</span><span class="p">,</span> <span class="s1">&#39;axial_force_kN&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;plate_thickness_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;ambient_humidity_pct&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;rotation_rpm:traverse_mm_min&#39;</span><span class="p">]</span>
+<span class="n">model_reduced</span><span class="p">,</span> <span class="n">kept_terms</span> <span class="o">=</span> <span class="n">backward_elimination</span><span class="p">(</span><span class="n">df_reg</span><span class="p">,</span> <span class="s1">&#39;strength_MPa&#39;</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Final terms kept:&#39;</span><span class="p">,</span> <span class="n">kept_terms</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Full model:    R2_adj=</span><span class="si">{</span><span class="n">model_full</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, AIC=</span><span class="si">{</span><span class="n">model_full</span><span class="o">.</span><span class="n">aic</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reduced model: R2_adj=</span><span class="si">{</span><span class="n">model_reduced</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, AIC=</span><span class="si">{</span><span class="n">model_reduced</span><span class="o">.</span><span class="n">aic</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dropping &#39;ambient_humidity_pct&#39; (p=0.174)
+
+Final terms kept: [&#39;rotation_rpm&#39;, &#39;traverse_mm_min&#39;, &#39;axial_force_kN&#39;, &#39;plate_thickness_mm&#39;, &#39;rotation_rpm:traverse_mm_min&#39;]
+
+Full model:    R2_adj=0.930, AIC=259.4
+Reduced model: R2_adj=0.929, AIC=259.5
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint</strong>: the reduced model should have dropped
+<code class="docutils literal notranslate"><span class="pre">ambient_humidity_pct</span></code> (and possibly the interaction, if it wasn’t strong
+enough to survive) while its adjusted R² and AIC stayed essentially
+unchanged — a <em>lower</em> AIC would mean a clearly better model, but even a
+near-identical AIC with one fewer term is still a win: the same predictive
+power from a simpler, cheaper-to-measure model (one less process variable
+to monitor on the shop floor). This is the quantitative version of Occam’s
+razor: prefer the simpler model unless the extra complexity earns its
+keep.</p>
+</section>
+</section>
+<section id="does-tool-design-still-matter-ancova">
+<h2>12.6 Does Tool Design Still Matter? ANCOVA<a class="headerlink" href="#does-tool-design-still-matter-ancova" title="Link to this heading">#</a></h2>
+<p>One more question ties Sections 12.2 and 12.5 together: Section 12.2 found
+tool design affects strength — but those welds were also run at whatever
+rotation speed happened to be used that day. Is the tool-design effect
+<em>real</em>, or is it secretly just because certain tools happened to be tested
+at better rotation speeds? <strong>ANCOVA</strong> (analysis of covariance) answers
+this by putting a categorical factor <em>and</em> a continuous covariate in the
+same model — literally just a regression formula mixing <code class="docutils literal notranslate"><span class="pre">C(...)</span></code> and
+plain terms, one more consequence of Section 12.4’s bridge.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Two tool designs, each tested across a range of rotation speeds</span>
+<span class="n">n_tool</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">tool_ancova</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">&#39;Threaded&#39;</span><span class="p">,</span> <span class="s1">&#39;Triflute&#39;</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">n_tool</span><span class="p">)</span>
+<span class="n">speed_ancova</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">900</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">n_tool</span><span class="p">)</span>
+<span class="n">speed_c</span> <span class="o">=</span> <span class="p">(</span><span class="n">speed_ancova</span> <span class="o">-</span> <span class="n">speed_ancova</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">speed_ancova</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="n">tool_bonus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tool_ancova</span> <span class="o">==</span> <span class="s1">&#39;Triflute&#39;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>   <span class="c1"># true Triflute advantage</span>
+<span class="n">strength_ancova</span> <span class="o">=</span> <span class="mi">85</span> <span class="o">+</span> <span class="n">tool_bonus</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">speed_c</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="n">n_tool</span><span class="p">)</span>
+<span class="n">df_ancova</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;tool_design&#39;</span><span class="p">:</span> <span class="n">tool_ancova</span><span class="p">,</span> <span class="s1">&#39;rotation_speed&#39;</span><span class="p">:</span> <span class="n">speed_ancova</span><span class="p">,</span>
+                           <span class="s1">&#39;strength_MPa&#39;</span><span class="p">:</span> <span class="n">strength_ancova</span><span class="p">})</span>
+
+<span class="c1"># Naive: ignore rotation speed entirely</span>
+<span class="n">model_naive</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ C(tool_design)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_ancova</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="c1"># ANCOVA: control for rotation speed, then ask about tool design</span>
+<span class="n">model_ancova</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ C(tool_design) + rotation_speed&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_ancova</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Naive one-way ANOVA (ignores rotation speed):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Triflute effect p-value: </span><span class="si">{</span><span class="n">model_naive</span><span class="o">.</span><span class="n">pvalues</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;C(tool_design)[T.Triflute]&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">ANCOVA (controls for rotation speed):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Triflute effect p-value: </span><span class="si">{</span><span class="n">model_ancova</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="s1">&#39;C(tool_design)[T.Triflute]&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Rotation speed p-value:  </span><span class="si">{</span><span class="n">model_ancova</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="s1">&#39;rotation_speed&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Triflute advantage, adjusted for speed: </span><span class="si">{</span><span class="n">model_ancova</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;C(tool_design)[T.Triflute]&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MPa&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Naive one-way ANOVA (ignores rotation speed):
+  Triflute effect p-value: 0.0074
+
+ANCOVA (controls for rotation speed):
+  Triflute effect p-value: 0.0002
+  Rotation speed p-value:  0.0000
+
+Triflute advantage, adjusted for speed: 4.55 MPa
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>Ignoring rotation speed, Triflute’s advantage already looks significant (p=0.0074); controlling for speed makes it look <em>more</em> significant still (p=0.0002) and pins the advantage at a concrete 4.55 MPa — here, adjusting for the covariate sharpened the conclusion rather than explaining it away.</p></li>
+<li><p>That is not guaranteed in general: if the two tools had happened to be tested at systematically different rotation speeds, a naive comparison could show an effect that mostly reflects the speed difference, not the tool itself. ANCOVA’s job is to tell those two stories apart — here it confirms the tool effect is real independent of speed.</p></li>
+</ul>
+</div>
+</section>
+<section id="going-further-three-factors-at-once">
+<h2>12.7 Going Further: Three Factors at Once<a class="headerlink" href="#going-further-three-factors-at-once" title="Link to this heading">#</a></h2>
+<p>Everything above generalises directly to a <strong>three-way ANOVA</strong> — same
+<code class="docutils literal notranslate"><span class="pre">ols</span></code> + <code class="docutils literal notranslate"><span class="pre">C(...)</span></code> + <code class="docutils literal notranslate"><span class="pre">anova_lm</span></code> machinery, just more terms in the formula.
+This cell is a compact demonstration rather than a full worked example;
+treat it as a template for Exercise 7 below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rotation speed x Traverse speed x Tool design, 2x2x2, n=4 replicates/cell</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;rotation&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">],</span> <span class="s1">&#39;traverse&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">],</span> <span class="s1">&#39;tool&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">]}</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">rot</span> <span class="ow">in</span> <span class="n">levels</span><span class="p">[</span><span class="s1">&#39;rotation&#39;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">trav</span> <span class="ow">in</span> <span class="n">levels</span><span class="p">[</span><span class="s1">&#39;traverse&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">levels</span><span class="p">[</span><span class="s1">&#39;tool&#39;</span><span class="p">]:</span>
+            <span class="n">base</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">+</span> <span class="p">(</span><span class="mi">5</span> <span class="k">if</span> <span class="n">rot</span> <span class="o">==</span> <span class="s1">&#39;High&#39;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="k">if</span> <span class="n">trav</span> <span class="o">==</span> <span class="s1">&#39;High&#39;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="k">if</span> <span class="n">tool</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># a genuine rotation x tool interaction</span>
+            <span class="n">base</span> <span class="o">+=</span> <span class="mi">4</span> <span class="k">if</span> <span class="p">(</span><span class="n">rot</span> <span class="o">==</span> <span class="s1">&#39;High&#39;</span> <span class="ow">and</span> <span class="n">tool</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;rotation&#39;</span><span class="p">:</span> <span class="n">rot</span><span class="p">,</span> <span class="s1">&#39;traverse&#39;</span><span class="p">:</span> <span class="n">trav</span><span class="p">,</span> <span class="s1">&#39;tool&#39;</span><span class="p">:</span> <span class="n">tool</span><span class="p">,</span>
+                             <span class="s1">&#39;strength_MPa&#39;</span><span class="p">:</span> <span class="n">base</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)})</span>
+<span class="n">df_3way</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+
+<span class="n">model_3way</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ C(rotation)*C(traverse)*C(tool)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_3way</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model_3way</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                   sum_sq    df        F  PR(&gt;F)
+C(rotation)                      292.5915   1.0  52.4043  0.0000
+C(traverse)                       73.5620   1.0  13.1752  0.0013
+C(tool)                          125.0559   1.0  22.3980  0.0001
+C(rotation):C(traverse)            0.0677   1.0   0.0121  0.9132
+C(rotation):C(tool)               24.8207   1.0   4.4455  0.0456
+C(traverse):C(tool)               15.2145   1.0   2.7250  0.1118
+C(rotation):C(traverse):C(tool)    0.0678   1.0   0.0121  0.9132
+Residual                         134.0004  24.0      NaN     NaN
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>The table recovers exactly the effects built into the synthetic data above: the rotation, traverse, and tool main effects are all significant (p ≤ 0.0013), the rotation×tool interaction is significant (p=0.046, matching the “genuine rotation x tool interaction” added in the generating code), and every other interaction — including the three-way term — is far from significant (p ≥ 0.11), matching that nothing else was built in.</p></li>
+<li><p>This “does the table find what I put in” check is a good habit whenever you control the ground truth (synthetic data, a simulation) — it builds trust in a method before applying it to a real dataset where the ground truth is unknown.</p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p><strong>Core practice</strong></p>
+<ol class="arabic simple">
+<li><p><strong>A fifth tool design</strong>: Add a fifth pin design to Section 12.2 with
+<code class="docutils literal notranslate"><span class="pre">true_mean=90</span></code> and re-run the full workflow (boxplot → assumption checks
+→ ANOVA → eta-squared → Tukey). Does it change which pairwise
+comparisons are significant among the <em>original</em> four designs?</p></li>
+<li><p><strong>Kruskal-Wallis</strong>: Section 12.2’s Shapiro-Wilk check passed, but suppose
+it hadn’t. Re-run the comparison with <code class="docutils literal notranslate"><span class="pre">stats.kruskal(*groups)</span></code> (the
+non-parametric analogue of one-way ANOVA, in the same family as
+Notebook 11’s Mann-Whitney U) and compare the p-value and conclusion.</p></li>
+<li><p><strong>Verify the RCBD bridge</strong>: Fit
+<code class="docutils literal notranslate"><span class="pre">smf.ols('strength_MPa</span> <span class="pre">~</span> <span class="pre">rotation_speed</span> <span class="pre">+</span> <span class="pre">C(coil)',</span> <span class="pre">data=df_block)</span></code>
+treating <code class="docutils literal notranslate"><span class="pre">rotation_speed</span></code> as <em>continuous</em> rather than <code class="docutils literal notranslate"><span class="pre">C(rotation_speed)</span></code>
+(categorical). Compare the ANOVA table to Section 12.3’s. Which model
+assumes a straight-line trend across the three speeds, and which does
+not? When would each be the more appropriate choice?</p></li>
+</ol>
+<p><strong>Deeper practice</strong></p>
+<ol class="arabic simple" start="4">
+<li><p><strong>Forward selection</strong>: Write <code class="docutils literal notranslate"><span class="pre">forward_selection</span></code>, the mirror image of
+<code class="docutils literal notranslate"><span class="pre">backward_elimination</span></code> (Section 12.5): start from an empty model, add
+the single most significant candidate term at each step, stop when no
+remaining candidate would be significant if added. Run it on the same
+<code class="docutils literal notranslate"><span class="pre">candidates</span></code> list and compare the final model to backward elimination’s
+— variable-selection algorithms do not always converge on the same
+answer, which is itself an important lesson about their limitations.</p></li>
+<li><p><strong>Interaction plot</strong>: For the three-way data in Section 12.7, produce an
+interaction plot of mean strength vs. <code class="docutils literal notranslate"><span class="pre">rotation</span></code>, with separate lines
+for each <code class="docutils literal notranslate"><span class="pre">tool</span></code> level, faceted by <code class="docutils literal notranslate"><span class="pre">traverse</span></code> (hint:
+<code class="docutils literal notranslate"><span class="pre">sns.catplot(...,</span> <span class="pre">kind='point',</span> <span class="pre">col='traverse',</span> <span class="pre">hue='tool',</span> <span class="pre">x='rotation')</span></code>).
+Where in the plot do you visually see the rotation×tool interaction the
+ANOVA table detected?</p></li>
+<li><p><strong>Full ANCOVA with interaction</strong>: Section 12.6’s ANCOVA assumed the
+rotation-speed <em>slope</em> is the same for both tool designs (no
+<code class="docutils literal notranslate"><span class="pre">C(tool_design):rotation_speed</span></code> term). Add that interaction term, refit,
+and check whether it’s significant. If it were significant, what would
+that mean physically about how the two tools respond to rotation speed?</p></li>
+<li><p><strong>Design your own three-way study</strong>: Pick three factors from anywhere
+in this course (material, process parameter, testing condition) and
+build a synthetic 2×2×2 (or 2×2×3) dataset with at least one genuine
+two-way interaction and one genuine main effect that has <em>no</em>
+interaction with anything. Fit the full three-way ANOVA and confirm the
+table correctly identifies which effects you built in and which you
+didn’t.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\02_statistics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_live_tutorial_1_ttests.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../03_multivariate/overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Part IV: Multivariate Analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-why-not-just-run-six-t-tests">12.1 Recap: Why Not Just Run Six <em>t</em>-Tests?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#which-pin-design-gives-the-strongest-joint-one-way-anova">12.2 Which Pin Design Gives the Strongest Joint? One-Way ANOVA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controlling-for-coil-to-coil-variation-randomized-block-design">12.3 Controlling for Coil-to-Coil Variation: Randomized Block Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bridge-anova-is-regression">12.4 The Bridge: ANOVA <em>Is</em> Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-predictive-model-multiple-regression-variable-selection">12.5 Building a Predictive Model: Multiple Regression + Variable Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-elimination">Backward Elimination</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#does-tool-design-still-matter-ancova">12.6 Does Tool Design Still Matter? ANCOVA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#going-further-three-factors-at-once">12.7 Going Further: Three Factors at Once</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

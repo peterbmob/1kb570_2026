@@ -1,0 +1,1023 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5. Capstone: Building a FAIR Dataset &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/02_data_handling/05_building_a_fair_dataset';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice" href="06_live_tutorial_1_sql_nosql.html" />
+    <link rel="prev" title="4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository" href="04_nomad_oasis_database.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/02_data_handling/05_building_a_fair_dataset.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/02_data_handling/05_building_a_fair_dataset.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>5. Capstone: Building a FAIR Dataset</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-design-a-schema">Step 1 — Design a Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-a-fair-record-builder-function">Step 2 — A FAIR Record Builder Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-generate-the-dataset">Step 3 — Generate the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-validate-every-record">Step 4 — Validate Every Record</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-export-clean-csv-full-json-archive">Step 5 — Export: Clean CSV + Full JSON Archive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-round-trip-check">Step 6 — Round-trip Check</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-dataset-level-fair-check">Step 7 — Dataset-Level FAIR Check</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-this-leads">Where This Leads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="capstone-building-a-fair-dataset">
+<h1>5. Capstone: Building a FAIR Dataset<a class="headerlink" href="#capstone-building-a-fair-dataset" title="Link to this heading">#</a></h1>
+<p>This notebook has one goal: take everything from Notebooks 1–4 — FAIR
+metadata, EMMO-style concept links, and a NOMAD-style archive/schema split
+— and apply the whole pattern, start to finish, to a small dataset you
+build yourself. By the end you will have a schema, a validator, a set of
+FAIR records, and two exported files (a clean CSV for statistics and a full
+JSON archive) — the same shape of deliverable you will produce for real
+when you select a dataset for the <a class="reference internal" href="../06_project/project.html"><span class="std std-doc">course project</span></a>.</p>
+<p><strong>Scenario</strong>: a set of quenched-and-tempered tool-steel samples, each
+heat-treated at a different temperature and time, with measured hardness —
+the same kind of process/property data used throughout Parts I–III of this
+course, so what you build here plugs directly into later material.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>Step 1 — Design a schema</p></li>
+<li><p>Step 2 — A FAIR record builder function</p></li>
+<li><p>Step 3 — Generate the dataset</p></li>
+<li><p>Step 4 — Validate every record</p></li>
+<li><p>Step 5 — Export: clean CSV + full JSON archive</p></li>
+<li><p>Step 6 — Round-trip check</p></li>
+<li><p>Step 7 — Dataset-level FAIR check</p></li>
+</ol>
+<section id="step-1-design-a-schema">
+<h2>Step 1 — Design a Schema<a class="headerlink" href="#step-1-design-a-schema" title="Link to this heading">#</a></h2>
+<p>Following Notebook 4’s pattern, a schema is just a dict describing which
+keys are required and what type each one must be. We separate <strong>process
+parameters</strong> (what you controlled) from <strong>results</strong> (what you measured) —
+the same <code class="docutils literal notranslate"><span class="pre">synthesis</span></code> / <code class="docutils literal notranslate"><span class="pre">results</span></code> split used in Notebook 4 — and require the
+same core FAIR fields as <code class="docutils literal notranslate"><span class="pre">fair_check</span></code> in Notebook 1 at the top level of
+every record.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;identifier&#39;</span><span class="p">:</span>  <span class="nb">str</span><span class="p">,</span>
+    <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span>   <span class="nb">str</span><span class="p">,</span>
+    <span class="s1">&#39;creator&#39;</span><span class="p">:</span>     <span class="nb">str</span><span class="p">,</span>
+    <span class="s1">&#39;created&#39;</span><span class="p">:</span>     <span class="nb">str</span><span class="p">,</span>
+    <span class="s1">&#39;process&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+        <span class="s1">&#39;time_h&#39;</span><span class="p">:</span>        <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+        <span class="s1">&#39;quench_medium&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;hardness_HV&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-a-fair-record-builder-function">
+<h2>Step 2 — A FAIR Record Builder Function<a class="headerlink" href="#step-2-a-fair-record-builder-function" title="Link to this heading">#</a></h2>
+<p>Rather than writing each record’s dictionary out by hand (error-prone —
+Notebook 4’s Exercise 2 showed how easy it is to accidentally break a
+schema), we write one function that always produces a structurally correct,
+EMMO-tagged record. This is the data-handling equivalent of Part I’s advice
+to package a repeated calculation into a function instead of copy-pasting
+it (Part I, Notebook 1, Section 1.4).</p>
+<p>One honest wrinkle, worth flagging explicitly: <strong>hardness has no concept in
+core EMMO</strong> (you can check this yourself with Notebook 2’s
+<code class="docutils literal notranslate"><span class="pre">find_class_by_label</span></code> — it returns nothing). EMMO is a <em>foundational</em>
+ontology; domain-specific mechanical-testing properties like Vickers
+hardness belong in a <strong>domain ontology built on top of EMMO</strong>, the same
+role BattINFO plays for batteries (Notebook 2, Section 2.4) — at the time
+of writing, no widely-adopted public one exists yet for hardness. The
+record below uses a clearly-marked local placeholder concept for it instead
+of inventing a fake EMMO term, and real EMMO concepts for the two
+quantities that <em>do</em> exist in EMMO core.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_sample_record</span><span class="p">(</span><span class="n">sample_id</span><span class="p">,</span> <span class="n">temperature_C</span><span class="p">,</span> <span class="n">time_h</span><span class="p">,</span> <span class="n">quench_medium</span><span class="p">,</span> <span class="n">hardness_HV</span><span class="p">,</span>
+                        <span class="n">creator</span><span class="o">=</span><span class="s1">&#39;A. Lindqvist&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build one FAIR, schema-conformant, EMMO-tagged sample record.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;identifier&#39;</span><span class="p">:</span>  <span class="sa">f</span><span class="s1">&#39;urn:uuid:</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span>   <span class="n">sample_id</span><span class="p">,</span>
+        <span class="s1">&#39;creator&#39;</span><span class="p">:</span>     <span class="n">creator</span><span class="p">,</span>
+        <span class="s1">&#39;created&#39;</span><span class="p">:</span>     <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+        <span class="s1">&#39;process&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="n">temperature_C</span><span class="p">,</span>
+            <span class="s1">&#39;time_h&#39;</span><span class="p">:</span>        <span class="n">time_h</span><span class="p">,</span>
+            <span class="s1">&#39;quench_medium&#39;</span><span class="p">:</span> <span class="n">quench_medium</span><span class="p">,</span>
+            <span class="s1">&#39;quantity_kind_iri&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="s1">&#39;emmo:ThermodynamicTemperature&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;time_h&#39;</span><span class="p">:</span>        <span class="s1">&#39;emmo:Time&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;hardness_HV&#39;</span><span class="p">:</span> <span class="n">hardness_HV</span><span class="p">,</span>
+            <span class="s1">&#39;quantity_kind_iri&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="c1"># no core-EMMO concept for hardness exists (see note above) —</span>
+                <span class="c1"># a real project would point this at a domain ontology instead</span>
+                <span class="s1">&#39;hardness_HV&#39;</span><span class="p">:</span> <span class="s1">&#39;local:VickersHardness&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+
+<span class="c1"># Try it on one sample</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">make_sample_record</span><span class="p">(</span><span class="s1">&#39;TS-001&#39;</span><span class="p">,</span> <span class="n">temperature_C</span><span class="o">=</span><span class="mi">850</span><span class="p">,</span> <span class="n">time_h</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                              <span class="n">quench_medium</span><span class="o">=</span><span class="s1">&#39;oil&#39;</span><span class="p">,</span> <span class="n">hardness_HV</span><span class="o">=</span><span class="mi">612</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">example</span><span class="p">[</span><span class="s1">&#39;identifier&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">example</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>urn:uuid:dbac3cde-eae0-467e-8722-c97717bd6c93
+{&#39;temperature_C&#39;: 850, &#39;time_h&#39;: 1.0, &#39;quench_medium&#39;: &#39;oil&#39;, &#39;quantity_kind_iri&#39;: {&#39;temperature_C&#39;: &#39;emmo:ThermodynamicTemperature&#39;, &#39;time_h&#39;: &#39;emmo:Time&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-generate-the-dataset">
+<h2>Step 3 — Generate the Dataset<a class="headerlink" href="#step-3-generate-the-dataset" title="Link to this heading">#</a></h2>
+<p>Twelve samples, quenched in either oil or water, at a few different
+austenitising temperatures and hold times — synthetic data standing in for
+what would otherwise come from a real heat-treatment/hardness-testing
+campaign. <code class="docutils literal notranslate"><span class="pre">quench_medium</span></code> and <code class="docutils literal notranslate"><span class="pre">temperature_C</span></code> deliberately drive
+<code class="docutils literal notranslate"><span class="pre">hardness_HV</span></code> (water quenching and higher temperature both raise hardness
+here) so the pattern is visible if you plot or group the data in Part III.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># (temperature_C, time_h, quench_medium)</span>
+    <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;oil&#39;</span><span class="p">),</span>   <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;oil&#39;</span><span class="p">),</span>   <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">825</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;oil&#39;</span><span class="p">),</span>   <span class="p">(</span><span class="mi">825</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;oil&#39;</span><span class="p">),</span>   <span class="p">(</span><span class="mi">825</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">850</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;oil&#39;</span><span class="p">),</span>   <span class="p">(</span><span class="mi">850</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;oil&#39;</span><span class="p">),</span>   <span class="p">(</span><span class="mi">850</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">875</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;oil&#39;</span><span class="p">),</span>   <span class="p">(</span><span class="mi">875</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;oil&#39;</span><span class="p">),</span>   <span class="p">(</span><span class="mi">875</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_hardness</span><span class="p">(</span><span class="n">temperature_C</span><span class="p">,</span> <span class="n">time_h</span><span class="p">,</span> <span class="n">quench_medium</span><span class="p">):</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="mi">480</span> <span class="o">+</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="p">(</span><span class="n">temperature_C</span> <span class="o">-</span> <span class="mi">800</span><span class="p">)</span>
+    <span class="n">medium_bonus</span> <span class="o">=</span> <span class="mi">60</span> <span class="k">if</span> <span class="n">quench_medium</span> <span class="o">==</span> <span class="s1">&#39;water&#39;</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">time_bonus</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">*</span> <span class="n">time_h</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">base</span> <span class="o">+</span> <span class="n">medium_bonus</span> <span class="o">+</span> <span class="n">time_bonus</span> <span class="o">+</span> <span class="n">noise</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">medium</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">hv</span> <span class="o">=</span> <span class="n">simulate_hardness</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">medium</span><span class="p">)</span>
+    <span class="n">record</span> <span class="o">=</span> <span class="n">make_sample_record</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;TS-</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s1">03d</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">medium</span><span class="p">,</span> <span class="n">hv</span><span class="p">)</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Generated </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="si">}</span><span class="s1"> records&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Generated 12 records
+{&#39;identifier&#39;: &#39;urn:uuid:9bbb0f20-d589-4573-b123-32566e2a29a0&#39;, &#39;sample_id&#39;: &#39;TS-001&#39;, &#39;creator&#39;: &#39;A. Lindqvist&#39;, &#39;created&#39;: &#39;2026-09-01&#39;, &#39;process&#39;: {&#39;temperature_C&#39;: 800, &#39;time_h&#39;: 0.5, &#39;quench_medium&#39;: &#39;oil&#39;, &#39;quantity_kind_iri&#39;: {&#39;temperature_C&#39;: &#39;emmo:ThermodynamicTemperature&#39;, &#39;time_h&#39;: &#39;emmo:Time&#39;}}, &#39;results&#39;: {&#39;hardness_HV&#39;: 489.9, &#39;quantity_kind_iri&#39;: {&#39;hardness_HV&#39;: &#39;local:VickersHardness&#39;}}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-validate-every-record">
+<h2>Step 4 — Validate Every Record<a class="headerlink" href="#step-4-validate-every-record" title="Link to this heading">#</a></h2>
+<p>Reuse the structural validator from Notebook 4 (Section 4.6) — copied below
+so this notebook is self-contained — and check every record before trusting
+any of them downstream. Validating in a loop like this, rather than only
+checking that <code class="docutils literal notranslate"><span class="pre">len(dataset)</span> <span class="pre">==</span> <span class="pre">12</span></code>, is what catches the one broken record
+among many that a spot check would miss.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">validate_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Structural validator: checks required keys and types against a</span>
+<span class="sd">    nested schema dict of the form {key: type_or_nested_schema}.&quot;&quot;&quot;</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">expected</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">full_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">key</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;MISSING: </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">_check</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">expected</span><span class="p">,</span> <span class="n">full_path</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;EXPECTED nested object at </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">expected</span><span class="p">):</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;WRONG TYPE at </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">: expected </span><span class="si">{</span><span class="n">expected</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">, &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="p">)</span>
+
+    <span class="n">_check</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">errors</span>
+
+
+<span class="n">all_errors</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="n">validate_entry</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">sample_schema</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+        <span class="n">all_errors</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">errors</span>
+
+<span class="k">if</span> <span class="n">all_errors</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Records with validation errors:&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">errs</span> <span class="ow">in</span> <span class="n">all_errors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">errs</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;All </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="si">}</span><span class="s1"> records passed validation.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All 12 records passed validation.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-5-export-clean-csv-full-json-archive">
+<h2>Step 5 — Export: Clean CSV + Full JSON Archive<a class="headerlink" href="#step-5-export-clean-csv-full-json-archive" title="Link to this heading">#</a></h2>
+<p>Mirror NOMAD’s own split from Notebook 4: a <strong>flat, analysis-ready table</strong>
+(what Part III’s statistical tests actually need — plain columns, no
+nesting) and a <strong>full JSON archive</strong> that keeps every field, including the
+EMMO tags and provenance, so nothing is lost. This is the same “don’t
+throw away the metadata just because pandas wants flat columns” principle
+Notebook 1 opened with — you keep both, rather than picking one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># ── Flat table for analysis (Part III onward) ─────────────────────────────────</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span>      <span class="n">r</span><span class="p">[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span>  <span class="n">r</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">][</span><span class="s1">&#39;temperature_C&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;time_h&#39;</span><span class="p">:</span>         <span class="n">r</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">][</span><span class="s1">&#39;time_h&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;quench_medium&#39;</span><span class="p">:</span>  <span class="n">r</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">][</span><span class="s1">&#39;quench_medium&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;hardness_HV&#39;</span><span class="p">:</span>    <span class="n">r</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;hardness_HV&#39;</span><span class="p">],</span>
+<span class="p">}</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;tool_steel_hardness.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Saved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s1"> rows to tool_steel_hardness.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># ── Full JSON archive, with metadata and EMMO tags preserved ──────────────────</span>
+<span class="n">archive</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;dataset&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;identifier&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;urn:uuid:</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;title&#39;</span><span class="p">:</span>      <span class="s1">&#39;Quenched-and-tempered tool-steel hardness dataset&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;creator&#39;</span><span class="p">:</span>    <span class="s1">&#39;A. Lindqvist, Dept. of Chemistry, Uppsala University&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;created&#39;</span><span class="p">:</span>    <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+        <span class="s1">&#39;licence&#39;</span><span class="p">:</span>    <span class="s1">&#39;CC-BY-4.0&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;keywords&#39;</span><span class="p">:</span>   <span class="p">[</span><span class="s1">&#39;tool steel&#39;</span><span class="p">,</span> <span class="s1">&#39;quenching&#39;</span><span class="p">,</span> <span class="s1">&#39;hardness&#39;</span><span class="p">,</span> <span class="s1">&#39;heat treatment&#39;</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;records&#39;</span><span class="p">:</span> <span class="n">dataset</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tool_steel_hardness_archive.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">archive</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Saved full archive with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="si">}</span><span class="s1"> records to tool_steel_hardness_archive.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  sample_id  temperature_C  time_h quench_medium  hardness_HV
+0    TS-001            800     0.5           oil        489.9
+1    TS-002            800     1.0           oil        486.7
+2    TS-003            800     1.0         water        561.0
+3    TS-004            825     0.5           oil        503.8
+4    TS-005            825     1.0           oil        488.1
+
+Saved 12 rows to tool_steel_hardness.csv
+Saved full archive with 12 records to tool_steel_hardness_archive.json
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-6-round-trip-check">
+<h2>Step 6 — Round-trip Check<a class="headerlink" href="#step-6-round-trip-check" title="Link to this heading">#</a></h2>
+<p>Never trust a save without confirming you can load it back correctly — this
+is the same discipline Notebook 1 introduced in Section 1.4. Two checks:
+the flat CSV should reproduce the DataFrame exactly, and the JSON archive
+should still contain the concept tags (EMMO and local) that the CSV, by
+design, threw away.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="c1"># CSV round trip</span>
+<span class="n">df_reloaded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;tool_steel_hardness.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CSV round trip OK:&#39;</span><span class="p">,</span> <span class="n">df_reloaded</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+
+<span class="c1"># JSON round trip — and confirm the metadata the CSV dropped is still there</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tool_steel_hardness_archive.json&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">archive_reloaded</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;JSON round trip OK:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">archive_reloaded</span><span class="p">[</span><span class="s1">&#39;records&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+<span class="n">first</span> <span class="o">=</span> <span class="n">archive_reloaded</span><span class="p">[</span><span class="s1">&#39;records&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Concept tag preserved in archive:&#39;</span><span class="p">,</span>
+      <span class="n">first</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;quantity_kind_iri&#39;</span><span class="p">][</span><span class="s1">&#39;hardness_HV&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;(That tag is *not* recoverable from the CSV alone — this is why both files matter.)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CSV round trip OK: True
+JSON round trip OK: True
+Concept tag preserved in archive: local:VickersHardness
+(That tag is *not* recoverable from the CSV alone — this is why both files matter.)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-7-dataset-level-fair-check">
+<h2>Step 7 — Dataset-Level FAIR Check<a class="headerlink" href="#step-7-dataset-level-fair-check" title="Link to this heading">#</a></h2>
+<p>Finally, close the loop with the <code class="docutils literal notranslate"><span class="pre">fair_check</span></code> idea from Notebook 1, applied
+this time to the <strong>dataset as a whole</strong> rather than a single measurement.
+A dataset is Findable/Accessible/Reusable largely through the fields you
+put in <code class="docutils literal notranslate"><span class="pre">archive['dataset']</span></code> above — check that they are all there before
+considering the dataset “done.”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fair_check</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">required_fields</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;identifier&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;licence&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;creator&#39;</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">field</span><span class="p">:</span> <span class="p">(</span><span class="n">field</span> <span class="ow">in</span> <span class="n">record</span> <span class="ow">and</span> <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">required_fields</span><span class="p">}</span>
+
+
+<span class="n">report</span> <span class="o">=</span> <span class="n">fair_check</span><span class="p">(</span><span class="n">archive</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">])</span>
+<span class="n">n_ok</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dataset-level FAIR self-check: </span><span class="si">{</span><span class="n">n_ok</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">report</span><span class="p">)</span><span class="si">}</span><span class="s1"> fields present&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">ok</span> <span class="ow">in</span> <span class="n">report</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">flag</span> <span class="o">=</span> <span class="s1">&#39;✓&#39;</span> <span class="k">if</span> <span class="n">ok</span> <span class="k">else</span> <span class="s1">&#39;✗ MISSING&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">flag</span><span class="si">}</span><span class="s1">  </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset-level FAIR self-check: 6/6 fields present
+  ✓  identifier
+  ✓  title
+  ✓  licence
+  ✓  creator
+  ✓  created
+  ✓  keywords
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="where-this-leads">
+<h2>Where This Leads<a class="headerlink" href="#where-this-leads" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">tool_steel_hardness.csv</span></code> is now exactly the kind of file Part III’s
+notebooks open with <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> — try loading it there and computing
+group means for <code class="docutils literal notranslate"><span class="pre">oil</span></code> vs. <code class="docutils literal notranslate"><span class="pre">water</span></code> quenching, or an ANOVA across
+<code class="docutils literal notranslate"><span class="pre">temperature_C</span></code> levels, once you reach Part III, Notebook 4. The archive
+file travels with it as the permanent, FAIR, EMMO-tagged record of exactly
+how that CSV came to exist — the piece a spreadsheet alone can never
+provide.</p>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Break it on purpose</strong>: Add one more record to <code class="docutils literal notranslate"><span class="pre">dataset</span></code> by hand (not
+through <code class="docutils literal notranslate"><span class="pre">make_sample_record</span></code>) that is missing <code class="docutils literal notranslate"><span class="pre">results.hardness_HV</span></code>.
+Re-run Step 4’s validation loop and confirm it is caught.</p></li>
+<li><p><strong>New quantity</strong>: Add a <code class="docutils literal notranslate"><span class="pre">tempering_temperature_C</span></code> field to the <code class="docutils literal notranslate"><span class="pre">process</span></code>
+section of <code class="docutils literal notranslate"><span class="pre">sample_schema</span></code> and to <code class="docutils literal notranslate"><span class="pre">make_sample_record</span></code>, with its own
+<code class="docutils literal notranslate"><span class="pre">quantity_kind_iri</span></code> entry (<code class="docutils literal notranslate"><span class="pre">'emmo:ThermodynamicTemperature'</span></code> again — the
+same EMMO concept can label more than one field). Regenerate the dataset
+and re-validate.</p></li>
+<li><p><strong>Your own dataset</strong>: Pick a small dataset from your own project idea, or
+one of the <a class="reference internal" href="../06_project/project.html"><span class="std std-doc">course project</span></a>’s suggested
+sources. Sketch a <code class="docutils literal notranslate"><span class="pre">schema</span></code> dict and a <code class="docutils literal notranslate"><span class="pre">make_*_record</span></code> function for it,
+following Steps 1–2 above. You do not need to run Steps 3–7 on real data
+yet — the goal is just practising the schema-design step.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\02_data_handling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_nomad_oasis_database.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06_live_tutorial_1_sql_nosql.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-design-a-schema">Step 1 — Design a Schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-a-fair-record-builder-function">Step 2 — A FAIR Record Builder Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-generate-the-dataset">Step 3 — Generate the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-validate-every-record">Step 4 — Validate Every Record</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-export-clean-csv-full-json-archive">Step 5 — Export: Clean CSV + Full JSON Archive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-round-trip-check">Step 6 — Round-trip Check</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-dataset-level-fair-check">Step 7 — Dataset-Level FAIR Check</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-this-leads">Where This Leads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

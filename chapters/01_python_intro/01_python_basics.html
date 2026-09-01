@@ -1,0 +1,1190 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1. Python Basics for Material Scientists &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/01_python_intro/01_python_basics';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2. NumPy Arrays" href="02_numpy_arrays.html" />
+    <link rel="prev" title="Part I: Prerequisites — Python for Data Analysis" href="overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part I: Prerequisites — Python for Data Analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/01_python_intro/01_python_basics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/01_python_intro/01_python_basics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1. Python Basics for Material Scientists</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-and-data-types">1.1 Variables and Data Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lists-tuples-and-dictionaries">1.2 Lists, Tuples, and Dictionaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-flow">1.3 Control Flow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">1.4 Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehensions">1.5 List Comprehensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#string-formatting-f-strings">1.6 String Formatting (f-strings)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="python-basics-for-material-scientists">
+<h1>1. Python Basics for Material Scientists<a class="headerlink" href="#python-basics-for-material-scientists" title="Link to this heading">#</a></h1>
+<p>This notebook covers the core Python building blocks you will use throughout the course.
+Every example is drawn from materials science so you can connect the syntax to work you already know.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>Variables and data types</p></li>
+<li><p>Lists, tuples, and dictionaries</p></li>
+<li><p>Control flow — <code class="docutils literal notranslate"><span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span></code>, <code class="docutils literal notranslate"><span class="pre">while</span></code></p></li>
+<li><p>Functions</p></li>
+<li><p>List comprehensions</p></li>
+<li><p>String formatting and f-strings</p></li>
+</ol>
+<section id="variables-and-data-types">
+<h2>1.1 Variables and Data Types<a class="headerlink" href="#variables-and-data-types" title="Link to this heading">#</a></h2>
+<p>A <strong>variable</strong> is just a labelled box that holds a value so you can refer to it
+by name instead of retyping the value everywhere. Python figures out the type
+of box automatically from what you put in it — you never have to declare
+“this is a number” the way some other languages require. The four most common
+primitive types are:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>Use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">3</span></code></p></td>
+<td><p>Integer counts, indices</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">3.14</span></code></p></td>
+<td><p>Measured values</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'ZnO'</span></code></p></td>
+<td><p>Labels, file names</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Flags, conditions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Why bother distinguishing them at all? Because operations behave differently
+depending on type — <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">/</span> <span class="pre">2</span></code> gives a fractional result (<code class="docutils literal notranslate"><span class="pre">1.5</span></code>), string
+concatenation (<code class="docutils literal notranslate"><span class="pre">'Li'</span> <span class="pre">+</span> <span class="pre">'FePO4'</span></code>) glues text together rather than adding
+numbers, and mixing an <code class="docutils literal notranslate"><span class="pre">int</span></code> count of atoms with a <code class="docutils literal notranslate"><span class="pre">float</span></code> measured mass is
+exactly the distinction you want to keep straight when writing formulas
+below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Material properties as Python variables ──────────────────────────────────</span>
+<span class="n">material_name</span>   <span class="o">=</span> <span class="s1">&#39;LiFePO4&#39;</span>          <span class="c1"># str</span>
+<span class="n">density</span>         <span class="o">=</span> <span class="mf">3.6</span>                <span class="c1"># g/cm³  (float)</span>
+<span class="n">num_formula_units</span> <span class="o">=</span> <span class="mi">4</span>                <span class="c1"># int</span>
+<span class="n">is_cathode</span>      <span class="o">=</span> <span class="kc">True</span>               <span class="c1"># bool</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">material_name</span><span class="p">),</span> <span class="n">material_name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">density</span><span class="p">),</span>       <span class="n">density</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">num_formula_units</span><span class="p">),</span> <span class="n">num_formula_units</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">is_cathode</span><span class="p">),</span>    <span class="n">is_cathode</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;str&#39;&gt; LiFePO4
+&lt;class &#39;float&#39;&gt; 3.6
+&lt;class &#39;int&#39;&gt; 4
+&lt;class &#39;bool&#39;&gt; True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Basic arithmetic ─────────────────────────────────────────────────────────</span>
+<span class="n">molar_mass_Li</span>  <span class="o">=</span> <span class="mf">6.941</span>    <span class="c1"># g/mol</span>
+<span class="n">molar_mass_Fe</span>  <span class="o">=</span> <span class="mf">55.845</span>
+<span class="n">molar_mass_P</span>   <span class="o">=</span> <span class="mf">30.974</span>
+<span class="n">molar_mass_O</span>   <span class="o">=</span> <span class="mf">15.999</span>
+
+<span class="n">MM_LiFePO4</span> <span class="o">=</span> <span class="n">molar_mass_Li</span> <span class="o">+</span> <span class="n">molar_mass_Fe</span> <span class="o">+</span> <span class="n">molar_mass_P</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">molar_mass_O</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Molar mass of LiFePO4: </span><span class="si">{</span><span class="n">MM_LiFePO4</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> g/mol&#39;</span><span class="p">)</span>
+
+<span class="c1"># Integer division (//) and modulo (%)</span>
+<span class="n">n_atoms_per_cell</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">7</span>   <span class="c1"># 7 atoms in formula unit, 4 formula units per cell</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Atoms per unit cell: </span><span class="si">{</span><span class="n">n_atoms_per_cell</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Divisible by 4? remainder = </span><span class="si">{</span><span class="n">n_atoms_per_cell</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Molar mass of LiFePO4: 157.756 g/mol
+Atoms per unit cell: 28
+Divisible by 4? remainder = 0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="lists-tuples-and-dictionaries">
+<h2>1.2 Lists, Tuples, and Dictionaries<a class="headerlink" href="#lists-tuples-and-dictionaries" title="Link to this heading">#</a></h2>
+<p>Python gives you three everyday containers, and choosing the right one is
+mostly about answering “will this collection’s contents ever change, and do
+I need to look things up by name or by position?”</p>
+<ul class="simple">
+<li><p><strong>list</strong> — ordered, mutable collection. Use it for a growing series of
+measurements (you can <code class="docutils literal notranslate"><span class="pre">append</span></code> a new reading as it comes in).</p></li>
+<li><p><strong>tuple</strong> — ordered, <strong>immutable</strong> collection (good for fixed data like
+lattice parameters — once a crystal’s unit cell is defined, you don’t want
+code elsewhere in the notebook to accidentally change one of its values).</p></li>
+<li><p><strong>dict</strong> — key-value store (good for labelled material properties, where
+you want to retrieve a value by its name, e.g. <code class="docutils literal notranslate"><span class="pre">cathode['capacity_mAh_g']</span></code>,
+rather than by remembering “it’s the 3rd item in the list”).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── List: measured capacities from repeat experiments ────────────────────────</span>
+<span class="n">capacities_mAh_g</span> <span class="o">=</span> <span class="p">[</span><span class="mf">152.3</span><span class="p">,</span> <span class="mf">155.1</span><span class="p">,</span> <span class="mf">149.8</span><span class="p">,</span> <span class="mf">153.7</span><span class="p">,</span> <span class="mf">151.2</span><span class="p">]</span>  <span class="c1"># mAh/g</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;All measurements:&#39;</span><span class="p">,</span> <span class="n">capacities_mAh_g</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;First value:     &#39;</span><span class="p">,</span> <span class="n">capacities_mAh_g</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>   <span class="c1"># indexing from 0</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Last value:      &#39;</span><span class="p">,</span> <span class="n">capacities_mAh_g</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># negative index</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Slice [1:3]:     &#39;</span><span class="p">,</span> <span class="n">capacities_mAh_g</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span> <span class="c1"># half-open interval</span>
+
+<span class="c1"># Appending and removing</span>
+<span class="n">capacities_mAh_g</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">154.0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;After append:    &#39;</span><span class="p">,</span> <span class="n">capacities_mAh_g</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All measurements: [152.3, 155.1, 149.8, 153.7, 151.2]
+First value:      152.3
+Last value:       151.2
+Slice [1:3]:      [155.1, 149.8]
+After append:     [152.3, 155.1, 149.8, 153.7, 151.2, 154.0]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Tuple: lattice parameters (a, b, c in Å, alpha, beta, gamma in °) ────────</span>
+<span class="n">lattice_LiFePO4</span> <span class="o">=</span> <span class="p">(</span><span class="mf">10.332</span><span class="p">,</span> <span class="mf">6.011</span><span class="p">,</span> <span class="mf">4.695</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">)</span>  <span class="c1"># orthorhombic</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="o">*</span><span class="n">angles</span> <span class="o">=</span> <span class="n">lattice_LiFePO4</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;a=</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1"> Å, b=</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s1"> Å, c=</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1"> Å&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Angles: </span><span class="si">{</span><span class="n">angles</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># ── Dictionary: material property database entry ─────────────────────────────</span>
+<span class="n">cathode</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;formula&#39;</span><span class="p">:</span>        <span class="s1">&#39;LiFePO4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;density_g_cm3&#39;</span><span class="p">:</span>  <span class="mf">3.6</span><span class="p">,</span>
+    <span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">:</span> <span class="mi">170</span><span class="p">,</span>
+    <span class="s1">&#39;voltage_V&#39;</span><span class="p">:</span>      <span class="mf">3.45</span><span class="p">,</span>
+    <span class="s1">&#39;structure&#39;</span><span class="p">:</span>      <span class="s1">&#39;olivine&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;is_cathode&#39;</span><span class="p">:</span>     <span class="kc">True</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Capacity:&#39;</span><span class="p">,</span> <span class="n">cathode</span><span class="p">[</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">],</span> <span class="s1">&#39;mAh/g&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Keys:&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">cathode</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a=10.332 Å, b=6.011 Å, c=4.695 Å
+Angles: [90.0, 90.0, 90.0]
+
+Capacity: 170 mAh/g
+Keys: [&#39;formula&#39;, &#39;density_g_cm3&#39;, &#39;capacity_mAh_g&#39;, &#39;voltage_V&#39;, &#39;structure&#39;, &#39;is_cathode&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="control-flow">
+<h2>1.3 Control Flow<a class="headerlink" href="#control-flow" title="Link to this heading">#</a></h2>
+<p><strong>Control flow</strong> is how a program decides what to do next: <code class="docutils literal notranslate"><span class="pre">if</span></code> picks between
+alternatives based on a condition, <code class="docutils literal notranslate"><span class="pre">for</span></code> repeats an action once per item in a
+collection (e.g. once per sample), and <code class="docutils literal notranslate"><span class="pre">while</span></code> repeats an action until a
+condition becomes false (useful when you don’t know in advance how many
+repetitions you’ll need — like simulating a titration until the endpoint is
+reached). Almost every data-processing script you write in this course is
+built from these three tools, combined with functions (Section 1.4).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── if / elif / else ─────────────────────────────────────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">classify_capacity</span><span class="p">(</span><span class="n">cap_mAh_g</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a quality label based on specific capacity.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cap_mAh_g</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;Excellent&#39;</span>
+    <span class="k">elif</span> <span class="n">cap_mAh_g</span> <span class="o">&gt;=</span> <span class="mi">150</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;Good&#39;</span>
+    <span class="k">elif</span> <span class="n">cap_mAh_g</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;Acceptable&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;Poor&#39;</span>
+
+<span class="k">for</span> <span class="n">cap</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">230</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">85</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cap</span><span class="si">:</span><span class="s1">&gt;5</span><span class="si">}</span><span class="s1"> mAh/g  →  </span><span class="si">{</span><span class="n">classify_capacity</span><span class="p">(</span><span class="n">cap</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  230 mAh/g  →  Excellent
+  165 mAh/g  →  Good
+  120 mAh/g  →  Acceptable
+   85 mAh/g  →  Poor
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── for loop: process a batch of samples ─────────────────────────────────────</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;S01&#39;</span><span class="p">,</span> <span class="s1">&#39;T_C&#39;</span><span class="p">:</span> <span class="mi">700</span><span class="p">,</span> <span class="s1">&#39;time_h&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>  <span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="mi">148</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;S02&#39;</span><span class="p">,</span> <span class="s1">&#39;T_C&#39;</span><span class="p">:</span> <span class="mi">750</span><span class="p">,</span> <span class="s1">&#39;time_h&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>  <span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="mi">161</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;S03&#39;</span><span class="p">,</span> <span class="s1">&#39;T_C&#39;</span><span class="p">:</span> <span class="mi">800</span><span class="p">,</span> <span class="s1">&#39;time_h&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>  <span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="mi">169</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;S04&#39;</span><span class="p">,</span> <span class="s1">&#39;T_C&#39;</span><span class="p">:</span> <span class="mi">800</span><span class="p">,</span> <span class="s1">&#39;time_h&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="mi">172</span><span class="p">},</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;Sample&quot;</span><span class="si">:</span><span class="s1">&lt;8</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot;T (°C)&quot;</span><span class="si">:</span><span class="s1">&lt;10</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot;Time (h)&quot;</span><span class="si">:</span><span class="s1">&lt;12</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot;Cap (mAh/g)&quot;</span><span class="si">:</span><span class="s1">&lt;14</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot;Quality&quot;</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">55</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">classify_capacity</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;capacity&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;T_C&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;time_h&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;capacity&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;14</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample   T (°C)     Time (h)     Cap (mAh/g)    Quality
+-------------------------------------------------------
+S01      700        6            148            Acceptable
+S02      750        6            161            Good
+S03      800        6            169            Good
+S04      800        12           172            Good
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── while loop: simulate iterative titration ─────────────────────────────────</span>
+<span class="n">volume_added_mL</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">pH</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">dV</span> <span class="o">=</span> <span class="mf">0.5</span>     <span class="c1"># increment per step</span>
+<span class="n">dpH</span> <span class="o">=</span> <span class="mf">0.18</span>   <span class="c1"># pH change per mL NaOH added</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Simulated NaOH titration&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;Volume (mL)&quot;</span><span class="si">:</span><span class="s1">&lt;15</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot;pH&quot;</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">while</span> <span class="n">pH</span> <span class="o">&lt;</span> <span class="mf">7.5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">volume_added_mL</span><span class="si">:</span><span class="s1">&lt;15.1f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">pH</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">volume_added_mL</span> <span class="o">+=</span> <span class="n">dV</span>
+    <span class="n">pH</span> <span class="o">+=</span> <span class="n">dpH</span> <span class="o">*</span> <span class="n">dV</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Endpoint reached at </span><span class="si">{</span><span class="n">volume_added_mL</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> mL (pH = </span><span class="si">{</span><span class="n">pH</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulated NaOH titration
+Volume (mL)     pH
+0.0             2.00
+0.5             2.09
+1.0             2.18
+1.5             2.27
+2.0             2.36
+2.5             2.45
+3.0             2.54
+3.5             2.63
+4.0             2.72
+4.5             2.81
+5.0             2.90
+5.5             2.99
+6.0             3.08
+6.5             3.17
+7.0             3.26
+7.5             3.35
+8.0             3.44
+8.5             3.53
+9.0             3.62
+9.5             3.71
+10.0            3.80
+10.5            3.89
+11.0            3.98
+11.5            4.07
+12.0            4.16
+12.5            4.25
+13.0            4.34
+13.5            4.43
+14.0            4.52
+14.5            4.61
+15.0            4.70
+15.5            4.79
+16.0            4.88
+16.5            4.97
+17.0            5.06
+17.5            5.15
+18.0            5.24
+18.5            5.33
+19.0            5.42
+19.5            5.51
+20.0            5.60
+20.5            5.69
+21.0            5.78
+21.5            5.87
+22.0            5.96
+22.5            6.05
+23.0            6.14
+23.5            6.23
+24.0            6.32
+24.5            6.41
+25.0            6.50
+25.5            6.59
+26.0            6.68
+26.5            6.77
+27.0            6.86
+27.5            6.95
+28.0            7.04
+28.5            7.13
+29.0            7.22
+29.5            7.31
+30.0            7.40
+30.5            7.49
+Endpoint reached at 31.0 mL (pH = 7.58)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="functions">
+<h2>1.4 Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<p>A function packages up a calculation you’ll want to repeat — write the
+recipe once, then reuse it by name instead of copy-pasting the same lines
+(and risking a typo in one of the copies). Functions make code reusable and
+readable.</p>
+<p>Use <strong>default arguments</strong> for common values and <strong>keyword arguments</strong> when
+calling.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">specific_capacity</span><span class="p">(</span><span class="n">charge_mAh</span><span class="p">,</span> <span class="n">mass_g</span><span class="p">,</span> <span class="n">efficiency</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate specific capacity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    charge_mAh : float   Total charge in mAh</span>
+<span class="sd">    mass_g     : float   Active material mass in grams</span>
+<span class="sd">    efficiency : float   Coulombic efficiency (0–1), default 1.0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float : specific capacity in mAh/g</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">charge_mAh</span> <span class="o">*</span> <span class="n">efficiency</span><span class="p">)</span> <span class="o">/</span> <span class="n">mass_g</span>
+
+
+<span class="c1"># Using default efficiency</span>
+<span class="n">cap</span> <span class="o">=</span> <span class="n">specific_capacity</span><span class="p">(</span><span class="n">charge_mAh</span><span class="o">=</span><span class="mf">85.6</span><span class="p">,</span> <span class="n">mass_g</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Specific capacity: </span><span class="si">{</span><span class="n">cap</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> mAh/g&#39;</span><span class="p">)</span>
+
+<span class="c1"># Including efficiency</span>
+<span class="n">cap_eff</span> <span class="o">=</span> <span class="n">specific_capacity</span><span class="p">(</span><span class="mf">85.6</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">efficiency</span><span class="o">=</span><span class="mf">0.97</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;With 97% efficiency: </span><span class="si">{</span><span class="n">cap_eff</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> mAh/g&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Specific capacity: 171.2 mAh/g
+With 97% efficiency: 166.1 mAh/g
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Functions returning multiple values ───────────────────────────────────────</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">interplanar_spacing_cubic</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    d-spacing for cubic crystal: d = a / sqrt(h²+k²+l²)</span>
+<span class="sd">    Returns d in same units as a, and 2theta in degrees for Cu Kα (λ=1.5406 Å).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">k</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">l</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">lambda_CuKa</span> <span class="o">=</span> <span class="mf">1.5406</span>  <span class="c1"># Å</span>
+    <span class="n">sin_theta</span> <span class="o">=</span> <span class="n">lambda_CuKa</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin_theta</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">two_theta</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">asin</span><span class="p">(</span><span class="n">sin_theta</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">two_theta</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">d</span><span class="p">,</span> <span class="n">two_theta</span>
+
+<span class="c1"># XRD peaks for gold (FCC, a = 4.078 Å)</span>
+<span class="n">a_Au</span> <span class="o">=</span> <span class="mf">4.078</span>
+<span class="n">planes</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;hkl&quot;</span><span class="si">:</span><span class="s1">&lt;10</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot;d (Å)&quot;</span><span class="si">:</span><span class="s1">&lt;12</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot;2θ (°)&quot;</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">32</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">hkl</span> <span class="ow">in</span> <span class="n">planes</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">interplanar_spacing_cubic</span><span class="p">(</span><span class="o">*</span><span class="n">hkl</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a_Au</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">hkl</span><span class="p">)</span><span class="si">:</span><span class="s1">&lt;10</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s1">&lt;12.4f</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">tt</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hkl        d (Å)        2θ (°)
+--------------------------------
+(1, 1, 1)  2.3544       38.194
+(2, 0, 0)  2.0390       44.393
+(2, 2, 0)  1.4418       64.588
+(3, 1, 1)  1.2296       77.582
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="list-comprehensions">
+<h2>1.5 List Comprehensions<a class="headerlink" href="#list-comprehensions" title="Link to this heading">#</a></h2>
+<p>List comprehensions are a concise, Pythonic way to build lists from
+sequences. <code class="docutils literal notranslate"><span class="pre">[expression</span> <span class="pre">for</span> <span class="pre">item</span> <span class="pre">in</span> <span class="pre">sequence</span> <span class="pre">if</span> <span class="pre">condition]</span></code> reads almost like
+English: “for each item in the sequence, if the condition holds, compute the
+expression and collect the results into a new list.” It replaces a
+multi-line <code class="docutils literal notranslate"><span class="pre">for</span></code> loop with <code class="docutils literal notranslate"><span class="pre">.append()</span></code> calls with a single readable line —
+useful, but only reach for it when the expression stays simple; a plain
+loop is often clearer for anything more complex.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Temperatures in Celsius → Kelvin</span>
+<span class="n">T_C</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">800</span><span class="p">]</span>
+<span class="n">T_K</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mf">273.15</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">T_C</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;T_K:&#39;</span><span class="p">,</span> <span class="n">T_K</span><span class="p">)</span>
+
+<span class="c1"># Filter: keep only samples with capacity &gt; 160 mAh/g</span>
+<span class="n">all_capacities</span> <span class="o">=</span> <span class="p">[</span><span class="mi">148</span><span class="p">,</span> <span class="mi">161</span><span class="p">,</span> <span class="mi">169</span><span class="p">,</span> <span class="mi">172</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">158</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">141</span><span class="p">]</span>
+<span class="n">good</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_capacities</span> <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">160</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Good capacities:&#39;</span><span class="p">,</span> <span class="n">good</span><span class="p">)</span>
+
+<span class="c1"># Combined transformation + filter</span>
+<span class="c1"># Convert conductance (S) to resistivity (Ω·cm) only for valid (positive) values</span>
+<span class="n">conductances_S</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.12</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.09</span><span class="p">]</span>  <span class="c1"># -0.01 is erroneous</span>
+<span class="n">thickness_cm</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">area_cm2</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">resistivities</span> <span class="o">=</span> <span class="p">[</span><span class="n">thickness_cm</span> <span class="o">/</span> <span class="p">(</span><span class="n">g</span> <span class="o">*</span> <span class="n">area_cm2</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">conductances_S</span> <span class="k">if</span> <span class="n">g</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Resistivities (Ω·cm):&#39;</span><span class="p">,</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resistivities</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>T_K: [298.15, 373.15, 473.15, 673.15, 873.15, 1073.15]
+Good capacities: [161, 169, 172, 163]
+Resistivities (Ω·cm): [&#39;0.417&#39;, &#39;0.147&#39;, &#39;0.227&#39;, &#39;0.556&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Dictionary comprehension: build property lookup table ────────────────────</span>
+<span class="n">cathode_materials</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;LCO&#39;</span><span class="p">:</span>     <span class="p">{</span><span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="mi">140</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">:</span> <span class="mf">3.9</span><span class="p">},</span>
+    <span class="s1">&#39;LFP&#39;</span><span class="p">:</span>     <span class="p">{</span><span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="mi">170</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">:</span> <span class="mf">3.4</span><span class="p">},</span>
+    <span class="s1">&#39;NMC811&#39;</span><span class="p">:</span>  <span class="p">{</span><span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">:</span> <span class="mf">3.7</span><span class="p">},</span>
+    <span class="s1">&#39;LMO&#39;</span><span class="p">:</span>     <span class="p">{</span><span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">},</span>
+    <span class="s1">&#39;NCA&#39;</span><span class="p">:</span>     <span class="p">{</span><span class="s1">&#39;capacity&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">:</span> <span class="mf">3.7</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="c1"># Energy density estimate: capacity × voltage</span>
+<span class="n">energy_density</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;capacity&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;voltage&#39;</span><span class="p">]</span>
+                  <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">cathode_materials</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Estimated gravimetric energy density (mWh/g):&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">E</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">energy_density</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s1">&lt;10</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">E</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> mWh/g&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estimated gravimetric energy density (mWh/g):
+  NMC811     740 mWh/g
+  NCA        740 mWh/g
+  LFP        578 mWh/g
+  LCO        546 mWh/g
+  LMO        480 mWh/g
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="string-formatting-f-strings">
+<h2>1.6 String Formatting (f-strings)<a class="headerlink" href="#string-formatting-f-strings" title="Link to this heading">#</a></h2>
+<p>f-strings (Python 3.6+) are the modern standard for formatting output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_id</span> <span class="o">=</span> <span class="s1">&#39;NMC_T800_t12&#39;</span>
+<span class="n">capacity</span>  <span class="o">=</span> <span class="mf">198.4267</span>
+<span class="n">retention</span> <span class="o">=</span> <span class="mf">0.9341</span>
+
+<span class="c1"># Basic f-string</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Sample: </span><span class="si">{</span><span class="n">sample_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Number formatting</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Capacity: </span><span class="si">{</span><span class="n">capacity</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> mAh/g&#39;</span><span class="p">)</span>     <span class="c1"># 2 decimal places</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Capacity: </span><span class="si">{</span><span class="n">capacity</span><span class="si">:</span><span class="s1">8.2f</span><span class="si">}</span><span class="s1"> mAh/g&#39;</span><span class="p">)</span>    <span class="c1"># width 8, right-aligned</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retention: </span><span class="si">{</span><span class="n">retention</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>          <span class="c1"># percentage</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Retention: </span><span class="si">{</span><span class="n">retention</span><span class="si">:</span><span class="s1">.4e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>          <span class="c1"># scientific notation</span>
+
+<span class="c1"># Building a report line</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">report_line</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="n">cap</span><span class="p">,</span> <span class="n">ret</span><span class="p">):</span>
+    <span class="n">flag</span> <span class="o">=</span> <span class="s1">&#39;✓&#39;</span> <span class="k">if</span> <span class="n">ret</span> <span class="o">&gt;</span> <span class="mf">0.9</span> <span class="k">else</span> <span class="s1">&#39;✗&#39;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">flag</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">sid</span><span class="si">:</span><span class="s1">&lt;20</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">cap</span><span class="si">:</span><span class="s1">&gt;8.2f</span><span class="si">}</span><span class="s1"> mAh/g   </span><span class="si">{</span><span class="n">ret</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1"> retention&#39;</span>
+
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">report_line</span><span class="p">(</span><span class="s1">&#39;NMC_T800_t12&#39;</span><span class="p">,</span> <span class="mf">198.4</span><span class="p">,</span> <span class="mf">0.934</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">report_line</span><span class="p">(</span><span class="s1">&#39;NMC_T700_t06&#39;</span><span class="p">,</span> <span class="mf">155.1</span><span class="p">,</span> <span class="mf">0.871</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample: NMC_T800_t12
+Capacity: 198.43 mAh/g
+Capacity:   198.43 mAh/g
+Retention: 93.4%
+Retention: 9.3410e-01
+
+✓ NMC_T800_t12           198.40 mAh/g   93.4% retention
+✗ NMC_T700_t06           155.10 mAh/g   87.1% retention
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p><strong>Molar mass calculator</strong>: Write a function <code class="docutils literal notranslate"><span class="pre">molar_mass(formula_dict)</span></code> that takes a
+dictionary like <code class="docutils literal notranslate"><span class="pre">{'Li':</span> <span class="pre">1,</span> <span class="pre">'Ni':</span> <span class="pre">0.8,</span> <span class="pre">'Mn':</span> <span class="pre">0.1,</span> <span class="pre">'Co':</span> <span class="pre">0.1,</span> <span class="pre">'O':</span> <span class="pre">2}</span></code> and returns the
+molar mass using the atomic masses below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ATOMIC_MASS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Li&#39;</span><span class="p">:</span> <span class="mf">6.94</span><span class="p">,</span> <span class="s1">&#39;Ni&#39;</span><span class="p">:</span> <span class="mf">58.69</span><span class="p">,</span> <span class="s1">&#39;Mn&#39;</span><span class="p">:</span> <span class="mf">54.94</span><span class="p">,</span> <span class="s1">&#39;Co&#39;</span><span class="p">:</span> <span class="mf">58.93</span><span class="p">,</span>
+               <span class="s1">&#39;O&#39;</span><span class="p">:</span> <span class="mf">16.00</span><span class="p">,</span> <span class="s1">&#39;Fe&#39;</span><span class="p">:</span> <span class="mf">55.85</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="mf">30.97</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Top-N filter</strong>: Given the <code class="docutils literal notranslate"><span class="pre">samples</span></code> list from section 1.3, use a list comprehension
+to extract samples where <code class="docutils literal notranslate"><span class="pre">T_C</span> <span class="pre">&gt;=</span> <span class="pre">750</span></code> and <code class="docutils literal notranslate"><span class="pre">capacity</span> <span class="pre">&gt;</span> <span class="pre">160</span></code>.</p></li>
+<li><p><strong>Arrhenius</strong>: Write a function <code class="docutils literal notranslate"><span class="pre">k_arrhenius(A,</span> <span class="pre">Ea_kJ,</span> <span class="pre">T_C)</span></code> that computes the
+rate constant <span class="math notranslate nohighlight">\(k = A \exp(-E_a / RT)\)</span> where <span class="math notranslate nohighlight">\(R = 8.314\)</span> J mol⁻¹ K⁻¹.
+Use it to compute <span class="math notranslate nohighlight">\(k\)</span> for <span class="math notranslate nohighlight">\(T = 25, 100, 200, 400\)</span> °C when <span class="math notranslate nohighlight">\(A = 10^{13}\)</span> and
+<span class="math notranslate nohighlight">\(E_a = 80\)</span> kJ/mol.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\01_python_intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Part I: Prerequisites — Python for Data Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_numpy_arrays.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2. NumPy Arrays</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-and-data-types">1.1 Variables and Data Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lists-tuples-and-dictionaries">1.2 Lists, Tuples, and Dictionaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-flow">1.3 Control Flow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">1.4 Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-comprehensions">1.5 List Comprehensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#string-formatting-f-strings">1.6 String Formatting (f-strings)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

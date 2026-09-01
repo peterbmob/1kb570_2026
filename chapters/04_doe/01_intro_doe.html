@@ -1,0 +1,1111 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>16. Introduction to Design of Experiments &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/04_doe/01_intro_doe';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="17. Full Factorial Designs" href="02_full_factorial.html" />
+    <link rel="prev" title="Theoretical Background: Design of Experiments" href="theory.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part V: Design of Experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/04_doe/01_intro_doe.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/04_doe/01_intro_doe.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>16. Introduction to Design of Experiments</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ofat-vs-factorial-a-simulation">16.1 OFAT vs Factorial — A Simulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-a-no-interaction">Case A: No Interaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-b-a-real-interaction-same-process-different-luck">Case B: A Real Interaction — Same Process, Different Luck</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-three-panels">Reading the Three Panels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-terminology">16.2 Key Terminology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-coding">16.3 Variable Coding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-designs">16.4 Types of Designs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-design-of-experiments">
+<h1>16. Introduction to Design of Experiments<a class="headerlink" href="#introduction-to-design-of-experiments" title="Link to this heading">#</a></h1>
+<p>Design of Experiments (DoE) is a systematic framework for planning experiments
+so that the data yield the maximum amount of information with the minimum
+number of runs.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>Why not One-Factor-At-a-Time (OFAT)?</p></li>
+<li><p>Key terminology: factors, levels, runs, responses, design space</p></li>
+<li><p>Types of designs and when to use them</p></li>
+<li><p>The DoE workflow</p></li>
+<li><p>Coding variables (–1, 0, +1)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpatches</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="ofat-vs-factorial-a-simulation">
+<h2>16.1 OFAT vs Factorial — A Simulation<a class="headerlink" href="#ofat-vs-factorial-a-simulation" title="Link to this heading">#</a></h2>
+<p><strong>The everyday instinct</strong> when optimising a synthesis is to change one thing
+at a time: fix everything else, vary temperature until it looks best, <em>then</em>
+fix temperature and vary the next factor. This is called <strong>One-Factor-At-a-Time
+(OFAT)</strong>. It feels safe and logical — so what’s wrong with it?</p>
+<p>The problem is <strong>interaction</strong>: the best temperature might be different
+depending on which oxygen pressure you happen to have fixed <em>while</em> you were
+testing temperature. If you tested temperature at the “wrong” pressure, you
+may lock in a temperature that is not actually the best one once pressure is
+also optimised. A factorial design avoids this trap by changing several
+factors <em>together</em>, in a structured pattern, so that the data reveal not just
+each factor’s own effect but also whether the factors influence each other.</p>
+<p>Consider optimising the conductivity of a sol-gel ITO thin film by varying
+two factors:</p>
+<ul class="simple">
+<li><p><strong>Temperature</strong> — 300–700 °C</p></li>
+<li><p><strong>Oxygen partial pressure</strong> — 0.05–0.5 Pa</p></li>
+</ul>
+<p>To compare the two strategies fairly, we simulate a <em>known</em> underlying
+“true” response surface (something you would never actually know in a real
+experiment — here we use it only so we can check which strategy gets closer
+to the real optimum), working directly in the −1-to-+1 <strong>coded units</strong>
+Section 16.3 formalises shortly, so that a temperature swing and a pressure
+swing are on the same footing when we compare their effects:</p>
+<div class="math notranslate nohighlight">
+\[\sigma(x_1, x_2) = 1800 - 300x_1^2 - 300x_2^2 + \gamma x_1 x_2 + \varepsilon,
+\qquad x_1=\frac{T-500}{200},\;\; x_2=\frac{P-0.275}{0.225}\]</div>
+<p>Conductivity peaks somewhere in the middle of both ranges, and <span class="math notranslate nohighlight">\(\gamma\)</span> — the
+coefficient on the cross term <span class="math notranslate nohighlight">\(x_1 x_2\)</span> — controls how strongly temperature
+and pressure <em>interact</em>: <span class="math notranslate nohighlight">\(\gamma=0\)</span> means the best temperature never depends
+on pressure at all; the closer <span class="math notranslate nohighlight">\(\gamma\)</span> gets to its mathematical limit here
+(600), the more strongly it does. We will run this simulation <strong>twice</strong>:
+once with no interaction, once with a real one — and in the second run, from
+two equally plausible starting guesses — to see exactly when, and why, OFAT
+gets into trouble.</p>
+<p>OFAT (one factor at a time): hold one factor at its default while varying the other.
+Factorial: vary both factors simultaneously.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">conductivity</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Coded units (Section 16.3 formalises this scheme): x1, x2 run from</span>
+<span class="sd">    -1 to +1 across the T and P ranges, so a temperature swing and a</span>
+<span class="sd">    pressure swing are on the same footing before gamma compares them.&quot;&quot;&quot;</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="mi">500</span><span class="p">)</span> <span class="o">/</span> <span class="mi">200</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="n">P</span> <span class="o">-</span> <span class="mf">0.275</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.225</span>
+    <span class="k">return</span> <span class="mi">1800</span> <span class="o">-</span> <span class="mi">300</span><span class="o">*</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">300</span><span class="o">*</span><span class="n">x2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">gamma</span><span class="o">*</span><span class="n">x1</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="n">noise</span>
+
+<span class="n">T_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">P_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">TT</span><span class="p">,</span> <span class="n">PP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">T_grid</span><span class="p">,</span> <span class="n">P_grid</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">true_optimum</span><span class="p">(</span><span class="n">gamma</span><span class="p">):</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">conductivity</span><span class="p">(</span><span class="n">TT</span><span class="p">,</span> <span class="n">PP</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">grid</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">TT</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">PP</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+<span class="n">true_val</span><span class="p">,</span> <span class="n">T_true_opt</span><span class="p">,</span> <span class="n">P_true_opt</span> <span class="o">=</span> <span class="n">true_optimum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;True optimum (same location regardless of interaction strength): &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">true_val</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> S/cm at T=</span><span class="si">{</span><span class="n">T_true_opt</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">°C, P=</span><span class="si">{</span><span class="n">P_true_opt</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> Pa&#39;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_ofat</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">T_default</span><span class="p">,</span> <span class="n">P_default</span><span class="p">,</span> <span class="n">T_half</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">P_half</span><span class="o">=</span><span class="mf">0.0675</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A modest, realistic step around current practice for each factor --</span>
+<span class="sd">    not the whole practical range in one go.&quot;&quot;&quot;</span>
+    <span class="n">T_scan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="n">T_default</span><span class="o">-</span><span class="n">T_half</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="mi">700</span><span class="p">,</span> <span class="n">T_default</span><span class="o">+</span><span class="n">T_half</span><span class="p">),</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">sigma_T</span> <span class="o">=</span> <span class="n">conductivity</span><span class="p">(</span><span class="n">T_scan</span><span class="p">,</span> <span class="n">P_default</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">best_T</span> <span class="o">=</span> <span class="n">T_scan</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">sigma_T</span><span class="p">)]</span>
+
+    <span class="n">P_scan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">P_default</span><span class="o">-</span><span class="n">P_half</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">P_default</span><span class="o">+</span><span class="n">P_half</span><span class="p">),</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">sigma_P</span> <span class="o">=</span> <span class="n">conductivity</span><span class="p">(</span><span class="n">best_T</span><span class="p">,</span> <span class="n">P_scan</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">best_P</span> <span class="o">=</span> <span class="n">P_scan</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">sigma_P</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;best_T&#39;</span><span class="p">:</span> <span class="n">best_T</span><span class="p">,</span> <span class="s1">&#39;best_P&#39;</span><span class="p">:</span> <span class="n">best_P</span><span class="p">,</span>
+            <span class="s1">&#39;best_val&#39;</span><span class="p">:</span> <span class="n">conductivity</span><span class="p">(</span><span class="n">best_T</span><span class="p">,</span> <span class="n">best_P</span><span class="p">,</span> <span class="n">gamma</span><span class="p">),</span>
+            <span class="s1">&#39;T_scan&#39;</span><span class="p">:</span> <span class="n">T_scan</span><span class="p">,</span> <span class="s1">&#39;P_default&#39;</span><span class="p">:</span> <span class="n">P_default</span><span class="p">,</span> <span class="s1">&#39;P_scan&#39;</span><span class="p">:</span> <span class="n">P_scan</span><span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_factorial</span><span class="p">(</span><span class="n">gamma</span><span class="p">):</span>
+    <span class="n">T_levels</span><span class="p">,</span> <span class="n">P_levels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">700</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.275</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+    <span class="n">runs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">T_val</span> <span class="ow">in</span> <span class="p">(</span><span class="n">T_levels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">T_levels</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">P_val</span> <span class="ow">in</span> <span class="p">(</span><span class="n">P_levels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">P_levels</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+            <span class="n">runs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">T_val</span><span class="p">,</span> <span class="n">P_val</span><span class="p">,</span> <span class="n">conductivity</span><span class="p">(</span><span class="n">T_val</span><span class="p">,</span> <span class="n">P_val</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))))</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">runs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">T_levels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">P_levels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                      <span class="n">conductivity</span><span class="p">(</span><span class="n">T_levels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">P_levels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;sigma&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True optimum (same location regardless of interaction strength): 1800 S/cm at T=499°C, P=0.274 Pa
+</pre></div>
+</div>
+</div>
+</div>
+<section id="case-a-no-interaction">
+<h3>Case A: No Interaction<a class="headerlink" href="#case-a-no-interaction" title="Link to this heading">#</a></h3>
+<p>With <span class="math notranslate nohighlight">\(\gamma=0\)</span>, does OFAT even need factorial’s help? Starting from a
+current-process guess of T=380 °C, P=0.41 Pa — some way from the
+true optimum in both factors — scan temperature first, then pressure,
+exactly as the OFAT recipe describes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Case A -- no interaction (gamma=0), starting from T=380°C, P=0.41 Pa&#39;</span><span class="p">)</span>
+<span class="n">ofat_A</span> <span class="o">=</span> <span class="n">run_ofat</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span> <span class="mf">0.41</span><span class="p">)</span>
+<span class="n">fact_A_df</span><span class="p">,</span> <span class="n">fact_A_idx</span> <span class="o">=</span> <span class="n">run_factorial</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fact_A_best</span> <span class="o">=</span> <span class="n">fact_A_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_A_idx</span><span class="p">,</span> <span class="s1">&#39;sigma&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OFAT best (16 runs):      </span><span class="si">{</span><span class="n">ofat_A</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> S/cm  &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ofat_A</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">true_val</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% of optimum)  &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;at T=</span><span class="si">{</span><span class="n">ofat_A</span><span class="p">[</span><span class="s1">&#39;best_T&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">°C, P=</span><span class="si">{</span><span class="n">ofat_A</span><span class="p">[</span><span class="s1">&#39;best_P&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> Pa&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Factorial best (7 runs):  </span><span class="si">{</span><span class="n">fact_A_best</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> S/cm  &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">fact_A_best</span><span class="o">/</span><span class="n">true_val</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% of optimum)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Case A -- no interaction (gamma=0), starting from T=380°C, P=0.41 Pa
+OFAT best (16 runs):      1746 S/cm  (97.0% of optimum)  at T=440°C, P=0.342 Pa
+Factorial best (7 runs):  1795 S/cm  (99.7% of optimum)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>With no interaction, OFAT reaches 97.0% of the true optimum from a starting guess that wasn’t close in either factor — not far behind the factorial’s 99.7%, using the same total run count either way. This is the direct answer to <em>“does OFAT work fine when there’s no correlation between factors?”</em>: broadly, yes — each one-factor-at-a-time scan lands close to that factor’s own true optimum, because a factor’s own optimum genuinely doesn’t depend on where the other factor happens to be fixed.</p></li>
+<li><p>The remaining ~3% gap isn’t from interaction at all (there is none, by construction) — it’s simply that a modest, realistic step around current practice doesn’t cover the space as thoroughly as factorial’s runs, spread deliberately across the full range. That’s a real but small cost, nothing like what’s coming next.</p></li>
+</ul>
+</div>
+</section>
+<section id="case-b-a-real-interaction-same-process-different-luck">
+<h3>Case B: A Real Interaction — Same Process, Different Luck<a class="headerlink" href="#case-b-a-real-interaction-same-process-different-luck" title="Link to this heading">#</a></h3>
+<p>Now set <span class="math notranslate nohighlight">\(\gamma=580\)</span> — a strong, genuine interaction, just below the
+point where the surface would stop having a single well-defined peak at
+all. Keep the <em>same</em> starting temperature (380 °C) used in Case A, so
+temperature alone isn’t what changes below — only which pressure the
+process happened to be running at when the OFAT campaign started:</p>
+<ul class="simple">
+<li><p><strong>Unlucky start</strong>: P=0.41 Pa — the same starting pressure as Case A.</p></li>
+<li><p><strong>Lucky start</strong>: P=0.14 Pa — an equally plausible guess; nothing about
+“current practice” tells you in advance which of these two you’d actually
+be starting from.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Case B -- a real interaction (gamma=580); same starting temperature,&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;two equally plausible starting pressures&#39;</span><span class="p">)</span>
+<span class="n">ofat_B_unlucky</span> <span class="o">=</span> <span class="n">run_ofat</span><span class="p">(</span><span class="mi">580</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span> <span class="mf">0.41</span><span class="p">)</span>
+<span class="n">ofat_B_lucky</span>   <span class="o">=</span> <span class="n">run_ofat</span><span class="p">(</span><span class="mi">580</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span> <span class="mf">0.14</span><span class="p">)</span>
+<span class="n">fact_B_df</span><span class="p">,</span> <span class="n">fact_B_idx</span> <span class="o">=</span> <span class="n">run_factorial</span><span class="p">(</span><span class="mi">580</span><span class="p">)</span>
+<span class="n">fact_B_best</span> <span class="o">=</span> <span class="n">fact_B_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_B_idx</span><span class="p">,</span> <span class="s1">&#39;sigma&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OFAT, unlucky start (P=0.41 Pa): </span><span class="si">{</span><span class="n">ofat_B_unlucky</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> S/cm  &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ofat_B_unlucky</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">true_val</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)  &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;at T=</span><span class="si">{</span><span class="n">ofat_B_unlucky</span><span class="p">[</span><span class="s1">&#39;best_T&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">°C, P=</span><span class="si">{</span><span class="n">ofat_B_unlucky</span><span class="p">[</span><span class="s1">&#39;best_P&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> Pa&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OFAT, lucky start   (P=0.14 Pa): </span><span class="si">{</span><span class="n">ofat_B_lucky</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> S/cm  &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ofat_B_lucky</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">true_val</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)  &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;at T=</span><span class="si">{</span><span class="n">ofat_B_lucky</span><span class="p">[</span><span class="s1">&#39;best_T&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">°C, P=</span><span class="si">{</span><span class="n">ofat_B_lucky</span><span class="p">[</span><span class="s1">&#39;best_P&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> Pa&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Factorial (7 runs):              </span><span class="si">{</span><span class="n">fact_B_best</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> S/cm  &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">fact_B_best</span><span class="o">/</span><span class="n">true_val</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Case B -- a real interaction (gamma=580); same starting temperature,
+two equally plausible starting pressures
+OFAT, unlucky start (P=0.41 Pa): 1694 S/cm  (94.1%)  at T=440°C, P=0.342 Pa
+OFAT, lucky start   (P=0.14 Pa): 1773 S/cm  (98.5%)  at T=406°C, P=0.111 Pa
+Factorial (7 runs):              1809 S/cm  (100.5%)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>Same interaction, same starting temperature, only the starting <em>pressure</em> differs — and the two OFAT outcomes diverge sharply: 94.1% of the true optimum from the unlucky start, 98.5% from the lucky one. Nothing about either starting guess looked more reasonable than the other beforehand; the difference is pure luck, driven entirely by which side of the interaction that guess happened to sit on.</p></li>
+<li><p>Factorial’s result (100.5%) barely moves between the two scenarios — it doesn’t depend on a starting guess at all, because its four corners already sample <em>both</em> sides of the interaction every time, regardless of where “current practice” happens to be. That is the real argument for factorial designs: not a guaranteed bigger margin on any one run (Case A already showed OFAT can do fine), but immunity to exactly the kind of luck that separates a 94% OFAT result from a 98% one here — and it does this in 7 runs to OFAT’s 16, so it is not just more reliable, it is also cheaper.</p></li>
+<li><p>Look at the middle and right panels below: the contours are now visibly tilted, not the simple bullseye of Case A — that tilt <em>is</em> the interaction, and it is exactly what lets one starting guess succeed and an equally sensible one fail.</p></li>
+</ul>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigma_grid_A</span> <span class="o">=</span> <span class="n">conductivity</span><span class="p">(</span><span class="n">TT</span><span class="p">,</span> <span class="n">PP</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">sigma_grid_B</span> <span class="o">=</span> <span class="n">conductivity</span><span class="p">(</span><span class="n">TT</span><span class="p">,</span> <span class="n">PP</span><span class="p">,</span> <span class="mi">580</span><span class="p">)</span>
+
+<span class="n">T_pad</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="p">(</span><span class="n">T_grid</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">T_grid</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="n">P_pad</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="p">(</span><span class="n">P_grid</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">P_grid</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">jitter_centre</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="c1"># The 3 centre-point replicates sit at *exactly* the same conditions and</span>
+    <span class="c1"># would overlap into a single dot -- nudge them apart in a tiny triangle,</span>
+    <span class="c1"># for display only; the data used for analysis (df) is untouched.</span>
+    <span class="n">centre_mask</span> <span class="o">=</span> <span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">500</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.275</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">centre_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">T_disp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">P_disp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">T_disp</span><span class="p">[</span><span class="n">centre_mask</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.015</span> <span class="o">*</span> <span class="p">(</span><span class="n">T_grid</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">T_grid</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+    <span class="n">P_disp</span><span class="p">[</span><span class="n">centre_mask</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.015</span> <span class="o">*</span> <span class="p">(</span><span class="n">P_grid</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">P_grid</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">T_disp</span><span class="p">,</span> <span class="n">P_disp</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">))</span>
+
+<span class="n">panels</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;Case A: no interaction&#39;</span><span class="p">,</span> <span class="n">sigma_grid_A</span><span class="p">,</span> <span class="n">ofat_A</span><span class="p">,</span> <span class="n">fact_A_df</span><span class="p">,</span> <span class="n">fact_A_idx</span><span class="p">,</span> <span class="n">fact_A_best</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Case B: interaction, unlucky start&#39;</span><span class="p">,</span> <span class="n">sigma_grid_B</span><span class="p">,</span> <span class="n">ofat_B_unlucky</span><span class="p">,</span> <span class="n">fact_B_df</span><span class="p">,</span> <span class="n">fact_B_idx</span><span class="p">,</span> <span class="n">fact_B_best</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Case B: interaction, lucky start&#39;</span><span class="p">,</span> <span class="n">sigma_grid_B</span><span class="p">,</span> <span class="n">ofat_B_lucky</span><span class="p">,</span> <span class="n">fact_B_df</span><span class="p">,</span> <span class="n">fact_B_idx</span><span class="p">,</span> <span class="n">fact_B_best</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">ofat</span><span class="p">,</span> <span class="n">fact_df</span><span class="p">,</span> <span class="n">fact_idx</span><span class="p">,</span> <span class="n">fact_best</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">panels</span><span class="p">):</span>
+    <span class="n">contf</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">TT</span><span class="p">,</span> <span class="n">PP</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Conductivity (S/cm)&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ofat</span><span class="p">[</span><span class="s1">&#39;T_scan&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">ofat</span><span class="p">[</span><span class="s1">&#39;P_default&#39;</span><span class="p">]]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">ofat</span><span class="p">[</span><span class="s1">&#39;T_scan&#39;</span><span class="p">]),</span>
+            <span class="s1">&#39;w-o&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OFAT — vary T&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">ofat</span><span class="p">[</span><span class="s1">&#39;best_T&#39;</span><span class="p">]]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">ofat</span><span class="p">[</span><span class="s1">&#39;P_scan&#39;</span><span class="p">]),</span> <span class="n">ofat</span><span class="p">[</span><span class="s1">&#39;P_scan&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;w--^&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OFAT — vary P&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">ofat</span><span class="p">[</span><span class="s1">&#39;best_T&#39;</span><span class="p">],</span> <span class="n">ofat</span><span class="p">[</span><span class="s1">&#39;best_P&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">110</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+               <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;OFAT: </span><span class="si">{</span><span class="n">ofat</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> S/cm&quot;</span><span class="p">)</span>
+
+    <span class="n">T_disp</span><span class="p">,</span> <span class="n">P_disp</span> <span class="o">=</span> <span class="n">jitter_centre</span><span class="p">(</span><span class="n">fact_df</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">T_disp</span><span class="p">,</span> <span class="n">P_disp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+               <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Factorial runs (n=7)&#39;</span><span class="p">)</span>
+    <span class="n">best_row</span> <span class="o">=</span> <span class="n">fact_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_idx</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">best_row</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">],</span> <span class="n">best_row</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">130</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;gold&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span>
+               <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+               <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Factorial: </span><span class="si">{</span><span class="n">fact_best</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> S/cm&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">T_true_opt</span><span class="p">,</span> <span class="n">P_true_opt</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
+               <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;lime&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">2.2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+               <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True optimum&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">T_grid</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">T_pad</span><span class="p">,</span> <span class="n">T_grid</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">T_pad</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">P_grid</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">P_pad</span><span class="p">,</span> <span class="n">P_grid</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">P_pad</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Temperature (°C)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;O$_2$ pressure (Pa)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">10.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;OFAT vs Factorial — Same Interaction, Different Luck&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6a079b60c6bbac7777596894568775ae6c42956f1a44dd4488124fade0a0488e.png" src="../../_images/6a079b60c6bbac7777596894568775ae6c42956f1a44dd4488124fade0a0488e.png" />
+</div>
+</div>
+</section>
+<section id="reading-the-three-panels">
+<h3>Reading the Three Panels<a class="headerlink" href="#reading-the-three-panels" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Left (no interaction)</strong>: contours form simple, concentric circles — the
+peak’s location along one axis genuinely does not depend on the other, so
+OFAT’s staircase path (white markers) lands close to the true optimum
+(green circle) even from an off-centre start.</p></li>
+<li><p><strong>Middle and right (with interaction, two starting guesses)</strong>: the
+contours tilt into a diagonal ridge — now <em>which</em> temperature is best
+depends on which pressure you’re at, and vice versa. The middle panel’s
+OFAT path gets pulled toward a mediocre point; the right panel’s — same
+interaction, same starting temperature, only the starting pressure
+differs — reaches almost the same point the factorial star finds.</p></li>
+<li><p><strong>Black dots with a gold star (factorial)</strong>: the same seven runs, spread
+across combinations of <em>both</em> factors at once, land in the same place in
+every panel — because, unlike OFAT, they never depended on a starting
+guess to begin with.</p></li>
+<li><p><strong>Green circle (true optimum)</strong>: shown here only so you can judge, for
+each strategy, how close its result landed to the real answer — never
+available in a real experiment.</p></li>
+</ul>
+<p>This is the core justification for everything else in Part V: a small,
+structured set of experiments beats the same style of one-at-a-time trial,
+not because it is guaranteed to win by more on any single run, but because
+its outcome does not depend on a piece of luck you have no way to control
+for in advance.</p>
+</section>
+</section>
+<section id="key-terminology">
+<h2>16.2 Key Terminology<a class="headerlink" href="#key-terminology" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Term</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Factor</strong></p></td>
+<td><p>Controllable input variable</p></td>
+<td><p>Temperature, pressure, composition</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Level</strong></p></td>
+<td><p>Specific value of a factor</p></td>
+<td><p>Low (–1), Centre (0), High (+1)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Response</strong></p></td>
+<td><p>Measured output</p></td>
+<td><p>Conductivity, strength, yield</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Run</strong></p></td>
+<td><p>One experimental trial</p></td>
+<td><p>Single sintering experiment</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Effect</strong></p></td>
+<td><p>Change in response per unit change in factor</p></td>
+<td><p>ΔT effect on grain size</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Interaction</strong></p></td>
+<td><p>Effect of one factor depends on another</p></td>
+<td><p>T × P interaction in ITO</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Design space</strong></p></td>
+<td><p>Region of factor space being explored</p></td>
+<td><p>T ∈ [300,700], P ∈ [0.05,0.5]</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Centre point</strong></p></td>
+<td><p>Middle of the design space</p></td>
+<td><p>T=500, P=0.275</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="variable-coding">
+<h2>16.3 Variable Coding<a class="headerlink" href="#variable-coding" title="Link to this heading">#</a></h2>
+<p>Notice that in the terminology table above, “level” was described as Low
+(–1), Centre (0), High (+1) — not as “300 °C” or “0.05 Pa”. This relabelling
+is called <strong>coding</strong>, and it is used throughout DoE for a simple reason: a
+50 °C change and a 0.05 Pa change are not directly comparable in size, but a
+change from –1 to +1 means the same thing (the full range of the factor) no
+matter which factor you are looking at. Coding puts every factor on the same
+footing before you compare their effects.</p>
+<p>Coded variables map the natural range to [−1, +1]:</p>
+<div class="math notranslate nohighlight">
+\[x_{\text{coded}} = \frac{x_{\text{natural}} - x_{\text{centre}}}{x_{\text{high}} - x_{\text{centre}}}\]</div>
+<p>In words: find how far your value is from the centre of the range, then
+express that distance as a fraction of the half-range. A value at the centre
+becomes 0; a value at the high end becomes +1; a value at the low end becomes
+−1. Coding has two practical advantages: (1) effect sizes become directly
+comparable regardless of the original units; (2) it keeps the numbers that
+go into the model-fitting calculation small and of similar magnitude, which
+makes the fit more numerically stable — the same reason you would not want
+to fit a model using raw temperatures in Kelvin.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">code</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
+    <span class="n">centre</span> <span class="o">=</span> <span class="p">(</span><span class="n">low</span> <span class="o">+</span> <span class="n">high</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">delta</span>  <span class="o">=</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">centre</span><span class="p">)</span> <span class="o">/</span> <span class="n">delta</span>
+
+<span class="c1"># Example: T in [300, 700] → coded x1 in [−1, +1]</span>
+<span class="n">T_natural_examples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">700</span><span class="p">])</span>
+<span class="n">x1_coded</span> <span class="o">=</span> <span class="n">code</span><span class="p">(</span><span class="n">T_natural_examples</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">700</span><span class="p">)</span>
+
+<span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;T_natural (°C)&#39;</span><span class="p">:</span> <span class="n">T_natural_examples</span><span class="p">,</span> <span class="s1">&#39;x1 (coded)&#39;</span><span class="p">:</span> <span class="n">x1_coded</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> T_natural (°C)  x1 (coded)
+            300        -1.0
+            400        -0.5
+            500         0.0
+            600         0.5
+            700         1.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="types-of-designs">
+<h2>16.4 Types of Designs<a class="headerlink" href="#types-of-designs" title="Link to this heading">#</a></h2>
+<p>Different stages of an investigation call for different designs — think of
+it as a funnel that gets progressively more detailed and expensive as you
+narrow in on the answer: first screen many candidate factors cheaply, then
+build a detailed map only around the factors and region that matter.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Design</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Typical runs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Full factorial 2ᵏ</strong></p></td>
+<td><p>Estimate all main effects and interactions</p></td>
+<td><p>2ᵏ + centre pts</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Fractional factorial 2^(k–p)</strong></p></td>
+<td><p>Screening — many factors, fewer runs</p></td>
+<td><p>2^(k–p)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Plackett-Burman</strong></p></td>
+<td><p>Screening — up to N−1 factors in N runs</p></td>
+<td><p>12, 16, 20, …</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>CCD (Central Composite)</strong></p></td>
+<td><p>Response Surface — near optimum</p></td>
+<td><p>2ᵏ + 2k + n₀</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Box-Behnken</strong></p></td>
+<td><p>Response Surface — no corner pts</p></td>
+<td><p>varies</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Simplex (Spendley)</strong></p></td>
+<td><p>Model-free sequential optimisation</p></td>
+<td><p>k+1 vertices</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The rest of Part V walks through this funnel in order: full factorials
+(Notebook 17) and fractional factorials (Notebook 18) for screening, then
+Response Surface Methodology (Notebook 19) and optimisation (Notebooks 20–21)
+for pinpointing the best conditions.</p>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>OFAT inefficiency</strong>: Extend the simulation above to a 3-factor system
+(add a third factor: precursor concentration 0.1–1.0 M).<br />
+Count the minimum number of OFAT runs needed to cover the design space
+with 5 levels per factor, and compare to a 2³ full factorial + 3 centre points.</p></li>
+<li><p><strong>Coding practice</strong>: A catalyst screening experiment uses the following factor
+ranges. Write a function that both codes and decodes the variables:</p>
+<ul class="simple">
+<li><p>Reaction time: 30–120 min</p></li>
+<li><p>Temperature: 80–200 °C</p></li>
+<li><p>Catalyst loading: 0.5–5 wt%</p></li>
+</ul>
+</li>
+<li><p><strong>Design table</strong>: Build a manual 2² design table (4 corner runs + 1 centre
+point) for the ITO example and add a column for the response value using
+the <code class="docutils literal notranslate"><span class="pre">conductivity()</span></code> function with noise σ=20 S/cm.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\04_doe"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="theory.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Theoretical Background: Design of Experiments</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_full_factorial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">17. Full Factorial Designs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ofat-vs-factorial-a-simulation">16.1 OFAT vs Factorial — A Simulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-a-no-interaction">Case A: No Interaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-b-a-real-interaction-same-process-different-luck">Case B: A Real Interaction — Same Process, Different Luck</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-three-panels">Reading the Three Panels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-terminology">16.2 Key Terminology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-coding">16.3 Variable Coding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-designs">16.4 Types of Designs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

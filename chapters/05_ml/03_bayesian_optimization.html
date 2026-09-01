@@ -1,0 +1,1418 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>18. Bayesian Optimisation for Experiment Design &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/05_ml/03_bayesian_optimization';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="19. Ensemble Methods: Random Forest and Gradient Boosting" href="04_ensemble_methods.html" />
+    <link rel="prev" title="17. Gaussian Process Regression (Kriging)" href="02_gaussian_process.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/05_ml/03_bayesian_optimization.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/05_ml/03_bayesian_optimization.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>18. Bayesian Optimisation for Experiment Design</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-black-box-objective-zno-photocatalytic-activity">18.1 The Black-Box Objective: ZnO Photocatalytic Activity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acquisition-functions">18.2 Acquisition Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-improvement-ei">Expected Improvement (EI)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#upper-confidence-bound-ucb">Upper Confidence Bound (UCB)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-of-improvement-pi">Probability of Improvement (PI)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-optimisation-loop">18.3 Bayesian Optimisation Loop</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-results">Interpreting the Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acquisition-function-comparison">18.4 Acquisition Function Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-classical-doe-methods">18.5 Comparison with Classical DoE Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bo-as-sequential-doe-iteration-by-iteration-illustration">18.6 BO as Sequential DoE: Iteration-by-Iteration Illustration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-iteration-plots">Reading the Iteration Plots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-bo-as-a-systematic-doe-practical-workflow">18.7 Using BO as a Systematic DoE: Practical Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-protocol">Step-by-step protocol</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-total-experiments-are-needed">How many total experiments are needed?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria">Stopping criteria</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-design-latin-hypercube-sampling">Initial design: Latin Hypercube Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-design-comparison">Interpreting the Design Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-constraints">Handling constraints</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-response-optimisation-pareto-front">Multi-response optimisation (Pareto front)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="bayesian-optimisation-for-experiment-design">
+<h1>18. Bayesian Optimisation for Experiment Design<a class="headerlink" href="#bayesian-optimisation-for-experiment-design" title="Link to this heading">#</a></h1>
+<p>Bayesian Optimisation (BO) finds the maximum of an unknown, expensive-to-evaluate
+function using as few experiments as possible. It is the natural extension of
+classical DoE into the regime of <strong>sequential adaptive experimentation</strong>.</p>
+<p><strong>Core idea:</strong></p>
+<ol class="arabic simple">
+<li><p>Fit a <strong>GP surrogate</strong> to all observations so far</p></li>
+<li><p>Use an <strong>acquisition function</strong> to decide <em>where to run the next experiment</em></p></li>
+<li><p>Run the experiment, add the result, and repeat</p></li>
+</ol>
+<p><strong>Topics covered</strong></p>
+<ol class="arabic simple">
+<li><p>The exploration–exploitation trade-off</p></li>
+<li><p>Acquisition functions: Expected Improvement (EI), Upper Confidence Bound (UCB), Probability of Improvement (PI)</p></li>
+<li><p>BO loop from scratch with scikit-learn GPR</p></li>
+<li><p>Comparison with random search, grid search, and steepest ascent</p></li>
+<li><p>Case study: optimising ZnO photocatalyst synthesis</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matern</span><span class="p">,</span> <span class="n">WhiteKernel</span><span class="p">,</span> <span class="n">ConstantKernel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConvergenceWarning</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="c1"># With only a handful of observations, the GP&#39;s optimiser repeatedly drives</span>
+<span class="c1"># the WhiteKernel&#39;s noise level down to its lower bound (small samples give</span>
+<span class="c1"># it little basis to distinguish &quot;real noise&quot; from &quot;not enough data yet&quot;) --</span>
+<span class="c1"># the same benign behaviour Notebook 17 (02_gaussian_process.ipynb) discusses</span>
+<span class="c1"># explicitly. It doesn&#39;t change any conclusion drawn here, so it&#39;s silenced</span>
+<span class="c1"># rather than repeated dozens of times across the BO loops below.</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">ConvergenceWarning</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="the-black-box-objective-zno-photocatalytic-activity">
+<h2>18.1 The Black-Box Objective: ZnO Photocatalytic Activity<a class="headerlink" href="#the-black-box-objective-zno-photocatalytic-activity" title="Link to this heading">#</a></h2>
+<p>We simulate the photocatalytic degradation rate of methylene blue (MB) by ZnO
+nanoparticles as a function of two synthesis parameters:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x_1\)</span>: precursor concentration (0.01–0.10 M)</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_2\)</span>: calcination temperature (300–700 °C)</p></li>
+</ul>
+<p>The true maximum is unknown to the optimiser — it can only evaluate the
+objective by “running an experiment” (calling <code class="docutils literal notranslate"><span class="pre">black_box</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── True (hidden) response surface ───────────────────────────────────────────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">black_box</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">noise_std</span><span class="o">=</span><span class="mf">0.02</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Photocatalytic rate (a.u.) — unknown to the optimiser.&quot;&quot;&quot;</span>
+    <span class="n">x1n</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="mf">0.055</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.045</span>   <span class="c1"># normalised</span>
+    <span class="n">x2n</span> <span class="o">=</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="mi">500</span><span class="p">)</span>   <span class="o">/</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">0.85</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">x1n</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x2n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.25</span><span class="p">)</span>
+            <span class="o">+</span> <span class="mf">0.3</span>  <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">((</span><span class="n">x1n</span><span class="o">+</span><span class="mf">0.6</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x2n</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.1</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">noise_std</span><span class="p">))</span>
+
+<span class="c1"># ── Visualise the true surface (for reference only) ───────────────────────────</span>
+<span class="n">x1_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">x2_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">X1G</span><span class="p">,</span> <span class="n">X2G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x1_rng</span><span class="p">,</span> <span class="n">x2_rng</span><span class="p">)</span>
+<span class="n">Z_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">:</span> <span class="n">black_box</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="mi">0</span><span class="p">))(</span><span class="n">X1G</span><span class="p">,</span> <span class="n">X2G</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">cf</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x1_rng</span><span class="p">,</span> <span class="n">x2_rng</span><span class="p">,</span> <span class="n">Z_true</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlGn&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Photocatalytic rate (a.u.)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Precursor conc. (M)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Calcination T (°C)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;True Objective (hidden from optimiser)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e5ae7f81b4028773ff8d00c3c7ef1bff894f765da4e73d4e9f7c0214ccb6b39d.png" src="../../_images/e5ae7f81b4028773ff8d00c3c7ef1bff894f765da4e73d4e9f7c0214ccb6b39d.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Interpreting the True Objective Surface</p>
+<ul class="simple">
+<li><p>The true objective is <strong>bimodal</strong>: a tall, narrow peak near x1 ≈ 0.055 M, x2 ≈ 500 °C, and a smaller secondary bump near x1 ≈ 0.03 M, x2 ≈ 400 °C — visible as the two green regions in the contour plot.</p></li>
+<li><p>This shape is deliberately realistic and deliberately hard: an optimiser that only ever exploits the first promising region it finds (pure exploitation) will converge to the <em>secondary</em> peak and never discover the true optimum. A good acquisition function must keep exploring even after finding a good point — exactly the trade-off Section 18.2’s Expected Improvement and UCB formulas are designed to manage.</p></li>
+<li><p>Remember that this whole surface is <strong>hidden from the optimiser</strong> — it is drawn here only so you, the reader, can judge how well BO’s queries (plotted later in Section 18.3) actually locate the true maximum.</p></li>
+</ul>
+</div>
+</section>
+<section id="acquisition-functions">
+<h2>18.2 Acquisition Functions<a class="headerlink" href="#acquisition-functions" title="Link to this heading">#</a></h2>
+<p>The acquisition function trades off <strong>exploration</strong> (query uncertain regions)
+vs <strong>exploitation</strong> (query near the current best).</p>
+<section id="expected-improvement-ei">
+<h3>Expected Improvement (EI)<a class="headerlink" href="#expected-improvement-ei" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\text{EI}(\mathbf{x}) = (\mu(\mathbf{x}) - f^+) \Phi(Z) + \sigma(\mathbf{x}) \phi(Z)\]</div>
+<p>where <span class="math notranslate nohighlight">\(Z = (\mu(\mathbf{x}) - f^+)/\sigma(\mathbf{x})\)</span>, <span class="math notranslate nohighlight">\(f^+\)</span> is the current best
+observed value, and <span class="math notranslate nohighlight">\(\Phi\)</span>, <span class="math notranslate nohighlight">\(\phi\)</span> are the standard normal CDF and PDF.</p>
+</section>
+<section id="upper-confidence-bound-ucb">
+<h3>Upper Confidence Bound (UCB)<a class="headerlink" href="#upper-confidence-bound-ucb" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\text{UCB}(\mathbf{x}) = \mu(\mathbf{x}) + \kappa \, \sigma(\mathbf{x})\]</div>
+<p><span class="math notranslate nohighlight">\(\kappa &gt; 0\)</span> controls exploration (<span class="math notranslate nohighlight">\(\kappa \to \infty\)</span> = pure exploration).</p>
+</section>
+<section id="probability-of-improvement-pi">
+<h3>Probability of Improvement (PI)<a class="headerlink" href="#probability-of-improvement-pi" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\text{PI}(\mathbf{x}) = \Phi\!\left(\frac{\mu(\mathbf{x}) - f^+}{\sigma(\mathbf{x})}\right)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">expected_improvement</span><span class="p">(</span><span class="n">X_cand</span><span class="p">,</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">y_best</span><span class="p">,</span> <span class="n">xi</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">gpr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_cand</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">)</span>
+    <span class="n">Z</span>  <span class="o">=</span> <span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="n">y_best</span> <span class="o">-</span> <span class="n">xi</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+    <span class="n">ei</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="n">y_best</span> <span class="o">-</span> <span class="n">xi</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+    <span class="n">ei</span><span class="p">[</span><span class="n">sigma</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">ei</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">upper_confidence_bound</span><span class="p">(</span><span class="n">X_cand</span><span class="p">,</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
+    <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">gpr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_cand</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">kappa</span> <span class="o">*</span> <span class="n">sigma</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">next_query</span><span class="p">(</span><span class="n">gpr</span><span class="p">,</span> <span class="n">y_best</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">acq_fn</span><span class="o">=</span><span class="s1">&#39;EI&#39;</span><span class="p">,</span> <span class="n">n_restarts</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Maximise acquisition function over the design space.&quot;&quot;&quot;</span>
+    <span class="n">best_x</span><span class="p">,</span> <span class="n">best_val</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_restarts</span><span class="p">):</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">acq_fn_eval</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">y_best</span><span class="p">,</span> <span class="n">acq_fn</span><span class="p">),</span>
+            <span class="n">x0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;L-BFGS-B&#39;</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="o">-</span><span class="n">result</span><span class="o">.</span><span class="n">fun</span> <span class="o">&gt;</span> <span class="n">best_val</span><span class="p">:</span>
+            <span class="n">best_val</span> <span class="o">=</span> <span class="o">-</span><span class="n">result</span><span class="o">.</span><span class="n">fun</span>
+            <span class="n">best_x</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
+    <span class="k">return</span> <span class="n">best_x</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">acq_fn_eval</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">y_best</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;EI&#39;</span><span class="p">:</span>  <span class="k">return</span> <span class="n">expected_improvement</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">y_best</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;UCB&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="n">upper_confidence_bound</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">gpr</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">expected_improvement</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">y_best</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="bayesian-optimisation-loop">
+<h2>18.3 Bayesian Optimisation Loop<a class="headerlink" href="#bayesian-optimisation-loop" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Initial design: 4 random points ──────────────────────────────────────────</span>
+<span class="n">bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">),</span> <span class="p">(</span><span class="mf">300.</span><span class="p">,</span> <span class="mf">700.</span><span class="p">)]</span>
+
+<span class="n">X_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span>
+    <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="p">])</span>
+<span class="n">y_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">black_box</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_init</span><span class="p">])</span>
+
+<span class="n">X_obs</span> <span class="o">=</span> <span class="n">X_init</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">y_obs</span> <span class="o">=</span> <span class="n">y_init</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">kernel_bo</span> <span class="o">=</span> <span class="n">ConstantKernel</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Matern</span><span class="p">(</span>
+    <span class="n">length_scale</span><span class="o">=</span><span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="n">length_scale_bounds</span><span class="o">=</span><span class="p">[(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1000</span><span class="p">)],</span> <span class="n">nu</span><span class="o">=</span><span class="mf">2.5</span>
+<span class="p">)</span> <span class="o">+</span> <span class="n">WhiteKernel</span><span class="p">(</span><span class="n">noise_level</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+
+<span class="n">n_iter_bo</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">best_so_far</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">history_X</span><span class="p">,</span> <span class="n">history_y</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter_bo</span><span class="p">):</span>
+    <span class="n">gpr_bo</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_bo</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                       <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
+    <span class="n">gpr_bo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_obs</span><span class="p">,</span> <span class="n">y_obs</span><span class="p">)</span>
+
+    <span class="n">x_next</span> <span class="o">=</span> <span class="n">next_query</span><span class="p">(</span><span class="n">gpr_bo</span><span class="p">,</span> <span class="n">y_obs</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">acq_fn</span><span class="o">=</span><span class="s1">&#39;EI&#39;</span><span class="p">)</span>
+    <span class="n">y_next</span> <span class="o">=</span> <span class="n">black_box</span><span class="p">(</span><span class="n">x_next</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_next</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">X_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X_obs</span><span class="p">,</span> <span class="n">x_next</span><span class="p">])</span>
+    <span class="n">y_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_obs</span><span class="p">,</span> <span class="n">y_next</span><span class="p">)</span>
+    <span class="n">best_so_far</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_obs</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+    <span class="n">history_X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_next</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+    <span class="n">history_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_next</span><span class="p">)</span>
+
+<span class="n">best_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_obs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Best found after </span><span class="si">{</span><span class="mi">4</span><span class="o">+</span><span class="n">n_iter_bo</span><span class="si">}</span><span class="s1"> evaluations:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  x1 (conc.) = </span><span class="si">{</span><span class="n">X_obs</span><span class="p">[</span><span class="n">best_idx</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> M&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  x2 (T)     = </span><span class="si">{</span><span class="n">X_obs</span><span class="p">[</span><span class="n">best_idx</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> °C&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  rate       = </span><span class="si">{</span><span class="n">y_obs</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best found after 19 evaluations:
+  x1 (conc.) = 0.0552 M
+  x2 (T)     = 513.0 °C
+  rate       = 0.8878
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Plot convergence ──────────────────────────────────────────────────────────</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Convergence curve: BO vs random search</span>
+<span class="n">rand_best</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">X_rand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span>
+    <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mi">4</span><span class="o">+</span><span class="n">n_iter_bo</span><span class="p">),</span>
+    <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">4</span><span class="o">+</span><span class="n">n_iter_bo</span><span class="p">),</span>
+<span class="p">])</span>
+<span class="n">y_rand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">black_box</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_rand</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_rand</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">rand_best</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_rand</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="o">+</span><span class="n">n_iter_bo</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">best_so_far</span> <span class="o">+</span> <span class="p">[</span><span class="n">best_so_far</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">*</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+        <span class="s1">&#39;b-o&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bayesian Opt (EI)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="o">+</span><span class="n">n_iter_bo</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">rand_best</span><span class="p">,</span>
+        <span class="s1">&#39;r--s&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Search&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of experiments&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Best rate found so far&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Optimisation Convergence&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="c1"># Final surrogate + all observations</span>
+<span class="n">gpr_final</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_bo</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                      <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gpr_final</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_obs</span><span class="p">,</span> <span class="n">y_obs</span><span class="p">)</span>
+<span class="n">X_pred_bo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X1G</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">X2G</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+<span class="n">mu_bo</span> <span class="o">=</span> <span class="n">gpr_final</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_pred_bo</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span><span class="mi">80</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">cf</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x1_rng</span><span class="p">,</span> <span class="n">x2_rng</span><span class="p">,</span> <span class="n">mu_bo</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlGn&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;GP mean rate (a.u.)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_init</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_init</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+           <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Initial (random)&#39;</span><span class="p">)</span>
+<span class="n">history_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">history_X</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">history_arr</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">history_arr</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+           <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;BO queries&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_obs</span><span class="p">[</span><span class="n">best_idx</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_obs</span><span class="p">[</span><span class="n">best_idx</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best point&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Precursor conc. (M)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Calcination T (°C)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;BO Query Points on Final Surrogate&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Bayesian Optimisation — ZnO Photocatalyst&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4b55641c0a7619cf28ee31680dd5c655092625868f052f8e59003b9f14d641c4.png" src="../../_images/4b55641c0a7619cf28ee31680dd5c655092625868f052f8e59003b9f14d641c4.png" />
+</div>
+</div>
+<section id="interpreting-the-results">
+<h3>Interpreting the Results<a class="headerlink" href="#interpreting-the-results" title="Link to this heading">#</a></h3>
+<p><strong>Convergence plot (left)</strong></p>
+<ul class="simple">
+<li><p>BO’s overall best (0.8878) does beat a separately-run random search’s best (0.8733) over the same 19-evaluation budget — but look closely at <em>which</em> evaluation found it: <code class="docutils literal notranslate"><span class="pre">best_so_far</span></code> is completely flat across all 15 BO iterations. The winning point was one of the <strong>4 initial random points</strong>, found before the acquisition function ever ran. None of the 15 EI-guided queries improved on it.</p></li>
+<li><p>That’s a genuine, useful lesson, not a discouraging one: a single lucky point in a small random initial design can outperform an entire guided search, and a “BO beat random search” comparison can be true for reasons that have nothing to do with the acquisition function actually working. Don’t credit an algorithm’s mechanism for a result its initialisation already produced — check <code class="docutils literal notranslate"><span class="pre">best_so_far</span></code>’s own trajectory, not just its final value, before drawing that conclusion.</p></li>
+</ul>
+<p><strong>Query map (right)</strong></p>
+<ul class="simple">
+<li><p>Initial random points are spread broadly (exploration).</p></li>
+<li><p>Even though none of them beat the lucky initial point, the BO queries still visibly cluster near the true optimum region (x1≈0.05–0.06 M, x2≈480–520°C) in the later iterations — the acquisition function <em>is</em> homing in on the right area, it just never lands on a value quite as good as the initial draw got by chance. That is a fair, separate way to check BO is working correctly, independent of whether it happens to beat its own starting point on this particular run.</p></li>
+<li><p>The final surrogate closely resembles the true surface after only ~19 total evaluations.</p></li>
+<li><p>Concretely: the best point found — x1 = 0.0552 M, x2 = 513.0 °C, rate = 0.8878 — is close to the true global maximum near x1 ≈ 0.055 M, x2 ≈ 500 °C visible in the contour plot in Section 18.1, but (as above) it was one of the 4 initial random draws, not a product of the EI search.</p></li>
+</ul>
+</section>
+</section>
+<section id="acquisition-function-comparison">
+<h2>18.4 Acquisition Function Comparison<a class="headerlink" href="#acquisition-function-comparison" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acq_results</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">acq_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;EI&#39;</span><span class="p">,</span> <span class="s1">&#39;UCB&#39;</span><span class="p">]:</span>
+    <span class="n">X_o</span> <span class="o">=</span> <span class="n">X_init</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">y_o</span> <span class="o">=</span> <span class="n">y_init</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">bests</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter_bo</span><span class="p">):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_bo</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                      <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_o</span><span class="p">,</span> <span class="n">y_o</span><span class="p">)</span>
+        <span class="n">xn</span> <span class="o">=</span> <span class="n">next_query</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">y_o</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">acq_fn</span><span class="o">=</span><span class="n">acq_name</span><span class="p">)</span>
+        <span class="n">yn</span> <span class="o">=</span> <span class="n">black_box</span><span class="p">(</span><span class="n">xn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xn</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">X_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X_o</span><span class="p">,</span> <span class="n">xn</span><span class="p">])</span>
+        <span class="n">y_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_o</span><span class="p">,</span> <span class="n">yn</span><span class="p">)</span>
+        <span class="n">bests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_o</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">acq_results</span><span class="p">[</span><span class="n">acq_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">bests</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">bests</span> <span class="ow">in</span> <span class="n">acq_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_iter_bo</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">bests</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;BO iteration&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Best value so far&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;EI vs UCB Acquisition Functions&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6cff6314aa754f3bc95987f5abf3cc50f644c7668af0ff2f0d17d12564adb826.png" src="../../_images/6cff6314aa754f3bc95987f5abf3cc50f644c7668af0ff2f0d17d12564adb826.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Interpreting EI vs UCB</p>
+<ul class="simple">
+<li><p>EI and UCB reach a similar final best value here, but their <em>paths</em> differ: EI tends to commit to promising regions slightly earlier (more exploitative near a known good point), while UCB (κ=2.0) keeps sampling higher-uncertainty regions for longer.</p></li>
+<li><p>Neither acquisition function is universally better — EI’s exploration knob is the jitter ξ (Section 18.6 explains it; commonly left at a small default like 0.01 rather than tuned), while UCB’s exploration/exploitation balance is directly controllable via κ (larger κ → more exploration) — a more commonly tuned, and more directly interpretable, knob than EI’s ξ.</p></li>
+<li><p>With only 15 iterations and a single random seed, don’t over-interpret small differences between the two curves — Exercise 2 (increasing the noise) is a better way to see acquisition-function behaviour diverge meaningfully.</p></li>
+</ul>
+</div>
+</section>
+<section id="comparison-with-classical-doe-methods">
+<h2>18.5 Comparison with Classical DoE Methods<a class="headerlink" href="#comparison-with-classical-doe-methods" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Experiments required</p></th>
+<th class="head"><p>Adapts to data?</p></th>
+<th class="head"><p>Uncertainty quantified?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Grid search</p></td>
+<td><p><span class="math notranslate nohighlight">\(n^k\)</span> (exponential)</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Random search</p></td>
+<td><p>User-specified</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>Steepest ascent (DoE)</p></td>
+<td><p>Linear in iterations</p></td>
+<td><p>Gradient only</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nelder–Mead</p></td>
+<td><p>No formal bound — heuristic, scales poorly with <span class="math notranslate nohighlight">\(k\)</span></p></td>
+<td><p>Yes (derivative-free)</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Bayesian optimisation</strong></p></td>
+<td><p>Typically 10–50</p></td>
+<td><p><strong>Yes</strong></p></td>
+<td><p><strong>Yes</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>BO is most beneficial when each experiment costs significant time or money
+(e.g. furnace runs, synthesis + characterisation cycles). For cheap experiments
+(simulations, rapid screening), random search or factorial designs are often preferred.</p>
+</section>
+<section id="bo-as-sequential-doe-iteration-by-iteration-illustration">
+<h2>18.6 BO as Sequential DoE: Iteration-by-Iteration Illustration<a class="headerlink" href="#bo-as-sequential-doe-iteration-by-iteration-illustration" title="Link to this heading">#</a></h2>
+<p>The best way to understand BO is to watch it decide <em>where to experiment next</em>
+at each iteration.  Below we apply it to a <strong>1-D problem</strong> — a synthetic curve
+with two local maxima — and display the GP posterior and acquisition function
+side-by-side for the first four adaptive iterations.</p>
+<p>The algorithm starts with just two points, then progressively learns the shape
+of the objective.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── 1-D BO step-by-step illustration ────────────────────────────────────────</span>
+<span class="n">rng_bo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f_1d_true</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="mf">4.0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f_1d_obs</span><span class="p">(</span><span class="n">x_val</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">f_1d_true</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span> <span class="o">+</span> <span class="n">rng_bo</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">))</span>
+
+<span class="n">x_rng_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">bounds_1d</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)]</span>
+
+<span class="c1"># Two initial observations (spread across the domain)</span>
+<span class="n">X_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.8</span><span class="p">]])</span>
+<span class="n">y_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f_1d_obs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_1d</span><span class="p">])</span>
+
+<span class="n">n_illustrate</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_illustrate</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">3.2</span><span class="o">*</span><span class="n">n_illustrate</span><span class="p">),</span>
+                          <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;hspace&#39;</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s1">&#39;wspace&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">})</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;colorblind&#39;</span><span class="p">,</span> <span class="n">n_illustrate</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_illustrate</span><span class="p">):</span>
+    <span class="n">kern_1d</span> <span class="o">=</span> <span class="p">(</span><span class="n">ConstantKernel</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span> <span class="o">*</span>
+               <span class="n">Matern</span><span class="p">(</span><span class="n">length_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">length_scale_bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">nu</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">WhiteKernel</span><span class="p">(</span><span class="n">noise_level</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">noise_level_bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)))</span>
+    <span class="n">gpr_1d_it</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kern_1d</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                          <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">it</span><span class="p">)</span>
+    <span class="n">gpr_1d_it</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_1d</span><span class="p">,</span> <span class="n">y_1d</span><span class="p">)</span>
+
+    <span class="n">mu_1d</span><span class="p">,</span> <span class="n">sig_1d</span> <span class="o">=</span> <span class="n">gpr_1d_it</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_rng_1d</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ei_1d</span> <span class="o">=</span> <span class="n">expected_improvement</span><span class="p">(</span><span class="n">x_rng_1d</span><span class="p">,</span> <span class="n">gpr_1d_it</span><span class="p">,</span> <span class="n">y_1d</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">xi</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">x_next_1d</span> <span class="o">=</span> <span class="n">next_query</span><span class="p">(</span><span class="n">gpr_1d_it</span><span class="p">,</span> <span class="n">y_1d</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">bounds_1d</span><span class="p">)</span>
+    <span class="n">y_next_1d</span> <span class="o">=</span> <span class="n">f_1d_obs</span><span class="p">(</span><span class="n">x_next_1d</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">x_flat</span> <span class="o">=</span> <span class="n">x_rng_1d</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">it</span><span class="p">]</span>
+
+    <span class="c1"># ── Left: GP posterior ──────────────────────────────────────────────────</span>
+    <span class="n">ax_gp</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">it</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">ax_gp</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_flat</span><span class="p">,</span> <span class="n">mu_1d</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">sig_1d</span><span class="p">,</span> <span class="n">mu_1d</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">sig_1d</span><span class="p">,</span>
+                        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">ax_gp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_flat</span><span class="p">,</span> <span class="n">mu_1d</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;GP mean&#39;</span><span class="p">)</span>
+    <span class="n">ax_gp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_flat</span><span class="p">,</span> <span class="n">f_1d_true</span><span class="p">(</span><span class="n">x_flat</span><span class="p">),</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+               <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True f(x)&#39;</span><span class="p">)</span>
+    <span class="n">ax_gp</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_1d</span><span class="p">,</span> <span class="n">y_1d</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Observations&#39;</span><span class="p">)</span>
+    <span class="n">ax_gp</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x_next_1d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">ax_gp</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="n">x_next_1d</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">gpr_1d_it</span><span class="o">.</span><span class="n">predict</span><span class="p">([[</span><span class="n">x_next_1d</span><span class="p">[</span><span class="mi">0</span><span class="p">]]])[</span><span class="mi">0</span><span class="p">]],</span>
+                   <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+                   <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Next query x=</span><span class="si">{</span><span class="n">x_next_1d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax_gp</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Iteration </span><span class="si">{</span><span class="n">it</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1"> — GP Posterior&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax_gp</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;f(x)&#39;</span><span class="p">)</span>
+    <span class="n">ax_gp</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax_gp</span><span class="p">)</span>
+
+    <span class="c1"># ── Right: Acquisition function ─────────────────────────────────────────</span>
+    <span class="n">ax_acq</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">it</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">ax_acq</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_flat</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ei_1d</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+    <span class="n">ax_acq</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_flat</span><span class="p">,</span> <span class="n">ei_1d</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorange&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax_acq</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x_next_1d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;argmax EI = </span><span class="si">{</span><span class="n">x_next_1d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">ax_acq</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Iteration </span><span class="si">{</span><span class="n">it</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1"> — Expected Improvement&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax_acq</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+    <span class="n">ax_acq</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;EI(x)&#39;</span><span class="p">)</span>
+    <span class="n">ax_acq</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax_acq</span><span class="p">)</span>
+
+    <span class="c1"># ── Append new observation for next iteration ───────────────────────────</span>
+    <span class="n">X_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X_1d</span><span class="p">,</span> <span class="n">x_next_1d</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="n">y_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_1d</span><span class="p">,</span> <span class="n">y_next_1d</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;BO Step by Step: GP Posterior (left) and Expected Improvement (right)&#39;</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Final observations (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y_1d</span><span class="p">)</span><span class="si">}</span><span class="s1"> total):&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X_1d</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">y_1d</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  x=</span><span class="si">{</span><span class="n">xi</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">  y=</span><span class="si">{</span><span class="n">yi</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Best x = </span><span class="si">{</span><span class="n">X_1d</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_1d</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, best y = </span><span class="si">{</span><span class="n">y_1d</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/505ef0cee419b011149399c4e22530d141ccbbf26fd485b7712dfb53ba0b15c1.png" src="../../_images/505ef0cee419b011149399c4e22530d141ccbbf26fd485b7712dfb53ba0b15c1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Final observations (6 total):
+  x=0.500  y=1.2524
+  x=3.800  y=1.3029
+  x=3.986  y=1.8239
+  x=4.100  y=2.2152
+  x=4.220  y=2.4399
+  x=4.599  y=3.4640
+Best x = 4.599, best y = 3.4640
+</pre></div>
+</div>
+</div>
+</div>
+<section id="reading-the-iteration-plots">
+<h3>Reading the Iteration Plots<a class="headerlink" href="#reading-the-iteration-plots" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Panel element</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Blue/coloured band</strong></p></td>
+<td><p>±2σ uncertainty — wide where data are sparse</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Blue/coloured line</strong></p></td>
+<td><p>GP posterior mean — the algorithm’s current best estimate of f</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Dashed black line</strong></p></td>
+<td><p>True objective (normally hidden from the optimiser)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Red dots</strong></p></td>
+<td><p>All experiments run so far</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Green star / dotted line</strong></p></td>
+<td><p>Next experiment chosen by maximising EI</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Orange area (right panel)</strong></p></td>
+<td><p>EI surface — high where mean is promising <em>or</em> uncertainty is large</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>How EI balances exploration vs exploitation</strong></p>
+<div class="math notranslate nohighlight">
+\[\text{EI}(\mathbf{x}) = \underbrace{(\mu - f^+)\Phi(Z)}_{\text{exploitation}} + \underbrace{\sigma\,\phi(Z)}_{\text{exploration}}\]</div>
+<ul class="simple">
+<li><p>When the GP mean exceeds the current best (<span class="math notranslate nohighlight">\(\mu &gt; f^+\)</span>): exploitation drives the choice.</p></li>
+<li><p>When the GP is uncertain (<span class="math notranslate nohighlight">\(\sigma\)</span> large) even where the mean is not yet the best: exploration drives the choice.</p></li>
+<li><p>The parameter <span class="math notranslate nohighlight">\(\xi\)</span> (jitter, default 0.01) biases the balance — larger <span class="math notranslate nohighlight">\(\xi\)</span> means more exploration.</p></li>
+</ul>
+</section>
+</section>
+<section id="using-bo-as-a-systematic-doe-practical-workflow">
+<h2>18.7 Using BO as a Systematic DoE: Practical Workflow<a class="headerlink" href="#using-bo-as-a-systematic-doe-practical-workflow" title="Link to this heading">#</a></h2>
+<section id="step-by-step-protocol">
+<h3>Step-by-step protocol<a class="headerlink" href="#step-by-step-protocol" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Step</p></th>
+<th class="head"><p>Action</p></th>
+<th class="head"><p>Recommendation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1. Define the design space</strong></p></td>
+<td><p>Identify the <span class="math notranslate nohighlight">\(k\)</span> continuous factors and their bounds</p></td>
+<td><p>Start narrow if prior knowledge exists; be conservative with temperature/pressure</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2. Choose the initial design</strong></p></td>
+<td><p>Generate <span class="math notranslate nohighlight">\(n_0 = 5k\)</span> to <span class="math notranslate nohighlight">\(10k\)</span> initial experiments</p></td>
+<td><p>Use <strong>Latin Hypercube Sampling</strong> (LHS) — better space-filling than random; or a small full-factorial if <span class="math notranslate nohighlight">\(k ≤ 3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3. Run initial experiments</strong></p></td>
+<td><p>Measure all <span class="math notranslate nohighlight">\(n_0\)</span> responses</p></td>
+<td><p>Prefer running these in a single batch</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4. Select the kernel</strong></p></td>
+<td><p>Fit a GPR to all observations</p></td>
+<td><p>Start with <strong>Matérn 5/2</strong> (robust default). Switch to RBF only for very smooth physical responses</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5. Maximise acquisition function</strong></p></td>
+<td><p>Predict the next experiment location</p></td>
+<td><p>Use EI for most cases; UCB (<span class="math notranslate nohighlight">\(\kappa = 2.0\)</span>) for more exploration</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>6. Run the suggested experiment</strong></p></td>
+<td><p>Measure the response</p></td>
+<td><p>If running a batch (parallel), use kriging believer or <span class="math notranslate nohighlight">\(q\)</span>-EI</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>7. Refit and repeat</strong></p></td>
+<td><p>Add observation to history, refit GPR</p></td>
+<td><p>Repeat steps 4–7 until stopping criterion is met</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>8. Report the optimum</strong></p></td>
+<td><p>Return the observed <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span> with highest <span class="math notranslate nohighlight">\(y^*\)</span></p></td>
+<td><p>Confirm with 2–3 replicate experiments at <span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="how-many-total-experiments-are-needed">
+<h3>How many total experiments are needed?<a class="headerlink" href="#how-many-total-experiments-are-needed" title="Link to this heading">#</a></h3>
+<p>As a rough guide:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Problem dimension <span class="math notranslate nohighlight">\(k\)</span></p></th>
+<th class="head"><p>Recommended total <span class="math notranslate nohighlight">\(n\)</span></p></th>
+<th class="head"><p>Typical BO advantage over grid search</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>10–15</p></td>
+<td><p>3–5×</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>15–30</p></td>
+<td><p>5–20×</p></td>
+</tr>
+<tr class="row-even"><td><p>3–5</p></td>
+<td><p>30–60</p></td>
+<td><p>10–100×</p></td>
+</tr>
+<tr class="row-odd"><td><p>&gt; 5</p></td>
+<td><p>50–150 (or use BOPE/TuRBO)</p></td>
+<td><p>Highly problem-dependent</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="stopping-criteria">
+<h3>Stopping criteria<a class="headerlink" href="#stopping-criteria" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Convergence of best observed value</strong> — improvement &lt; 1 % over the last <span class="math notranslate nohighlight">\(k+1\)</span> iterations</p></li>
+<li><p><strong>Budget exhaustion</strong> — experiment cost × <span class="math notranslate nohighlight">\(n\)</span> exceeds allocated resources</p></li>
+<li><p><strong>Uncertainty at the current optimum is small</strong> — <span class="math notranslate nohighlight">\(\sigma(\mathbf{x}^*) &lt; \delta\)</span> (e.g., δ = measurement noise)</p></li>
+<li><p><strong>Manual inspection</strong> — the surrogate is visually flat near the predicted optimum</p></li>
+</ol>
+</section>
+<section id="initial-design-latin-hypercube-sampling">
+<h3>Initial design: Latin Hypercube Sampling<a class="headerlink" href="#initial-design-latin-hypercube-sampling" title="Link to this heading">#</a></h3>
+<p>LHS divides each dimension into <span class="math notranslate nohighlight">\(n_0\)</span> equal intervals and places exactly one point per
+interval row/column, giving a much more space-filling initialisation than pure random:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Latin Hypercube Sampling (LHS) for initial design ────────────────────────</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">lhs_design</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">bounds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate n LHS points over the given bounds [(lo,hi),...].&quot;&quot;&quot;</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="n">sampler</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">unit_pts</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>            <span class="c1"># [0,1]^k</span>
+    <span class="n">lo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">qmc</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">unit_pts</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+
+<span class="c1"># Compare LHS vs pure random for k=2, n=12</span>
+<span class="n">n_init_cmp</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">bounds_cmp</span>  <span class="o">=</span> <span class="p">[(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">),</span> <span class="p">(</span><span class="mf">300.</span><span class="p">,</span> <span class="mf">700.</span><span class="p">)]</span>
+
+<span class="n">X_lhs</span>  <span class="o">=</span> <span class="n">lhs_design</span><span class="p">(</span><span class="n">n_init_cmp</span><span class="p">,</span> <span class="n">bounds_cmp</span><span class="p">)</span>
+<span class="n">rng_r</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_rand_cmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">rng_r</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_init_cmp</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds_cmp</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">X_des</span><span class="p">,</span> <span class="n">title</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span>
+                              <span class="p">[</span><span class="n">X_rand_cmp</span><span class="p">,</span> <span class="n">X_lhs</span><span class="p">],</span>
+                              <span class="p">[</span><span class="s1">&#39;Pure Random (n=12)&#39;</span><span class="p">,</span> <span class="s1">&#39;Latin Hypercube (n=12)&#39;</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_des</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_des</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span>
+               <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Precursor conc. (M)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Calcination T (°C)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="c1"># Light grid showing the k×k bins</span>
+    <span class="k">for</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">bounds_cmp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds_cmp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_init_cmp</span><span class="p">),</span>
+                       <span class="p">(</span><span class="n">bounds_cmp</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds_cmp</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_init_cmp</span><span class="p">)]:</span>
+        <span class="n">ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">n_init_cmp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">hi</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>   <span class="c1"># temperature axis</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Initial Design Comparison&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Space-filling metric: minimum pairwise distance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">pdist</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Min pairwise distance — Random: </span><span class="si">{</span><span class="n">pdist</span><span class="p">(</span><span class="n">X_rand_cmp</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Min pairwise distance — LHS:    </span><span class="si">{</span><span class="n">pdist</span><span class="p">(</span><span class="n">X_lhs</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;(Higher = better space filling)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/309694ab9a1b0a6648a94a102b9b47f8c6a83b088ba8b3729ac51c15f7a552c8.png" src="../../_images/309694ab9a1b0a6648a94a102b9b47f8c6a83b088ba8b3729ac51c15f7a552c8.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Min pairwise distance — Random: 1.9480
+Min pairwise distance — LHS:    18.1920
+(Higher = better space filling)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="interpreting-the-design-comparison">
+<h3>Interpreting the Design Comparison<a class="headerlink" href="#interpreting-the-design-comparison" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Pure random</strong> can cluster points by chance — there may be large empty regions
+and some redundant near-duplicate experiments.</p></li>
+<li><p><strong>Latin Hypercube</strong> guarantees that each row and each column in the grid has
+exactly one sample — far better coverage.  The minimum pairwise distance
+(printed above) is consistently larger for LHS — here <strong>18.19 vs 1.95</strong>, roughly a 9× improvement, because random sampling has no mechanism to avoid placing two points close together by chance.</p></li>
+<li><p>For a BO initial design, <strong>LHS with <span class="math notranslate nohighlight">\(n_0 = 5k\)</span></strong> is the recommended default;
+for <span class="math notranslate nohighlight">\(k \leq 3\)</span> a small full factorial (or central composite design) is also fine.</p></li>
+</ul>
+</section>
+<section id="handling-constraints">
+<h3>Handling constraints<a class="headerlink" href="#handling-constraints" title="Link to this heading">#</a></h3>
+<p>If the design space has a <strong>forbidden region</strong> (e.g., Al mol% + Li excess must
+sum to ≤ 1.0), add a constraint penalty when maximising the acquisition function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">constrained_acq</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">y_best</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>        <span class="c1"># constraint violated</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">expected_improvement</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">y_best</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="multi-response-optimisation-pareto-front">
+<h3>Multi-response optimisation (Pareto front)<a class="headerlink" href="#multi-response-optimisation-pareto-front" title="Link to this heading">#</a></h3>
+<p>When you have two conflicting objectives — e.g., <em>maximise conductivity</em> and
+<em>minimise sintering temperature</em> — a single acquisition function cannot directly
+handle both.  Practical options:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Strategy</p></th>
+<th class="head"><p>When to use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Weighted sum</strong>: <span class="math notranslate nohighlight">\(y_{\text{agg}} = w_1 y_1 - w_2 y_2\)</span></p></td>
+<td><p>Weights are known a priori</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Desirability function</strong> (Notebook 20 §20.2, Part V)</p></td>
+<td><p>Non-linear scaling of each objective</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>EHVI</strong> (Expected Hypervolume Improvement)</p></td>
+<td><p>Full Pareto-front exploration; use <code class="docutils literal notranslate"><span class="pre">BoTorch</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Constraint BO</strong>: maximise <span class="math notranslate nohighlight">\(y_1\)</span> subject to <span class="math notranslate nohighlight">\(y_2 &gt; \text{threshold}\)</span></p></td>
+<td><p>One objective is really a constraint</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Batch BO</strong>: In lab practice you often run multiple experiments in parallel (a <em>batch</em>). Modify the BO loop to suggest a <em>batch</em> of 3 experiments per iteration using the <em>kriging believer</em> heuristic (fit the GP, predict the next point, add it as a “hallucinated” observation with predicted mean, repeat 3 times). Compare convergence with sequential BO.</p></li>
+<li><p><strong>Noisy objective</strong>: Increase <code class="docutils literal notranslate"><span class="pre">noise_std</span></code> to 0.10 in <code class="docutils literal notranslate"><span class="pre">black_box</span></code>. How does the convergence change? Why does BO handle noisy objectives more gracefully than steepest ascent?</p></li>
+<li><p><strong>Multi-objective BO</strong>: Suppose you also want to <em>minimise</em> particle size (a separate response). Set up a Pareto-front analysis using <code class="docutils literal notranslate"><span class="pre">scipy</span></code> or a manual grid prediction of both objectives. Identify the conditions that maximise rate while keeping particle size below a threshold.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\05_ml"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_gaussian_process.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">17. Gaussian Process Regression (Kriging)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_ensemble_methods.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">19. Ensemble Methods: Random Forest and Gradient Boosting</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-black-box-objective-zno-photocatalytic-activity">18.1 The Black-Box Objective: ZnO Photocatalytic Activity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acquisition-functions">18.2 Acquisition Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-improvement-ei">Expected Improvement (EI)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#upper-confidence-bound-ucb">Upper Confidence Bound (UCB)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-of-improvement-pi">Probability of Improvement (PI)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-optimisation-loop">18.3 Bayesian Optimisation Loop</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-results">Interpreting the Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acquisition-function-comparison">18.4 Acquisition Function Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-classical-doe-methods">18.5 Comparison with Classical DoE Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bo-as-sequential-doe-iteration-by-iteration-illustration">18.6 BO as Sequential DoE: Iteration-by-Iteration Illustration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-iteration-plots">Reading the Iteration Plots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-bo-as-a-systematic-doe-practical-workflow">18.7 Using BO as a Systematic DoE: Practical Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-protocol">Step-by-step protocol</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-total-experiments-are-needed">How many total experiments are needed?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria">Stopping criteria</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-design-latin-hypercube-sampling">Initial design: Latin Hypercube Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-the-design-comparison">Interpreting the Design Comparison</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-constraints">Handling constraints</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-response-optimisation-pareto-front">Multi-response optimisation (Pareto front)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

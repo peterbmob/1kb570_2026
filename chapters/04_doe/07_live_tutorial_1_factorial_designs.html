@@ -1,0 +1,1090 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>22. Live Tutorial 1: Two-Factor DoE, Start to Finish &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/04_doe/07_live_tutorial_1_factorial_designs';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect" href="08_live_tutorial_2_minitab_to_sixfactor.html" />
+    <link rel="prev" title="21. Simplex Optimisation" href="06_simplex.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part V: Design of Experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/04_doe/07_live_tutorial_1_factorial_designs.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/04_doe/07_live_tutorial_1_factorial_designs.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>22. Live Tutorial 1: Two-Factor DoE, Start to Finish</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-22-design-by-hand">22.1 Building a 2² Design by Hand</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-contrast-based-effect-estimation">22.2 Manual Contrast-Based Effect Estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#full-anova-and-a-pareto-chart-of-effects">22.3 Full ANOVA and a Pareto Chart of Effects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#centre-points-testing-for-curvature">22.4 Centre Points: Testing for Curvature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#confirmation-run-at-the-predicted-optimum">22.5 Confirmation Run at the Predicted Optimum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="live-tutorial-1-two-factor-doe-start-to-finish">
+<h1>22. Live Tutorial 1: Two-Factor DoE, Start to Finish<a class="headerlink" href="#live-tutorial-1-two-factor-doe-start-to-finish" title="Link to this heading">#</a></h1>
+<p>Notebook 17 (<code class="docutils literal notranslate"><span class="pre">02_full_factorial.ipynb</span></code>) introduced <span class="math notranslate nohighlight">\(2^k\)</span> designs using
+<code class="docutils literal notranslate"><span class="pre">pyDOE3</span></code> directly. This session builds the <em>same</em> ideas from the ground
+up — by hand first, library second, exactly two factors, start to
+finish — so that “coded design matrix,” “effect,” and “confirmation run”
+stop being <code class="docutils literal notranslate"><span class="pre">pyDOE3</span></code> output and become concrete things you built, ran, and
+checked yourself. The running example is curing a carbon-fibre epoxy
+composite panel, followed all the way from an empty design matrix to a
+confirmed process recommendation.</p>
+<p><strong>Session plan</strong></p>
+<ol class="arabic simple">
+<li><p>Building a 2² design by hand, and running it</p></li>
+<li><p>Manual contrast-based effect estimation — and proof it matches regression</p></li>
+<li><p>Full ANOVA and a Pareto chart of effects</p></li>
+<li><p>Centre points: testing for curvature</p></li>
+<li><p>Confirmation run at the predicted optimum</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyDOE3</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="building-a-22-design-by-hand">
+<h2>22.1 Building a 2² Design by Hand<a class="headerlink" href="#building-a-22-design-by-hand" title="Link to this heading">#</a></h2>
+<p>Notebook 16 (<code class="docutils literal notranslate"><span class="pre">01_intro_doe.ipynb</span></code>) already made the case: testing factors
+<strong>one at a time</strong> cannot detect <strong>interactions</strong> (where one factor’s
+effect depends on another factor’s setting) and wastes runs re-measuring
+the same baseline repeatedly. A <strong>factorial design</strong> varies every factor
+at once, in a pattern that keeps every effect estimate statistically
+independent of every other — that independence property is called
+<strong>orthogonality</strong>, made visible below.</p>
+<p>Two factors, two levels each, coded <span class="math notranslate nohighlight">\(-1\)</span> (low) and <span class="math notranslate nohighlight">\(+1\)</span> (high) — coding
+puts every factor on the same footing regardless of its real units
+(°C, hours), exactly as Notebook 16 introduced. <code class="docutils literal notranslate"><span class="pre">itertools.product</span></code> is all
+it takes to build every combination.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">design_22</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>   <span class="c1"># every combination of 2 factors x 2 levels</span>
+<span class="n">df_22</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">design_22</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_22</span><span class="p">)</span>
+
+<span class="c1"># Orthogonality, made visible: the two columns&#39; dot product is exactly zero --</span>
+<span class="c1"># x1&#39;s pattern of +1/-1 does not correlate with x2&#39;s at all.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Dot product x1 . x2 =&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">df_22</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">df_22</span><span class="p">[</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   x1  x2
+0  -1  -1
+1  -1   1
+2   1  -1
+3   1   1
+
+Dot product x1 . x2 = 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>That zero is not a coincidence of this particular table — it is the
+defining property of a factorial design, and it is <em>why</em> you’ll be able to
+estimate each effect independently in Section 22.2 without the results
+tangling together the way collinear predictors did in Notebook 11’s VIF
+section.</p>
+<p><strong>Curing a carbon-fibre epoxy composite panel</strong>, response = interlaminar
+shear strength (ILSS, MPa):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Factor</p></th>
+<th class="head"><p>Low (<span class="math notranslate nohighlight">\(-1\)</span>)</p></th>
+<th class="head"><p>High (<span class="math notranslate nohighlight">\(+1\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_1\)</span> — Cure temperature</p></td>
+<td><p>120°C</p></td>
+<td><p>160°C</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_2\)</span> — Cure time</p></td>
+<td><p>2 h</p></td>
+<td><p>6 h</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The design below <strong>replicates the 4 corner points twice</strong> (8 runs) to get
+a genuine estimate of experimental error, plus <strong>3 centre points</strong>
+(<span class="math notranslate nohighlight">\(x=0,0\)</span>, i.e. 140°C / 4h) to check whether a straight-line (linear +
+interaction) model is adequate — Section 22.4 explains exactly what that
+check does.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corners</span> <span class="o">=</span> <span class="n">pyDOE3</span><span class="o">.</span><span class="n">ff2n</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>              <span class="c1"># 4 corner points, coded -1/+1</span>
+<span class="n">design_full</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">corners</span><span class="p">,</span> <span class="n">corners</span><span class="p">]),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">])</span>  <span class="c1"># 2 replicates</span>
+<span class="n">centre_points</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;x2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]})</span>
+<span class="n">design_full</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">design_full</span><span class="p">,</span> <span class="n">centre_points</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">design_full</span><span class="p">)</span><span class="si">}</span><span class="s1"> runs: 8 corner replicates + </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">centre_points</span><span class="p">)</span><span class="si">}</span><span class="s1"> centre points&#39;</span><span class="p">)</span>
+
+<span class="c1"># ── Simulate ILSS with a known true model (so we can check what the analysis recovers) ──</span>
+<span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">design_full</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">],</span> <span class="n">design_full</span><span class="p">[</span><span class="s1">&#39;x2&#39;</span><span class="p">]</span>
+<span class="n">true_ILSS</span> <span class="o">=</span> <span class="mi">45</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x1</span><span class="o">*</span><span class="n">x2</span>
+<span class="n">design_full</span><span class="p">[</span><span class="s1">&#39;ILSS_MPa&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">true_ILSS</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">design_full</span><span class="p">)))</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Shuffle run order -- randomisation protects against unknown time-trends (a furnace</span>
+<span class="c1"># drifting warmer over the day, say) contaminating the factor effects -- and is standard</span>
+<span class="c1"># DoE practice glossed over in Notebook 17 but worth doing explicitly at least once.</span>
+<span class="n">design_full</span> <span class="o">=</span> <span class="n">design_full</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">design_full</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;run_order&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">design_full</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">design_full</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>11 runs: 8 corner replicates + 3 centre points
+    run_order   x1   x2  ILSS_MPa
+0           1 -1.0  1.0     40.44
+1           2  0.0  0.0     45.85
+2           3  1.0 -1.0     46.72
+3           4  0.0  0.0     43.96
+4           5 -1.0 -1.0     37.63
+5           6  1.0  1.0     57.27
+6           7 -1.0  1.0     37.56
+7           8 -1.0 -1.0     37.05
+8           9  0.0  0.0     45.83
+9          10  1.0 -1.0     48.05
+10         11  1.0  1.0     56.89
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="manual-contrast-based-effect-estimation">
+<h2>22.2 Manual Contrast-Based Effect Estimation<a class="headerlink" href="#manual-contrast-based-effect-estimation" title="Link to this heading">#</a></h2>
+<p>Before letting <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> do it for you, compute each effect by hand.
+The <strong>contrast</strong> for factor <span class="math notranslate nohighlight">\(x_1\)</span> is the dot product of the response with
+the <span class="math notranslate nohighlight">\(x_1\)</span> column, and the <strong>effect</strong> is that contrast scaled by how many
+runs are averaged on each side:</p>
+<div class="math notranslate nohighlight">
+\[\text{Effect}_{x_1} = \frac{\sum (x_1 \cdot y)}{n/2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of corner-point runs (centre points are excluded —
+they aren’t at either the <span class="math notranslate nohighlight">\(-1\)</span> or <span class="math notranslate nohighlight">\(+1\)</span> level of anything, so they don’t
+belong in a contrast).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corner_runs</span> <span class="o">=</span> <span class="n">design_full</span><span class="p">[(</span><span class="n">design_full</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">]]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">n_corner</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">corner_runs</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">manual_effect</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+    <span class="n">contrast</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ILSS_MPa&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">contrast</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_corner</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Manual effect of </span><span class="si">{</span><span class="n">factor</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">manual_effect</span><span class="p">(</span><span class="n">corner_runs</span><span class="p">,</span><span class="w"> </span><span class="n">factor</span><span class="p">)</span><span class="si">:</span><span class="s1">+.2f</span><span class="si">}</span><span class="s1"> MPa&#39;</span><span class="p">)</span>
+
+<span class="c1"># The interaction column is literally the elementwise PRODUCT of the main-effect columns --</span>
+<span class="c1"># the same trick that gave you &#39;rotation_rpm:traverse_mm_min&#39; in Notebook 12&#39;s regression formula</span>
+<span class="n">corner_runs</span> <span class="o">=</span> <span class="n">corner_runs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">corner_runs</span><span class="p">[</span><span class="s1">&#39;x1x2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">corner_runs</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">corner_runs</span><span class="p">[</span><span class="s1">&#39;x2&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Manual effect of x1:x2 interaction: </span><span class="si">{</span><span class="n">manual_effect</span><span class="p">(</span><span class="n">corner_runs</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x1x2&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2"> MPa&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Manual effect of x1: +14.06 MPa
+Manual effect of x2: +5.68 MPa
+Manual effect of x1:x2 interaction: +4.02 MPa
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Compare to an OLS regression on the SAME corner-point data ────────────────</span>
+<span class="n">model_corners</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;ILSS_MPa ~ x1*x2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">corner_runs</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_corners</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Regression coefficient for x1: </span><span class="si">{</span><span class="n">model_corners</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;2 x regression coefficient:     </span><span class="si">{</span><span class="mi">2</span><span class="o">*</span><span class="n">model_corners</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Manual contrast effect (above): </span><span class="si">{</span><span class="n">manual_effect</span><span class="p">(</span><span class="n">corner_runs</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x1&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">A coded factorial</span><span class="se">\&#39;</span><span class="s1">s regression coefficient is always exactly HALF the effect --&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;the coefficient is &quot;how much y changes per unit of x&quot;, the effect is &quot;how much y&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;changes from -1 all the way to +1&quot;, i.e. across 2 coded units. Same information,&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;different convention -- know both, since papers report either one.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercept    45.201
+x1            7.031
+x2            2.839
+x1:x2         2.009
+dtype: float64
+
+Regression coefficient for x1: 7.031
+2 x regression coefficient:     14.063
+Manual contrast effect (above): 14.062
+
+A coded factorial&#39;s regression coefficient is always exactly HALF the effect --
+the coefficient is &quot;how much y changes per unit of x&quot;, the effect is &quot;how much y
+changes from -1 all the way to +1&quot;, i.e. across 2 coded units. Same information,
+different convention -- know both, since papers report either one.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint</strong>: your hand-computed effects should match
+<code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">regression</span> <span class="pre">coefficient</span></code> for every term. This is the 2ᵏ-design special
+case of Notebook 12 (Live Tutorial 2, Statistics), Section 12.4’s general
+point — a factorial ANOVA effect is nothing more than a regression
+coefficient on coded ±1 columns, in different units.</p>
+</section>
+<section id="full-anova-and-a-pareto-chart-of-effects">
+<h2>22.3 Full ANOVA and a Pareto Chart of Effects<a class="headerlink" href="#full-anova-and-a-pareto-chart-of-effects" title="Link to this heading">#</a></h2>
+<p>Now fit the complete model (both main effects, the interaction) on the
+<strong>full 11-run dataset</strong> including centre points, and rank every effect by
+magnitude — the Pareto chart Notebook 17 introduced, extended here with a
+formal statistical-significance threshold instead of just an
+80%-cumulative rule of thumb.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_full</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;ILSS_MPa ~ x1*x2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">design_full</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">anova_full</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">anova_lm</span><span class="p">(</span><span class="n">model_full</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">anova_full</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>            sum_sq   df         F  PR(&gt;F)
+x1        395.5078  1.0  362.9066  0.0000
+x2         64.4680  1.0   59.1540  0.0001
+x1:x2      32.2806  1.0   29.6198  0.0010
+Residual    7.6288  7.0       NaN     NaN
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p><code class="docutils literal notranslate"><span class="pre">x1</span></code> (cure temperature) carries by far the largest sum of squares (395.5)
+— roughly 6× <code class="docutils literal notranslate"><span class="pre">x2</span></code>’s (64.5) and 12× the interaction’s (32.3) — meaning it
+explains most of the run-to-run variation in ILSS, exactly as built (true
+main effect 6 for <code class="docutils literal notranslate"><span class="pre">x1</span></code> vs. 3 for <code class="docutils literal notranslate"><span class="pre">x2</span></code>). With only 7 residual degrees of
+freedom, this is a small design; even so, all three terms clear p&lt;0.001,
+which is a direct benefit of scoping down to 2 factors — Notebook 24
+(Live Tutorial 3) will show what happens to that same confidence once
+more candidate terms start competing for the same residual degrees of
+freedom.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">effects</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">model_full</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">)</span>
+<span class="n">effects_abs</span> <span class="o">=</span> <span class="n">effects</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># A t-based significance threshold: an effect is &#39;significant&#39; if its</span>
+<span class="c1"># regression coefficient&#39;s p-value &lt; 0.05 -- read directly off the model</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">model_full</span><span class="o">.</span><span class="n">pvalues</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">colors_bar</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;crimson&#39;</span> <span class="k">if</span> <span class="n">sig</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;steelblue&#39;</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">effects_abs</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">effects_abs</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">effects_abs</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors_bar</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;|Effect| (MPa)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pareto chart of effects (red = significant at alpha=0.05)&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/03ac226a3cb5982ef12bcb734fdf3b94562116dc4fa5e566c2d7848d4ba775e0.png" src="../../_images/03ac226a3cb5982ef12bcb734fdf3b94562116dc4fa5e566c2d7848d4ba775e0.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>All three bars are red — <code class="docutils literal notranslate"><span class="pre">x1</span></code> (14.06 MPa), <code class="docutils literal notranslate"><span class="pre">x2</span></code> (5.68 MPa), and <code class="docutils literal notranslate"><span class="pre">x1:x2</span></code>
+(4.02 MPa) all clear the significance line, and all three land close to
+their true built-in effects (12, 6, and 4 respectively, i.e. 2× the true
+coefficients 6, 3, 2). Every bar being significant here, including the
+smallest one, is itself informative: with only two factors and a
+replicated design, there’s little competition for the residual degrees
+of freedom, so even a modest true effect (<code class="docutils literal notranslate"><span class="pre">x1:x2</span></code>) has a fair chance of
+being detected — a very different situation from designs that spread the
+same run budget across many more candidate terms.</p>
+</div>
+<p><strong>Checkpoint / Exercise</strong>: Which effects are significant? Do they match
+the terms actually used to simulate <code class="docutils literal notranslate"><span class="pre">true_ILSS</span></code> in Section 22.1 (main
+effects of 6 and 3, interaction of 2)? A design this small has few
+degrees of freedom left for error — check whether that changes how
+confidently you can call the smaller effect significant.</p>
+</section>
+<section id="centre-points-testing-for-curvature">
+<h2>22.4 Centre Points: Testing for Curvature<a class="headerlink" href="#centre-points-testing-for-curvature" title="Link to this heading">#</a></h2>
+<p>Centre points earn their place in the design by doing something corner
+points cannot: because <span class="math notranslate nohighlight">\((0,0)\)</span> is not part of the linear+interaction
+model’s fitted corners, comparing the <strong>average response at the centre</strong>
+to the model’s <strong>predicted response at the centre</strong> tests whether a
+purely linear (planar) model is missing real curvature — the same
+question RSM (Notebook 19) exists to answer with a full quadratic model,
+asked here as a cheap yes/no check <em>before</em> committing to a much larger
+RSM experiment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">center_runs</span> <span class="o">=</span> <span class="n">design_full</span><span class="p">[(</span><span class="n">design_full</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">corner_runs_all</span> <span class="o">=</span> <span class="n">design_full</span><span class="p">[(</span><span class="n">design_full</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">]]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+
+<span class="n">y_center_mean</span> <span class="o">=</span> <span class="n">center_runs</span><span class="p">[</span><span class="s1">&#39;ILSS_MPa&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">y_corner_mean</span> <span class="o">=</span> <span class="n">corner_runs_all</span><span class="p">[</span><span class="s1">&#39;ILSS_MPa&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>   <span class="c1"># ~= model&#39;s predicted value at (0,0)</span>
+<span class="n">predicted_at_center</span> <span class="o">=</span> <span class="n">model_full</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Intercept&#39;</span><span class="p">]</span>   <span class="c1"># the model&#39;s own intercept IS its (0,0) prediction</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Observed mean at centre points:      </span><span class="si">{</span><span class="n">y_center_mean</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> MPa  (n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">center_runs</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model&#39;s predicted value at (0,0):    </span><span class="si">{</span><span class="n">predicted_at_center</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MPa  (= fitted intercept)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Difference (possible curvature):     </span><span class="si">{</span><span class="n">y_center_mean</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">predicted_at_center</span><span class="si">:</span><span class="s1">+.2f</span><span class="si">}</span><span class="s1"> MPa&#39;</span><span class="p">)</span>
+
+<span class="c1"># Formal F-test for curvature: compare that difference to the pure-error</span>
+<span class="c1"># variance estimated from the *replicated* centre points themselves</span>
+<span class="n">ss_curvature</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corner_runs_all</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">center_runs</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corner_runs_all</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">center_runs</span><span class="p">)))</span> <span class="o">*</span> \
+               <span class="p">(</span><span class="n">y_corner_mean</span> <span class="o">-</span> <span class="n">y_center_mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">ss_pure_error</span> <span class="o">=</span> <span class="p">((</span><span class="n">center_runs</span><span class="p">[</span><span class="s1">&#39;ILSS_MPa&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_center_mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">df_pure_error</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">center_runs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">f_curvature</span> <span class="o">=</span> <span class="n">ss_curvature</span> <span class="o">/</span> <span class="p">(</span><span class="n">ss_pure_error</span> <span class="o">/</span> <span class="n">df_pure_error</span><span class="p">)</span>
+<span class="n">p_curvature</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">f_curvature</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">df_pure_error</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Curvature F-test: F=</span><span class="si">{</span><span class="n">f_curvature</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_curvature</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;Significant curvature detected -- a linear model is NOT adequate, consider RSM.&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p_curvature</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;No significant curvature -- the linear + interaction model is adequate.&quot;</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Observed mean at centre points:      45.21 MPa  (n=3)
+Model&#39;s predicted value at (0,0):    45.20 MPa  (= fitted intercept)
+Difference (possible curvature):     +0.01 MPa
+
+Curvature F-test: F=0.00, p=0.988
+No significant curvature -- the linear + interaction model is adequate.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>The observed centre-point mean (45.21 MPa) and the model’s predicted
+value at (0,0) (45.20 MPa) differ by only +0.01 MPa — essentially nothing
+against the noise level, giving F=0.00 and p=0.988. That’s exactly what
+should happen here: <code class="docutils literal notranslate"><span class="pre">true_ILSS</span></code> was built as a pure linear-plus-interaction
+model with no quadratic term, so the linear model correctly finds no
+curvature to detect. This is the check that would have caught a missing
+quadratic term before committing to a full RSM study (Notebook 19) — see
+Exercise 2 for what happens when curvature actually is present.</p>
+</div>
+</section>
+<section id="confirmation-run-at-the-predicted-optimum">
+<h2>22.5 Confirmation Run at the Predicted Optimum<a class="headerlink" href="#confirmation-run-at-the-predicted-optimum" title="Link to this heading">#</a></h2>
+<p>A design is not finished when the ANOVA table is printed — the whole
+point was to find better process settings, and you should never trust a
+predicted optimum until you have actually run it. Using the significant
+effects from Section 22.3’s composite panel study, find the coded
+settings that maximise predicted ILSS, then simulate a confirmation run
+there and check it against the model’s prediction interval.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Grid-search the coded square [-1,1]^2 for the setting that maximises predicted ILSS</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">41</span><span class="p">),</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">)))</span>
+<span class="n">grid_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<span class="n">grid_df</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_full</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">grid_df</span><span class="p">)</span>
+<span class="n">best</span> <span class="o">=</span> <span class="n">grid_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">grid_df</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Predicted optimum (coded): x1=</span><span class="si">{</span><span class="n">best</span><span class="o">.</span><span class="n">x1</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, x2=</span><span class="si">{</span><span class="n">best</span><span class="o">.</span><span class="n">x2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predicted ILSS at optimum: </span><span class="si">{</span><span class="n">best</span><span class="o">.</span><span class="n">pred</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> MPa&#39;</span><span class="p">)</span>
+
+<span class="c1"># Decode to real units</span>
+<span class="n">T_opt</span> <span class="o">=</span> <span class="mi">140</span> <span class="o">+</span> <span class="n">best</span><span class="o">.</span><span class="n">x1</span> <span class="o">*</span> <span class="mi">20</span>     <span class="c1"># coded -1/+1 &lt;-&gt; 120/160 C</span>
+<span class="n">t_opt</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">best</span><span class="o">.</span><span class="n">x2</span> <span class="o">*</span> <span class="mi">2</span>        <span class="c1"># coded -1/+1 &lt;-&gt; 2/6 h</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Decoded: T=</span><span class="si">{</span><span class="n">T_opt</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> C, time=</span><span class="si">{</span><span class="n">t_opt</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> h&#39;</span><span class="p">)</span>
+
+<span class="c1"># Confirmation run: 3 fresh replicates at the predicted optimum</span>
+<span class="n">true_ILSS_at_optimum</span> <span class="o">=</span> <span class="mi">45</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">best</span><span class="o">.</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">best</span><span class="o">.</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">best</span><span class="o">.</span><span class="n">x1</span><span class="o">*</span><span class="n">best</span><span class="o">.</span><span class="n">x2</span>
+<span class="n">confirmation</span> <span class="o">=</span> <span class="n">true_ILSS_at_optimum</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Confirmation runs (n=3): </span><span class="si">{</span><span class="n">confirmation</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">pred_summary</span> <span class="o">=</span> <span class="n">model_full</span><span class="o">.</span><span class="n">get_prediction</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">best</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">]]]))</span><span class="o">.</span><span class="n">summary_frame</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% prediction interval: [</span><span class="si">{</span><span class="n">pred_summary</span><span class="p">[</span><span class="s1">&#39;obs_ci_lower&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">pred_summary</span><span class="p">[</span><span class="s1">&#39;obs_ci_upper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">] MPa&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Confirmation mean </span><span class="si">{</span><span class="n">confirmation</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MPa -- &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;inside&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">pred_summary</span><span class="p">[</span><span class="s1">&#39;obs_ci_lower&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">confirmation</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pred_summary</span><span class="p">[</span><span class="s1">&#39;obs_ci_upper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;OUTSIDE&#39;</span><span class="si">}</span><span class="s2"> the prediction interval.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted optimum (coded): x1=1.00, x2=1.00
+Predicted ILSS at optimum: 57.08 MPa
+Decoded: T=160 C, time=6.0 h
+
+Confirmation runs (n=3): [57.16 54.02 55.6 ]
+95% prediction interval: [54.09, 60.07] MPa
+Confirmation mean 55.59 MPa -- inside the prediction interval.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>The predicted optimum lands at x1=x2=1.00 — both factors simultaneously
+at their <em>highest</em> tested level (160°C, 6 h). That is worth flagging
+explicitly: it means ILSS was still increasing with both factors
+everywhere this design looked, so a follow-up study extending the ranges
+further (hotter, longer) could plausibly do even better — this design has
+not bracketed a true interior optimum. The confirmation run (mean
+55.59 MPa) landing inside the 95% prediction interval [54.09, 60.07] is
+the whole point of Section 22.5: the model’s prediction wasn’t just
+trusted on paper, it was checked against a fresh, independent measurement
+before treating it as a real process recommendation.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p><strong>Core practice</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Extend to a third factor</strong>: Add fibre volume fraction (40%/60%) as a
+third factor to the composite-panel study, simulate a replicated <span class="math notranslate nohighlight">\(2^3\)</span>
+with centre points, and redo Sections 22.2–22.4 for it. Does the new
+factor’s main effect turn out significant? (Notebook 24, Live Tutorial 3
+picks up exactly this thread — many-factor screening designs — where
+this notebook leaves off.)</p></li>
+<li><p><strong>Curvature, deliberately added</strong>: Add a true quadratic term to
+<code class="docutils literal notranslate"><span class="pre">true_ILSS</span></code> in Section 22.1 (e.g. <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">3</span> <span class="pre">*</span> <span class="pre">x1**2</span></code>) and rerun Section
+22.4’s curvature F-test. Confirm it now correctly flags significant
+curvature, and explain in one sentence what an engineer should do next
+given that result.</p></li>
+<li><p><strong>Confirmation run outside the interval</strong>: Deliberately shift the
+confirmation-run simulation in Section 22.5 by adding a constant offset
+(e.g. <code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">4</span></code> MPa, representing an unmodelled process drift between the
+original experiment and the confirmation run) and rerun the check.
+What would <em>you</em> conclude, as the engineer, if your real confirmation
+run fell outside the predicted interval like this?</p></li>
+</ol>
+<p><strong>Deeper practice</strong></p>
+<ol class="arabic simple" start="4">
+<li><p><strong>Design your own 2² study</strong>: Pick a process from earlier in the course
+(ZnO synthesis, NMC cathode sintering, TiO₂ thin films) and design a
+fresh <span class="math notranslate nohighlight">\(2^2\)</span>-with-centre-points study on it, following Sections
+22.1–22.5 end to end: build the design, simulate a response with a
+genuine interaction and no curvature, run the full analysis, and
+produce your own Pareto chart and confirmation run.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\04_doe"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_simplex.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">21. Simplex Optimisation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="08_live_tutorial_2_minitab_to_sixfactor.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-22-design-by-hand">22.1 Building a 2² Design by Hand</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-contrast-based-effect-estimation">22.2 Manual Contrast-Based Effect Estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#full-anova-and-a-pareto-chart-of-effects">22.3 Full ANOVA and a Pareto Chart of Effects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#centre-points-testing-for-curvature">22.4 Centre Points: Testing for Curvature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#confirmation-run-at-the-predicted-optimum">22.5 Confirmation Run at the Predicted Optimum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

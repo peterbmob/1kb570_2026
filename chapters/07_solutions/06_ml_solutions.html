@@ -1,0 +1,1343 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Part VI Solutions: Introduction to AI and Machine Learning &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/07_solutions/06_ml_solutions';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Part V Solutions: Design of Experiments" href="05_doe_solutions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part VIII: Exercise Solutions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/07_solutions/06_ml_solutions.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Part VI Solutions: Introduction to AI and Machine Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-16-unsupervised-clustering-and-dimensionality-reduction">Notebook 16: Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-17-gaussian-process-regression-kriging">Notebook 17: Gaussian Process Regression (Kriging)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-18-bayesian-optimisation-for-experiment-design">Notebook 18: Bayesian Optimisation for Experiment Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-19-ensemble-methods-random-forest-and-gradient-boosting">Notebook 19: Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-20-neural-networks-and-deep-learning-basics">Notebook 20: Neural Networks and Deep Learning Basics</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="part-vi-solutions-introduction-to-ai-and-machine-learning">
+<h1>Part VI Solutions: Introduction to AI and Machine Learning<a class="headerlink" href="#part-vi-solutions-introduction-to-ai-and-machine-learning" title="Link to this heading">#</a></h1>
+<p>Solutions to the exercises in Notebooks 16–20 (Unsupervised Clustering
+through Neural Networks). Code blocks below are written to be pasted
+directly into the corresponding notebook (they assume its imports, <code class="docutils literal notranslate"><span class="pre">rng</span></code>,
+and variables already exist in your session) — they are not executed as
+part of building this page. Every numeric result quoted here was
+independently computed with the same seeded <code class="docutils literal notranslate"><span class="pre">rng</span> <span class="pre">=</span> <span class="pre">np.random.default_rng(...)</span></code>
+as the source notebook. This part is marked “Extra Material” in the book,
+and these solutions match that lighter touch — the point is to see the
+methods working on real (simulated) materials data, not to hedge every
+claim as rigorously as Parts II–V do.</p>
+<section id="notebook-16-unsupervised-clustering-and-dimensionality-reduction">
+<h2>Notebook 16: Unsupervised Clustering and Dimensionality Reduction<a class="headerlink" href="#notebook-16-unsupervised-clustering-and-dimensionality-reduction" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Effect of scaling</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Re-run <code class="docutils literal notranslate"><span class="pre">KMeans(n_clusters=4,</span> <span class="pre">...)</span></code> on <code class="docutils literal notranslate"><span class="pre">df[elements].values</span></code>
+directly (no <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>), then compare <code class="docutils literal notranslate"><span class="pre">adjusted_rand_score</span></code> against
+the scaled version from Section 16.2 — and separately look at
+<code class="docutils literal notranslate"><span class="pre">df[elements].var()</span></code> to see which elements would dominate a raw Euclidean
+distance.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjusted_rand_score</span>
+
+<span class="n">X_raw</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">elements</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">km4_raw</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">km_labels_raw</span> <span class="o">=</span> <span class="n">km4_raw</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_raw</span><span class="p">)</span>
+<span class="n">ari_raw</span> <span class="o">=</span> <span class="n">adjusted_rand_score</span><span class="p">(</span><span class="n">grades</span><span class="p">,</span> <span class="n">km_labels_raw</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ARI without scaling: </span><span class="si">{</span><span class="n">ari_raw</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ARI with StandardScaler (Section 16.2): </span><span class="si">{</span><span class="n">ari</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Raw feature variance (drives unscaled Euclidean distance):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">elements</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: ARI without scaling is <strong>1.0000</strong> — identical to the scaled result.
+That’s a genuinely different outcome than you’d usually expect (unscaled
+K-Means normally suffers badly), and it happens here only because the four
+grades are so well separated that even a distance metric dominated by a
+handful of elements still keeps them apart. The variance table shows why
+scaling would matter on a harder dataset: Ni (var≈9.7), Fe (≈8.6), and Cr
+(≈5.3) would completely dominate an unscaled Euclidean distance, while Si
+(≈0.007) and N (≈0.003) — despite being just as diagnostic per-grade —
+would contribute almost nothing to the raw distance. <strong>The lesson is about
+the mechanism, not this particular ARI number</strong>: <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code> is still
+the right default, because you can’t know in advance whether your dataset
+will be this forgiving.</p>
+</div>
+</details><p><strong>Exercise 2 — Perplexity sensitivity</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Loop <code class="docutils literal notranslate"><span class="pre">perplexity</span></code> over <code class="docutils literal notranslate"><span class="pre">[5,</span> <span class="pre">15,</span> <span class="pre">50,</span> <span class="pre">100]</span></code>, rerun <code class="docutils literal notranslate"><span class="pre">TSNE(...).fit_transform(X)</span></code>
+for each, and score how well the four true grades separate in each 2-D
+embedding with <code class="docutils literal notranslate"><span class="pre">silhouette_score(Z_tsne,</span> <span class="pre">grades)</span></code> — a quantitative stand-in
+for “does this look separated” that doesn’t depend on you eyeballing four plots.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.manifold</span><span class="w"> </span><span class="kn">import</span> <span class="n">TSNE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+
+<span class="k">for</span> <span class="n">perp</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]:</span>
+    <span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="n">perp</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">sil</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">grades</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;perplexity=</span><span class="si">{</span><span class="n">perp</span><span class="si">:</span><span class="s1">&gt;3</span><span class="si">}</span><span class="s1">: silhouette (true grades) = </span><span class="si">{</span><span class="n">sil</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">perplexity=5</span></code> → 0.766, <code class="docutils literal notranslate"><span class="pre">15</span></code> → <strong>0.907 (best)</strong>, <code class="docutils literal notranslate"><span class="pre">50</span></code> → 0.869,
+<code class="docutils literal notranslate"><span class="pre">100</span></code> → 0.852. Perplexity roughly sets “how many neighbours each point
+tries to stay close to” in the embedding: too low (5, with 30 points per
+grade) makes t-SNE over-focus on very local structure and fragment each
+grade’s cluster into sub-blobs; too high (100, close to the full dataset
+size of 120) forces it to balance far more long-range relationships than
+the data really has structure for, blurring the four groups back together
+slightly. The default used in Section 16.5 (<code class="docutils literal notranslate"><span class="pre">perplexity=30</span></code>) sits
+comfortably in the well-behaved middle of this range — a reasonable
+default is usually somewhere between roughly 5% and 50% of the sample
+size, and 15–50 here (12–40% of n=120) is exactly that range.</p>
+</div>
+</details><p><strong>Exercise 3 — DBSCAN parameter sweep</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Loop <code class="docutils literal notranslate"><span class="pre">eps</span></code> from 0.5 to 3.0 in steps of 0.25 with <code class="docutils literal notranslate"><span class="pre">min_samples=5</span></code>
+fixed, and for each value record <code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">-</span> <span class="pre">(1</span> <span class="pre">if</span> <span class="pre">-1</span> <span class="pre">in</span> <span class="pre">labels</span> <span class="pre">else</span> <span class="pre">0)</span></code>
+(cluster count) and <code class="docutils literal notranslate"><span class="pre">np.mean(labels</span> <span class="pre">==</span> <span class="pre">-1)</span></code> (noise fraction) — the same
+two diagnostics Section 16.4 already prints for the single <code class="docutils literal notranslate"><span class="pre">eps=1.5</span></code> case.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBSCAN</span>
+
+<span class="k">for</span> <span class="n">eps</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">3.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">):</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">DBSCAN</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">min_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">n_clusters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">noise_frac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">labels</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ari</span> <span class="o">=</span> <span class="n">adjusted_rand_score</span><span class="p">(</span><span class="n">grades</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="k">if</span> <span class="n">n_clusters</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;eps=</span><span class="si">{</span><span class="n">eps</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">: n_clusters=</span><span class="si">{</span><span class="n">n_clusters</span><span class="si">}</span><span class="s1">, noise_frac=</span><span class="si">{</span><span class="n">noise_frac</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, ARI=</span><span class="si">{</span><span class="n">ari</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output (abbreviated): <code class="docutils literal notranslate"><span class="pre">eps=0.50</span></code> → 5 clusters, 21.7% noise, ARI=0.593
+(fragmented — too tight); <code class="docutils literal notranslate"><span class="pre">eps=0.75</span></code>–<code class="docutils literal notranslate"><span class="pre">1.00</span></code> → 4 clusters, &lt;1% noise,
+ARI=0.989; <strong><code class="docutils literal notranslate"><span class="pre">eps=1.25</span></code>–<code class="docutils literal notranslate"><span class="pre">2.00</span></code> → 4 clusters, 0% noise, ARI=1.000 (the
+plateau)</strong>; <code class="docutils literal notranslate"><span class="pre">eps=2.25</span></code>–<code class="docutils literal notranslate"><span class="pre">3.00</span></code> → only 3 clusters, ARI drops to 0.709 (too
+loose — two grades have merged). <strong>The optimal range is roughly <code class="docutils literal notranslate"><span class="pre">eps</span></code> = 1.25
+to 2.0</strong> — a wide, flat plateau where DBSCAN recovers the true structure
+exactly, bounded on the low side by fragmentation and on the high side by
+merging. Section 16.7’s point about DBSCAN needing “similar density between
+clusters” is visible here too: a single <code class="docutils literal notranslate"><span class="pre">eps</span></code> works for all four grades
+simultaneously only because they were simulated with comparably tight,
+independent noise — a real dataset with one denser and one more diffuse
+grade would likely have no such wide plateau.</p>
+</div>
+</details><p><strong>Exercise 4 — UMAP supervised embedding</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">umap.UMAP(...).fit_transform(X,</span> <span class="pre">y=y_encoded)</span></code> needs a <em>numeric</em>
+label array — encode the string grades first with
+<code class="docutils literal notranslate"><span class="pre">sklearn.preprocessing.LabelEncoder</span></code> (UMAP’s supervised mode will reject
+the raw string array directly).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">umap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+
+<span class="n">y_enc</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">grades</span><span class="p">)</span>
+
+<span class="n">reducer_unsup</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">UMAP</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                           <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Z_unsup</span> <span class="o">=</span> <span class="n">reducer_unsup</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">reducer_sup</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">UMAP</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                         <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Z_sup</span> <span class="o">=</span> <span class="n">reducer_sup</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_enc</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupervised UMAP silhouette (true grades): </span><span class="si">{</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">Z_unsup</span><span class="p">,</span><span class="w"> </span><span class="n">grades</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Supervised UMAP silhouette (true grades):   </span><span class="si">{</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">Z_sup</span><span class="p">,</span><span class="w"> </span><span class="n">grades</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: unsupervised 0.9163 vs supervised 0.9135 — essentially the same,
+which is itself an informative (if slightly anticlimactic) result: on data
+this cleanly separated, unsupervised UMAP already recovers the label
+structure almost perfectly on its own, so telling it the labels in advance
+buys nothing. <strong>Supervised UMAP earns its keep on harder problems</strong> — noisy
+or overlapping classes where the unsupervised embedding blends groups
+together — where nudging the embedding toward known class structure can
+recover a much cleaner separation than the unsupervised version, at the
+cost of the embedding now depending on labels you’d need to already have
+(e.g. for visualising a <em>training</em> set before building a classifier, not
+for exploring genuinely unlabelled data).</p>
+</div>
+</details></section>
+<section id="notebook-17-gaussian-process-regression-kriging">
+<h2>Notebook 17: Gaussian Process Regression (Kriging)<a class="headerlink" href="#notebook-17-gaussian-process-regression-kriging" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Add a new training point</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Append <code class="docutils literal notranslate"><span class="pre">(Al=0.24,</span> <span class="pre">T=1100)</span></code> and its measured (noisy)
+conductivity to the 9 existing training rows, re-fit the scaler and GPR
+exactly as in Section 17.3, and compare <code class="docutils literal notranslate"><span class="pre">predict(...,</span> <span class="pre">return_std=True)</span></code>
+at the new point’s location — before vs. after — not just the grid-wide
+optimum.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Al_new</span><span class="p">,</span> <span class="n">T_new</span> <span class="o">=</span> <span class="mf">0.24</span><span class="p">,</span> <span class="mf">1100.0</span>
+<span class="n">y_new</span> <span class="o">=</span> <span class="n">true_conductivity</span><span class="p">(</span><span class="n">Al_new</span><span class="p">,</span> <span class="n">T_new</span><span class="p">)</span>   <span class="c1"># continues the notebook&#39;s rng sequence</span>
+
+<span class="n">Al_train2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Al_train</span><span class="p">,</span> <span class="n">Al_new</span><span class="p">)</span>
+<span class="n">T_train2</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T_train</span><span class="p">,</span> <span class="n">T_new</span><span class="p">)</span>
+<span class="n">y_train2</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_new</span><span class="p">)</span>
+
+<span class="n">X_doe2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">Al_train2</span><span class="p">,</span> <span class="n">T_train2</span><span class="p">])</span>
+<span class="n">scaler_doe2</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_doe2_sc</span> <span class="o">=</span> <span class="n">scaler_doe2</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_doe2</span><span class="p">)</span>
+
+<span class="n">gpr_doe2</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_doe</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                                     <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gpr_doe2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_doe2_sc</span><span class="p">,</span> <span class="n">y_train2</span><span class="p">)</span>
+
+<span class="c1"># Uncertainty specifically AT the new point, before vs after</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">std_before</span> <span class="o">=</span> <span class="n">gpr_doe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">scaler_doe</span><span class="o">.</span><span class="n">transform</span><span class="p">([[</span><span class="n">Al_new</span><span class="p">,</span> <span class="n">T_new</span><span class="p">]]),</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">std_after</span>  <span class="o">=</span> <span class="n">gpr_doe2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">scaler_doe2</span><span class="o">.</span><span class="n">transform</span><span class="p">([[</span><span class="n">Al_new</span><span class="p">,</span> <span class="n">T_new</span><span class="p">]]),</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Std at (0.24, 1100) before: </span><span class="si">{</span><span class="n">std_before</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Std at (0.24, 1100) after:  </span><span class="si">{</span><span class="n">std_after</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: the new observation reads <code class="docutils literal notranslate"><span class="pre">σ</span> <span class="pre">=</span> <span class="pre">1.4143</span> <span class="pre">mS/cm</span></code> (close to the
+noise-free peak value there, ≈1.43). Uncertainty right at that point
+collapses from <strong>0.0771 to 0.0013</strong> — almost two orders of magnitude,
+exactly what a GP should do when you add data precisely where it was most
+uncertain. The predicted optimum barely moves (Al 0.228→0.238 mol%, T
+stays at 1103 °C) but its predicted value rises from μ=1.317 to μ=1.414,
+pulled toward the new, higher observation. Interestingly, the <em>grid-averaged</em>
+std over the whole domain ticks up slightly (0.1234→0.1329) rather than
+down — a single new point sharpens the kernel’s optimised length scales
+(it now has to explain a bit more local curvature near the peak), and a
+shorter length scale means the GP trusts extrapolation <em>away</em> from data
+less than before. Local uncertainty collapsing while the domain-wide
+average barely changes (or even rises slightly) is a normal, non-alarming
+outcome of adding one point to a 9-point design — it is not a bug.</p>
+</div>
+</details><p><strong>Exercise 2 — Leave-one-out cross-validation</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> For each of the 9 points, refit both a GPR (Section 17.3’s exact
+kernel) and a quadratic RSM (<code class="docutils literal notranslate"><span class="pre">PolynomialFeatures(degree=2)</span></code> +
+<code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code>, the same recipe as Part V’s RSM notebook) on the
+other 8, predict the held-out point, and compare <code class="docutils literal notranslate"><span class="pre">sqrt(mean_squared_error(...))</span></code>
+across both sets of 9 leave-one-out predictions.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="n">n_pts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Al_train</span><span class="p">)</span>
+<span class="n">loo_gpr</span><span class="p">,</span> <span class="n">loo_rsm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_pts</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_pts</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_pts</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_pts</span><span class="p">)</span> <span class="o">!=</span> <span class="n">i</span>
+    <span class="n">sc</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+    <span class="n">X_tr_sc</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_doe</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    <span class="n">X_te_sc</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_doe</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">gpr_loo</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_doe</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                        <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">gpr_loo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_tr_sc</span><span class="p">,</span> <span class="n">y_train</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    <span class="n">loo_gpr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpr_loo</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_te_sc</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">rsm</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">LinearRegression</span><span class="p">())</span>
+    <span class="n">rsm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_doe</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">y_train</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    <span class="n">loo_rsm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rsm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_doe</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;GPR LOO RMSE:            </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="w"> </span><span class="n">loo_gpr</span><span class="p">))</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> mS/cm&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Quadratic RSM LOO RMSE:  </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="w"> </span><span class="n">loo_rsm</span><span class="p">))</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> mS/cm&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <strong>GPR LOO RMSE = 0.2805</strong>, <strong>quadratic RSM LOO RMSE = 0.2161</strong> — the
+RSM actually generalises slightly <em>better</em> here, the reverse of the
+“GPR is more flexible so it should win” intuition. With only 9 points in a
+3×3 grid, leaving one out gives the GPR just 8 points to re-optimise a
+2-length-scale Matérn kernel from scratch each time, and small-sample
+kernel optimisation is noisy; the quadratic RSM, by contrast, has a fixed,
+low-dimensional functional form (6 coefficients) that is a reasonable match
+for this particular Gaussian-hill-shaped true surface even with only 8
+points to fit it. This is a concrete illustration of Section 17.4’s
+comparison table: GPR’s flexibility is an advantage when you have enough
+data to support it, but a fixed, low-order polynomial can be the more
+data-efficient choice at the very small end of the sample-size range —
+neither method is unconditionally better.</p>
+</div>
+</details><p><strong>Exercise 3 — Kernel sensitivity</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Swap <code class="docutils literal notranslate"><span class="pre">Matern(...,</span> <span class="pre">nu=2.5)</span></code> for a plain <code class="docutils literal notranslate"><span class="pre">RBF(...)</span></code> with the same
+bounds in <code class="docutils literal notranslate"><span class="pre">kernel_doe</span></code>, refit, and compare both the predicted optimum
+location/value <em>and</em> the optimised kernel string (watch for a
+<code class="docutils literal notranslate"><span class="pre">noise_level</span></code> that’s been driven to its lower bound — Section 17.2’s
+<code class="docutils literal notranslate"><span class="pre">ConvergenceWarning</span></code> diagnostic applies here too).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">RBF</span>
+
+<span class="n">kernel_rbf</span> <span class="o">=</span> <span class="n">ConstantKernel</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="o">*</span> <span class="n">RBF</span><span class="p">(</span>
+    <span class="n">length_scale</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">length_scale_bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span> <span class="o">+</span> <span class="n">WhiteKernel</span><span class="p">(</span><span class="n">noise_level</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">noise_level_bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+
+<span class="n">gpr_rbf</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_rbf</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                                    <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gpr_rbf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_doe_sc</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Optimised RBF kernel: </span><span class="si">{</span><span class="n">gpr_rbf</span><span class="o">.</span><span class="n">kernel_</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">mu_rbf</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">gpr_rbf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_pred</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">best_idx_rbf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">mu_rbf</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;RBF optimum:    Al=</span><span class="si">{</span><span class="n">X_pred</span><span class="p">[</span><span class="n">best_idx_rbf</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">scaler_doe</span><span class="o">.</span><span class="n">scale_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">scaler_doe</span><span class="o">.</span><span class="n">mean_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;mu=</span><span class="si">{</span><span class="n">mu_rbf</span><span class="p">[</span><span class="n">best_idx_rbf</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Matern optimum (Section 17.3): Al=0.228, T=1103, mu=1.3173&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: the RBF optimum lands at essentially the same place —
+<strong>Al=0.233 mol%, T=1103 °C, μ=1.336</strong> — versus Matérn 5/2’s Al=0.228 mol%,
+T=1103 °C, μ=1.317. The two kernels agree closely on <em>where</em> the optimum
+is; the more telling difference is the optimised <code class="docutils literal notranslate"><span class="pre">WhiteKernel</span></code> term, which
+collapses to its lower bound (<code class="docutils literal notranslate"><span class="pre">noise_level≈1e-5</span></code>) for RBF instead of
+settling near the true simulated noise (σ²≈0.025²). Exactly as Section
+17.2 flagged, that’s RBF’s infinite-differentiability assumption absorbing
+this small, somewhat noisy 9-point dataset almost as pure signal rather
+than signal-plus-noise — a mild version of the same
+“ConvergenceWarning at a bound” pathology, even without an explicit
+warning firing here. Leave-one-out RMSE for RBF (0.2718) comes out
+marginally <em>better</em> than Matérn’s (0.2805) on this run, but <strong>Matérn 5/2 is
+still the kernel to trust more</strong> for a real sintering/doping response: a
+noise term pinned at its numerical floor is a sign of overfitting risk that
+a single LOO comparison on 9 points isn’t powerful enough to reliably catch.</p>
+</div>
+</details></section>
+<section id="notebook-18-bayesian-optimisation-for-experiment-design">
+<h2>Notebook 18: Bayesian Optimisation for Experiment Design<a class="headerlink" href="#notebook-18-bayesian-optimisation-for-experiment-design" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Batch BO</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> “Kriging believer” means: fit the GP, find the next EI-maximising
+point, add it back into the training set with its <em>predicted</em> mean (not a
+real measurement) so the next-in-batch query accounts for it, repeat 3
+times, then finally run the 3 real (noisy) experiments and refit — mirror
+Section 18.3’s loop structure but nest an inner 3-iteration “hallucination”
+loop inside each outer iteration.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="o">=</span> <span class="n">X_init</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">y_init</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">n_outer</span> <span class="o">=</span> <span class="mi">5</span>   <span class="c1"># 5 outer iterations x batch of 3 = 15 new queries, same budget as Section 18.3</span>
+
+<span class="k">for</span> <span class="n">outer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_outer</span><span class="p">):</span>
+    <span class="n">X_hallu</span><span class="p">,</span> <span class="n">y_hallu</span><span class="p">,</span> <span class="n">batch_points</span> <span class="o">=</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">y_batch</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">gpr_h</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_bo</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                          <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">outer</span><span class="p">)</span>
+        <span class="n">gpr_h</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_hallu</span><span class="p">,</span> <span class="n">y_hallu</span><span class="p">)</span>
+        <span class="n">x_next</span> <span class="o">=</span> <span class="n">next_query</span><span class="p">(</span><span class="n">gpr_h</span><span class="p">,</span> <span class="n">y_hallu</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">acq_fn</span><span class="o">=</span><span class="s1">&#39;EI&#39;</span><span class="p">)</span>
+        <span class="n">mu_hallu</span> <span class="o">=</span> <span class="n">gpr_h</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_next</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>   <span class="c1"># &quot;believed&quot; value, not real</span>
+        <span class="n">X_hallu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X_hallu</span><span class="p">,</span> <span class="n">x_next</span><span class="p">])</span>
+        <span class="n">y_hallu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_hallu</span><span class="p">,</span> <span class="n">mu_hallu</span><span class="p">)</span>
+        <span class="n">batch_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_next</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+    <span class="c1"># Now run the *real* (noisy) experiments for the whole batch at once</span>
+    <span class="k">for</span> <span class="n">x_next</span> <span class="ow">in</span> <span class="n">batch_points</span><span class="p">:</span>
+        <span class="n">y_real</span> <span class="o">=</span> <span class="n">black_box</span><span class="p">(</span><span class="n">x_next</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_next</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">X_batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X_batch</span><span class="p">,</span> <span class="n">x_next</span><span class="p">])</span>
+        <span class="n">y_batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_batch</span><span class="p">,</span> <span class="n">y_real</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Batch BO best after </span><span class="si">{</span><span class="mi">4</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n_outer</span><span class="o">*</span><span class="mi">3</span><span class="si">}</span><span class="s1"> evaluations: </span><span class="si">{</span><span class="n">y_batch</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Sequential BO best (Section 18.3):                </span><span class="si">{</span><span class="n">y_obs</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: batch BO’s final best is <strong>0.8878 — identical to sequential BO’s</strong>.
+That’s not a coincidence specific to batching; it’s the same result Section
+18.3’s own take-home already flags: both runs share the same 4 initial
+random points, and the winning point (rate=0.8878) was one of <em>those</em>, not
+a point either the sequential or the batch acquisition loop went on to
+find. Neither run’s <code class="docutils literal notranslate"><span class="pre">best_so_far</span></code> trajectory moves past its starting value.
+The real benefit of batching isn’t visible in this single-seed comparison
+at all — it’s <em>wall-clock time</em>: batch BO reaches the same 19-evaluation
+budget in only 5 sequential decision rounds instead of 15, running 3
+furnace/synthesis experiments in parallel each round. The kriging-believer
+heuristic’s cost is that the 2nd and 3rd points in each batch are chosen
+using a hallucinated (not real) value for the 1st, which is why batch BO
+can occasionally under-explore relative to fully sequential BO on a harder
+landscape than this one.</p>
+</div>
+</details><p><strong>Exercise 2 — Noisy objective</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Set <code class="docutils literal notranslate"><span class="pre">noise_std=0.10</span></code> in <code class="docutils literal notranslate"><span class="pre">black_box</span></code> (5× Section 18.1’s default),
+rerun the Section 18.3 loop, and compare not just the reported best value
+but that value against the true, <em>noise-free</em> surface at the same (x1, x2)
+— the gap between the two is the point of this exercise.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">black_box_noisy</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">noise_std</span><span class="o">=</span><span class="mf">0.10</span><span class="p">):</span>
+    <span class="n">x1n</span><span class="p">,</span> <span class="n">x2n</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="mf">0.055</span><span class="p">)</span><span class="o">/</span><span class="mf">0.045</span><span class="p">,</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="mi">500</span><span class="p">)</span><span class="o">/</span><span class="mi">200</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">0.85</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">x1n</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x2n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">0.25</span><span class="p">)</span>
+            <span class="o">+</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">((</span><span class="n">x1n</span><span class="o">+</span><span class="mf">0.6</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">x2n</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">0.1</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">noise_std</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">true_surface</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>   <span class="c1"># noise-free, for auditing the reported optimum</span>
+    <span class="n">x1n</span><span class="p">,</span> <span class="n">x2n</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="mf">0.055</span><span class="p">)</span><span class="o">/</span><span class="mf">0.045</span><span class="p">,</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="mi">500</span><span class="p">)</span><span class="o">/</span><span class="mi">200</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">0.85</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">x1n</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x2n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">0.25</span><span class="p">)</span>
+            <span class="o">+</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">((</span><span class="n">x1n</span><span class="o">+</span><span class="mf">0.6</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">x2n</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">0.1</span><span class="p">))</span>
+
+<span class="n">X_init_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">700</span><span class="p">,</span><span class="mi">4</span><span class="p">)])</span>
+<span class="n">y_init_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">black_box_noisy</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_init_n</span><span class="p">])</span>
+<span class="n">X_obs_n</span><span class="p">,</span> <span class="n">y_obs_n</span> <span class="o">=</span> <span class="n">X_init_n</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">y_init_n</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">kernel_bo_noisy</span> <span class="o">=</span> <span class="n">ConstantKernel</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Matern</span><span class="p">(</span>
+    <span class="n">length_scale</span><span class="o">=</span><span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="n">length_scale_bounds</span><span class="o">=</span><span class="p">[(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1000</span><span class="p">)],</span> <span class="n">nu</span><span class="o">=</span><span class="mf">2.5</span>
+<span class="p">)</span> <span class="o">+</span> <span class="n">WhiteKernel</span><span class="p">(</span><span class="n">noise_level</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">noise_level_bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
+    <span class="n">gpr_n</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_bo_noisy</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                      <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
+    <span class="n">gpr_n</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_obs_n</span><span class="p">,</span> <span class="n">y_obs_n</span><span class="p">)</span>
+    <span class="n">x_next</span> <span class="o">=</span> <span class="n">next_query</span><span class="p">(</span><span class="n">gpr_n</span><span class="p">,</span> <span class="n">y_obs_n</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">acq_fn</span><span class="o">=</span><span class="s1">&#39;EI&#39;</span><span class="p">)</span>
+    <span class="n">y_next</span> <span class="o">=</span> <span class="n">black_box_noisy</span><span class="p">(</span><span class="n">x_next</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_next</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">X_obs_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X_obs_n</span><span class="p">,</span> <span class="n">x_next</span><span class="p">])</span>
+    <span class="n">y_obs_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_obs_n</span><span class="p">,</span> <span class="n">y_next</span><span class="p">)</span>
+
+<span class="n">best_idx_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_obs_n</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Noisy BO reported best: </span><span class="si">{</span><span class="n">y_obs_n</span><span class="p">[</span><span class="n">best_idx_n</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">  &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;vs true (noise-free) surface there: </span><span class="si">{</span><span class="n">true_surface</span><span class="p">(</span><span class="o">*</span><span class="n">X_obs_n</span><span class="p">[</span><span class="n">best_idx_n</span><span class="p">])</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: with <code class="docutils literal notranslate"><span class="pre">noise_std=0.10</span></code>, the reported best is <strong>0.9986</strong>, but the true
+noise-free response at that exact (x1, x2) is only <strong>0.8559</strong> — the noisy
+“best” overstates the real optimum by <strong>+0.14</strong>. For comparison, the
+original <code class="docutils literal notranslate"><span class="pre">noise_std=0.02</span></code> run reported 0.8878 against a true value of
+0.8527 — overstated by only +0.035, roughly 4× less. <strong>BO handles noisy
+objectives more gracefully than steepest ascent because the GP posterior
+mean is a <em>regression</em> across every nearby observation, not a single
+gradient estimate from one (possibly unlucky) noisy reading</strong> — steepest
+ascent has no mechanism to average away a noisy sample the way the GP does.
+But this result also shows what the GP <em>can’t</em> fully fix: the bookkeeping
+step that reports “the best observed <code class="docutils literal notranslate"><span class="pre">y</span></code> so far” is still just picking the
+single most optimistic noisy reading, and at higher noise that reading
+increasingly overstates the truth. This is exactly why Section 18.7’s
+workflow (step 8) insists on confirming any candidate optimum with 2–3
+replicate experiments before trusting it — the higher the noise, the more
+that confirmation step matters.</p>
+</div>
+</details><p><strong>Exercise 3 — Multi-objective BO</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> You don’t need a new acquisition function to <em>identify</em> a Pareto
+front — fit a second GPR surrogate for particle size on a grid, then keep
+only the grid points where no other point has both higher rate <em>and</em> lower
+particle size (a “non-dominated” point). <code class="docutils literal notranslate"><span class="pre">scipy</span></code> isn’t strictly required;
+a nested loop or vectorised boolean mask over the grid works fine.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Second (illustrative) objective: particle size grows with calcination T,</span>
+<span class="c1"># shrinks slightly with higher precursor concentration.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">particle_size</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">15</span> <span class="o">+</span> <span class="mf">0.04</span><span class="o">*</span><span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="mi">300</span><span class="p">)</span> <span class="o">-</span> <span class="mi">40</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
+
+<span class="n">size_obs</span> <span class="o">=</span> <span class="n">particle_size</span><span class="p">(</span><span class="n">X_obs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_obs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>   <span class="c1"># reuse Section 18.3&#39;s X_obs</span>
+
+<span class="n">gpr_rate</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_bo</span><span class="p">,</span> <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gpr_rate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_obs</span><span class="p">,</span> <span class="n">y_obs</span><span class="p">)</span>
+<span class="n">gpr_size</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel_bo</span><span class="p">,</span> <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gpr_size</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_obs</span><span class="p">,</span> <span class="n">size_obs</span><span class="p">)</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X1G</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">X2G</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+<span class="n">mu_rate</span> <span class="o">=</span> <span class="n">gpr_rate</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+<span class="n">mu_size</span> <span class="o">=</span> <span class="n">gpr_size</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+
+<span class="c1"># A point is Pareto-optimal if no other point has BOTH higher rate AND lower size</span>
+<span class="n">is_dominated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+    <span class="n">is_dominated</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">((</span><span class="n">mu_rate</span> <span class="o">&gt;</span> <span class="n">mu_rate</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mu_size</span> <span class="o">&lt;</span> <span class="n">mu_size</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="n">pareto_mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">is_dominated</span>
+
+<span class="n">size_threshold</span> <span class="o">=</span> <span class="mf">12.0</span>   <span class="c1"># e.g. a downstream process spec on particle size</span>
+<span class="n">feasible</span> <span class="o">=</span> <span class="n">mu_size</span> <span class="o">&lt;</span> <span class="n">size_threshold</span>
+<span class="n">best_feasible_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">feasible</span><span class="p">,</span> <span class="n">mu_rate</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Pareto-optimal grid points: </span><span class="si">{</span><span class="n">pareto_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Best rate with size &lt; </span><span class="si">{</span><span class="n">size_threshold</span><span class="si">}</span><span class="s1">: &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;x1=</span><span class="si">{</span><span class="n">grid</span><span class="p">[</span><span class="n">best_feasible_idx</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, x2=</span><span class="si">{</span><span class="n">grid</span><span class="p">[</span><span class="n">best_feasible_idx</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">, &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;rate=</span><span class="si">{</span><span class="n">mu_rate</span><span class="p">[</span><span class="n">best_feasible_idx</span><span class="p">]</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, size=</span><span class="si">{</span><span class="n">mu_size</span><span class="p">[</span><span class="n">best_feasible_idx</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">This is a template, not a fixed numeric answer — <code class="docutils literal notranslate"><span class="pre">particle_size</span></code> here is a
+made-up illustrative second response, so the specific Pareto front and
+“best feasible point” will depend on whatever second objective you plug
+in. The general pattern is the one that matters: fit one GPR surrogate per
+objective, evaluate both on a shared grid, and either (a) filter to a hard
+constraint (<code class="docutils literal notranslate"><span class="pre">mu_size</span> <span class="pre">&lt;</span> <span class="pre">threshold</span></code>) and maximise the other objective within
+it, or (b) keep every <em>non-dominated</em> point as the actual Pareto front, as
+computed above. Section 18.7’s table lists the more principled alternative
+— <strong>EHVI</strong> (Expected Hypervolume Improvement) — for when you want the
+acquisition function itself, not just post-hoc grid filtering, to
+explicitly balance exploring the full Pareto front against exploiting a
+known-good region of it.</p>
+</div>
+</details></section>
+<section id="notebook-19-ensemble-methods-random-forest-and-gradient-boosting">
+<h2>Notebook 19: Ensemble Methods: Random Forest and Gradient Boosting<a class="headerlink" href="#notebook-19-ensemble-methods-random-forest-and-gradient-boosting" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Hyperparameter tuning</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">GridSearchCV(GradientBoostingRegressor(learning_rate=0.05,</span> <span class="pre">subsample=0.8,</span> <span class="pre">random_state=0),</span> <span class="pre">param_grid,</span> <span class="pre">cv=kf,</span> <span class="pre">scoring='r2')</span></code>
+with <code class="docutils literal notranslate"><span class="pre">param_grid</span> <span class="pre">=</span> <span class="pre">{'n_estimators':</span> <span class="pre">[...],</span> <span class="pre">'max_depth':</span> <span class="pre">[...]}</span></code> — keep
+<code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> and <code class="docutils literal notranslate"><span class="pre">subsample</span></code> fixed at Section 19.4’s values so you’re
+isolating the two hyperparameters the exercise asks about, then re-run
+<code class="docutils literal notranslate"><span class="pre">cross_val_predict</span></code> with <code class="docutils literal notranslate"><span class="pre">grid.best_params_</span></code> to get a genuinely
+out-of-sample Q² for the comparison (<code class="docutils literal notranslate"><span class="pre">grid.best_score_</span></code> alone is an
+internal CV score, not the same RMSECV metric used elsewhere in the notebook).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]}</span>
+<span class="n">gbm_base</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">subsample</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">gbm_base</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;r2&#39;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sc</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best params:&#39;</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+
+<span class="n">gbm_tuned</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">subsample</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                                       <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+<span class="n">y_tuned_cv</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">gbm_tuned</span><span class="p">,</span> <span class="n">X_sc</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span>
+<span class="n">q2_tuned</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_tuned_cv</span><span class="p">)</span>
+<span class="n">rmse_tuned</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_tuned_cv</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Tuned GBM: Q2=</span><span class="si">{</span><span class="n">q2_tuned</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, RMSECV=</span><span class="si">{</span><span class="n">rmse_tuned</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> mAh/g&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Default GBM (Section 19.4): Q2=0.7397, RMSECV=4.47 mAh/g&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: the search picks <strong><code class="docutils literal notranslate"><span class="pre">max_depth=2,</span> <span class="pre">n_estimators=300</span></code></strong> — <em>shallower</em>
+trees than the notebook’s default <code class="docutils literal notranslate"><span class="pre">max_depth=4</span></code>, not more of them. Tuned
+performance is <strong>Q²=0.7903, RMSECV=4.01 mAh/g</strong>, an improvement of
+<strong>+0.051 Q²</strong> and <strong>−0.46 mAh/g RMSECV</strong> over the default. This result
+lines up with Section 19.4’s own training-curve admonition about GBM
+overfitting: with <code class="docutils literal notranslate"><span class="pre">max_depth=4</span></code> and 300 boosting rounds, the default model
+was already fitting the training set almost exactly (training RMSE≈0.3
+mAh/g) while its CV score lagged — the grid search’s fix is exactly to
+shrink each individual tree’s capacity (<code class="docutils literal notranslate"><span class="pre">max_depth</span></code> 4→2) so 300 rounds of
+boosting can no longer memorise the training noise as easily, trading a bit
+of training-set fit for meaningfully better generalisation.</p>
+</div>
+</details><p><strong>Exercise 2 — OOB score</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Set <code class="docutils literal notranslate"><span class="pre">oob_score=True</span></code> on the same <code class="docutils literal notranslate"><span class="pre">RandomForestRegressor(...)</span></code> call
+from Section 19.3, fit it once on the <em>full</em> dataset (no <code class="docutils literal notranslate"><span class="pre">cross_val_predict</span></code>
+needed for the OOB number — it’s built into <code class="docutils literal notranslate"><span class="pre">.fit()</span></code>), and read
+<code class="docutils literal notranslate"><span class="pre">rf.oob_score_</span></code> directly.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rf_oob</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span>
+                                <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">oob_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">rf_oob</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sc</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;RF OOB score (R2): </span><span class="si">{</span><span class="n">rf_oob</span><span class="o">.</span><span class="n">oob_score_</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;RF 10-fold CV Q2 (Section 19.3): </span><span class="si">{</span><span class="n">q2_rf</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <strong>OOB score = 0.6048</strong> vs. <strong>10-fold CV Q² = 0.6047</strong> — a difference
+of only +0.0001, essentially exact agreement. This is the expected result:
+each tree’s out-of-bag samples (the ~1/3 of rows not drawn into that tree’s
+bootstrap sample) are, by construction, never seen by that tree during
+training, so averaging predictions from only the trees that didn’t see a
+given row is already a form of built-in cross-validation — no separate
+<code class="docutils literal notranslate"><span class="pre">KFold</span></code> loop needed. The practical payoff is <code class="docutils literal notranslate"><span class="pre">oob_score=True</span></code> gives you an
+honest generalisation estimate from a <em>single</em> <code class="docutils literal notranslate"><span class="pre">.fit()</span></code> call, useful for
+quick iteration, though a full <code class="docutils literal notranslate"><span class="pre">cross_val_predict</span></code> is still worth running
+once at the end for the residual/predicted-vs-actual diagnostics OOB alone
+doesn’t give you.</p>
+</div>
+</details><p><strong>Exercise 3 — SHAP values</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">shap</span></code>, then <code class="docutils literal notranslate"><span class="pre">shap.TreeExplainer(rf).shap_values(X_sc)</span></code>
+gives per-sample, per-feature attributions directly (works natively on
+tree ensembles, no background dataset sampling needed); <code class="docutils literal notranslate"><span class="pre">np.abs(shap_values).mean(axis=0)</span></code>
+is the SHAP analogue of <code class="docutils literal notranslate"><span class="pre">rf.feature_importances_</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">explainer.shap_interaction_values(X_sc)</span></code> gives the pairwise interaction
+strengths the exercise also asks about.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">shap</span>
+
+<span class="n">explainer</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">TreeExplainer</span><span class="p">(</span><span class="n">rf</span><span class="p">)</span>
+<span class="n">shap_values</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">shap_values</span><span class="p">(</span><span class="n">X_sc</span><span class="p">)</span>
+<span class="n">mean_abs_shap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">shap_values</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">order_shap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">mean_abs_shap</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SHAP ranking:&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order_shap</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Built-in ranking (Section 19.3):&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">rf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="n">interact</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">shap_interaction_values</span><span class="p">(</span><span class="n">X_sc</span><span class="p">)</span>
+<span class="n">mean_abs_interact</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">interact</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pairs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+    <span class="p">[(</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">features</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">mean_abs_interact</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">))],</span>
+    <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="o">-</span><span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">[:</span><span class="mi">4</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">f1</span><span class="si">}</span><span class="s1"> x </span><span class="si">{</span><span class="n">f2</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: SHAP’s mean-|value| ranking is <strong>identical in order</strong> to the
+built-in impurity importance — <code class="docutils literal notranslate"><span class="pre">cool_rate</span> <span class="pre">&gt;</span> <span class="pre">time_h</span> <span class="pre">&gt;</span> <span class="pre">T_sinter</span> <span class="pre">&gt;</span> <span class="pre">O2_pO2</span> <span class="pre">&gt;</span> <span class="pre">Ni_frac</span> <span class="pre">&gt;</span> <span class="pre">Li_excess</span></code> — reassuring agreement between the two methods on this
+dataset, even though SHAP is theoretically the more rigorous, direction-aware
+measure. The interaction values are the more interesting (and more
+honest) result: the two <em>largest</em> pairwise interactions are <strong>time_h ×
+cool_rate (0.171)</strong> and <strong>Ni_frac × cool_rate (0.159)</strong> — not the
+<code class="docutils literal notranslate"><span class="pre">Ni_frac</span> <span class="pre">×</span> <span class="pre">O2_pO2</span></code> term that was actually built into the simulated
+<code class="docutils literal notranslate"><span class="pre">capacity</span></code> formula in Section 19.1, which ranks only <strong>8th of 15 pairs</strong>
+(0.062). This is a genuinely useful caveat, not a failure of SHAP: mean
+absolute interaction strength is inflated by each feature’s own overall
+importance as well as by genuine interaction structure, so the two
+globally most important features (<code class="docutils literal notranslate"><span class="pre">cool_rate</span></code> and <code class="docutils literal notranslate"><span class="pre">time_h</span></code>) show up with
+large <em>apparent</em> interaction values in part simply because both terms
+individually have large SHAP magnitudes to begin with. <strong>Don’t read the
+single largest SHAP interaction pair as automatically “the” true
+interaction</strong> — cross-check it against domain knowledge or, as here,
+against the actual generating model when you have it.</p>
+</div>
+</details></section>
+<section id="notebook-20-neural-networks-and-deep-learning-basics">
+<h2>Notebook 20: Neural Networks and Deep Learning Basics<a class="headerlink" href="#notebook-20-neural-networks-and-deep-learning-basics" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Architecture search</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Loop <code class="docutils literal notranslate"><span class="pre">hidden_layer_sizes</span></code> over a handful of 1-, 2-, and
+3-layer shapes in <code class="docutils literal notranslate"><span class="pre">MLPRegressor</span></code> (same settings as Section 20.3
+otherwise), score each with the same <code class="docutils literal notranslate"><span class="pre">cross_val_predict</span></code> + <code class="docutils literal notranslate"><span class="pre">r2_score</span></code>
+recipe, and count parameters by hand: a <code class="docutils literal notranslate"><span class="pre">Linear</span></code> layer of shape
+<code class="docutils literal notranslate"><span class="pre">(n_in,</span> <span class="pre">n_out)</span></code> has <code class="docutils literal notranslate"><span class="pre">n_in*n_out</span> <span class="pre">+</span> <span class="pre">n_out</span></code> weights+biases — sum that across
+every layer including the final single-output one.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">architectures</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">8</span><span class="p">,),</span> <span class="p">(</span><span class="mi">16</span><span class="p">,),</span> <span class="p">(</span><span class="mi">32</span><span class="p">,),</span> <span class="p">(</span><span class="mi">64</span><span class="p">,),</span>
+                  <span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">32</span><span class="p">),</span>
+                  <span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">16</span><span class="p">)]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">count_params</span><span class="p">(</span><span class="n">n_in</span><span class="p">,</span> <span class="n">hidden</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">n_in</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">hidden</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">n_out</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">arch</span> <span class="ow">in</span> <span class="n">architectures</span><span class="p">:</span>
+    <span class="n">mlp</span> <span class="o">=</span> <span class="n">MLPRegressor</span><span class="p">(</span><span class="n">hidden_layer_sizes</span><span class="o">=</span><span class="n">arch</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+                        <span class="n">max_iter</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">learning_rate_init</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+                        <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">early_stopping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">validation_fraction</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">yp</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">mlp</span><span class="p">,</span> <span class="n">X_sc</span><span class="p">,</span> <span class="n">Tg</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kf</span><span class="p">)</span>
+    <span class="n">q2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Tg</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hidden=</span><span class="si">{</span><span class="n">arch</span><span class="si">!s:</span><span class="s1">&lt;14</span><span class="si">}</span><span class="s1"> params=</span><span class="si">{</span><span class="n">count_params</span><span class="p">(</span><span class="n">n_waves</span><span class="p">,</span><span class="w"> </span><span class="n">arch</span><span class="p">)</span><span class="si">:</span><span class="s1">&gt;5</span><span class="si">}</span><span class="s1">  Q2=</span><span class="si">{</span><span class="n">q2</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output ranges from Q²=0.283 (a single 16-neuron layer — too narrow) up to
+the best result, <strong>Q²=0.605 at <code class="docutils literal notranslate"><span class="pre">hidden=(32,16)</span></code>, 2177 parameters</strong> — and
+<strong>no architecture in this search reaches Q² &gt; 0.95</strong>. That’s not a failed
+search; it’s the expected answer given what Section 20.3 already
+established: with ~90 training samples per CV fold and only 50 input
+channels, every one of these architectures still has far more parameters
+than samples, so more layers or more neurons doesn’t fix the fundamental
+data-size mismatch — it mostly just reshuffles which noise gets
+memorised. PLS’s Q²=0.9895 on the identical data (Section 20.5) remains
+completely out of reach for any plain MLP tried here; getting an MLP to
+Q²&gt;0.95 on this problem would require either far more training samples or
+building in the same linear/collinear structure PLS exploits by
+construction (e.g. via a PLS or PCA preprocessing step before the network).</p>
+</div>
+</details><p><strong>Exercise 2 — Dropout regularisation</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Change only <code class="docutils literal notranslate"><span class="pre">dropout=0.2</span></code> → <code class="docutils literal notranslate"><span class="pre">dropout=0.5</span></code> in the <code class="docutils literal notranslate"><span class="pre">SpectralMLP(...)</span></code>
+constructor in Section 20.4’s cell (leave the optimiser, <code class="docutils literal notranslate"><span class="pre">weight_decay</span></code>,
+batch size, and early-stopping patience untouched so the comparison
+isolates dropout alone), rerun the training loop, and compare both the
+final train/val MSE curves and the held-out R².</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run_with_dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">SpectralMLP</span><span class="p">(</span><span class="n">n_waves</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+    <span class="n">train_dl</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">best_val</span><span class="p">,</span> <span class="n">best_state</span><span class="p">,</span> <span class="n">patience_ctr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">300</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="n">train_dl</span><span class="p">:</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">val_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">X_va</span><span class="p">),</span> <span class="n">y_va</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">val_loss</span> <span class="o">&lt;</span> <span class="n">best_val</span> <span class="o">-</span> <span class="mf">1e-4</span><span class="p">:</span>
+            <span class="n">best_val</span><span class="p">,</span> <span class="n">best_state</span><span class="p">,</span> <span class="n">patience_ctr</span> <span class="o">=</span> <span class="n">val_loss</span><span class="p">,</span> \
+                <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">patience_ctr</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">patience_ctr</span> <span class="o">&gt;=</span> <span class="mi">30</span><span class="p">:</span>
+                <span class="k">break</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">best_state</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_va</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Tg_va_true</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">dp</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;dropout=</span><span class="si">{</span><span class="n">dp</span><span class="si">}</span><span class="s1">: val R2 = </span><span class="si">{</span><span class="n">run_with_dropout</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <strong>R² drops from 0.947 (dropout=0.2, Section 20.4’s own result) to
+0.903 (dropout=0.5)</strong> — heavier regularisation makes this network <em>worse</em>,
+not better. Looking at the training curves explains why: at dropout=0.2,
+Section 20.4’s own admonition already noted the train and validation MSE
+curves track almost identically the whole way through, meaning there was
+no overfitting gap for stronger regularisation to close. Raising dropout to
+0.5 instead just randomly zeroes half of every hidden layer’s activations
+on every forward pass — train MSE at convergence roughly quadruples
+(≈40 → ≈160 °C²) because the network can no longer reliably use most of its
+own capacity, and validation performance follows it down rather than
+improving. <strong>The lesson: dropout is a fix for a diagnosed overfitting
+problem, not a knob to crank up “for safety”</strong> — applied to a network that
+wasn’t overfitting in the first place, it only removes useful capacity.</p>
+</div>
+</details><p><strong>Exercise 3 — Transfer learning concept</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> No numeric answer is required here — describe the two named
+strategies concretely for <code class="docutils literal notranslate"><span class="pre">SpectralMLP</span></code> specifically: what
+<code class="docutils literal notranslate"><span class="pre">model.load_state_dict(...)</span></code> and setting <code class="docutils literal notranslate"><span class="pre">param.requires_grad</span> <span class="pre">=</span> <span class="pre">False</span></code>
+on the first hidden layer’s parameters would each look like in code, and
+reason about <em>why</em> freezing early layers makes sense for spectra
+specifically (what those early layers are likely learning).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># (a) Fine-tuning: load pretrained weights, then keep training all of them</span>
+<span class="c1">#     on the new, smaller 500-sample dataset with a lower learning rate.</span>
+<span class="n">model_new</span> <span class="o">=</span> <span class="n">SpectralMLP</span><span class="p">(</span><span class="n">n_waves</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">model_new</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;spectral_mlp_pretrained.pt&#39;</span><span class="p">))</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model_new</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>  <span class="c1"># smaller lr than training from scratch</span>
+<span class="c1"># ... then train_dl / epoch loop exactly as in Section 20.4, on the new data</span>
+
+<span class="c1"># (b) Feature extraction: freeze the first hidden block, only train the last layer</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model_new</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;net.0&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;net.1&#39;</span><span class="p">):</span>   <span class="c1"># first Linear+ReLU block</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model_new</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Both strategies assume the new 500-spectrum dataset shares the same 50
+wavenumber channels and a <em>related</em> underlying chemistry (different
+polymer system, same NIR absorption physics) — that’s what transfer
+learning requires to make sense at all. <strong>(a) Fine-tuning</strong> lets every
+weight keep adapting, which is the better choice when the new dataset,
+while smaller than you’d like from scratch, is still large enough (hundreds
+of samples) to safely update the whole network without immediately
+overfitting; a smaller learning rate than training-from-scratch protects
+the already-useful pretrained weights from being overwritten too fast
+early in training. <strong>(b) Freezing the first hidden layer</strong> treats it as a
+fixed, general-purpose feature extractor — early layers in a spectral MLP
+tend to learn broad, transferable patterns (something close to “does this
+region of the spectrum have a peak, and how sharp”) that are probably
+similar across different polymer chemistries, while only the last layer
+needs to relearn the <em>specific</em> mapping from those features to this new
+system’s Tg values. Freezing is the safer, lower-variance option when the
+new dataset is smaller still (tens to low hundreds of samples) — training
+fewer parameters means less opportunity to overfit, at the cost of the
+model being unable to adapt if the new system’s spectra genuinely need
+different early-layer features than the pretrained ones learned.</p>
+</div>
+</details></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\07_solutions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05_doe_solutions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Part V Solutions: Design of Experiments</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-16-unsupervised-clustering-and-dimensionality-reduction">Notebook 16: Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-17-gaussian-process-regression-kriging">Notebook 17: Gaussian Process Regression (Kriging)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-18-bayesian-optimisation-for-experiment-design">Notebook 18: Bayesian Optimisation for Experiment Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-19-ensemble-methods-random-forest-and-gradient-boosting">Notebook 19: Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-20-neural-networks-and-deep-learning-basics">Notebook 20: Neural Networks and Deep Learning Basics</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

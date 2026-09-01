@@ -1,0 +1,1017 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/02_data_handling/04_nomad_oasis_database';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="5. Capstone: Building a FAIR Dataset" href="05_building_a_fair_dataset.html" />
+    <link rel="prev" title="3. Databases for FAIR Data: SQL and Document Stores" href="03_databases_sql_nosql.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/02_data_handling/04_nomad_oasis_database.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/02_data_handling/04_nomad_oasis_database.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4. NOMAD & NOMAD Oasis: Anatomy of a Research-Data Repository</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-nomad">4.1 What Is NOMAD?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-core-data-model-upload-entry">4.2 The Core Data Model: Upload → Entry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schemas-the-metainfo-and-eln-schemas-for-experimentalists">4.3 Schemas: The Metainfo, and ELN Schemas for Experimentalists</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-emmo-fits-into-a-nomad-entry">4.4 Where EMMO Fits Into a NOMAD Entry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-building-a-nomad-style-archive-entry">4.5 Hands-on: Building a NOMAD-Style Archive Entry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-minimal-schema-validator">4.6 A Minimal Schema Validator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-local-stand-in-for-a-nomad-search-query">4.7 A Local Stand-in for a NOMAD Search Query</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="nomad-nomad-oasis-anatomy-of-a-research-data-repository">
+<h1>4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository<a class="headerlink" href="#nomad-nomad-oasis-anatomy-of-a-research-data-repository" title="Link to this heading">#</a></h1>
+<p>Notebooks 1 and 2 gave you the ingredients — FAIR metadata and a shared
+ontology (EMMO) to make that metadata unambiguous. This notebook shows what
+those ingredients look like once they are put together into an actual
+running <strong>repository</strong>: a piece of software whose entire job is to store,
+validate, and let you search materials data at scale. We use <strong>NOMAD</strong> and
+<strong>NOMAD Oasis</strong> as the worked example because they are a real, EMMO-aware
+infrastructure used across European materials science — not a hypothetical
+system.</p>
+<p>This notebook is deliberately <strong>read-only with respect to any live
+server</strong>: everything you run here is local Python that mimics NOMAD’s data
+model on a small scale, so the ideas are concrete and testable without
+needing an account, an API key, or a working internet connection. Notebook 5
+then has you apply the same pattern to build a small dataset of your own.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>What NOMAD and NOMAD Oasis are (and how they relate)</p></li>
+<li><p>The core data model: Upload → Entry → raw data / archive / metadata</p></li>
+<li><p>Schemas: NOMAD’s Metainfo, and ELN schemas for experimentalists</p></li>
+<li><p>Where EMMO fits into a NOMAD entry</p></li>
+<li><p>Hands-on: building a NOMAD-style archive entry in Python</p></li>
+<li><p>Hands-on: a schema validator and a local “search” over entries</p></li>
+</ol>
+<section id="what-is-nomad">
+<h2>4.1 What Is NOMAD?<a class="headerlink" href="#what-is-nomad" title="Link to this heading">#</a></h2>
+<p><strong>NOMAD</strong> (<code class="docutils literal notranslate"><span class="pre">nomad-lab.eu</span></code>) is an open-source, FAIR data infrastructure for
+materials science, developed by the <strong>FAIRmat</strong> consortium (part of
+Germany’s National Research Data Infrastructure, NFDI) together with an
+international community of contributors. It began as a repository for
+computational materials data (parsing the output of dozens of DFT and
+simulation codes into one common structure) and has since grown
+<strong>Electronic Lab Notebook (ELN)</strong> support for experimental data too —
+synthesis steps, characterisation measurements, and instrument metadata —
+which is the part most directly relevant to this course.</p>
+<p><strong>NOMAD Oasis</strong> is the same underlying software, packaged so that an
+institution or research group can run their <strong>own private instance</strong> —
+typically for data that is not yet ready to be public (unpublished results,
+an ongoing PhD project, embargoed industry collaboration data). An Oasis
+still speaks NOMAD’s data model and file formats, and can optionally
+<strong>publish</strong> individual entries to the central, public NOMAD repository once
+they are ready to be shared — so a lab’s private working data and the
+public scientific record use exactly the same structure throughout, instead
+of being reformatted at the point of publication.</p>
+</section>
+<section id="the-core-data-model-upload-entry">
+<h2>4.2 The Core Data Model: Upload → Entry<a class="headerlink" href="#the-core-data-model-upload-entry" title="Link to this heading">#</a></h2>
+<p>Everything in NOMAD starts with an <strong>Upload</strong>: a batch of files a user adds
+to the system (raw instrument output, a lab-notebook YAML file, a folder of
+DFT output files — whatever was actually produced). NOMAD’s processing
+pipeline then splits an upload into one or more <strong>Entries</strong> — the atomic,
+citable unit in NOMAD, roughly “one measurement” or “one calculation.” Each
+entry carries three distinct layers of information:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Layer</p></th>
+<th class="head"><p>What it is</p></th>
+<th class="head"><p>Analogy from Notebook 1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Raw data</strong></p></td>
+<td><p>The original files exactly as uploaded, untouched</p></td>
+<td><p>The instrument’s raw export file</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Archive</strong></p></td>
+<td><p>The raw data <em>parsed</em> into NOMAD’s structured schema (Section 4.3)</p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">cathode_record</span></code> dict, but machine-validated</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Metadata</strong></p></td>
+<td><p>Searchable summary fields (upload ID, entry ID, authors, dates, references)</p></td>
+<td><p>The F/A/R fields from the <code class="docutils literal notranslate"><span class="pre">fair_check</span></code> function</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This three-layer split is the same idea Notebook 1 introduced — separate
+the <em>data</em> from the <em>description of the data</em> — just implemented at
+production scale, with the parsing step automated so it does not depend on
+every researcher manually filling in a form correctly.</p>
+</section>
+<section id="schemas-the-metainfo-and-eln-schemas-for-experimentalists">
+<h2>4.3 Schemas: The Metainfo, and ELN Schemas for Experimentalists<a class="headerlink" href="#schemas-the-metainfo-and-eln-schemas-for-experimentalists" title="Link to this heading">#</a></h2>
+<p>An <strong>archive</strong> is not a free-form JSON blob — it must conform to a
+<strong>schema</strong>, so that “synthesis temperature” always ends up in the same
+place, with the same name and unit, across every entry that uses it. NOMAD
+calls its schema system the <strong>Metainfo</strong>: definitions of <strong>Sections</strong>
+(nested groups, like a Python class) containing <strong>Quantities</strong> (typed,
+unit-aware fields) and <strong>SubSections</strong> (nested sections). If that sounds
+like the metadata dictionaries from Notebook 1 — it is; a schema is simply
+metadata <em>about the structure metadata is allowed to take</em>.</p>
+<p>Two ways to define a schema, matching two kinds of user:</p>
+<ul class="simple">
+<li><p><strong>Python-defined schemas</strong> (<code class="docutils literal notranslate"><span class="pre">nomad.metainfo</span></code>): used for computational data
+parsers, where a developer writes Python classes describing e.g. a DFT
+calculation’s structure once, and every parser for that method reuses it.</p></li>
+<li><p><strong>ELN schemas</strong> (YAML files, conventionally named <code class="docutils literal notranslate"><span class="pre">*.archive.yaml</span></code>): used
+by experimentalists to describe their own workflow — a synthesis
+procedure, a measurement type — <em>without writing Python</em>. This is the
+format most directly useful to a materials scientist setting up their own
+Oasis for lab work, and the one Notebook 5’s capstone mirrors.</p></li>
+</ul>
+</section>
+<section id="where-emmo-fits-into-a-nomad-entry">
+<h2>4.4 Where EMMO Fits Into a NOMAD Entry<a class="headerlink" href="#where-emmo-fits-into-a-nomad-entry" title="Link to this heading">#</a></h2>
+<p>Recall from Notebook 2 that EMMO’s job is to make sure “temperature” means
+the same formal thing everywhere. NOMAD schemas support attaching an
+ontology <strong>concept IRI</strong> to individual quantities as an annotation — so a
+quantity literally named <code class="docutils literal notranslate"><span class="pre">synthesis_temperature</span></code> in one lab’s ELN schema
+and <code class="docutils literal notranslate"><span class="pre">T_anneal</span></code> in another’s can both be marked as instances of the <em>same</em>
+EMMO concept, making them comparable by software even though their column
+names disagree. This is the practical payoff of Notebook 2’s abstract point
+about <code class="docutils literal notranslate"><span class="pre">SpecificHeatCapacity</span></code> being a <code class="docutils literal notranslate"><span class="pre">Sign</span></code>: NOMAD entries carry exactly
+this kind of sign-to-concept link, at the level of individual data
+fields.</p>
+</section>
+<section id="hands-on-building-a-nomad-style-archive-entry">
+<h2>4.5 Hands-on: Building a NOMAD-Style Archive Entry<a class="headerlink" href="#hands-on-building-a-nomad-style-archive-entry" title="Link to this heading">#</a></h2>
+<p>The cell below is an <strong>illustrative sketch</strong> of the pattern a NOMAD archive
+follows for an ELN entry — simplified, and with shortened field names, to
+keep the structure visible rather than reproducing any specific real
+schema line-for-line. Compare it directly to <code class="docutils literal notranslate"><span class="pre">cathode_record</span></code> from
+Notebook 1 — and to the SQL rows and Mongo documents built for the same
+batches in Notebook 3 — same information, now split explicitly into the
+three layers from Section 4.2, and with an EMMO IRI attached to two of
+the quantities the way Section 4.4 described.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">nomad_style_entry</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># ── metadata layer: searchable summary fields ─────────────────────────────</span>
+    <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;upload_id&#39;</span><span class="p">:</span>  <span class="s1">&#39;upload_2025_01_cathodes&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;entry_id&#39;</span><span class="p">:</span>   <span class="s1">&#39;entry_LiFePO4_batch07&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;upload_create_time&#39;</span><span class="p">:</span> <span class="s1">&#39;2025-01-15T09:12:00Z&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;authors&#39;</span><span class="p">:</span>    <span class="p">[</span><span class="s1">&#39;A. Lindqvist&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;references&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s1">&#39;license&#39;</span><span class="p">:</span>    <span class="s1">&#39;CC-BY-4.0&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># ── archive layer: parsed, schema-conformant structure ────────────────────</span>
+    <span class="s1">&#39;archive&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;m_def&#39;</span><span class="p">:</span> <span class="s1">&#39;CathodeSynthesisEntry&#39;</span><span class="p">,</span>            <span class="c1"># which schema this entry follows</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;LiFePO4_batch_07&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;synthesis&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;steps&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;mixing&#39;</span><span class="p">,</span>     <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;calcination_1&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="mi">350</span><span class="p">,</span> <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;calcination_2&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="mi">750</span><span class="p">,</span> <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+                     <span class="s1">&#39;quantity_kind_iri&#39;</span><span class="p">:</span> <span class="s1">&#39;emmo:ThermodynamicTemperature&#39;</span><span class="p">},</span>
+                <span class="p">],</span>
+                <span class="s1">&#39;atmosphere&#39;</span><span class="p">:</span> <span class="s1">&#39;Ar&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">:</span> <span class="mf">161.4</span><span class="p">,</span>
+                <span class="s1">&#39;quantity_kind_iri&#39;</span><span class="p">:</span> <span class="s1">&#39;emmo:ElectricCharge&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">:</span> <span class="mf">0.94</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="c1"># ── raw data layer: pointers to the original files, not reproduced here ───</span>
+    <span class="s1">&#39;raw_files&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;furnace_log_batch07.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;cycler_export_batch07.txt&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">nomad_style_entry</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
+  &quot;metadata&quot;: {
+    &quot;upload_id&quot;: &quot;upload_2025_01_cathodes&quot;,
+    &quot;entry_id&quot;: &quot;entry_LiFePO4_batch07&quot;,
+    &quot;upload_create_time&quot;: &quot;2025-01-15T09:12:00Z&quot;,
+    &quot;authors&quot;: [
+      &quot;A. Lindqvist&quot;
+    ],
+    &quot;references&quot;: [],
+    &quot;license&quot;: &quot;CC-BY-4.0&quot;
+  },
+  &quot;archive&quot;: {
+    &quot;data&quot;: {
+      &quot;m_def&quot;: &quot;CathodeSynthesisEntry&quot;,
+      &quot;name&quot;: &quot;LiFePO4_batch_07&quot;,
+      &quot;synthesis&quot;: {
+        &quot;method&quot;: &quot;solid-state reaction&quot;,
+        &quot;steps&quot;: [
+          {
+            &quot;name&quot;: &quot;mixing&quot;,
+            &quot;duration_h&quot;: 2
+          },
+          {
+            &quot;name&quot;: &quot;calcination_1&quot;,
+            &quot;temperature_C&quot;: 350,
+            &quot;duration_h&quot;: 4
+          },
+          {
+            &quot;name&quot;: &quot;calcination_2&quot;,
+            &quot;temperature_C&quot;: 750,
+            &quot;duration_h&quot;: 6,
+            &quot;quantity_kind_iri&quot;: &quot;emmo:ThermodynamicTemperature&quot;
+          }
+        ],
+        &quot;atmosphere&quot;: &quot;Ar&quot;
+      },
+      &quot;results&quot;: {
+        &quot;capacity_mAh_g&quot;: 161.4,
+        &quot;quantity_kind_iri&quot;: &quot;emmo:ElectricCharge&quot;,
+        &quot;coulombic_efficiency&quot;: 0.94
+      }
+    }
+  },
+  &quot;raw_files&quot;: [
+    &quot;furnace_log_batch07.csv&quot;,
+    &quot;cycler_export_batch07.txt&quot;
+  ]
+}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-minimal-schema-validator">
+<h2>4.6 A Minimal Schema Validator<a class="headerlink" href="#a-minimal-schema-validator" title="Link to this heading">#</a></h2>
+<p>A NOMAD schema does more than organise data — it <em>rejects</em> entries that
+don’t conform, the same way a type checker rejects code with the wrong
+types. We can mimic this in plain Python with a small validator function
+that checks required keys and simple type constraints, the same spirit as
+<code class="docutils literal notranslate"><span class="pre">fair_check</span></code> from Notebook 1 but checking <em>structure</em> instead of FAIR
+fields.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">validate_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Very small structural validator: checks required keys and types</span>
+<span class="sd">    against a nested schema dict of the form {key: type_or_nested_schema}.&quot;&quot;&quot;</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">expected</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">full_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">key</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;MISSING: </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">_check</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">expected</span><span class="p">,</span> <span class="n">full_path</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;EXPECTED nested object at </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">expected</span><span class="p">):</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;WRONG TYPE at </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">: expected </span><span class="si">{</span><span class="n">expected</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">, &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="p">)</span>
+
+    <span class="n">_check</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">errors</span>
+
+
+<span class="n">cathode_schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="s1">&#39;synthesis&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="s1">&#39;atmosphere&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+        <span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">errors</span> <span class="o">=</span> <span class="n">validate_entry</span><span class="p">(</span><span class="n">nomad_style_entry</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">cathode_schema</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Validation errors:&#39;</span><span class="p">,</span> <span class="n">errors</span> <span class="k">if</span> <span class="n">errors</span> <span class="k">else</span> <span class="s1">&#39;none — entry conforms to schema&#39;</span><span class="p">)</span>
+
+<span class="c1"># Now break it on purpose and re-validate</span>
+<span class="n">broken_entry</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">nomad_style_entry</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]))</span>  <span class="c1"># deep copy</span>
+<span class="k">del</span> <span class="n">broken_entry</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">]</span>
+<span class="n">broken_entry</span><span class="p">[</span><span class="s1">&#39;synthesis&#39;</span><span class="p">][</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">123</span>   <span class="c1"># wrong type</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Validation errors on broken entry:&#39;</span><span class="p">,</span> <span class="n">validate_entry</span><span class="p">(</span><span class="n">broken_entry</span><span class="p">,</span> <span class="n">cathode_schema</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation errors: none — entry conforms to schema
+Validation errors on broken entry: [&#39;WRONG TYPE at synthesis.method: expected str, got int&#39;, &#39;MISSING: results.capacity_mAh_g&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-local-stand-in-for-a-nomad-search-query">
+<h2>4.7 A Local Stand-in for a NOMAD Search Query<a class="headerlink" href="#a-local-stand-in-for-a-nomad-search-query" title="Link to this heading">#</a></h2>
+<p>The real NOMAD offers both a graphical search interface and a REST API
+(<code class="docutils literal notranslate"><span class="pre">api/v1/entries/query</span></code> on <code class="docutils literal notranslate"><span class="pre">nomad-lab.eu</span></code>, or your Oasis’s own URL) so that
+software can filter entries by any metainfo quantity — “find every entry
+with <code class="docutils literal notranslate"><span class="pre">synthesis.method</span> <span class="pre">==</span> <span class="pre">'solid-state</span> <span class="pre">reaction'</span></code> and
+<code class="docutils literal notranslate"><span class="pre">results.capacity_mAh_g</span> <span class="pre">&gt;</span> <span class="pre">150</span></code>,” across potentially millions of entries. The
+exact request syntax is documented on NOMAD’s own site and evolves between
+versions, so it is not reproduced here — but the underlying <em>idea</em> is just
+filtering a collection of structured records, which you already know how to
+do with plain Python. The cell below builds a small local collection of
+entries and filters it exactly the way a remote query would, so the logic
+is identical even though the data now lives in a Python list instead of on
+a server.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_entry</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">temp_C</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">efficiency</span><span class="p">):</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">nomad_style_entry</span><span class="p">))</span>    <span class="c1"># start from the template, deep copy</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;synthesis&#39;</span><span class="p">][</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">method</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;synthesis&#39;</span><span class="p">][</span><span class="s1">&#39;steps&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;temperature_C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_C</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">capacity</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">efficiency</span>
+    <span class="n">e</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="s1">&#39;entry_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;entry_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">return</span> <span class="n">e</span>
+
+
+<span class="n">local_repository</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">make_entry</span><span class="p">(</span><span class="s1">&#39;batch_05&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mf">148.2</span><span class="p">,</span> <span class="mf">0.91</span><span class="p">),</span>
+    <span class="n">make_entry</span><span class="p">(</span><span class="s1">&#39;batch_06&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">725</span><span class="p">,</span> <span class="mf">155.9</span><span class="p">,</span> <span class="mf">0.93</span><span class="p">),</span>
+    <span class="n">make_entry</span><span class="p">(</span><span class="s1">&#39;batch_07&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mf">161.4</span><span class="p">,</span> <span class="mf">0.94</span><span class="p">),</span>
+    <span class="n">make_entry</span><span class="p">(</span><span class="s1">&#39;batch_08&#39;</span><span class="p">,</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>              <span class="mi">650</span><span class="p">,</span> <span class="mf">172.1</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span>
+    <span class="n">make_entry</span><span class="p">(</span><span class="s1">&#39;batch_09&#39;</span><span class="p">,</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>              <span class="mi">680</span><span class="p">,</span> <span class="mf">168.7</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="c1"># ── A local &#39;query&#39;: mimics filtering entries via a NOMAD-style API call ──────</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">query_entries</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_capacity</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">entries</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;synthesis&#39;</span><span class="p">][</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">method</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">min_capacity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">results</span>
+                   <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_capacity</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+
+<span class="n">hits</span> <span class="o">=</span> <span class="n">query_entries</span><span class="p">(</span><span class="n">local_repository</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span> <span class="n">min_capacity</span><span class="o">=</span><span class="mi">170</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">hits</span><span class="p">)</span><span class="si">}</span><span class="s1"> entr</span><span class="si">{</span><span class="s2">&quot;y&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">hits</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;ies&quot;</span><span class="si">}</span><span class="s1"> matched:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">hits</span><span class="p">:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> capacity=</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> mAh/g  &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;method=</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;synthesis&#39;</span><span class="p">][</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 entry matched:
+  batch_08   capacity=172.1 mAh/g  method=sol-gel
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is the essence of what a repository buys you over a folder of
+spreadsheets: because every entry conforms to the same validated schema
+(Section 4.6), a query like <code class="docutils literal notranslate"><span class="pre">query_entries</span></code> can run correctly over five
+entries or five million, and over your data as well as a collaborator’s —
+provided both of you used the same schema, or schemas that share EMMO
+concepts (Section 4.4) so a query can be translated between them.</p>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Extend the local repository</strong>: Add three more entries to
+<code class="docutils literal notranslate"><span class="pre">local_repository</span></code> (invent plausible values) and write a <code class="docutils literal notranslate"><span class="pre">query_entries</span></code>
+call that finds all entries with <code class="docutils literal notranslate"><span class="pre">coulombic_efficiency</span> <span class="pre">&gt;=</span> <span class="pre">0.93</span></code>
+regardless of method. You will need to add a new parameter to
+<code class="docutils literal notranslate"><span class="pre">query_entries</span></code> to support this.</p></li>
+<li><p><strong>Schema evolution</strong>: Add a new required field <code class="docutils literal notranslate"><span class="pre">operator</span></code> (a string)
+to <code class="docutils literal notranslate"><span class="pre">cathode_schema</span></code>, at the top level next to <code class="docutils literal notranslate"><span class="pre">name</span></code>. Re-run the
+validator against <code class="docutils literal notranslate"><span class="pre">nomad_style_entry['archive']['data']</span></code> — what error do
+you get, and what does that tell you about what happens in a real
+repository when a schema changes after data has already been uploaded?</p></li>
+<li><p><strong>Design question</strong>: <code class="docutils literal notranslate"><span class="pre">validate_entry</span></code> only checks that required fields
+are <em>present with the right type</em> — it does not check that
+<code class="docutils literal notranslate"><span class="pre">coulombic_efficiency</span></code> is between 0 and 1, or that <code class="docutils literal notranslate"><span class="pre">capacity_mAh_g</span></code> is
+positive. Sketch (in words or code) how you would extend the schema
+format to support a numeric range constraint, and add it for one field.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\02_data_handling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_databases_sql_nosql.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3. Databases for FAIR Data: SQL and Document Stores</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_building_a_fair_dataset.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">5. Capstone: Building a FAIR Dataset</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-nomad">4.1 What Is NOMAD?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-core-data-model-upload-entry">4.2 The Core Data Model: Upload → Entry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schemas-the-metainfo-and-eln-schemas-for-experimentalists">4.3 Schemas: The Metainfo, and ELN Schemas for Experimentalists</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-emmo-fits-into-a-nomad-entry">4.4 Where EMMO Fits Into a NOMAD Entry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-building-a-nomad-style-archive-entry">4.5 Hands-on: Building a NOMAD-Style Archive Entry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-minimal-schema-validator">4.6 A Minimal Schema Validator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-local-stand-in-for-a-nomad-search-query">4.7 A Local Stand-in for a NOMAD Search Query</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

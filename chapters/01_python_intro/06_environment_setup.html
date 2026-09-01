@@ -1,0 +1,895 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/01_python_intro/06_environment_setup';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7. Version Control and Collaboration with GitHub" href="07_git_github_collaboration.html" />
+    <link rel="prev" title="5. Interactive Visualisation with Plotly" href="05_plotly_interactive.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part I: Prerequisites — Python for Data Analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/01_python_intro/06_environment_setup.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/01_python_intro/06_environment_setup.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-a-dedicated-environment">6.1 Why a Dedicated Environment?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-anaconda-or-miniconda-locally">6.2 Installing Anaconda or Miniconda Locally</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducing-this-course-s-environment">6.3 Reproducing This Course’s Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zero-install-google-colab">6.4 Zero-Install: Google Colab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uppsala-s-own-cluster-uppmax">6.5 Uppsala’s Own Cluster: UPPMAX</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-option">6.6 Choosing the Right Option</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-your-own-setup">6.7 Checking Your Own Setup</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="setting-up-your-own-python-environment-local-anaconda-and-the-cloud">
+<h1>6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud<a class="headerlink" href="#setting-up-your-own-python-environment-local-anaconda-and-the-cloud" title="Link to this heading">#</a></h1>
+<p>Every notebook so far ran inside an environment someone else already built for
+you — either this book’s own pre-executed pages, or a course-provided
+JupyterHub. That is fine for reading, but the moment you want to run your own
+analysis, adapt a notebook, or work on the <a class="reference internal" href="../06_project/project.html"><span class="std std-doc">course project</span></a>,
+you need an environment of your own: a specific, reproducible set of Python
+and package versions, sitting somewhere you can actually reach it. This
+notebook covers three ways to get one — on your own computer, for free in a
+browser via Google Colab, or on Uppsala University’s own research computing
+cluster, UPPMAX — and how to reproduce <em>this exact course’s</em> environment in
+each.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>Why a dedicated environment, not just “the Python already on my computer”?</p></li>
+<li><p>Installing Anaconda or Miniconda locally</p></li>
+<li><p>Reproducing this course’s environment from <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></p></li>
+<li><p>Zero-install: Google Colab</p></li>
+<li><p>Uppsala’s own cluster: UPPMAX</p></li>
+<li><p>Choosing the right option for a given task</p></li>
+<li><p>Checking your own setup</p></li>
+</ol>
+<section id="why-a-dedicated-environment">
+<h2>6.1 Why a Dedicated Environment?<a class="headerlink" href="#why-a-dedicated-environment" title="Link to this heading">#</a></h2>
+<p>Every computer that has ever run Python already has <em>a</em> Python installed
+somewhere — so why not just use that? Because two different projects almost
+never want the exact same package versions, and installing everything into
+one shared, system-wide Python turns that disagreement into a fight neither
+project can win. This course’s own <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> has a real example of
+exactly this problem, one line long:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">&gt;=</span><span class="mf">1.5</span><span class="p">,</span><span class="o">&lt;</span><span class="mf">1.6</span>   <span class="c1"># factor_analyzer 0.5.1 is incompatible with sklearn&gt;=1.6</span>
+</pre></div>
+</div>
+<p>Part IV’s Factor Analysis notebook depends on a package (<code class="docutils literal notranslate"><span class="pre">factor_analyzer</span></code>)
+that was never updated for scikit-learn’s newest release — install the
+latest scikit-learn system-wide for some <em>other</em> project, and this course’s
+own Factor Analysis notebook silently breaks. An <strong>environment</strong> (created by
+<code class="docutils literal notranslate"><span class="pre">conda</span></code> or Python’s built-in <code class="docutils literal notranslate"><span class="pre">venv</span></code>) sidesteps this entirely: it is a named,
+self-contained set of installed packages at pinned versions, completely
+separate from your system Python and from every other project’s environment.
+Different projects, different environments, no fights — this is precisely
+the same “pin your dependencies” discipline behind every <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>
+and <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> you will ever see in a research codebase, and it is
+worth adopting from your very first project, not just this course.</p>
+</section>
+<section id="installing-anaconda-or-miniconda-locally">
+<h2>6.2 Installing Anaconda or Miniconda Locally<a class="headerlink" href="#installing-anaconda-or-miniconda-locally" title="Link to this heading">#</a></h2>
+<p><strong>Anaconda</strong> and <strong>Miniconda</strong> are two installers for the same underlying
+tool, <code class="docutils literal notranslate"><span class="pre">conda</span></code>: a package and environment manager. Anaconda bundles conda with
+roughly 250 pre-installed scientific packages and a graphical launcher
+(Anaconda Navigator) — a multi-gigabyte download convenient for someone who
+wants everything available immediately. Miniconda installs just Python and
+conda itself (a few hundred MB) and lets you install only what a given
+project needs — the better default for a course like this one, since
+<code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> already specifies exactly what is needed, and you avoid
+downloading 250 packages you will never import.</p>
+<p><strong>Installing Miniconda</strong> (Windows, macOS, or Linux):</p>
+<ol class="arabic simple">
+<li><p>Download the installer for your OS from
+<a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">docs.conda.io/en/latest/miniconda.html</a>.</p></li>
+<li><p>Run it, accepting the defaults unless you have a specific reason not to.</p></li>
+<li><p>Open a <strong>new</strong> terminal (PowerShell on Windows, Terminal on macOS/Linux) —
+<code class="docutils literal notranslate"><span class="pre">conda</span></code> is only on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> in terminals opened <em>after</em> installation —
+and confirm it worked:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>--version
+</pre></div>
+</div>
+</section>
+<section id="reproducing-this-course-s-environment">
+<h2>6.3 Reproducing This Course’s Environment<a class="headerlink" href="#reproducing-this-course-s-environment" title="Link to this heading">#</a></h2>
+<p>Every notebook in this book was executed inside one specific environment,
+defined by the repository’s own <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> (the same file
+<a class="reference internal" href="../../intro.html"><span class="std std-doc">intro.md</span></a> already told you about). Creating a matching
+environment is three commands: make a new, empty conda environment, activate
+it, then install every package <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> lists into it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>doe-course<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11
+conda<span class="w"> </span>activate<span class="w"> </span>doe-course
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>Notice the third command is <code class="docutils literal notranslate"><span class="pre">pip</span></code>, not <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span></code> — conda manages the
+Python <em>interpreter</em> and the isolated environment itself perfectly well,
+while <code class="docutils literal notranslate"><span class="pre">pip</span></code> (Python’s own package installer, also used with the <code class="docutils literal notranslate"><span class="pre">!</span></code> prefix
+inside notebooks, e.g. Notebook 5’s live NOMAD queries) installs the
+packages the environment actually needs. Mixing the two like this — conda
+for the environment, pip for the packages — is extremely common in practice
+and exactly what this line does.</p>
+<p>Once installed, launching <strong>JupyterLab</strong> gives you the same browser-based
+notebook interface you have been reading this whole book in:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>doe-course
+jupyter<span class="w"> </span>lab
+</pre></div>
+</div>
+<p><strong>Checkpoint / Exercise A</strong>: If you have a terminal available right now, try
+this end-to-end: create an environment, activate it, and run
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-c</span> <span class="pre">&quot;import</span> <span class="pre">sys;</span> <span class="pre">print(sys.version)&quot;</span></code> inside it. Confirm the printed
+version is 3.10 or newer — everything in this course assumes at least that.</p>
+</section>
+<section id="zero-install-google-colab">
+<h2>6.4 Zero-Install: Google Colab<a class="headerlink" href="#zero-install-google-colab" title="Link to this heading">#</a></h2>
+<p><strong>Google Colab</strong> (<code class="docutils literal notranslate"><span class="pre">colab.research.google.com</span></code>) runs Jupyter notebooks
+entirely on Google’s servers, in your browser, with no install at all — you
+only need a Google account. It is the fastest way to get <em>any</em> notebook
+running with zero local setup, and it includes free (rate-limited) access to
+a GPU, useful for Part VI’s PyTorch notebook (Notebook 20) if your own
+laptop has none.</p>
+<p><strong>Opening a notebook</strong>: <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">→</span> <span class="pre">Upload</span> <span class="pre">notebook</span></code> for a <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file on your
+computer, or <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">→</span> <span class="pre">Open</span> <span class="pre">notebook</span> <span class="pre">→</span> <span class="pre">GitHub</span></code> and paste a repository URL —
+exactly the workflow Notebook 7 (next) will make you comfortable with.</p>
+<p><strong>Installing this course’s packages</strong>: Colab’s own environment does not
+match <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> out of the box. The <code class="docutils literal notranslate"><span class="pre">!</span></code> prefix runs a plain shell
+command from inside a code cell (you first saw this idea, without the cloud
+context, back in Notebook 5’s live NOMAD queries) — so the very first cell
+of a Colab-run notebook for this course would be:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>!pip install -r requirements.txt
+</pre></div>
+</div>
+<p><strong>The catch — persistence</strong>: a Colab session is a temporary virtual machine.
+Close the tab (or leave it idle for a while) and everything not explicitly
+saved elsewhere — installed packages, any files you created — disappears
+with it. For anything you want to keep, mount your Google Drive first:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Good for: trying a notebook with no local install at all, occasional GPU
+access, sending a colleague a working link instead of a file attachment.
+Not good for: long-running jobs, anything that must persist unattended, or
+work you cannot afford to lose to a disconnected runtime.</p>
+</section>
+<section id="uppsala-s-own-cluster-uppmax">
+<h2>6.5 Uppsala’s Own Cluster: UPPMAX<a class="headerlink" href="#uppsala-s-own-cluster-uppmax" title="Link to this heading">#</a></h2>
+<p><strong>UPPMAX</strong> (Uppsala Multidisciplinary Center for Advanced Computational
+Science) is Uppsala University’s own research computing centre — as a
+1KB570 student, you can normally request an account through
+<a class="reference external" href="https://supr.naiss.se">SUPR</a> (the Swedish national allocation system) via
+your course or research group. It exists for exactly the situation Colab and
+a laptop both struggle with: a job that needs more memory or CPU time than
+either can comfortably give you — a large factorial design across many
+factors (Part V), or training several models over a wide hyperparameter grid
+(Part VI) are realistic examples from this course specifically.</p>
+<p><strong>Getting to a notebook on UPPMAX</strong>, in increasing order of how much of the
+cluster you are using:</p>
+<ol class="arabic simple">
+<li><p><strong>UPPMAX’s JupyterHub/JupyterLab web portal</strong> (when available on your
+cluster) — the closest experience to this book: open a browser, get a
+notebook, no terminal required for basic use.</p></li>
+<li><p><strong>An interactive terminal session</strong> via SSH or UPPMAX’s ThinLinc remote
+desktop, using the <code class="docutils literal notranslate"><span class="pre">module</span></code> system to load pre-installed software
+(<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python/3.11</span></code> or similar — exact module names are
+cluster-specific and change over time).</p></li>
+<li><p><strong>A batch job submitted through SLURM</strong>, the cluster’s job scheduler, for
+long, unattended runs that do not need you watching a notebook live.</p></li>
+</ol>
+<p><strong>Your own environment on UPPMAX</strong>: you will not have administrator rights
+on a shared cluster, but you do not need them — the same <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span></code>/<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code> pattern from Section 6.3 works
+identically once you are logged in, with one practical wrinkle: shared
+clusters enforce <strong>storage quotas</strong> on your home directory, and a full
+scientific Python environment can be several GB, so UPPMAX documentation
+generally recommends building environments in your allocated <strong>project
+storage</strong> rather than your home directory.</p>
+<p>UPPMAX’s own procedures (account requests, current module names, JupyterHub
+availability) change over time and are documented properly at
+<a class="reference external" href="https://www.uppmax.uu.se">uppmax.uu.se</a> — treat this section as
+orientation for <em>why</em> and <em>when</em> you would reach for UPPMAX, and go to their
+documentation (or your course coordinator) for the exact, current steps.</p>
+</section>
+<section id="choosing-the-right-option">
+<h2>6.6 Choosing the Right Option<a class="headerlink" href="#choosing-the-right-option" title="Link to this heading">#</a></h2>
+<p>None of these three is simply “the best” — each trades off setup effort
+against compute power and persistence differently.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Local (Anaconda/Miniconda)</p></th>
+<th class="head"><p>Google Colab</p></th>
+<th class="head"><p>UPPMAX</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Setup effort</p></td>
+<td><p>One install, once</p></td>
+<td><p>None — just a browser</p></td>
+<td><p>Account request + first-time setup</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cost</p></td>
+<td><p>Free (your own hardware)</p></td>
+<td><p>Free tier is generous; limits apply</p></td>
+<td><p>Free for eligible university users</p></td>
+</tr>
+<tr class="row-even"><td><p>Compute power</p></td>
+<td><p>Whatever your machine has</p></td>
+<td><p>Free CPU; free but rate-limited GPU</p></td>
+<td><p>Large-scale CPU/GPU, shared with other users</p></td>
+</tr>
+<tr class="row-odd"><td><p>Persistence</p></td>
+<td><p>Permanent, entirely yours</p></td>
+<td><p>Ephemeral unless saved to Drive</p></td>
+<td><p>Permanent, quota-limited storage</p></td>
+</tr>
+<tr class="row-even"><td><p>Offline use</p></td>
+<td><p>Yes</p></td>
+<td><p>No — needs a connection</p></td>
+<td><p>No — needs a connection</p></td>
+</tr>
+<tr class="row-odd"><td><p>Best for</p></td>
+<td><p>Day-to-day coursework, full control</p></td>
+<td><p>Quick trials, sharing a runnable link, occasional GPU</p></td>
+<td><p>Large jobs beyond a laptop’s capacity</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A very common real pattern: develop and debug on a small subset of your data
+locally or in Colab, where iterating is fast, then move the finished,
+working analysis to UPPMAX only for the parts that actually need serious
+compute — exactly the “get it right small, then scale up” workflow DoE
+itself (Part V) is built around.</p>
+</section>
+<section id="checking-your-own-setup">
+<h2>6.7 Checking Your Own Setup<a class="headerlink" href="#checking-your-own-setup" title="Link to this heading">#</a></h2>
+<p>Whichever option you picked, the same few lines confirm your environment is
+what you think it is — genuinely useful to run right now, in whatever
+notebook you are reading this in.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Python version: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Platform:       </span><span class="si">{</span><span class="n">platform</span><span class="o">.</span><span class="n">platform</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Executable:     </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python version: 3.13.14
+Platform:       Windows-11-10.0.22631-SP0
+Executable:     C:\Program Files\Python313\python.exe
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the Python version above is 3.10 or newer, you are set for every
+notebook in this course. <code class="docutils literal notranslate"><span class="pre">sys.executable</span></code> shows <em>which</em> Python is actually
+running this cell — worth checking any time an <code class="docutils literal notranslate"><span class="pre">import</span></code> mysteriously fails
+even though you “definitely installed that package”: it is often installed
+into a <em>different</em> environment than the one your notebook is using.</p>
+<p><strong>Exercise 1</strong>: In a terminal (local or on UPPMAX) with your course
+environment activated, run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">list</span></code> (or <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">list</span></code>) and confirm
+<code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>, and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> all appear. In Colab, the
+equivalent single-package check is <code class="docutils literal notranslate"><span class="pre">!pip</span> <span class="pre">show</span> <span class="pre">pandas</span></code>.</p>
+<p><strong>Exercise 2</strong>: Using Section 6.6’s comparison table, pick the option you
+would use for (a) today’s coursework, (b) the course project’s final
+analysis, and (c) a hypothetical 10 000-run factorial design sweeping many
+factors. Justify each choice in one sentence.</p>
+<p><strong>Exercise 3</strong>: Deliberately create <em>two</em> conda environments with different
+scikit-learn versions (e.g. <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">-n</span> <span class="pre">test_old</span> <span class="pre">python=3.11</span> <span class="pre">&quot;scikit-learn&lt;1.6&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">-n</span> <span class="pre">test_new</span> <span class="pre">python=3.11</span> <span class="pre">&quot;scikit-learn&gt;=1.6&quot;</span></code>), activate each in turn, and run
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-c</span> <span class="pre">&quot;import</span> <span class="pre">sklearn;</span> <span class="pre">print(sklearn.__version__)&quot;</span></code>. Confirm the two
+environments really do report different versions — the isolation Section 6.1
+described, made concrete.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\01_python_intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05_plotly_interactive.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">5. Interactive Visualisation with Plotly</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07_git_github_collaboration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7. Version Control and Collaboration with GitHub</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-a-dedicated-environment">6.1 Why a Dedicated Environment?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-anaconda-or-miniconda-locally">6.2 Installing Anaconda or Miniconda Locally</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducing-this-course-s-environment">6.3 Reproducing This Course’s Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zero-install-google-colab">6.4 Zero-Install: Google Colab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uppsala-s-own-cluster-uppmax">6.5 Uppsala’s Own Cluster: UPPMAX</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-option">6.6 Choosing the Right Option</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-your-own-setup">6.7 Checking Your Own Setup</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

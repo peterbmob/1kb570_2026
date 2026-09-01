@@ -1,0 +1,1202 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. Pandas DataFrames &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/01_python_intro/03_pandas_dataframes';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4. Data Visualization with Matplotlib &amp; Seaborn" href="04_matplotlib_seaborn.html" />
+    <link rel="prev" title="2. NumPy Arrays" href="02_numpy_arrays.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part I: Prerequisites — Python for Data Analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/01_python_intro/03_pandas_dataframes.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/01_python_intro/03_pandas_dataframes.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3. Pandas DataFrames</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-dataframes">3.1 Creating DataFrames</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-from-a-file">Reading from a file</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-filtering-and-sorting">3.2 Selecting, Filtering and Sorting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-data">3.3 Missing Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-and-aggregation">3.4 Grouping and Aggregation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merging-datasets">3.5 Merging Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting-and-reshaping">3.6 Pivoting and Reshaping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="pandas-dataframes">
+<h1>3. Pandas DataFrames<a class="headerlink" href="#pandas-dataframes" title="Link to this heading">#</a></h1>
+<p>NumPy arrays are fast but anonymous — column 3 is just “column 3,” not
+“tensile_MPa.” Pandas provides the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> — a labelled 2-D table that
+combines the speed of NumPy with the expressiveness of a spreadsheet, where
+every row and column has a name you can refer to. It is the go-to tool for
+loading, cleaning, and exploring experimental datasets: almost every dataset
+you import in this course (from a CSV file, an instrument export, or a
+database query) becomes a DataFrame before you do anything else with it.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>Creating DataFrames and reading files</p></li>
+<li><p>Selecting, filtering, and sorting</p></li>
+<li><p>Missing data</p></li>
+<li><p>Grouping and aggregation</p></li>
+<li><p>Merging datasets</p></li>
+<li><p>Case study: alloy property database</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pandas version:&#39;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pandas version: 2.3.3
+</pre></div>
+</div>
+</div>
+</div>
+<section id="creating-dataframes">
+<h2>3.1 Creating DataFrames<a class="headerlink" href="#creating-dataframes" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># From a dictionary (most common way when entering data manually)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span>       <span class="p">[</span><span class="s1">&#39;A01&#39;</span><span class="p">,</span> <span class="s1">&#39;A02&#39;</span><span class="p">,</span> <span class="s1">&#39;A03&#39;</span><span class="p">,</span> <span class="s1">&#39;A04&#39;</span><span class="p">,</span> <span class="s1">&#39;A05&#39;</span><span class="p">,</span> <span class="s1">&#39;A06&#39;</span><span class="p">,</span> <span class="s1">&#39;A07&#39;</span><span class="p">,</span> <span class="s1">&#39;A08&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;alloy&#39;</span><span class="p">:</span>           <span class="p">[</span><span class="s1">&#39;304SS&#39;</span><span class="p">,</span> <span class="s1">&#39;304SS&#39;</span><span class="p">,</span> <span class="s1">&#39;316SS&#39;</span><span class="p">,</span> <span class="s1">&#39;316SS&#39;</span><span class="p">,</span> <span class="s1">&#39;Mild&#39;</span><span class="p">,</span> <span class="s1">&#39;Mild&#39;</span><span class="p">,</span> <span class="s1">&#39;ToolS&#39;</span><span class="p">,</span> <span class="s1">&#39;ToolS&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;heat_treatment&#39;</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;Annealed&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&amp;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Annealed&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&amp;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Annealed&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&amp;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Annealed&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&amp;T&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;tensile_MPa&#39;</span><span class="p">:</span>     <span class="p">[</span><span class="mi">515</span><span class="p">,</span> <span class="mi">890</span><span class="p">,</span> <span class="mi">485</span><span class="p">,</span> <span class="mi">760</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="mi">760</span><span class="p">,</span> <span class="mi">1200</span><span class="p">],</span>
+    <span class="s1">&#39;yield_MPa&#39;</span><span class="p">:</span>       <span class="p">[</span><span class="mi">205</span><span class="p">,</span> <span class="mi">690</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">540</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">520</span><span class="p">,</span> <span class="mi">420</span><span class="p">,</span>  <span class="mi">900</span><span class="p">],</span>
+    <span class="s1">&#39;elongation_pct&#39;</span><span class="p">:</span>  <span class="p">[</span> <span class="mi">40</span><span class="p">,</span>  <span class="mi">18</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span>  <span class="mi">25</span><span class="p">,</span>  <span class="mi">36</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">14</span><span class="p">,</span>    <span class="mi">8</span><span class="p">],</span>
+    <span class="s1">&#39;hardness_HV&#39;</span><span class="p">:</span>     <span class="p">[</span><span class="mi">180</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">230</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span>  <span class="mi">380</span><span class="p">],</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Shape:&#39;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Column dtypes:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  sample_id  alloy heat_treatment  tensile_MPa  yield_MPa  elongation_pct  \
+0       A01  304SS       Annealed          515        205              40   
+1       A02  304SS            Q&amp;T          890        690              18   
+2       A03  316SS       Annealed          485        170              40   
+3       A04  316SS            Q&amp;T          760        540              25   
+4       A05   Mild       Annealed          400        250              36   
+5       A06   Mild            Q&amp;T          650        520              20   
+6       A07  ToolS       Annealed          760        420              14   
+7       A08  ToolS            Q&amp;T         1200        900               8   
+
+   hardness_HV  
+0          180  
+1          280  
+2          160  
+3          230  
+4          130  
+5          210  
+6          220  
+7          380  
+
+Shape: (8, 7)
+Column dtypes:
+sample_id         object
+alloy             object
+heat_treatment    object
+tensile_MPa        int64
+yield_MPa          int64
+elongation_pct     int64
+hardness_HV        int64
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Quick overview</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tensile_MPa</th>
+      <th>yield_MPa</th>
+      <th>elongation_pct</th>
+      <th>hardness_HV</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>8.000000</td>
+      <td>8.000000</td>
+      <td>8.000000</td>
+      <td>8.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>707.500000</td>
+      <td>461.875000</td>
+      <td>25.125000</td>
+      <td>223.750000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>257.959022</td>
+      <td>253.911367</td>
+      <td>12.275847</td>
+      <td>77.999542</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>400.000000</td>
+      <td>170.000000</td>
+      <td>8.000000</td>
+      <td>130.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>507.500000</td>
+      <td>238.750000</td>
+      <td>17.000000</td>
+      <td>175.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>705.000000</td>
+      <td>470.000000</td>
+      <td>22.500000</td>
+      <td>215.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>792.500000</td>
+      <td>577.500000</td>
+      <td>37.000000</td>
+      <td>242.500000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1200.000000</td>
+      <td>900.000000</td>
+      <td>40.000000</td>
+      <td>380.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="reading-from-a-file">
+<h3>Reading from a file<a class="headerlink" href="#reading-from-a-file" title="Link to this heading">#</a></h3>
+<p>In practice you will load data from CSV or Excel files:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/alloys.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;data/alloys.xlsx&#39;</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Common options: <code class="docutils literal notranslate"><span class="pre">sep=';'</span></code>, <code class="docutils literal notranslate"><span class="pre">decimal=','</span></code>, <code class="docutils literal notranslate"><span class="pre">header=0</span></code>, <code class="docutils literal notranslate"><span class="pre">index_col=0</span></code>, <code class="docutils literal notranslate"><span class="pre">na_values=['N/A',</span> <span class="pre">'-']</span></code>.</p>
+</section>
+</section>
+<section id="selecting-filtering-and-sorting">
+<h2>3.2 Selecting, Filtering and Sorting<a class="headerlink" href="#selecting-filtering-and-sorting" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Column selection ─────────────────────────────────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;alloy&#39;</span><span class="p">])</span>                            <span class="c1"># single column → Series</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;alloy&#39;</span><span class="p">,</span> <span class="s1">&#39;tensile_MPa&#39;</span><span class="p">,</span> <span class="s1">&#39;hardness_HV&#39;</span><span class="p">]])</span>  <span class="c1"># multiple columns → DataFrame</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    304SS
+1    304SS
+2    316SS
+3    316SS
+4     Mild
+5     Mild
+6    ToolS
+7    ToolS
+Name: alloy, dtype: object
+
+   alloy  tensile_MPa  hardness_HV
+0  304SS          515          180
+1  304SS          890          280
+2  316SS          485          160
+3  316SS          760          230
+4   Mild          400          130
+5   Mild          650          210
+6  ToolS          760          220
+7  ToolS         1200          380
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Label-based (.loc) and position-based (.iloc) ─────────────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;tensile_MPa&#39;</span><span class="p">])</span>          <span class="c1"># row 0, column &#39;tensile_MPa&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;alloy&#39;</span><span class="p">,</span> <span class="s1">&#39;yield_MPa&#39;</span><span class="p">]])</span>  <span class="c1"># rows 2-4, two columns</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>                     <span class="c1"># row 0, column index 3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>515
+   alloy  yield_MPa
+2  316SS        170
+3  316SS        540
+4   Mild        250
+
+515
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Boolean filtering ────────────────────────────────────────────────────────</span>
+<span class="c1"># Samples with tensile strength &gt; 700 MPa</span>
+<span class="n">high_strength</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;tensile_MPa&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">700</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;High-strength samples:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">high_strength</span><span class="p">[[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="s1">&#39;alloy&#39;</span><span class="p">,</span> <span class="s1">&#39;heat_treatment&#39;</span><span class="p">,</span> <span class="s1">&#39;tensile_MPa&#39;</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">()</span>
+<span class="c1"># Stainless steel samples with elongation &gt; 30%</span>
+<span class="n">ductile_ss</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;alloy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;SS&#39;</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;elongation_pct&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Ductile stainless steel:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ductile_ss</span><span class="p">[[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="s1">&#39;alloy&#39;</span><span class="p">,</span> <span class="s1">&#39;elongation_pct&#39;</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>High-strength samples:
+  sample_id  alloy heat_treatment  tensile_MPa
+1       A02  304SS            Q&amp;T          890
+3       A04  316SS            Q&amp;T          760
+6       A07  ToolS       Annealed          760
+7       A08  ToolS            Q&amp;T         1200
+
+Ductile stainless steel:
+  sample_id  alloy  elongation_pct
+0       A01  304SS              40
+2       A03  316SS              40
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Sorting ──────────────────────────────────────────────────────────────────</span>
+<span class="n">df_sorted</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;tensile_MPa&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sorted by tensile strength (descending):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_sorted</span><span class="p">[[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="s1">&#39;alloy&#39;</span><span class="p">,</span> <span class="s1">&#39;heat_treatment&#39;</span><span class="p">,</span> <span class="s1">&#39;tensile_MPa&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sorted by tensile strength (descending):
+sample_id alloy heat_treatment  tensile_MPa
+      A08 ToolS            Q&amp;T         1200
+      A02 304SS            Q&amp;T          890
+      A07 ToolS       Annealed          760
+      A04 316SS            Q&amp;T          760
+      A06  Mild            Q&amp;T          650
+      A01 304SS       Annealed          515
+      A03 316SS       Annealed          485
+      A05  Mild       Annealed          400
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="missing-data">
+<h2>3.3 Missing Data<a class="headerlink" href="#missing-data" title="Link to this heading">#</a></h2>
+<p>Real datasets almost always have gaps — an instrument glitch, a sample that
+never got measured, a typo during manual entry. Pandas represents a missing
+value as <code class="docutils literal notranslate"><span class="pre">NaN</span></code> (“Not a Number”) rather than leaving a blank or a zero,
+specifically so it doesn’t get silently mistaken for a real measurement of
+zero. Before any statistical analysis (Part III onwards), you must decide
+what to do with these gaps — the two simplest strategies, shown below, are
+to drop incomplete rows entirely or to fill the gap with a reasonable
+estimate (such as the column mean). Neither is free of assumptions: dropping
+rows loses data, and filling with the mean quietly assumes the missing value
+would have been “typical.”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate a dataset with missing values</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span>
+<span class="n">df_missing</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># Randomly assign NaN to 4 positions</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">&#39;elongation_pct&#39;</span><span class="p">,</span> <span class="s1">&#39;hardness_HV&#39;</span><span class="p">,</span> <span class="s1">&#39;tensile_MPa&#39;</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+    <span class="n">df_missing</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Missing value counts per column:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_missing</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Rows with any missing value:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_missing</span><span class="p">[</span><span class="n">df_missing</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Missing value counts per column:
+sample_id         0
+alloy             0
+heat_treatment    0
+tensile_MPa       2
+yield_MPa         0
+elongation_pct    1
+hardness_HV       1
+dtype: int64
+
+Rows with any missing value:
+  sample_id  alloy heat_treatment  tensile_MPa  yield_MPa  elongation_pct  \
+4       A05   Mild       Annealed          NaN        250            36.0   
+6       A07  ToolS       Annealed          NaN        420            14.0   
+7       A08  ToolS            Q&amp;T       1200.0        900             NaN   
+
+   hardness_HV  
+4          NaN  
+6        220.0  
+7        380.0  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Strategies:</span>
+<span class="c1"># 1. Drop rows with any missing value</span>
+<span class="n">df_dropped</span> <span class="o">=</span> <span class="n">df_missing</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rows after dropna():&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_dropped</span><span class="p">),</span> <span class="s1">&#39;(original:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_missing</span><span class="p">),</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+
+<span class="c1"># 2. Fill with column mean (only numeric columns)</span>
+<span class="n">df_filled</span> <span class="o">=</span> <span class="n">df_missing</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">numeric_cols</span> <span class="o">=</span> <span class="n">df_filled</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">df_filled</span><span class="p">[</span><span class="n">numeric_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_filled</span><span class="p">[</span><span class="n">numeric_cols</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df_filled</span><span class="p">[</span><span class="n">numeric_cols</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;After mean-fill, missing count:&#39;</span><span class="p">,</span> <span class="n">df_filled</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rows after dropna(): 5 (original: 8 )
+After mean-fill, missing count: 0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="grouping-and-aggregation">
+<h2>3.4 Grouping and Aggregation<a class="headerlink" href="#grouping-and-aggregation" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">groupby</span></code> answers a question you already ask by instinct in the lab: “what’s
+the average tensile strength <em>for each alloy</em>, rather than one average
+lumped across all of them?” It works in three steps — split the table into
+groups sharing the same value in a column (e.g. one group per alloy), apply
+a calculation to each group separately (e.g. the mean), then combine the
+results back into a single table. This “split–apply–combine” pattern is the
+single most useful tool in Pandas for comparing categories.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Group by alloy type ───────────────────────────────────────────────────────</span>
+<span class="n">grouped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;alloy&#39;</span><span class="p">)[[</span><span class="s1">&#39;tensile_MPa&#39;</span><span class="p">,</span> <span class="s1">&#39;yield_MPa&#39;</span><span class="p">,</span> <span class="s1">&#39;hardness_HV&#39;</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean properties per alloy:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grouped</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Mean properties per alloy × heat treatment:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;alloy&#39;</span><span class="p">,</span> <span class="s1">&#39;heat_treatment&#39;</span><span class="p">])[[</span><span class="s1">&#39;tensile_MPa&#39;</span><span class="p">,</span> <span class="s1">&#39;hardness_HV&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean properties per alloy:
+       tensile_MPa  yield_MPa  hardness_HV
+alloy                                     
+304SS        702.0      448.0        230.0
+316SS        622.0      355.0        195.0
+Mild         525.0      385.0        170.0
+ToolS        980.0      660.0        300.0
+
+Mean properties per alloy × heat treatment:
+                      tensile_MPa  hardness_HV
+alloy heat_treatment                          
+304SS Annealed              515.0        180.0
+      Q&amp;T                   890.0        280.0
+316SS Annealed              485.0        160.0
+      Q&amp;T                   760.0        230.0
+Mild  Annealed              400.0        130.0
+      Q&amp;T                   650.0        210.0
+ToolS Annealed              760.0        220.0
+      Q&amp;T                  1200.0        380.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Custom aggregation with .agg() ───────────────────────────────────────────</span>
+<span class="n">summary</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;alloy&#39;</span><span class="p">)[</span><span class="s1">&#39;tensile_MPa&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">])</span>
+<span class="n">summary</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Mean&#39;</span><span class="p">,</span> <span class="s1">&#39;Std&#39;</span><span class="p">,</span> <span class="s1">&#39;Min&#39;</span><span class="p">,</span> <span class="s1">&#39;Max&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># ── Adding a derived column ────────────────────────────────────────────────────</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;toughness_approx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tensile_MPa&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;elongation_pct&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span>  <span class="c1"># rough proxy (MPa)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Appended toughness column:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="s1">&#39;tensile_MPa&#39;</span><span class="p">,</span> <span class="s1">&#39;elongation_pct&#39;</span><span class="p">,</span> <span class="s1">&#39;toughness_approx&#39;</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>        Mean    Std  Min   Max  N
+alloy                            
+304SS  702.5  265.2  515   890  2
+316SS  622.5  194.5  485   760  2
+Mild   525.0  176.8  400   650  2
+ToolS  980.0  311.1  760  1200  2
+
+Appended toughness column:
+  sample_id  tensile_MPa  elongation_pct  toughness_approx
+0       A01          515              40             206.0
+1       A02          890              18             160.2
+2       A03          485              40             194.0
+3       A04          760              25             190.0
+4       A05          400              36             144.0
+5       A06          650              20             130.0
+6       A07          760              14             106.4
+7       A08         1200               8              96.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="merging-datasets">
+<h2>3.5 Merging Datasets<a class="headerlink" href="#merging-datasets" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Corrosion rate data from a separate experiment</span>
+<span class="n">df_corrosion</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span>        <span class="p">[</span><span class="s1">&#39;A01&#39;</span><span class="p">,</span> <span class="s1">&#39;A03&#39;</span><span class="p">,</span> <span class="s1">&#39;A05&#39;</span><span class="p">,</span> <span class="s1">&#39;A07&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;corrosion_mpy&#39;</span><span class="p">:</span>    <span class="p">[</span><span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.32</span><span class="p">],</span>   <span class="c1"># mils per year</span>
+    <span class="s1">&#39;environment&#39;</span><span class="p">:</span>      <span class="p">[</span><span class="s1">&#39;NaCl&#39;</span><span class="p">,</span> <span class="s1">&#39;NaCl&#39;</span><span class="p">,</span> <span class="s1">&#39;NaCl&#39;</span><span class="p">,</span> <span class="s1">&#39;NaCl&#39;</span><span class="p">],</span>
+<span class="p">})</span>
+
+<span class="c1"># Merge on &#39;sample_id&#39; — only annealed samples have corrosion data</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_corrosion</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Merged dataset:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_merged</span><span class="p">[[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="s1">&#39;alloy&#39;</span><span class="p">,</span> <span class="s1">&#39;heat_treatment&#39;</span><span class="p">,</span> <span class="s1">&#39;tensile_MPa&#39;</span><span class="p">,</span> <span class="s1">&#39;corrosion_mpy&#39;</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">{</span><span class="n">df_merged</span><span class="p">[</span><span class="s2">&quot;corrosion_mpy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1"> samples without corrosion data (NaN)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Merged dataset:
+  sample_id  alloy heat_treatment  tensile_MPa  corrosion_mpy
+0       A01  304SS       Annealed          515           0.12
+1       A02  304SS            Q&amp;T          890            NaN
+2       A03  316SS       Annealed          485           0.08
+3       A04  316SS            Q&amp;T          760            NaN
+4       A05   Mild       Annealed          400           0.45
+5       A06   Mild            Q&amp;T          650            NaN
+6       A07  ToolS       Annealed          760           0.32
+7       A08  ToolS            Q&amp;T         1200            NaN
+
+4 samples without corrosion data (NaN)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pivoting-and-reshaping">
+<h2>3.6 Pivoting and Reshaping<a class="headerlink" href="#pivoting-and-reshaping" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pivot table: mean tensile strength by alloy (rows) × heat treatment (columns)</span>
+<span class="n">pivot</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;tensile_MPa&#39;</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;alloy&#39;</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;heat_treatment&#39;</span><span class="p">,</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pivot table — mean tensile strength (MPa):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pivot</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+<span class="c1"># Difference between heat treatments</span>
+<span class="n">pivot</span><span class="p">[</span><span class="s1">&#39;HT_effect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pivot</span><span class="p">[</span><span class="s1">&#39;Q&amp;T&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">pivot</span><span class="p">[</span><span class="s1">&#39;Annealed&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Strengthening from Q&amp;T (MPa):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pivot</span><span class="p">[[</span><span class="s1">&#39;HT_effect&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;HT_effect&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pivot table — mean tensile strength (MPa):
+heat_treatment  Annealed     Q&amp;T
+alloy                           
+304SS              515.0   890.0
+316SS              485.0   760.0
+Mild               400.0   650.0
+ToolS              760.0  1200.0
+
+Strengthening from Q&amp;T (MPa):
+heat_treatment  HT_effect
+alloy                    
+ToolS               440.0
+304SS               375.0
+316SS               275.0
+Mild                250.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>CSV round-trip</strong>: Save <code class="docutils literal notranslate"><span class="pre">df</span></code> to a CSV file with <code class="docutils literal notranslate"><span class="pre">df.to_csv('alloys.csv',</span> <span class="pre">index=False)</span></code>,
+read it back, and verify <code class="docutils literal notranslate"><span class="pre">df.equals(df_read)</span></code> (after resetting data types if needed).</p></li>
+<li><p><strong>Specific strength</strong>: Add a column <code class="docutils literal notranslate"><span class="pre">specific_strength</span></code> = <code class="docutils literal notranslate"><span class="pre">tensile_MPa</span> <span class="pre">/</span> <span class="pre">density_g_cm3</span></code>.
+Use the approximate densities: 304SS = 8.0, 316SS = 8.0, Mild = 7.85, ToolS = 7.85.
+(Hint: use <code class="docutils literal notranslate"><span class="pre">df['alloy'].map(density_dict)</span></code>.)</p></li>
+<li><p><strong>Q-factor</strong>: Compute the index <span class="math notranslate nohighlight">\(Q = \text{tensile\_MPa} / \text{hardness\_HV}\)</span>.
+For which alloy/heat-treatment combination is <span class="math notranslate nohighlight">\(Q\)</span> highest and lowest?</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\01_python_intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_numpy_arrays.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2. NumPy Arrays</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_matplotlib_seaborn.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">4. Data Visualization with Matplotlib &amp; Seaborn</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-dataframes">3.1 Creating DataFrames</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-from-a-file">Reading from a file</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-filtering-and-sorting">3.2 Selecting, Filtering and Sorting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-data">3.3 Missing Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-and-aggregation">3.4 Grouping and Aggregation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merging-datasets">3.5 Merging Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting-and-reshaping">3.6 Pivoting and Reshaping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

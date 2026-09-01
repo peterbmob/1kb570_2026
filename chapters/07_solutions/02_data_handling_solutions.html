@@ -1,0 +1,1604 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Part II Solutions: Data Handling &amp; Materials Ontologies &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/07_solutions/02_data_handling_solutions';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Part III Solutions: Applied Statistics" href="03_statistics_solutions.html" />
+    <link rel="prev" title="Part I Solutions: Python for Data Analysis" href="01_python_solutions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part VIII: Exercise Solutions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/07_solutions/02_data_handling_solutions.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Part II Solutions: Data Handling & Materials Ontologies</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-1-fair-data-metadata">Notebook 1: FAIR Data &amp; Metadata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-2-ontologies-emmo">Notebook 2: Ontologies &amp; EMMO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-3-databases-for-fair-data-sql-and-document-stores">Notebook 3: Databases for FAIR Data — SQL and Document Stores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-4-nomad-nomad-oasis">Notebook 4: NOMAD &amp; NOMAD Oasis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-5-capstone-building-a-fair-dataset">Notebook 5: Capstone — Building a FAIR Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-6-live-tutorial-1-sql-and-nosql-in-practice">Notebook 6: Live Tutorial 1 — SQL and NoSQL in Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-7-live-tutorial-2-querying-and-plotting-real-nomad-data">Notebook 7: Live Tutorial 2 — Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="part-ii-solutions-data-handling-materials-ontologies">
+<h1>Part II Solutions: Data Handling &amp; Materials Ontologies<a class="headerlink" href="#part-ii-solutions-data-handling-materials-ontologies" title="Link to this heading">#</a></h1>
+<section id="notebook-1-fair-data-metadata">
+<h2>Notebook 1: FAIR Data &amp; Metadata<a class="headerlink" href="#notebook-1-fair-data-metadata" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Fill the gaps</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">fair_check</span></code>’s six required fields are <code class="docutils literal notranslate"><span class="pre">identifier</span></code>, <code class="docutils literal notranslate"><span class="pre">title</span></code>,
+<code class="docutils literal notranslate"><span class="pre">licence</span></code>, <code class="docutils literal notranslate"><span class="pre">creator</span></code>, <code class="docutils literal notranslate"><span class="pre">created</span></code>, <code class="docutils literal notranslate"><span class="pre">method</span></code> — <code class="docutils literal notranslate"><span class="pre">measurement</span></code> (Section 1.3)
+is missing most of them. Add each as a top-level key, following
+<code class="docutils literal notranslate"><span class="pre">cathode_record</span></code>’s style for the values.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
+
+<span class="n">measurement</span><span class="p">[</span><span class="s1">&#39;identifier&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;urn:uuid:</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="n">measurement</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s1">&#39;Vickers hardness measurement, sample STL-2024-014&#39;</span>
+<span class="n">measurement</span><span class="p">[</span><span class="s1">&#39;licence&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s1">&#39;CC-BY-4.0&#39;</span>
+<span class="n">measurement</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="s1">&#39;Vickers hardness testing, HV10&#39;</span>
+<span class="c1"># &#39;creator&#39; and &#39;created&#39; both already exist under different names</span>
+<span class="c1"># (&#39;operator&#39;, &#39;date&#39;) -- fair_check looks for the exact keys, so add them:</span>
+<span class="n">measurement</span><span class="p">[</span><span class="s1">&#39;creator&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">measurement</span><span class="p">[</span><span class="s1">&#39;operator&#39;</span><span class="p">]</span>
+<span class="n">measurement</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">measurement</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span>
+
+<span class="n">print_fair_report</span><span class="p">(</span><span class="n">measurement</span><span class="p">,</span> <span class="s1">&#39;measurement&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">5/6</span> <span class="pre">-&gt;</span> <span class="pre">6/6</span></code>. Notice the two near-misses this exposes: <code class="docutils literal notranslate"><span class="pre">operator</span></code>/<code class="docutils literal notranslate"><span class="pre">date</span></code>
+already held the <em>right information</em>, just under field names <code class="docutils literal notranslate"><span class="pre">fair_check</span></code>
+wasn’t looking for — a good reminder that “the data is there” and “the
+data is Findable/Reusable by a generic checker” are not automatically the
+same thing.</p>
+</div>
+</details><p><strong>Exercise 2 — Round trip with a list</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">json.dump</span></code> handles a list of dicts exactly like a single
+dict — no special syntax needed, just pass the list as the object to save.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">three_measurements</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="o">**</span><span class="n">measurement</span><span class="p">,</span> <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="s1">&#39;STL-2024-014&#39;</span><span class="p">},</span>
+    <span class="p">{</span><span class="o">**</span><span class="n">measurement</span><span class="p">,</span> <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="s1">&#39;STL-2024-015&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">191</span><span class="p">},</span>
+    <span class="p">{</span><span class="o">**</span><span class="n">measurement</span><span class="p">,</span> <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="s1">&#39;STL-2024-016&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">179</span><span class="p">},</span>
+<span class="p">]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;measurements.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">three_measurements</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;measurements.json&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">reloaded</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">reloaded</span> <span class="o">==</span> <span class="n">three_measurements</span><span class="p">)</span>   <span class="c1"># True</span>
+</pre></div>
+</div>
+<p class="sd-card-text">The dictionary-unpacking (<code class="docutils literal notranslate"><span class="pre">{**measurement,</span> <span class="pre">...}</span></code>) trick builds three
+variants sharing most fields but overriding <code class="docutils literal notranslate"><span class="pre">sample_id</span></code>/<code class="docutils literal notranslate"><span class="pre">value</span></code> — the same
+“don’t repeat yourself” instinct behind Notebook 1’s own <code class="docutils literal notranslate"><span class="pre">make_entry</span></code>-style
+helper functions later in this part.</p>
+</div>
+</details><p><strong>Exercise 3 — Extend the checklist</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> The existing dict comprehension only checks “is the field
+present and non-empty” — a keyword-count check needs a small helper
+function instead, since it’s a genuinely different kind of test.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fair_check_extended</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">required_fields</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;identifier&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;licence&#39;</span><span class="p">,</span>
+                                                   <span class="s1">&#39;creator&#39;</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">)):</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="p">{</span><span class="n">field</span><span class="p">:</span> <span class="p">(</span><span class="n">field</span> <span class="ow">in</span> <span class="n">record</span> <span class="ow">and</span> <span class="n">record</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+              <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">required_fields</span><span class="p">}</span>
+    <span class="c1"># Special-case check: keywords needs *at least 2* entries, not just &quot;present&quot;</span>
+    <span class="n">keywords</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">report</span><span class="p">[</span><span class="s1">&#39;keywords (&gt;=2)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">report</span>
+
+<span class="n">print_fair_report_ext</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">record</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="p">[</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;FAIR self-check for </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">),</span>
+    <span class="o">*</span><span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;✓&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ok</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;✗ MISSING&#39;</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">ok</span> <span class="ow">in</span> <span class="n">fair_check_extended</span><span class="p">(</span><span class="n">record</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+<span class="p">]</span>
+<span class="n">print_fair_report_ext</span><span class="p">(</span><span class="n">cathode_record</span><span class="p">,</span> <span class="s1">&#39;cathode_record&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">cathode_record</span></code> passes (<code class="docutils literal notranslate"><span class="pre">keywords</span></code> has 4 entries); re-run on the
+<code class="docutils literal notranslate"><span class="pre">measurement</span></code> dict from Exercise 1 and it fails this new check (no
+<code class="docutils literal notranslate"><span class="pre">keywords</span></code> field at all) even though it now passes the original six —
+exactly the kind of gap a real FAIR audit is meant to surface.</p>
+</div>
+</details></section>
+<section id="notebook-2-ontologies-emmo">
+<h2>Notebook 2: Ontologies &amp; EMMO<a class="headerlink" href="#notebook-2-ontologies-emmo" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Extend the toy ontology</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">Alloy</span></code> and <code class="docutils literal notranslate"><span class="pre">TensileStrength</span></code> are just two more <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">...</span> <span class="pre">(Parent):</span></code>
+blocks inside the same <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">onto:</span></code> block, and <code class="docutils literal notranslate"><span class="pre">hasTensileStrength</span></code>
+follows <code class="docutils literal notranslate"><span class="pre">hasMeasuredCapacity</span></code>’s exact pattern — a relation class with
+<code class="docutils literal notranslate"><span class="pre">is_a</span> <span class="pre">=</span> <span class="pre">[hasQuantitativeProperty]</span></code>.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">onto</span><span class="p">:</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Alloy</span><span class="p">(</span><span class="n">MaterialObject</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">TensileStrength</span><span class="p">(</span><span class="n">Quantity</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">hasTensileStrength</span><span class="p">(</span><span class="n">MaterialObject</span> <span class="o">&gt;&gt;</span> <span class="n">TensileStrength</span><span class="p">):</span>
+        <span class="n">is_a</span> <span class="o">=</span> <span class="p">[</span><span class="n">hasQuantitativeProperty</span><span class="p">]</span>
+
+<span class="n">steel_sample</span> <span class="o">=</span> <span class="n">Alloy</span><span class="p">(</span><span class="s1">&#39;steel_batch_12&#39;</span><span class="p">)</span>
+<span class="n">uts</span> <span class="o">=</span> <span class="n">TensileStrength</span><span class="p">(</span><span class="s1">&#39;UTS_batch_12&#39;</span><span class="p">)</span>
+<span class="n">steel_sample</span><span class="o">.</span><span class="n">hasTensileStrength</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uts</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">steel_sample</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> is a </span><span class="si">{</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">steel_sample</span><span class="o">.</span><span class="n">is_a</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">steel_sample</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> hasTensileStrength -&gt; &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">steel_sample</span><span class="o">.</span><span class="n">hasTensileStrength</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">This mirrors <code class="docutils literal notranslate"><span class="pre">CathodeMaterial</span></code>/<code class="docutils literal notranslate"><span class="pre">hasMeasuredCapacity</span></code> exactly — the whole
+point of the exercise is noticing that adding a new material/quantity pair
+to this toy ontology is a completely mechanical, repeatable pattern once
+you’ve done it once.</p>
+</div>
+</details><p><strong>Exercise 2 — Ancestors of your own choice</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Call <code class="docutils literal notranslate"><span class="pre">find_class_by_label(emmo,</span> <span class="pre">&quot;Alloy&quot;)</span></code> first and check
+whether it returns <code class="docutils literal notranslate"><span class="pre">None</span></code> before calling <code class="docutils literal notranslate"><span class="pre">ancestor_chain</span></code> on it — not
+every everyday materials-science word necessarily has an exact-label
+match in EMMO’s <em>foundational</em> vocabulary.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Alloy&#39;</span><span class="p">,</span> <span class="s1">&#39;Density&#39;</span><span class="p">]:</span>
+    <span class="n">iri</span> <span class="o">=</span> <span class="n">find_class_by_label</span><span class="p">(</span><span class="n">emmo</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1"> -&gt; </span><span class="si">{</span><span class="n">iri</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">iri</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;  ancestors:&#39;</span><span class="p">,</span> <span class="n">ancestor_chain</span><span class="p">(</span><span class="n">emmo</span><span class="p">,</span> <span class="n">iri</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;  NOT FOUND (no exact label match in core EMMO)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Running this for real against the live ontology: <strong><code class="docutils literal notranslate"><span class="pre">&quot;Alloy&quot;</span></code> returns no
+match at all</strong> — not even a partial one (searching every label in EMMO for
+the substring “alloy” turns up nothing). This is a genuinely useful,
+non-obvious result, and it is exactly what Section 2.4’s own text warned
+you to expect: EMMO is a <em>foundational</em> ontology, and domain-specific
+materials-science vocabulary like “alloy” belongs in a domain ontology
+built on top of it (the same role BattINFO plays for batteries) — at the
+time of writing, no such term exists in EMMO core.</p>
+<p class="sd-card-text"><strong><code class="docutils literal notranslate"><span class="pre">&quot;Density&quot;</span></code>, by contrast, resolves cleanly</strong> and climbs through
+<code class="docutils literal notranslate"><span class="pre">Quantity</span> <span class="pre">→</span> <span class="pre">...</span> <span class="pre">→</span> <span class="pre">Sign</span> <span class="pre">→</span> <span class="pre">SemioticEntity</span> <span class="pre">→</span> <span class="pre">Semiotics</span></code> — the <strong>same
+semiotic branch as <code class="docutils literal notranslate"><span class="pre">SpecificHeatCapacity</span></code></strong> in Section 2.6’s worked
+example, not the <code class="docutils literal notranslate"><span class="pre">PhysicalObject</span></code> branch <code class="docutils literal notranslate"><span class="pre">Crystal</span></code> climbed. That’s the
+expected pattern: any physical <em>quantity</em> (a number-with-a-unit) lands in
+the Semiotics branch as a “sign,” while physical <em>objects</em> and <em>materials</em>
+land in the PhysicalObject/Material branch instead — density is a
+quantity, so it follows density’s cousins, not <code class="docutils literal notranslate"><span class="pre">Crystal</span></code>’s.</p>
+</div>
+</details><p><strong>Exercise 3 — Compare vocabularies</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Go through the FAIR table letter by letter and ask what a
+plain string like <code class="docutils literal notranslate"><span class="pre">'temperature_C'</span></code> <em>can’t</em> do that an EMMO IRI like
+<code class="docutils literal notranslate"><span class="pre">'emmo:ThermodynamicTemperature'</span></code> can.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><strong>Findable</strong>: An EMMO IRI is a globally unique, resolvable identifier —
+a search across many datasets for “everything tagged
+<code class="docutils literal notranslate"><span class="pre">emmo:ThermodynamicTemperature</span></code>” works regardless of what each dataset’s
+own column happened to be named; a plain string like <code class="docutils literal notranslate"><span class="pre">'temperature_C'</span></code>
+only matches other datasets using that exact same string. <strong>Easier.</strong></p></li>
+<li><p class="sd-card-text"><strong>Accessible</strong>: Largely unaffected either way — accessibility is about
+the retrieval protocol (HTTP, licence terms), not the vocabulary used
+for individual field names. <strong>No real change.</strong></p></li>
+<li><p class="sd-card-text"><strong>Interoperable</strong>: This is the letter EMMO IRIs exist for — two datasets
+using <code class="docutils literal notranslate"><span class="pre">emmo:ThermodynamicTemperature</span></code> under two completely different
+field names (<code class="docutils literal notranslate"><span class="pre">temperature_C</span></code> vs. <code class="docutils literal notranslate"><span class="pre">T_anneal</span></code>, exactly Notebook 4 §4.4’s
+example) can still be combined automatically by software; two datasets
+each using their own free-text string cannot, without a human manually
+reconciling the names first. <strong>Much easier.</strong></p></li>
+<li><p class="sd-card-text"><strong>Reusable</strong>: An EMMO IRI documents <em>exactly</em> what a field means,
+disambiguating it from every homonym/synonym problem Section 2.1 opened
+with — a future reader (or your own code, six months later) doesn’t have
+to guess whether “conductivity” meant electrical or thermal. <strong>Easier</strong>,
+though it does add the (one-time) cost of learning enough EMMO to pick
+the right concept in the first place — the honest trade-off the “Requires
+more upfront modelling effort” row in Section 2.3’s table already named.</p></li>
+</ul>
+</div>
+</details></section>
+<section id="notebook-3-databases-for-fair-data-sql-and-document-stores">
+<h2>Notebook 3: Databases for FAIR Data — SQL and Document Stores<a class="headerlink" href="#notebook-3-databases-for-fair-data-sql-and-document-stores" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Extend the relational schema</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> This is the exact <code class="docutils literal notranslate"><span class="pre">instruments</span></code> table Notebook 6 (the live
+tutorial) later builds “for real” — a fourth table plus one new
+<code class="docutils literal notranslate"><span class="pre">instrument_id</span></code> foreign-key column on <code class="docutils literal notranslate"><span class="pre">synthesis_steps</span></code>, then a <code class="docutils literal notranslate"><span class="pre">JOIN</span></code>
+across all three.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">CREATE TABLE instruments (</span>
+<span class="s1">    instrument_id INTEGER PRIMARY KEY,</span>
+<span class="s1">    name          TEXT NOT NULL,</span>
+<span class="s1">    serial_number TEXT</span>
+<span class="s1">);</span>
+<span class="s1">ALTER TABLE synthesis_steps ADD COLUMN instrument_id INTEGER REFERENCES instruments(instrument_id);</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO instruments (instrument_id, name, serial_number) VALUES (1, &#39;Furnace-A&#39;, &#39;FA-2201&#39;)&quot;</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;UPDATE synthesis_steps SET instrument_id = 1 WHERE sample_id = &#39;batch_05&#39; AND step_name = &#39;calcination_2&#39;&quot;</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;UPDATE synthesis_steps SET instrument_id = 1 WHERE sample_id = &#39;batch_06&#39; AND step_name = &#39;calcination_2&#39;&quot;</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="n">df_instr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    SELECT st.sample_id, st.step_name, i.name AS instrument</span>
+<span class="s1">    FROM synthesis_steps st</span>
+<span class="s1">    JOIN instruments i ON i.instrument_id = st.instrument_id</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_instr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Note <code class="docutils literal notranslate"><span class="pre">ALTER</span> <span class="pre">TABLE</span> <span class="pre">...</span> <span class="pre">ADD</span> <span class="pre">COLUMN</span></code> (not a full <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code>) — SQLite
+supports adding a single nullable column to an existing table without
+recreating it, which is exactly what you need here since <code class="docutils literal notranslate"><span class="pre">synthesis_steps</span></code>
+already has 15 rows in it from Section 3.3.</p>
+</div>
+</details><p><strong>Exercise 2 — Break the document schema on purpose</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Nothing stops the insert — the real question is what happens
+to the <em>query</em>, not the insert.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">samples_collection</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span>
+    <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="s1">&#39;batch_typo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;material&#39;</span><span class="p">:</span> <span class="s1">&#39;LiFePO4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;metod&#39;</span><span class="p">:</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>    <span class="c1"># typo: should be &#39;method&#39;</span>
+<span class="p">})</span>
+
+<span class="n">hits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">samples_collection</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hits</span><span class="p">)</span>   <span class="c1"># batch_typo is NOT in this list</span>
+</pre></div>
+</div>
+<p class="sd-card-text">The insert succeeds silently — no schema to violate — but <code class="docutils literal notranslate"><span class="pre">batch_typo</span></code>
+<strong>never shows up</strong> in the <code class="docutils literal notranslate"><span class="pre">find({'method':</span> <span class="pre">'sol-gel'})</span></code> query, because
+MongoDB is matching the literal field name <code class="docutils literal notranslate"><span class="pre">method</span></code>, and this document has
+<code class="docutils literal notranslate"><span class="pre">metod</span></code> instead. The database has no way to know these were meant to be
+the same field. Catching this requires <em>application-level</em> validation
+before every insert — exactly the <code class="docutils literal notranslate"><span class="pre">validate_entry</span></code>-style structural
+check Notebook 4 introduces, checking that only an allowed set of field
+names appears in each document.</p>
+</div>
+</details><p><strong>Exercise 3 — Design question</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Which of Section 3.7’s three “Best for” rows matches
+“same event type, but a genuinely different, chemistry-dependent set of
+fields per record”?</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">This is a <strong>document-database</strong> problem, not a relational one. The whole
+premise — “different battery chemistries report different diagnostic
+fields” — is precisely the “heterogeneous, nested, evolving data” case
+Section 3.7’s table assigns to document stores: a rigid SQL table would
+either need a separate <code class="docutils literal notranslate"><span class="pre">internal_resistance</span></code> <em>and</em> <code class="docutils literal notranslate"><span class="pre">na_ion_diagnostic</span></code>
+column with one of them always <code class="docutils literal notranslate"><span class="pre">NULL</span></code> (wasteful, and brittle every time a
+new chemistry is added), or a much more awkward key-value side table. A
+document collection instead lets a Li-ion cycle record and a Na-ion cycle
+record share the common fields (cycle number, voltage, capacity) while
+each carrying its own chemistry-specific fields naturally, with no schema
+migration needed when a third chemistry shows up next year. It would only
+graduate to a NOMAD Oasis if this cycler log needed to be FAIR, EMMO-tagged,
+citable research data shared beyond the lab’s own database — a genuine
+possibility eventually, but not what the question as posed is actually
+asking about (a working internal log, not a publication-ready archive).</p>
+</div>
+</details></section>
+<section id="notebook-4-nomad-nomad-oasis">
+<h2>Notebook 4: NOMAD &amp; NOMAD Oasis<a class="headerlink" href="#notebook-4-nomad-nomad-oasis" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Extend the local repository</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">query_entries</span></code> needs a new parameter (e.g. <code class="docutils literal notranslate"><span class="pre">min_efficiency</span></code>)
+following the exact pattern its existing <code class="docutils literal notranslate"><span class="pre">min_capacity</span></code> parameter
+already uses.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">local_repository</span> <span class="o">+=</span> <span class="p">[</span>
+    <span class="n">make_entry</span><span class="p">(</span><span class="s1">&#39;batch_10&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">710</span><span class="p">,</span> <span class="mf">150.5</span><span class="p">,</span> <span class="mf">0.935</span><span class="p">),</span>
+    <span class="n">make_entry</span><span class="p">(</span><span class="s1">&#39;batch_11&#39;</span><span class="p">,</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>              <span class="mi">660</span><span class="p">,</span> <span class="mf">174.0</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">),</span>
+    <span class="n">make_entry</span><span class="p">(</span><span class="s1">&#39;batch_12&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">740</span><span class="p">,</span> <span class="mf">158.0</span><span class="p">,</span> <span class="mf">0.90</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">query_entries</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_capacity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_efficiency</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">entries</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;synthesis&#39;</span><span class="p">][</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">method</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">min_capacity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">results</span>
+                   <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_capacity</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">min_efficiency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">results</span>
+                   <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_efficiency</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="n">hits</span> <span class="o">=</span> <span class="n">query_entries</span><span class="p">(</span><span class="n">local_repository</span><span class="p">,</span> <span class="n">min_efficiency</span><span class="o">=</span><span class="mf">0.93</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">hits</span><span class="p">)</span><span class="si">}</span><span class="s1"> entries with coulombic_efficiency &gt;= 0.93 (any method)&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">hits</span><span class="p">:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> eff=</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">  method=</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;synthesis&#39;</span><span class="p">][</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Of the 8 total entries (5 original + 3 new), batches 06, 07, 08, 09, and 11
+clear the 0.93 efficiency bar — spanning both synthesis methods, which is
+exactly the kind of cross-cutting question a flat file-per-batch folder
+can’t answer without opening every file by hand.</p>
+</div>
+</details><p><strong>Exercise 2 — Schema evolution</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Add <code class="docutils literal notranslate"><span class="pre">'operator':</span> <span class="pre">str</span></code> to <code class="docutils literal notranslate"><span class="pre">cathode_schema</span></code> at the same nesting
+level as <code class="docutils literal notranslate"><span class="pre">'name'</span></code>, then re-run <code class="docutils literal notranslate"><span class="pre">validate_entry</span></code> on the <em>original</em>
+<code class="docutils literal notranslate"><span class="pre">nomad_style_entry</span></code> (which was never given an <code class="docutils literal notranslate"><span class="pre">operator</span></code> field).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cathode_schema_v2</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">cathode_schema</span><span class="p">,</span> <span class="s1">&#39;operator&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="n">validate_entry</span><span class="p">(</span><span class="n">nomad_style_entry</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">cathode_schema_v2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>   <span class="c1"># [&#39;MISSING: operator&#39;]</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output: <code class="docutils literal notranslate"><span class="pre">['MISSING:</span> <span class="pre">operator']</span></code>. This is exactly what happens in a real
+repository after a schema changes: <strong>entries uploaded under the old schema
+version don’t retroactively gain the new field</strong> — they simply start
+failing validation against the new schema (or, more commonly in a real
+system, get flagged for migration/re-processing). This is why schema
+changes in production data infrastructure are usually versioned rather
+than made in place — old entries keep validating against the schema
+version they were actually uploaded under, rather than silently breaking.</p>
+</div>
+</details><p><strong>Exercise 3 — Design question</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> The current schema format is <code class="docutils literal notranslate"><span class="pre">{key:</span> <span class="pre">type}</span></code> — a range
+constraint needs the value to be something <em>callable</em> or otherwise
+checkable, not just a type.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">One clean approach: let a schema value be either a type (as now) <strong>or</strong> a
+<code class="docutils literal notranslate"><span class="pre">(type,</span> <span class="pre">validator_function)</span></code> tuple, and branch on which one it is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">validate_entry_v2</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">expected</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">full_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">key</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;MISSING: </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">_check</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">expected</span><span class="p">,</span> <span class="n">full_path</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">expected</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">typ</span><span class="p">,</span> <span class="n">validator</span> <span class="o">=</span> <span class="n">expected</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">typ</span><span class="p">):</span>
+                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;WRONG TYPE at </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">validator</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]):</span>
+                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;OUT OF RANGE at </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">expected</span><span class="p">):</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;WRONG TYPE at </span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">_check</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">errors</span>
+
+<span class="n">cathode_schema_range</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">cathode_schema</span><span class="p">,</span>
+    <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span><span class="o">**</span><span class="n">cathode_schema</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">:</span> <span class="p">((</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">v</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)}}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">validate_entry_v2</span><span class="p">(</span><span class="n">nomad_style_entry</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">cathode_schema_range</span><span class="p">))</span>  <span class="c1"># []</span>
+<span class="n">broken</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">nomad_style_entry</span><span class="p">[</span><span class="s1">&#39;archive&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]))</span>
+<span class="n">broken</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.4</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">validate_entry_v2</span><span class="p">(</span><span class="n">broken</span><span class="p">,</span> <span class="n">cathode_schema_range</span><span class="p">))</span>  <span class="c1"># OUT OF RANGE flagged</span>
+</pre></div>
+</div>
+<p class="sd-card-text">This is a small taste of what a real schema system (NOMAD’s Metainfo
+included) actually does — <code class="docutils literal notranslate"><span class="pre">validate_entry</span></code> here only ever checked
+<em>structure</em>; real schemas also encode <em>semantic</em> constraints like valid
+ranges, units, and enumerated allowed values.</p>
+</div>
+</details></section>
+<section id="notebook-5-capstone-building-a-fair-dataset">
+<h2>Notebook 5: Capstone — Building a FAIR Dataset<a class="headerlink" href="#notebook-5-capstone-building-a-fair-dataset" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Break it on purpose</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Build the dict by hand, omitting <code class="docutils literal notranslate"><span class="pre">results.hardness_HV</span></code>
+entirely (not just setting it to <code class="docutils literal notranslate"><span class="pre">None</span></code> — the validator checks for key
+<em>presence</em>, not truthiness, for nested sections).</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">broken_record</span> <span class="o">=</span> <span class="n">make_sample_record</span><span class="p">(</span><span class="s1">&#39;TS-013&#39;</span><span class="p">,</span> <span class="mi">850</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;oil&#39;</span><span class="p">,</span> <span class="n">hardness_HV</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">broken_record</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;hardness_HV&#39;</span><span class="p">]</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">broken_record</span><span class="p">)</span>
+
+<span class="n">all_errors</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="n">validate_entry</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">sample_schema</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+        <span class="n">all_errors</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">errors</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">all_errors</span><span class="p">)</span>   <span class="c1"># {&#39;TS-013&#39;: [&#39;MISSING: results.hardness_HV&#39;]}</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Exactly one record fails, with a precise, actionable error message
+pointing at the missing nested field — the whole reason Step 4 validates
+in a loop over every record instead of just checking <code class="docutils literal notranslate"><span class="pre">len(dataset)</span> <span class="pre">==</span> <span class="pre">13</span></code>.</p>
+</div>
+</details><p><strong>Exercise 2 — New quantity</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Add the field in three places: <code class="docutils literal notranslate"><span class="pre">sample_schema</span></code>,
+<code class="docutils literal notranslate"><span class="pre">make_sample_record</span></code>’s signature and body, and the <code class="docutils literal notranslate"><span class="pre">quantity_kind_iri</span></code>
+sub-dict — miss one and the schema and the record builder will disagree.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sample_schema</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">][</span><span class="s1">&#39;tempering_temperature_C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_sample_record_v2</span><span class="p">(</span><span class="n">sample_id</span><span class="p">,</span> <span class="n">temperature_C</span><span class="p">,</span> <span class="n">time_h</span><span class="p">,</span> <span class="n">quench_medium</span><span class="p">,</span>
+                           <span class="n">tempering_temperature_C</span><span class="p">,</span> <span class="n">hardness_HV</span><span class="p">,</span> <span class="n">creator</span><span class="o">=</span><span class="s1">&#39;A. Lindqvist&#39;</span><span class="p">):</span>
+    <span class="n">record</span> <span class="o">=</span> <span class="n">make_sample_record</span><span class="p">(</span><span class="n">sample_id</span><span class="p">,</span> <span class="n">temperature_C</span><span class="p">,</span> <span class="n">time_h</span><span class="p">,</span> <span class="n">quench_medium</span><span class="p">,</span>
+                                 <span class="n">hardness_HV</span><span class="p">,</span> <span class="n">creator</span><span class="p">)</span>
+    <span class="n">record</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">][</span><span class="s1">&#39;tempering_temperature_C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tempering_temperature_C</span>
+    <span class="n">record</span><span class="p">[</span><span class="s1">&#39;process&#39;</span><span class="p">][</span><span class="s1">&#39;quantity_kind_iri&#39;</span><span class="p">][</span><span class="s1">&#39;tempering_temperature_C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;emmo:ThermodynamicTemperature&#39;</span>
+    <span class="k">return</span> <span class="n">record</span>
+
+<span class="n">dataset_v2</span> <span class="o">=</span> <span class="p">[</span><span class="n">make_sample_record_v2</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;TS-</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s1">03d</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">medium</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">hv</span><span class="p">)</span>
+              <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">medium</span><span class="p">),</span> <span class="n">hv</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                  <span class="nb">zip</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="p">[</span><span class="n">simulate_hardness</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">conditions</span><span class="p">]),</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">]:</span> <span class="n">validate_entry</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">sample_schema</span><span class="p">)</span>
+          <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">dataset_v2</span> <span class="k">if</span> <span class="n">validate_entry</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">sample_schema</span><span class="p">)}</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Validation errors:&#39;</span><span class="p">,</span> <span class="n">errors</span> <span class="ow">or</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">The same EMMO concept (<code class="docutils literal notranslate"><span class="pre">emmo:ThermodynamicTemperature</span></code>) tags two different
+fields (<code class="docutils literal notranslate"><span class="pre">temperature_C</span></code> and <code class="docutils literal notranslate"><span class="pre">tempering_temperature_C</span></code>) here — a direct,
+concrete instance of Notebook 2 §2.4’s point that ontology concepts are
+reusable across as many fields as genuinely share that physical meaning.</p>
+</div>
+</details><p><strong>Exercise 3 — Your own dataset</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Pick something with a clear “what I controlled” vs. “what I
+measured” split — that split <em>is</em> the <code class="docutils literal notranslate"><span class="pre">process</span></code>/<code class="docutils literal notranslate"><span class="pre">results</span></code> schema
+structure, almost for free.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Example sketch for a sol-gel ZnO thin-film dataset:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">zno_schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;identifier&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;creator&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="s1">&#39;process&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;precursor_concentration_M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+        <span class="s1">&#39;spin_speed_rpm&#39;</span><span class="p">:</span>            <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+        <span class="s1">&#39;anneal_temperature_C&#39;</span><span class="p">:</span>      <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;film_thickness_nm&#39;</span><span class="p">:</span>  <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+        <span class="s1">&#39;transmittance_pct&#39;</span><span class="p">:</span>  <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_zno_record</span><span class="p">(</span><span class="n">sample_id</span><span class="p">,</span> <span class="n">conc_M</span><span class="p">,</span> <span class="n">spin_rpm</span><span class="p">,</span> <span class="n">anneal_C</span><span class="p">,</span> <span class="n">thickness_nm</span><span class="p">,</span> <span class="n">transmittance_pct</span><span class="p">,</span>
+                     <span class="n">creator</span><span class="o">=</span><span class="s1">&#39;A. Lindqvist&#39;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;identifier&#39;</span><span class="p">:</span>  <span class="sa">f</span><span class="s1">&#39;urn:uuid:</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span>   <span class="n">sample_id</span><span class="p">,</span> <span class="s1">&#39;creator&#39;</span><span class="p">:</span> <span class="n">creator</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+        <span class="s1">&#39;process&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;precursor_concentration_M&#39;</span><span class="p">:</span> <span class="n">conc_M</span><span class="p">,</span>
+            <span class="s1">&#39;spin_speed_rpm&#39;</span><span class="p">:</span> <span class="n">spin_rpm</span><span class="p">,</span>
+            <span class="s1">&#39;anneal_temperature_C&#39;</span><span class="p">:</span> <span class="n">anneal_C</span><span class="p">,</span>
+            <span class="s1">&#39;quantity_kind_iri&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;anneal_temperature_C&#39;</span><span class="p">:</span> <span class="s1">&#39;emmo:ThermodynamicTemperature&#39;</span><span class="p">},</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;film_thickness_nm&#39;</span><span class="p">:</span> <span class="n">thickness_nm</span><span class="p">,</span>
+            <span class="s1">&#39;transmittance_pct&#39;</span><span class="p">:</span> <span class="n">transmittance_pct</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p class="sd-card-text">This follows Steps 1–2’s exact pattern — the point of this exercise isn’t
+a “correct” answer, it’s practising the design step itself before you do
+it for real with the course project’s actual dataset.</p>
+</div>
+</details></section>
+<section id="notebook-6-live-tutorial-1-sql-and-nosql-in-practice">
+<h2>Notebook 6: Live Tutorial 1 — SQL and NoSQL in Practice<a class="headerlink" href="#notebook-6-live-tutorial-1-sql-and-nosql-in-practice" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — Close the typo gap in SQL</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> SQLite’s <code class="docutils literal notranslate"><span class="pre">CHECK</span></code> constraint has to be declared as part of
+<code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code> — you can’t <code class="docutils literal notranslate"><span class="pre">ALTER</span> <span class="pre">TABLE</span></code> one in later, so this means
+recreating <code class="docutils literal notranslate"><span class="pre">synthesis_steps</span></code> with the constraint in place, not patching
+the existing table.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">CREATE TABLE synthesis_steps_v2 (</span>
+<span class="s1">    step_id       INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">    sample_id     TEXT NOT NULL REFERENCES samples(sample_id),</span>
+<span class="s1">    step_order    INTEGER NOT NULL,</span>
+<span class="s1">    step_name     TEXT NOT NULL CHECK (step_name IN (&#39;mixing&#39;, &#39;calcination_1&#39;, &#39;calcination_2&#39;)),</span>
+<span class="s1">    temperature_C REAL,</span>
+<span class="s1">    duration_h    REAL,</span>
+<span class="s1">    instrument_id INTEGER REFERENCES instruments(instrument_id)</span>
+<span class="s1">);</span>
+<span class="s1">INSERT INTO synthesis_steps_v2 SELECT * FROM synthesis_steps;</span>
+<span class="s1">DROP TABLE synthesis_steps;</span>
+<span class="s1">ALTER TABLE synthesis_steps_v2 RENAME TO synthesis_steps;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s2">&quot;INSERT INTO synthesis_steps (sample_id, step_order, step_name, temperature_C, duration_h, instrument_id) &quot;</span>
+        <span class="s2">&quot;VALUES (&#39;batch_09&#39;, 5, &#39;clacination_2&#39;, 655, 6.0, 4)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rejected:&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Verified output: <code class="docutils literal notranslate"><span class="pre">Rejected:</span> <span class="pre">CHECK</span> <span class="pre">constraint</span> <span class="pre">failed:</span> <span class="pre">step_name</span> <span class="pre">IN</span> <span class="pre">('mixing','calcination_1','calcination_2')</span></code> — the exact typo that slipped
+through silently in Section 6.6 is now caught immediately at insert time.</p>
+</div>
+</details><p><strong>Exercise 2 — Close the typo gap in MongoDB</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Loop over <code class="docutils literal notranslate"><span class="pre">doc['steps']</span></code>, check each step’s <code class="docutils literal notranslate"><span class="pre">'name'</span></code> against
+the same three-value allowed set, and call this function <em>before</em>
+<code class="docutils literal notranslate"><span class="pre">insert_one</span></code> — MongoDB itself won’t call it for you.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ALLOWED_STEP_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mixing&#39;</span><span class="p">,</span> <span class="s1">&#39;calcination_1&#39;</span><span class="p">,</span> <span class="s1">&#39;calcination_2&#39;</span><span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_step</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;steps&#39;</span><span class="p">,</span> <span class="p">[])):</span>
+        <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_STEP_NAMES</span><span class="p">:</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;steps[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">]: invalid name </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">errors</span>
+
+<span class="n">errs</span> <span class="o">=</span> <span class="n">validate_step</span><span class="p">(</span><span class="n">sloppy_doc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">errs</span><span class="p">)</span>   <span class="c1"># [&quot;steps[2]: invalid name &#39;clacination_2&#39;&quot;]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">errs</span><span class="p">:</span>
+    <span class="n">coll</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">sloppy_doc</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Insert blocked -- fix the document before trying again.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">This catches exactly <code class="docutils literal notranslate"><span class="pre">batch_50</span></code>’s typo, and it is precisely the
+application-level pattern Section 6.6’s take-home message pointed to:
+MongoDB itself enforces nothing here, so the check has to live in your
+own code, called every time, the same discipline <code class="docutils literal notranslate"><span class="pre">validate_entry</span></code>
+(Notebook 4) established for NOMAD-style archives.</p>
+</div>
+</details><p><strong>Exercise 3 — Two-level breakdown, written up</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Look at Furnace-C’s row within <em>each</em> method separately, not
+just its overall mean — is it still the lowest of the three furnaces in
+both sub-tables?</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Running <code class="docutils literal notranslate"><span class="pre">df_furnace.groupby(['method',</span> <span class="pre">'furnace'])['capacity_mAh_g'].agg(['count',</span> <span class="pre">'mean'])</span></code>
+gives (with this notebook’s seed):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p class="sd-card-text">method</p></th>
+<th class="head"><p class="sd-card-text">furnace</p></th>
+<th class="head"><p class="sd-card-text">count</p></th>
+<th class="head"><p class="sd-card-text">mean</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="sd-card-text">sol-gel</p></td>
+<td><p class="sd-card-text">Furnace-A</p></td>
+<td><p class="sd-card-text">7</p></td>
+<td><p class="sd-card-text">158.99</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">sol-gel</p></td>
+<td><p class="sd-card-text">Furnace-B</p></td>
+<td><p class="sd-card-text">9</p></td>
+<td><p class="sd-card-text">161.71</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text">sol-gel</p></td>
+<td><p class="sd-card-text">Furnace-C</p></td>
+<td><p class="sd-card-text">7</p></td>
+<td><p class="sd-card-text">157.73</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">solid-state reaction</p></td>
+<td><p class="sd-card-text">Furnace-A</p></td>
+<td><p class="sd-card-text">7</p></td>
+<td><p class="sd-card-text">156.29</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text">solid-state reaction</p></td>
+<td><p class="sd-card-text">Furnace-B</p></td>
+<td><p class="sd-card-text">10</p></td>
+<td><p class="sd-card-text">159.37</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">solid-state reaction</p></td>
+<td><p class="sd-card-text">Furnace-C</p></td>
+<td><p class="sd-card-text">5</p></td>
+<td><p class="sd-card-text">155.58</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="sd-card-text"><strong>Write-up for the process engineer:</strong> “Furnace-C has the lowest mean
+capacity within <em>both</em> synthesis methods separately (157.73 vs. 158.99/
+161.71 for sol-gel; 155.58 vs. 156.29/159.37 for solid-state), not just in
+the pooled average — so this isn’t an artefact of one method happening to
+be over-represented on Furnace-C. That consistency across both methods is
+reassuring, but the sub-group sample sizes are now down to 5–10 batches
+each, so this is still suggestive rather than statistically confirmed;
+recommend a proper two-way test (Part III, Notebook 9) before treating it
+as settled.”</p>
+</div>
+</details><p><strong>Exercise 4 — Selectivity matters</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">instrument_id</span></code> only has 4 distinct values across 200,000
+rows, so any single value matches roughly a quarter of the table — an
+index can’t narrow the search down nearly as much as it did for the
+(nearly unique) <code class="docutils literal notranslate"><span class="pre">sample_id</span></code>.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">cur2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT COUNT(*) FROM big_steps WHERE instrument_id = ?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="n">t_no_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="mi">20</span>
+
+<span class="n">cur2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;CREATE INDEX idx_instrument_id ON big_steps(instrument_id)&#39;</span><span class="p">)</span>
+
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">cur2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT COUNT(*) FROM big_steps WHERE instrument_id = ?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="n">t_with_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="mi">20</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Speedup: </span><span class="si">{</span><span class="n">t_no_index</span><span class="o">/</span><span class="n">t_with_index</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">x&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text"><strong>Verified result: instrument_id=4 matches 49,699 of 200,000 rows (24.8%
+— roughly the expected quarter for 4 near-equally-likely values), and
+indexing it gives only a ~6.3× speedup — dramatically less than
+<code class="docutils literal notranslate"><span class="pre">sample_id</span></code>’s ~1,769× speedup from Section 6.7.</strong> This is exactly what
+selectivity predicts: an index helps most when it can immediately narrow
+“scan everything” down to “look up almost nothing” (a near-unique column
+like <code class="docutils literal notranslate"><span class="pre">sample_id</span></code>); when a quarter of the table matches regardless, the
+database still has to read and return a quarter of the table either way,
+index or not — there just isn’t as much to skip.</p>
+</div>
+</details><p><strong>Exercise 5 — From this notebook to a real, shared lab database</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Notebook 3 §3.5 already answered the SQL half explicitly;
+the MongoDB half follows the same “only the client constructor changes”
+pattern Notebook 3 §3.6 set up.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><strong>SQL → PostgreSQL:</strong> Exactly as Notebook 3 §3.5 demonstrated — swap the
+<code class="docutils literal notranslate"><span class="pre">sqlite3.connect(':memory:')</span></code> connection for a SQLAlchemy engine pointing
+at a real server (<code class="docutils literal notranslate"><span class="pre">create_engine('postgresql+psycopg2://user:pass&#64;labserver:5432/db')</span></code>),
+and any query written through SQLAlchemy’s own API runs unchanged. The one
+real catch (flagged in this book’s own accuracy pass on Notebook 3): the
+raw <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code> DDL used directly in <code class="docutils literal notranslate"><span class="pre">sqlite3.executescript</span></code> here — with
+SQLite-specific syntax like <code class="docutils literal notranslate"><span class="pre">AUTOINCREMENT</span></code> and <code class="docutils literal notranslate"><span class="pre">PRAGMA</span> <span class="pre">foreign_keys</span></code> —
+would need rewriting for PostgreSQL (<code class="docutils literal notranslate"><span class="pre">SERIAL</span></code>/<code class="docutils literal notranslate"><span class="pre">GENERATED</span> <span class="pre">...</span> <span class="pre">AS</span> <span class="pre">IDENTITY</span></code>
+instead of <code class="docutils literal notranslate"><span class="pre">AUTOINCREMENT</span></code>, and no <code class="docutils literal notranslate"><span class="pre">PRAGMA</span></code> statements at all), not just a
+connection-string swap.</p>
+<p class="sd-card-text"><strong>MongoDB → a real server:</strong> Only the client constructor changes —
+<code class="docutils literal notranslate"><span class="pre">mongomock.MongoClient()</span></code> becomes <code class="docutils literal notranslate"><span class="pre">pymongo.MongoClient('mongodb://labserver:27017')</span></code>
+— every <code class="docutils literal notranslate"><span class="pre">insert_many</span></code>, <code class="docutils literal notranslate"><span class="pre">find</span></code>, and <code class="docutils literal notranslate"><span class="pre">aggregate</span></code> call in Sections 6.5–6.6 is
+already the exact real <code class="docutils literal notranslate"><span class="pre">pymongo</span></code> API; <code class="docutils literal notranslate"><span class="pre">mongomock</span></code> exists purely so this
+notebook doesn’t require a running server to follow along.</p>
+</div>
+</details></section>
+<section id="notebook-7-live-tutorial-2-querying-and-plotting-real-nomad-data">
+<h2>Notebook 7: Live Tutorial 2 — Querying and Plotting Real NOMAD Data<a class="headerlink" href="#notebook-7-live-tutorial-2-querying-and-plotting-real-nomad-data" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1 — A different binary system</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Just change the element list and re-run — but treat any
+specific totals/counts as a live snapshot, not a fixed answer, since
+NOMAD’s database grows continuously.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">elems</span> <span class="ow">in</span> <span class="p">[[</span><span class="s1">&#39;Ti&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Zn&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">]]:</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="n">elems</span><span class="p">},</span> <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
+             <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">,</span> <span class="s1">&#39;results.material.symmetry.crystal_system&#39;</span><span class="p">]}}</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;material&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;crystal_system&#39;</span><span class="p">)</span>
+                 <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">elems</span><span class="p">,</span> <span class="s1">&#39;total:&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s1">&#39;sample distribution:&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cs</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="sd-card-text"><strong>Live-verified snapshot at time of writing:</strong> Ti–O has 70,439 total
+entries in NOMAD, Zn–O has 61,620. In a 50-entry sample of each, both
+systems actually show similar structural diversity — 6 distinct crystal
+systems apiece — though which systems appear differs (Ti–O’s sample
+includes tetragonal, absent from Zn–O’s; Zn–O’s includes hexagonal,
+absent from Ti–O’s, consistent with ZnO’s well-known wurtzite structure).
+Because NOMAD’s holdings keep growing, re-running this later will give
+different exact counts — the comparison method matters more here than
+memorising a specific number.</p>
+</div>
+</details><p><strong>Exercise 2 — Paginate to at least 300 entries</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Swap the <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">_</span> <span class="pre">in</span> <span class="pre">range(n_pages)</span></code> loop for a <code class="docutils literal notranslate"><span class="pre">while</span> <span class="pre">len(all_entries)</span> <span class="pre">&lt;</span> <span class="pre">min_entries:</span></code> loop, and check the stopping condition
+at the top of each iteration, same as Part I §1.3’s titration example.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fetch_at_least</span><span class="p">(</span><span class="n">query_body</span><span class="p">,</span> <span class="n">min_entries</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">sleep_s</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="n">all_entries</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">query_body</span><span class="p">))</span>
+    <span class="n">body</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="n">page_size</span><span class="p">}</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_entries</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">min_entries</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">all_entries</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">page</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+        <span class="n">after</span> <span class="o">=</span> <span class="n">page</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;next_page_after_value&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">after</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">break</span>   <span class="c1"># fewer total matches than min_entries -- stop, don&#39;t loop forever</span>
+        <span class="n">body</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;page_after_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">after</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">all_entries</span>
+
+<span class="n">entries_300plus</span> <span class="o">=</span> <span class="n">fetch_at_least</span><span class="p">(</span><span class="n">query_binary_feo</span><span class="p">,</span> <span class="n">min_entries</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Collected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">entries_300plus</span><span class="p">)</span><span class="si">}</span><span class="s1"> entries (requested &gt;= 300).&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">The <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">after</span> <span class="pre">is</span> <span class="pre">None:</span> <span class="pre">break</span></code> guard matters as much as the <code class="docutils literal notranslate"><span class="pre">while</span></code>
+condition itself — without it, a query with fewer than 300 total matches
+would loop forever asking for a next page that will never come.</p>
+</div>
+</details><p><strong>Exercise 3 — A different oxide system with experimental comparison</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Repeat Section 7.7’s two-step search-then-fetch pattern for
+<code class="docutils literal notranslate"><span class="pre">['Ti',</span> <span class="pre">'O']</span></code>; rutile TiO₂’s well-known experimental gap is ≈3.0 eV.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query_has_gap_tio2</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Ti&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">],</span> <span class="s1">&#39;results.material.n_elements&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;results.properties.available_properties&#39;</span><span class="p">:</span> <span class="s1">&#39;electronic.band_structure_electronic.band_gap&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span>
+    <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">,</span> <span class="s1">&#39;results.material.chemical_formula_reduced&#39;</span><span class="p">]},</span>
+<span class="p">}</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">query_has_gap_tio2</span><span class="p">)</span>
+<span class="n">candidates_tio2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;entry_id&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">],</span>
+         <span class="s1">&#39;formula&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chemical_formula_reduced&#39;</span><span class="p">),</span>
+         <span class="s1">&#39;band_gap_eV&#39;</span><span class="p">:</span> <span class="n">fetch_band_gap_eV</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">])}</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">candidates_tio2</span><span class="p">]</span>
+<span class="n">df_gap_tio2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="n">gaps_tio2</span> <span class="o">=</span> <span class="n">df_gap_tio2</span><span class="p">[</span><span class="s1">&#39;band_gap_eV&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">gaps_tio2</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)[</span><span class="mi">3</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Experimental rutile TiO2 gap ~= 3.0 eV&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Computed band gap (eV)&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Expect the same qualitative pattern Section 7.7 found for ZnO: standard
+DFT functionals (GGA/LDA) systematically <strong>underestimate</strong> band gaps
+relative to experiment, so the computed distribution typically sits below
+the 3.0 eV reference line, not centred on it.</p>
+</div>
+</details><p><strong>Exercise 4 — Visible failures instead of silent NaN</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Add one <code class="docutils literal notranslate"><span class="pre">print</span></code> call right where the function currently
+returns <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> on a bad response — the fix is one line, not a
+restructure.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fetch_band_gap_eV_verbose</span><span class="p">(</span><span class="n">entry_id</span><span class="p">):</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;electronic&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;band_gap&#39;</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">}}}}}</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/</span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s1">/archive/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;WARNING: </span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s1"> returned status </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1"> -- skipping.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">band_gaps</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;archive&#39;</span><span class="p">,</span> <span class="p">{})</span>
+                 <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">,</span> <span class="p">{})</span>
+                 <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;electronic&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;band_gap&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">band_gaps</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;WARNING: </span><span class="si">{</span><span class="n">entry_id</span><span class="si">}</span><span class="s1"> returned 200 but no band_gap data -- skipping.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="n">band_gaps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">J_TO_EV</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Two separate failure modes are now distinguishable: a bad HTTP status
+(server/network problem) vs. a successful response that simply doesn’t
+contain the field you asked for (the “available doesn’t mean present”
+gotcha Section 7.7 already flagged) — exactly the kind of distinction
+<code class="docutils literal notranslate"><span class="pre">validate_entry</span></code> (Notebook 4) makes between “missing” and “wrong type.”</p>
+</div>
+</details><p><strong>Exercise 5 — New element system, full pipeline</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> This is Sections 7.3, 7.5, and 7.7 run back-to-back for one
+system you pick — reuse every function already defined
+(<code class="docutils literal notranslate"><span class="pre">fetch_pages</span></code>, <code class="docutils literal notranslate"><span class="pre">fetch_band_gap_eV</span></code>) rather than rewriting them.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">elems</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Ga&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">]</span>   <span class="c1"># GaN, experimental gap ~3.4 eV (wurtzite)</span>
+
+<span class="c1"># 7.3-style crystal-system bar chart</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="n">elems</span><span class="p">},</span> <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
+      <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">,</span> <span class="s1">&#39;results.material.symmetry.crystal_system&#39;</span><span class="p">]}}</span>
+<span class="n">r1</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">q1</span><span class="p">)</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">e</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;material&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;crystal_system&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">r1</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">cs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">elems</span><span class="p">)</span><span class="si">}</span><span class="s1"> crystal systems&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 7.5-style paginated space-group histogram (&gt;=150 entries)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="n">elems</span><span class="p">,</span> <span class="s1">&#39;results.material.n_elements&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+      <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">,</span> <span class="s1">&#39;results.material.symmetry.space_group_number&#39;</span><span class="p">]}}</span>
+<span class="n">entries</span> <span class="o">=</span> <span class="n">fetch_at_least</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">min_entries</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+<span class="n">sg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;space_group_number&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">])</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">sg</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">elems</span><span class="p">)</span><span class="si">}</span><span class="s1"> space groups (n=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 7.7-style band-gap histogram with experimental reference</span>
+<span class="n">q3</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="n">elems</span><span class="p">,</span> <span class="s1">&#39;results.material.n_elements&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s1">&#39;results.properties.available_properties&#39;</span><span class="p">:</span> <span class="s1">&#39;electronic.band_structure_electronic.band_gap&#39;</span><span class="p">},</span>
+      <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span> <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">]}}</span>
+<span class="n">candidates</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">q3</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">gaps</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">fetch_band_gap_eV</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">])</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">gaps</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mf">3.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Experimental GaN gap ~3.4 eV&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sd-card-text">GaN is a useful contrast case precisely <em>because</em> it isn’t an oxide — the
+query pattern (search on <code class="docutils literal notranslate"><span class="pre">elements</span></code> + <code class="docutils literal notranslate"><span class="pre">n_elements</span></code>, then fetch archives for
+the numeric property) is identical regardless of chemistry, which is the
+whole point of building it as reusable functions in the first place.</p>
+</div>
+</details><p><strong>Exercise 6 — Scatter plot across two properties</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Add <code class="docutils literal notranslate"><span class="pre">'results.material.n_elements'</span></code> to the <code class="docutils literal notranslate"><span class="pre">required.include</span></code>
+list when re-collecting <code class="docutils literal notranslate"><span class="pre">entries_500</span></code>, then colour by a boolean
+(<code class="docutils literal notranslate"><span class="pre">n_elements</span> <span class="pre">==</span> <span class="pre">2</span></code>) rather than the raw integer, for a clean two-colour plot.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query_binary_feo_v2</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Fe&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">]},</span>   <span class="c1"># note: no n_elements filter this time</span>
+    <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">,</span> <span class="s1">&#39;results.material.n_elements&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;results.material.symmetry.space_group_number&#39;</span><span class="p">]},</span>
+<span class="p">}</span>
+<span class="n">entries_v2</span> <span class="o">=</span> <span class="n">fetch_pages</span><span class="p">(</span><span class="n">query_binary_feo_v2</span><span class="p">,</span> <span class="n">n_pages</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;n_elements&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;n_elements&#39;</span><span class="p">),</span>
+         <span class="s1">&#39;space_group_number&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;space_group_number&#39;</span><span class="p">),</span>
+         <span class="s1">&#39;is_binary&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;material&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;n_elements&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entries_v2</span><span class="p">]</span>
+<span class="n">df_scatter</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_scatter</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;n_elements&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;space_group_number&#39;</span><span class="p">,</span>
+                 <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;is_binary&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of elements&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Space group number&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sd-card-text">With <code class="docutils literal notranslate"><span class="pre">n_elements</span></code> taking only a handful of integer values, expect vertical
+“stripes” of points rather than a smooth trend — space group doesn’t have
+an obvious monotonic relationship with compositional complexity, which is
+itself a real, useful finding: symmetry and stoichiometric complexity are
+largely independent properties of a crystal structure.</p>
+</div>
+</details><p><strong>Exercise 7 — Robust pagination</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> Wrap the single request inside the loop in a <code class="docutils literal notranslate"><span class="pre">try</span></code>/<code class="docutils literal notranslate"><span class="pre">except</span> <span class="pre">requests.exceptions.RequestException</span></code>, retry exactly once, and <code class="docutils literal notranslate"><span class="pre">break</span></code>
+out of the whole function only if the retry also fails.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fetch_pages_robust</span><span class="p">(</span><span class="n">query_body</span><span class="p">,</span> <span class="n">n_pages</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">sleep_s</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="n">all_entries</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">query_body</span><span class="p">))</span>
+    <span class="n">body</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="n">page_size</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">page_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_pages</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+                <span class="n">page</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="k">break</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;WARNING: page </span><span class="si">{</span><span class="n">page_num</span><span class="si">}</span><span class="s1"> attempt </span><span class="si">{</span><span class="n">attempt</span><span class="si">}</span><span class="s1"> failed (</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">).&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">attempt</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Skipping page </span><span class="si">{</span><span class="n">page_num</span><span class="si">}</span><span class="s1"> after 2 failed attempts.&#39;</span><span class="p">)</span>
+                    <span class="n">page</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">page</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>   <span class="c1"># skip this page, try the next one anyway</span>
+        <span class="n">all_entries</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">page</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+        <span class="n">after</span> <span class="o">=</span> <span class="n">page</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;next_page_after_value&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">after</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">body</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;page_after_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">after</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">all_entries</span>
+</pre></div>
+</div>
+<p class="sd-card-text">The key design choice: a failed page is <em>skipped</em>, not fatal — the
+function keeps trying subsequent pages rather than losing everything
+already collected, exactly the “defensive but transparent” principle
+Exercise 4 and Notebook 4’s <code class="docutils literal notranslate"><span class="pre">validate_entry</span></code> both apply elsewhere in
+this part.</p>
+</div>
+</details><p><strong>Exercise 8 — Connect it to Notebook 1</strong></p>
+<blockquote>
+<div><p><strong>Hint:</strong> This is Notebook 5’s capstone pattern (CSV + JSON FAIR record,
+Steps 5–6) applied to <code class="docutils literal notranslate"><span class="pre">df_binary</span></code> instead of the synthetic tool-steel
+dataset — same two files, same round-trip check.</p>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Show full solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
+
+<span class="n">df_binary</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;nomad_feo_binary.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">fair_record</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;identifier&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;urn:uuid:</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span>      <span class="s1">&#39;Binary Fe-O compounds from NOMAD (space group survey)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;creator&#39;</span><span class="p">:</span>    <span class="s1">&#39;A. Lindqvist, Dept. of Chemistry, Uppsala University&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;created&#39;</span><span class="p">:</span>    <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+    <span class="s1">&#39;licence&#39;</span><span class="p">:</span>    <span class="s1">&#39;CC-BY-4.0&#39;</span><span class="p">,</span>   <span class="c1"># matches NOMAD&#39;s own open-access entries</span>
+    <span class="s1">&#39;keywords&#39;</span><span class="p">:</span>   <span class="p">[</span><span class="s1">&#39;Fe-O&#39;</span><span class="p">,</span> <span class="s1">&#39;NOMAD&#39;</span><span class="p">,</span> <span class="s1">&#39;space group&#39;</span><span class="p">,</span> <span class="s1">&#39;binary oxide&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;source&#39;</span><span class="p">:</span>     <span class="s1">&#39;NOMAD API, POST /entries/query, results.material.elements=[Fe,O], n_elements=2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;n_records&#39;</span><span class="p">:</span>  <span class="nb">len</span><span class="p">(</span><span class="n">df_binary</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;nomad_feo_binary_record.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">fair_record</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Round-trip check, same discipline as every other export in this course</span>
+<span class="n">df_reloaded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;nomad_feo_binary.csv&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;nomad_feo_binary_record.json&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">record_reloaded</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CSV round trip OK:&#39;</span><span class="p">,</span> <span class="n">df_reloaded</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">df_binary</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;JSON round trip OK:&#39;</span><span class="p">,</span> <span class="n">record_reloaded</span> <span class="o">==</span> <span class="n">fair_record</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">The <code class="docutils literal notranslate"><span class="pre">'source'</span></code> field here is doing real work: unlike Notebook 5’s
+synthetic dataset (where “how was this generated” meant “which Python
+function”), this dataset’s provenance is a <em>live external API call</em> —
+recording the exact query is what makes this archive reproducible later,
+even after NOMAD’s own holdings have grown and a fresh query would no
+longer return exactly the same 500 entries.</p>
+</div>
+</details></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\07_solutions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_python_solutions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Part I Solutions: Python for Data Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_statistics_solutions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Part III Solutions: Applied Statistics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-1-fair-data-metadata">Notebook 1: FAIR Data &amp; Metadata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-2-ontologies-emmo">Notebook 2: Ontologies &amp; EMMO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-3-databases-for-fair-data-sql-and-document-stores">Notebook 3: Databases for FAIR Data — SQL and Document Stores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-4-nomad-nomad-oasis">Notebook 4: NOMAD &amp; NOMAD Oasis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-5-capstone-building-a-fair-dataset">Notebook 5: Capstone — Building a FAIR Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-6-live-tutorial-1-sql-and-nosql-in-practice">Notebook 6: Live Tutorial 1 — SQL and NoSQL in Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-7-live-tutorial-2-querying-and-plotting-real-nomad-data">Notebook 7: Live Tutorial 2 — Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

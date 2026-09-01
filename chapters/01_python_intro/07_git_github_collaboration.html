@@ -1,0 +1,947 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7. Version Control and Collaboration with GitHub &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/01_python_intro/07_git_github_collaboration';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Part II: Data Handling &amp; Materials Ontologies" href="../02_data_handling/overview.html" />
+    <link rel="prev" title="6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud" href="06_environment_setup.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part I: Prerequisites — Python for Data Analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/01_python_intro/07_git_github_collaboration.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/01_python_intro/07_git_github_collaboration.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7. Version Control and Collaboration with GitHub</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-version-control">7.1 Why Version Control?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-commit-simulated">7.2 A Commit, Simulated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-real-thing-git-init-add-commit-log">7.3 The Real Thing: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code>, <code class="docutils literal notranslate"><span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">commit</span></code>, <code class="docutils literal notranslate"><span class="pre">log</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branches-trying-an-idea-without-breaking-what-works">7.4 Branches: Trying an Idea Without Breaking What Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github-remotes-clone-push-pull">7.5 GitHub: Remotes, <code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">push</span></code>, <code class="docutils literal notranslate"><span class="pre">pull</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collaborating-forks-pull-requests-and-merge-conflicts">7.6 Collaborating: Forks, Pull Requests, and Merge Conflicts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-hygiene-gitignore-and-notebooks-in-git">7.7 Practical Hygiene: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> and Notebooks in Git</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="version-control-and-collaboration-with-github">
+<h1>7. Version Control and Collaboration with GitHub<a class="headerlink" href="#version-control-and-collaboration-with-github" title="Link to this heading">#</a></h1>
+<p>Every materials scientist eventually meets <code class="docutils literal notranslate"><span class="pre">analysis_v2_final.ipynb</span></code>, then
+<code class="docutils literal notranslate"><span class="pre">analysis_v2_final_REALLY.ipynb</span></code>, then a version emailed by a labmate that
+conflicts with both. <strong>Version control</strong> — specifically <strong>git</strong>, and
+<strong>GitHub</strong>, the website built around it — solves this properly: instead of
+duplicating whole files by hand, it tracks the exact <em>changes</em> between
+versions, lets you jump back to any earlier state on demand, and lets
+several people edit the same project without overwriting each other. This is
+the same underlying discipline as Part II’s FAIR data principles, applied
+to <em>code</em> instead of <em>data</em>: a well-kept git history is itself a record of
+exactly how an analysis came to look the way it does — which is precisely
+what the course project’s grading rubric rewards under “Reproducibility.”</p>
+<p>This notebook builds a small <strong>simulated</strong> version-control system in plain
+Python first, so the underlying ideas (commit, history, branch) are visible
+and safely runnable with no setup at all — then shows the real <code class="docutils literal notranslate"><span class="pre">git</span></code>
+commands that do the same thing on your own computer, and how GitHub adds
+collaboration on top.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>Why version control, not just careful file naming?</p></li>
+<li><p>A commit, simulated: snapshots you can always return to</p></li>
+<li><p>The real thing: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code>, <code class="docutils literal notranslate"><span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">commit</span></code>, <code class="docutils literal notranslate"><span class="pre">log</span></code></p></li>
+<li><p>Branches: working on an idea without breaking what works</p></li>
+<li><p>GitHub: remotes, <code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">push</span></code>, <code class="docutils literal notranslate"><span class="pre">pull</span></code></p></li>
+<li><p>Collaborating: forks, pull requests, and merge conflicts</p></li>
+<li><p>Practical hygiene: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> and notebooks in git</p></li>
+</ol>
+<section id="why-version-control">
+<h2>7.1 Why Version Control?<a class="headerlink" href="#why-version-control" title="Link to this heading">#</a></h2>
+<p>Renaming files by hand (<code class="docutils literal notranslate"><span class="pre">_v2</span></code>, <code class="docutils literal notranslate"><span class="pre">_final</span></code>, <code class="docutils literal notranslate"><span class="pre">_final_final</span></code>) fails for reasons
+that get worse the longer a project runs: there is no record of <em>why</em>
+something changed, no way to see exactly what changed between two versions
+without eyeballing both files side by side, and no sane way for two people
+to work on the same file at once without one of them overwriting the
+other’s work. Version control fixes all three: every saved change (a
+<strong>commit</strong>) records exactly what changed, who changed it, and why (in a
+short message you write yourself); the complete history is always
+available; and — as Section 7.4 and 7.6 show — two people’s independent
+changes can usually be combined automatically.</p>
+</section>
+<section id="a-commit-simulated">
+<h2>7.2 A Commit, Simulated<a class="headerlink" href="#a-commit-simulated" title="Link to this heading">#</a></h2>
+<p>Before touching real <code class="docutils literal notranslate"><span class="pre">git</span></code>, it helps to see the core idea with nothing but
+a Python list — a <strong>commit</strong> is just a labelled snapshot of a project’s
+files at one point in time, and a project’s <strong>history</strong> is a chain of these
+snapshots, each one remembering which snapshot came directly before it.
+Real git’s actual internals are more sophisticated (content-addressed
+storage, not full-file copies), but the <em>mental model</em> below — a chain of
+labelled, timestamped snapshots — is exactly the right one for everything
+that follows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ToyRepo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A tiny, in-memory stand-in for git&#39;s commit history.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commits</span> <span class="o">=</span> <span class="p">[]</span>          <span class="c1"># chain of snapshots, oldest first</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">working_files</span> <span class="o">=</span> <span class="p">{}</span>    <span class="c1"># current file contents</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_commit_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">):</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">message</span><span class="si">}{</span><span class="n">timestamp</span><span class="si">}{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commits</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[:</span><span class="mi">7</span><span class="p">]</span>   <span class="c1"># git shows short hashes like this</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="s1">&#39;you&#39;</span><span class="p">):</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">commits</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commits</span><span class="p">))</span>
+        <span class="n">snapshot</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commit_id</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">),</span>
+            <span class="s1">&#39;parent&#39;</span><span class="p">:</span> <span class="n">parent</span><span class="p">,</span>
+            <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="n">message</span><span class="p">,</span>
+            <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+            <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
+            <span class="s1">&#39;files&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_files</span><span class="p">),</span>   <span class="c1"># a full snapshot, copied</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">snapshot</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">snapshot</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commits</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">%Y-%m-%d %H:%M:%S</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">repo</span> <span class="o">=</span> <span class="n">ToyRepo</span><span class="p">()</span>
+<span class="n">repo</span><span class="o">.</span><span class="n">working_files</span><span class="p">[</span><span class="s1">&#39;analysis.py&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;print(&#39;load data&#39;)&quot;</span>
+<span class="n">first_commit</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="s1">&#39;Initial analysis script&#39;</span><span class="p">)</span>
+
+<span class="n">repo</span><span class="o">.</span><span class="n">working_files</span><span class="p">[</span><span class="s1">&#39;analysis.py&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;print(&#39;load data&#39;)</span><span class="se">\n</span><span class="s2">print(&#39;clean data&#39;)&quot;</span>
+<span class="n">repo</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="s1">&#39;Add data cleaning step&#39;</span><span class="p">)</span>
+
+<span class="n">repo</span><span class="o">.</span><span class="n">working_files</span><span class="p">[</span><span class="s1">&#39;analysis.py&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">print(&#39;fit model&#39;)&quot;</span>
+<span class="n">repo</span><span class="o">.</span><span class="n">working_files</span><span class="p">[</span><span class="s1">&#39;README.md&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;# Battery capacity analysis&#39;</span>
+<span class="n">repo</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="s1">&#39;Add model fitting and a README&#39;</span><span class="p">)</span>
+
+<span class="n">repo</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>d4f14b0  2026-09-01 17:40:29  you      Add model fitting and a README
+19f577e  2026-09-01 17:40:28  you      Add data cleaning step
+7ca9fdf  2026-09-01 17:40:27  you      Initial analysis script
+</pre></div>
+</div>
+</div>
+</div>
+<p>Three commits, each a complete snapshot, each remembering its <code class="docutils literal notranslate"><span class="pre">parent</span></code> —
+that parent link is what turns a pile of snapshots into a proper
+<strong>history</strong>, and it is exactly what real <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> prints (with real hashes
+in place of <code class="docutils literal notranslate"><span class="pre">ToyRepo</span></code>’s short simulated ones). Nothing here is ever
+overwritten: an earlier snapshot is always still reachable through the
+chain, which is <em>why</em> version control lets you recover a working version
+after a bad change — a real, common lifesaver <code class="docutils literal notranslate"><span class="pre">mv</span> <span class="pre">old_file</span> <span class="pre">backup_file</span></code>
+never quite manages.</p>
+</section>
+<section id="the-real-thing-git-init-add-commit-log">
+<h2>7.3 The Real Thing: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code>, <code class="docutils literal notranslate"><span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">commit</span></code>, <code class="docutils literal notranslate"><span class="pre">log</span></code><a class="headerlink" href="#the-real-thing-git-init-add-commit-log" title="Link to this heading">#</a></h2>
+<p>Real <code class="docutils literal notranslate"><span class="pre">git</span></code> on your own computer follows exactly the pattern above, as
+commands typed in a terminal inside your project folder (install it from
+<a class="reference external" href="https://git-scm.com">git-scm.com</a> if <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">--version</span></code> fails). These are
+illustrative — copy them into your own terminal, not into this notebook,
+since this book’s own repository is not meant to be <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code>-ed from
+inside itself.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init<span class="w">                          </span><span class="c1"># start tracking this folder</span>
+git<span class="w"> </span>add<span class="w"> </span>analysis.py<span class="w">               </span><span class="c1"># stage a file: &quot;include this in the next commit&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial analysis script&quot;</span>
+
+<span class="c1"># ... edit analysis.py ...</span>
+git<span class="w"> </span>add<span class="w"> </span>analysis.py
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add data cleaning step&quot;</span>
+
+git<span class="w"> </span>log<span class="w">                           </span><span class="c1"># the real equivalent of ToyRepo.log() above</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code> has no equivalent in <code class="docutils literal notranslate"><span class="pre">ToyRepo</span></code> above — real git distinguishes
+<em>changed on disk</em> from <em>staged for the next commit</em>, so you can build up a
+commit from several edited files one at a time, deciding exactly what goes
+in together (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">file1.py</span></code>, leave <code class="docutils literal notranslate"><span class="pre">file2.py</span></code> for a separate commit).
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> at any point tells you what is changed, staged, or untracked —
+the single most useful command for “wait, what state is this in?”.</p>
+</section>
+<section id="branches-trying-an-idea-without-breaking-what-works">
+<h2>7.4 Branches: Trying an Idea Without Breaking What Works<a class="headerlink" href="#branches-trying-an-idea-without-breaking-what-works" title="Link to this heading">#</a></h2>
+<p>So far, history has been a single, straight chain. A <strong>branch</strong> lets that
+chain fork: you keep a stable line of commits (conventionally named <code class="docutils literal notranslate"><span class="pre">main</span></code>)
+untouched, while trying something risky — a new feature, an experimental
+analysis method — on a separate line that starts from the same point.
+Simulating this needs only one small addition to <code class="docutils literal notranslate"><span class="pre">ToyRepo</span></code>: instead of one
+list of commits, track <em>named pointers</em> to specific commits, and let
+<code class="docutils literal notranslate"><span class="pre">commit()</span></code> advance whichever branch is currently checked out.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BranchingRepo</span><span class="p">(</span><span class="n">ToyRepo</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">branches</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;main&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>   <span class="c1"># branch name -&gt; commit id it points to</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_branch</span> <span class="o">=</span> <span class="s1">&#39;main&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="s1">&#39;you&#39;</span><span class="p">):</span>
+        <span class="n">commit_id</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">author</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_branch</span><span class="p">]</span> <span class="o">=</span> <span class="n">commit_id</span>
+        <span class="k">return</span> <span class="n">commit_id</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">branch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_branch</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_branch</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;On branch &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_branch</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">cid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39; &lt;-- you are here&#39;</span> <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_branch</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">cid</span><span class="si">}{</span><span class="n">marker</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">brepo</span> <span class="o">=</span> <span class="n">BranchingRepo</span><span class="p">()</span>
+<span class="n">brepo</span><span class="o">.</span><span class="n">working_files</span><span class="p">[</span><span class="s1">&#39;model.py&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;model = &#39;MLR&#39;&quot;</span>
+<span class="n">brepo</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="s1">&#39;Baseline: linear regression model&#39;</span><span class="p">)</span>
+
+<span class="n">brepo</span><span class="o">.</span><span class="n">branch</span><span class="p">(</span><span class="s1">&#39;try-random-forest&#39;</span><span class="p">)</span>     <span class="c1"># fork off from the current commit</span>
+<span class="n">brepo</span><span class="o">.</span><span class="n">checkout</span><span class="p">(</span><span class="s1">&#39;try-random-forest&#39;</span><span class="p">)</span>
+<span class="n">brepo</span><span class="o">.</span><span class="n">working_files</span><span class="p">[</span><span class="s1">&#39;model.py&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;model = &#39;RandomForest&#39;&quot;</span>
+<span class="n">brepo</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="s1">&#39;Experiment: swap in a Random Forest&#39;</span><span class="p">)</span>
+
+<span class="n">brepo</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>On branch &#39;try-random-forest&#39;
+  main: 1f34aea
+  try-random-forest: 84063c8 &lt;-- you are here
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">main</span></code> still points at the safe, working baseline commit; the experiment
+lives entirely on <code class="docutils literal notranslate"><span class="pre">try-random-forest</span></code> and cannot break <code class="docutils literal notranslate"><span class="pre">main</span></code> no matter how
+badly it goes. If the Random Forest experiment works out, its commits get
+<strong>merged</strong> back into <code class="docutils literal notranslate"><span class="pre">main</span></code> (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">try-random-forest</span></code>, or a GitHub pull
+request, Section 7.6); if it does not, you simply stop using that branch —
+<code class="docutils literal notranslate"><span class="pre">main</span></code> was never touched. This is exactly the workflow behind
+Notebook 6’s checkpoint suggestion of testing a risky package upgrade in a
+throwaway conda environment before touching your real one — isolate the
+risk, keep a safe fallback, decide once you know the outcome.</p>
+</section>
+<section id="github-remotes-clone-push-pull">
+<h2>7.5 GitHub: Remotes, <code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">push</span></code>, <code class="docutils literal notranslate"><span class="pre">pull</span></code><a class="headerlink" href="#github-remotes-clone-push-pull" title="Link to this heading">#</a></h2>
+<p>Everything so far lives only on one computer. <strong>GitHub</strong> hosts a copy of a
+git repository on a server, so it can act as a shared meeting point: a
+<strong>remote</strong>. The vocabulary maps directly onto what you already know —
+<code class="docutils literal notranslate"><span class="pre">clone</span></code> is “download a full copy of someone’s repository, history and all,”
+<code class="docutils literal notranslate"><span class="pre">push</span></code> is “send my new local commits up to GitHub,” <code class="docutils literal notranslate"><span class="pre">pull</span></code> is “download
+commits someone else pushed, and merge them into mine.”</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/some-org/some-repo.git<span class="w">   </span><span class="c1"># get a full copy, once</span>
+<span class="nb">cd</span><span class="w"> </span>some-repo
+
+<span class="c1"># ... make changes, then commit them locally as in Section 7.3 ...</span>
+git<span class="w"> </span>push<span class="w">                          </span><span class="c1"># send your new commits to GitHub</span>
+git<span class="w"> </span>pull<span class="w">                          </span><span class="c1"># fetch and merge anyone else&#39;s new commits</span>
+</pre></div>
+</div>
+<p>A repository with no remote at all (Section 7.3) is still completely valid
+git — useful even solo, purely for the history and branching benefits. A
+remote is what turns that same tool into a collaboration platform, and
+GitHub specifically (rather than git in general) is what adds the website:
+browsing a project’s files and history in a browser, issue trackers, and —
+the collaboration mechanism Section 7.6 covers — pull requests.</p>
+</section>
+<section id="collaborating-forks-pull-requests-and-merge-conflicts">
+<h2>7.6 Collaborating: Forks, Pull Requests, and Merge Conflicts<a class="headerlink" href="#collaborating-forks-pull-requests-and-merge-conflicts" title="Link to this heading">#</a></h2>
+<p>Two common collaboration shapes on GitHub:</p>
+<ul class="simple">
+<li><p><strong>Direct collaborator</strong>: someone adds you to their repository; you <code class="docutils literal notranslate"><span class="pre">clone</span></code>
+it, create a branch (Section 7.4) for your change, <code class="docutils literal notranslate"><span class="pre">push</span></code> that branch, then
+open a <strong>pull request</strong> — a formal proposal, visible on GitHub, to merge
+your branch into <code class="docutils literal notranslate"><span class="pre">main</span></code>, which the project owner (or a labmate) can review,
+comment on, and approve before it actually merges.</p></li>
+<li><p><strong>Fork</strong>: for a project you do not have write access to, GitHub’s “Fork”
+button makes your own personal copy on GitHub first; you <code class="docutils literal notranslate"><span class="pre">clone</span></code> <em>that</em>,
+make changes, <code class="docutils literal notranslate"><span class="pre">push</span></code> to your fork, then open a pull request from your fork
+back to the original — the standard way open-source contributions (and
+most student contributions to a supervisor’s repository) work.</p></li>
+</ul>
+<p><strong>Merge conflicts</strong> happen when two branches change the <em>same lines</em> of the
+same file differently — git cannot guess which version you want, so it
+stops and asks you to decide by hand, marking both versions directly in the
+file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="n">HEAD</span>
+<span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;RandomForest&#39;</span>
+<span class="o">=======</span>
+<span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;GradientBoosting&#39;</span>
+<span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="k">try</span><span class="o">-</span><span class="n">random</span><span class="o">-</span><span class="n">forest</span>
+</pre></div>
+</div>
+<p>You edit the file to keep whichever version (or a hand-merged combination)
+is correct, delete the <code class="docutils literal notranslate"><span class="pre">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span></code>/<code class="docutils literal notranslate"><span class="pre">=======</span></code>/<code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span></code> markers, then commit —
+this is the one part of git that occasionally needs a human, precisely
+because it means two people had a genuinely different idea about the same
+line of code, which git cannot resolve for you.</p>
+</section>
+<section id="practical-hygiene-gitignore-and-notebooks-in-git">
+<h2>7.7 Practical Hygiene: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> and Notebooks in Git<a class="headerlink" href="#practical-hygiene-gitignore-and-notebooks-in-git" title="Link to this heading">#</a></h2>
+<p>Two habits worth adopting from your very first repository:</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code></strong> — a plain-text file listing patterns git should never
+track: build artefacts, large data files, and anything that regenerates
+automatically. This course’s own repository excludes exactly the kind of
+things a data-analysis project accumulates:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_build</span><span class="o">/</span>
+<span class="o">*.</span><span class="n">pyc</span>
+<span class="n">__pycache__</span><span class="o">/</span>
+<span class="o">.</span><span class="n">ipynb_checkpoints</span><span class="o">/</span>
+<span class="o">*.</span><span class="n">csv</span>
+</pre></div>
+</div>
+<p>Large raw data files in particular belong in a proper data store (Notebook
+3 or 4’s databases, or a dedicated data-versioning tool), not committed
+directly into git — git keeps <em>every</em> version of every tracked file
+forever, so a repeatedly-overwritten multi-GB CSV bloats the repository
+permanently.</p>
+<p><strong>Notebooks specifically</strong> are trickier to track well than plain <code class="docutils literal notranslate"><span class="pre">.py</span></code>
+files: a <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file stores cell <em>outputs</em> — including embedded PNG
+images, base64-encoded — right alongside the code, so re-running a notebook
+and re-saving it changes the file even when no code actually changed,
+producing noisy, hard-to-read diffs. Two common fixes: clear all outputs
+before committing (<code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">nbconvert</span> <span class="pre">--clear-output</span></code>), or use a tool like
+<code class="docutils literal notranslate"><span class="pre">nbstripout</span></code> that does this automatically on every commit — worth setting
+up before your course-project notebook’s git history turns into hundreds of
+near-identical “re-ran cell 47” commits.</p>
+<p><strong>Exercise 1</strong>: Using <code class="docutils literal notranslate"><span class="pre">BranchingRepo</span></code> from Section 7.4, create a second
+branch called <code class="docutils literal notranslate"><span class="pre">try-gbm</span></code> from the same starting commit as
+<code class="docutils literal notranslate"><span class="pre">try-random-forest</span></code>, commit a change to <code class="docutils literal notranslate"><span class="pre">model.py</span></code> on it, then print
+<code class="docutils literal notranslate"><span class="pre">.status()</span></code>. Confirm all three branches (<code class="docutils literal notranslate"><span class="pre">main</span></code>, <code class="docutils literal notranslate"><span class="pre">try-random-forest</span></code>,
+<code class="docutils literal notranslate"><span class="pre">try-gbm</span></code>) point at three different commits, and that <code class="docutils literal notranslate"><span class="pre">main</span></code> still points
+at the original baseline.</p>
+<p><strong>Exercise 2</strong>: Extend <code class="docutils literal notranslate"><span class="pre">ToyRepo.log()</span></code> (or write a new method) so it can
+also print the history of just <em>one file</em>, by walking the commit chain and
+only printing a commit if that file’s contents differ from its parent’s
+version — this is a simplified version of what <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span> <span class="pre">--</span> <span class="pre">&lt;filename&gt;</span></code> does
+for real.</p>
+<p><strong>Exercise 3</strong>: If you have <code class="docutils literal notranslate"><span class="pre">git</span></code> installed, create a real, throwaway
+repository somewhere <em>outside</em> this course’s own folder (e.g. a new empty
+directory), and reproduce Sections 7.3–7.4 for real: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code>, two
+commits, a branch, and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span> <span class="pre">--oneline</span> <span class="pre">--graph</span> <span class="pre">--all</span></code> to see the
+branching structure git itself draws in the terminal. Compare it to
+<code class="docutils literal notranslate"><span class="pre">BranchingRepo.status()</span></code>’s output above.</p>
+<p><strong>Exercise 4</strong>: Find a small, active open-source project on GitHub in a
+field you are interested in. Without making any changes, browse its commit
+history and its (open or closed) pull requests. Find one pull request that
+was merged and read the discussion — what did a reviewer ask the
+contributor to change before merging?</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\01_python_intro"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_environment_setup.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../02_data_handling/overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Part II: Data Handling &amp; Materials Ontologies</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-version-control">7.1 Why Version Control?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-commit-simulated">7.2 A Commit, Simulated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-real-thing-git-init-add-commit-log">7.3 The Real Thing: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code>, <code class="docutils literal notranslate"><span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">commit</span></code>, <code class="docutils literal notranslate"><span class="pre">log</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branches-trying-an-idea-without-breaking-what-works">7.4 Branches: Trying an Idea Without Breaking What Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github-remotes-clone-push-pull">7.5 GitHub: Remotes, <code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">push</span></code>, <code class="docutils literal notranslate"><span class="pre">pull</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collaborating-forks-pull-requests-and-merge-conflicts">7.6 Collaborating: Forks, Pull Requests, and Merge Conflicts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-hygiene-gitignore-and-notebooks-in-git">7.7 Practical Hygiene: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> and Notebooks in Git</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

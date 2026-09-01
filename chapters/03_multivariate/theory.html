@@ -1,0 +1,1007 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Theoretical Background: Multivariate Analysis &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/03_multivariate/theory';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="11. Multiple Linear Regression (MLR)" href="01_mlr.html" />
+    <link rel="prev" title="Part IV: Multivariate Analysis" href="overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part IV: Multivariate Analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/03_multivariate/theory.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Theoretical Background: Multivariate Analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-algebra-prerequisites">1. Linear Algebra Prerequisites</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-matrices-at-all">Why matrices at all?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eigendecomposition-finding-a-shape-s-natural-axes">Eigendecomposition — finding a shape’s natural axes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-value-decomposition-svd-the-same-idea-computed-more-safely">Singular Value Decomposition (SVD) — the same idea, computed more safely</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-linear-regression-mlr">2. Multiple Linear Regression (MLR)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-idea">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multicollinearity-when-predictors-can-t-be-told-apart">Multicollinearity — when predictors can’t be told apart</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-analysis-pca">3. Principal Component Analysis (PCA)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-you-must-standardise-first">Why you must standardise first</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-practical-workflow">The practical workflow</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-discriminant-analysis-lda">4. Linear Discriminant Analysis (LDA)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions">Assumptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-vs-lda-unsupervised-vs-supervised">PCA vs LDA — unsupervised vs supervised</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factor-analysis-fa">5. Factor Analysis (FA)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#communality-how-much-of-a-variable-is-shared">Communality — how much of a variable is “shared”</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-making-the-factors-interpretable">Rotation — making the factors interpretable</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fa-vs-pca">FA vs PCA</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partial-least-squares-pls">6. Partial Least Squares (PLS)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nipals-algorithm-in-words">The NIPALS algorithm, in words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vip-scores-which-original-variables-mattered">VIP scores — which original variables mattered?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-latent-variable-methods">Comparison of latent-variable methods</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="theoretical-background-multivariate-analysis">
+<h1>Theoretical Background: Multivariate Analysis<a class="headerlink" href="#theoretical-background-multivariate-analysis" title="Link to this heading">#</a></h1>
+<p>This page builds intuition for the linear-algebra ideas behind Part IV’s
+methods before showing the matrix notation. All five methods here are
+solving variations of the same underlying problem — you have <em>many</em>
+correlated measurements per sample (elemental composition, spectral
+channels, mechanical properties) and want to compress or reorganise them
+into something interpretable. The formulas are included for reference, but
+the plain-language explanation in each section is the part worth
+understanding first.</p>
+<hr class="docutils" />
+<section id="linear-algebra-prerequisites">
+<h2>1. Linear Algebra Prerequisites<a class="headerlink" href="#linear-algebra-prerequisites" title="Link to this heading">#</a></h2>
+<section id="why-matrices-at-all">
+<h3>Why matrices at all?<a class="headerlink" href="#why-matrices-at-all" title="Link to this heading">#</a></h3>
+<p>A single measurement is a number; a spreadsheet row of eight XRF element
+percentages is a <em>vector</em> (a list of numbers); a table of eighty samples ×
+eight elements is a <em>matrix</em> (a grid of numbers). Matrix notation is just
+compact bookkeeping — every operation below could be written out as
+explicit sums over samples and variables, but the matrix form lets software
+(and equations) treat “operate on the whole dataset at once” as a single
+symbol instead of a nested loop.</p>
+</section>
+<section id="eigendecomposition-finding-a-shape-s-natural-axes">
+<h3>Eigendecomposition — finding a shape’s natural axes<a class="headerlink" href="#eigendecomposition-finding-a-shape-s-natural-axes" title="Link to this heading">#</a></h3>
+<p>Imagine plotting two correlated variables (say, Cr% and Ni% across many
+steel samples) — the cloud of points usually looks like a tilted ellipse,
+not a circle, because the variables move together. <strong>Eigendecomposition</strong>
+finds that ellipse’s natural axes: the direction the cloud is <em>most</em>
+stretched out (the first eigenvector), the next-most-stretched direction
+perpendicular to it (the second eigenvector), and so on. The amount of
+stretch along each of these directions is the corresponding <strong>eigenvalue</strong>.</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{A} = \mathbf{V}\boldsymbol{\Lambda}\mathbf{V}^\top\]</div>
+<p>For a covariance matrix <span class="math notranslate nohighlight">\(\mathbf{A}=\mathbf{S}\)</span>, this is exactly PCA’s
+starting point (Section 3): the eigenvectors (<span class="math notranslate nohighlight">\(\mathbf{V}\)</span>) are the new
+axes to view the data along, and the eigenvalues
+(<span class="math notranslate nohighlight">\(\boldsymbol{\Lambda}\)</span>) tell you how much of the data’s total spread each
+new axis captures.</p>
+</section>
+<section id="singular-value-decomposition-svd-the-same-idea-computed-more-safely">
+<h3>Singular Value Decomposition (SVD) — the same idea, computed more safely<a class="headerlink" href="#singular-value-decomposition-svd-the-same-idea-computed-more-safely" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\mathbf{X} = \mathbf{U}\boldsymbol{\Sigma}\mathbf{V}^\top\]</div>
+<p>SVD factorises the <em>raw data table</em> directly (rather than first computing a
+covariance matrix and then eigendecomposing it), which is more numerically
+stable — squaring numbers to build a covariance matrix can lose precision,
+especially with many correlated variables, so most real PCA software (<code class="docutils literal notranslate"><span class="pre">sklearn.decomposition.PCA</span></code>
+included) uses SVD under the hood even though the two approaches are
+mathematically equivalent. You never need to invoke SVD yourself; it’s
+worth knowing the name only because you’ll see it mentioned in error
+messages and documentation.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="multiple-linear-regression-mlr">
+<h2>2. Multiple Linear Regression (MLR)<a class="headerlink" href="#multiple-linear-regression-mlr" title="Link to this heading">#</a></h2>
+<section id="the-idea">
+<h3>The idea<a class="headerlink" href="#the-idea" title="Link to this heading">#</a></h3>
+<p>Multiple linear regression extends simple regression (Part III) to several
+predictors at once — instead of one slope, you get one coefficient per
+predictor, each answering “holding all the other predictors fixed, how does
+the response change as this one predictor changes?”</p>
+<div class="math notranslate nohighlight">
+\[\hat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}\]</div>
+<p>This is the exact same least-squares idea from Part III’s regression theory,
+just with more columns in <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>.</p>
+</section>
+<section id="multicollinearity-when-predictors-can-t-be-told-apart">
+<h3>Multicollinearity — when predictors can’t be told apart<a class="headerlink" href="#multicollinearity-when-predictors-can-t-be-told-apart" title="Link to this heading">#</a></h3>
+<p>If two predictors are themselves strongly correlated (e.g. sintering
+temperature in °C and in Kelvin — literally the same information twice),
+the regression can no longer tell <em>which one</em> deserves credit for an
+observed effect: infinitely many combinations of their two coefficients fit
+the data equally well, so the estimates become unstable and their
+individual p-values become meaningless, even though the <em>model as a whole</em>
+might still predict well. The <strong>Variance Inflation Factor</strong> flags this:</p>
+<div class="math notranslate nohighlight">
+\[\text{VIF}_j = \frac{1}{1 - R^2_j}\]</div>
+<p>where <span class="math notranslate nohighlight">\(R^2_j\)</span> comes from regressing predictor <span class="math notranslate nohighlight">\(j\)</span> on all the <em>other</em>
+predictors — in other words, “how well can this predictor be predicted from
+the rest?” If <span class="math notranslate nohighlight">\(R^2_j\)</span> is high (this predictor is redundant given the
+others), VIF blows up. VIF &gt; 10 (sometimes &gt; 5) is the usual red flag.
+Fixing it means removing one of the redundant predictors, combining them, or
+switching to a latent-variable method like PCA or PLS (Sections 3 and 6)
+that are explicitly built to handle correlated predictors gracefully.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="principal-component-analysis-pca">
+<h2>3. Principal Component Analysis (PCA)<a class="headerlink" href="#principal-component-analysis-pca" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>The idea<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>You measured eight elements per steel sample, but do you really have eight
+<em>independent</em> pieces of information? Probably not — elements that are added
+together deliberately (like Cr and Ni in stainless steel formulations) tend
+to co-vary, so much of the “spread” across eight columns is really driven
+by just a couple of underlying compositional trends. <strong>PCA</strong> finds those
+underlying trends directly: new combined axes (“principal components”),
+each one a weighted blend of the original variables, ordered so the first
+one captures as much of the total variation as mathematically possible, the
+second captures as much of what’s <em>left over</em>, and so on.</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{v}_1 = \arg\max_{\|\mathbf{v}\|=1} \mathbf{v}^\top \mathbf{S} \mathbf{v}\]</div>
+<p>This is precisely the eigendecomposition from Section 1, applied to the
+covariance matrix <span class="math notranslate nohighlight">\(\mathbf{S}\)</span>: the first eigenvector is the direction of
+maximum spread, and PCA simply calls that direction “PC1.”</p>
+</section>
+<section id="why-you-must-standardise-first">
+<h3>Why you must standardise first<a class="headerlink" href="#why-you-must-standardise-first" title="Link to this heading">#</a></h3>
+<p>If one variable is measured in wt% (values like 0–100) and another in ppm
+(values like 0–5000), the ppm variable will dominate the “spread” purely
+because of its units, not because it’s chemically more important. Scaling
+every variable to zero mean and unit variance before PCA (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>)
+puts every variable on equal footing, exactly like coding variables in Part
+IV — otherwise PCA’s “directions of maximum variance” would really just be
+“directions where the units happen to produce big numbers.”</p>
+</section>
+<section id="the-practical-workflow">
+<h3>The practical workflow<a class="headerlink" href="#the-practical-workflow" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Mean-centre and standardise <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>.</p></li>
+<li><p>Compute the covariance matrix <span class="math notranslate nohighlight">\(\mathbf{S}\)</span> and eigendecompose it (or,
+equivalently, run SVD directly on <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> — Section 1).</p></li>
+<li><p><strong>Scores</strong> (<span class="math notranslate nohighlight">\(\mathbf{T} = \tilde{\mathbf{X}}\mathbf{V}\)</span>) are each sample’s
+coordinates along the new PC axes — use these to see which samples are
+similar/different.</p></li>
+<li><p><strong>Loadings</strong> (the columns of <span class="math notranslate nohighlight">\(\mathbf{V}\)</span>) tell you how much each
+<em>original variable</em> contributes to each PC — use these to interpret what
+a PC axis physically means (Section 12.5 of the PCA notebook covers this
+with a biplot).</p></li>
+<li><p>Keep only the first few PCs that together explain most of the variance
+(typically ≥ 80–90%, checked via the scree plot) — this is the
+“dimensionality reduction” part: dozens of correlated variables become a
+handful of interpretable, uncorrelated scores.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="linear-discriminant-analysis-lda">
+<h2>4. Linear Discriminant Analysis (LDA)<a class="headerlink" href="#linear-discriminant-analysis-lda" title="Link to this heading">#</a></h2>
+<section id="id2">
+<h3>The idea<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>PCA doesn’t know or care about group labels — it just finds where the data
+spreads out the most, which may or may not line up with the groups you
+actually care about separating. If you already know each sample’s class
+(e.g. steel grade) and specifically want axes that <strong>best separate those
+known groups</strong>, use LDA instead: it searches for the projection direction
+that pushes different groups’ cluster centres as far apart as possible
+<em>while also pulling each group’s own points as tightly together as
+possible</em> — literally maximising between-group spread relative to
+within-group scatter:</p>
+<div class="math notranslate nohighlight">
+\[J(\mathbf{w}) = \frac{\mathbf{w}^\top \mathbf{S}_B \mathbf{w}}{\mathbf{w}^\top \mathbf{S}_W \mathbf{w}}\]</div>
+<p><span class="math notranslate nohighlight">\(\mathbf{S}_B\)</span> (between-class scatter) measures how far apart the class
+<em>centres</em> are from the overall centre; <span class="math notranslate nohighlight">\(\mathbf{S}_W\)</span> (within-class
+scatter) measures how spread out each individual class is around its own
+centre. A good discriminant direction has widely separated, tightly
+clustered groups — a large numerator, small denominator.</p>
+</section>
+<section id="assumptions">
+<h3>Assumptions<a class="headerlink" href="#assumptions" title="Link to this heading">#</a></h3>
+<p>The Fisher ratio <span class="math notranslate nohighlight">\(J(\mathbf{w})\)</span> above is just an optimisation criterion —
+it doesn’t by itself require anything about how the data are distributed.
+But LDA’s actual <em>classification rule</em> (deciding which class a new sample
+belongs to, not just finding the projection) is the optimal rule only under
+a specific model: each class is approximately <strong>multivariate normal</strong>, and
+all classes share a <strong>common (pooled) covariance matrix</strong>. The second
+assumption — equal covariance across classes — is the one worth
+remembering, because it’s exactly what motivates <strong>QDA</strong> (Quadratic
+Discriminant Analysis): when classes clearly have different spreads or
+orientations, QDA drops the shared-covariance assumption and fits each
+class its own covariance matrix instead, at the cost of needing more data
+per class to estimate it reliably.</p>
+</section>
+<section id="pca-vs-lda-unsupervised-vs-supervised">
+<h3>PCA vs LDA — unsupervised vs supervised<a class="headerlink" href="#pca-vs-lda-unsupervised-vs-supervised" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>PCA</p></th>
+<th class="head"><p>LDA</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Objective</p></td>
+<td><p>Maximise total variance</p></td>
+<td><p>Maximise between-class / within-class ratio</p></td>
+</tr>
+<tr class="row-odd"><td><p>Supervision</p></td>
+<td><p>Unsupervised (no labels needed)</p></td>
+<td><p>Supervised (requires known class labels)</p></td>
+</tr>
+<tr class="row-even"><td><p>Best for</p></td>
+<td><p>Exploration, noise reduction</p></td>
+<td><p>Classification, group separation</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Use PCA first to explore an unlabelled dataset; use LDA once you have known
+categories and specifically want to classify new samples or understand what
+best separates them.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="factor-analysis-fa">
+<h2>5. Factor Analysis (FA)<a class="headerlink" href="#factor-analysis-fa" title="Link to this heading">#</a></h2>
+<section id="id3">
+<h3>The idea<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>FA asks a subtly different question than PCA: instead of “what combined
+axes capture the most <em>total</em> variance,” it asks “are there a small number
+of <em>hidden, unmeasured</em> properties that, if you knew them, would explain
+why all these <em>measured</em> variables correlate with each other in the first
+place?” In the corrosion-testing case study, you don’t measure
+“electrochemical activity” directly — but if it exists as a real underlying
+property of each sample, it would show up as several separate measurements
+(corrosion current, mass loss, pit depth) all moving together, and FA’s job
+is to recover that hidden common cause from the pattern of correlations.</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{x} = \boldsymbol{\Lambda}\mathbf{f} + \boldsymbol{\varepsilon}\]</div>
+<p>Each observed variable <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is modelled as a combination of a few
+shared, latent factors <span class="math notranslate nohighlight">\(\mathbf{f}\)</span> (the loadings <span class="math notranslate nohighlight">\(\boldsymbol{\Lambda}\)</span>
+say how strongly each variable responds to each factor) plus its own
+private leftover noise <span class="math notranslate nohighlight">\(\boldsymbol{\varepsilon}\)</span> that isn’t shared with
+anything else.</p>
+</section>
+<section id="communality-how-much-of-a-variable-is-shared">
+<h3>Communality — how much of a variable is “shared”<a class="headerlink" href="#communality-how-much-of-a-variable-is-shared" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[h^2_j = \sum_{k=1}^m \lambda^2_{jk}\]</div>
+<p>The <strong>communality</strong> of a variable is the fraction of its variance that the
+common factors explain; the remainder (<span class="math notranslate nohighlight">\(1-h^2_j\)</span>) is that variable’s own
+private, unshared noise. A variable with low communality isn’t well
+described by the shared latent structure — it’s mostly “doing its own
+thing.”</p>
+</section>
+<section id="rotation-making-the-factors-interpretable">
+<h3>Rotation — making the factors interpretable<a class="headerlink" href="#rotation-making-the-factors-interpretable" title="Link to this heading">#</a></h3>
+<p>The raw mathematical solution for the factors is not unique — you can spin
+the whole solution around (rotate it) without changing how well it fits the
+data, similar to how you could describe a location using compass directions
+rotated 20° and it would still work, just less intuitively. <strong>Varimax
+rotation</strong> picks a specific spin that makes each variable load strongly on
+as few factors as possible (ideally just one), which makes naming and
+interpreting each factor much easier — this is why the loadings in the FA
+notebook come out looking like “clean” blocks rather than every variable
+loading moderately on every factor.</p>
+</section>
+<section id="fa-vs-pca">
+<h3>FA vs PCA<a class="headerlink" href="#fa-vs-pca" title="Link to this heading">#</a></h3>
+<p>PCA finds axes that capture the most variance <em>overall</em>, without
+distinguishing “shared” from “private” variance — every original variable’s
+full variance is up for grabs. FA is more selective: it deliberately models
+<em>only</em> the variance that’s genuinely shared across variables, setting aside
+each variable’s private noise. Use PCA when your goal is compact
+dimensionality reduction; use FA when your goal is genuinely asking “what
+hidden properties are driving these correlations?”</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="partial-least-squares-pls">
+<h2>6. Partial Least Squares (PLS)<a class="headerlink" href="#partial-least-squares-pls" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h3>The idea<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>PCA finds directions of maximum variance in <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> alone, with no
+regard for whether that variance actually relates to a response <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>
+you care about (e.g. Tg from an NIR spectrum). If the response-relevant
+signal is only a small fraction of the total spectral variance, PCA might
+“spend” its first few components on variation that has nothing to do with
+Tg, forcing you to keep many components before stumbling onto the useful
+ones. <strong>PLS</strong> fixes this by finding components that maximise covariance
+<em>between</em> X and y directly — every component it extracts is explicitly
+chosen because it helps predict the response, so PLS typically needs far
+fewer components than PCA-then-regress (PCR) to reach the same predictive
+accuracy.</p>
+</section>
+<section id="the-nipals-algorithm-in-words">
+<h3>The NIPALS algorithm, in words<a class="headerlink" href="#the-nipals-algorithm-in-words" title="Link to this heading">#</a></h3>
+<p>The iterative NIPALS algorithm computes one component at a time: it looks
+for the combination of X-variables that best tracks the current
+response residual, extracts that as a component, then “subtracts out”
+(deflates) what that component explains from both X and y before repeating
+for the next component. Each new component is therefore chosen specifically
+to explain whatever the <em>previous</em> components missed about the
+relationship between X and y — you rarely need to hand-run the algorithm’s
+steps yourself (<code class="docutils literal notranslate"><span class="pre">sklearn.cross_decomposition.PLSRegression</span></code> does it), but
+knowing that each successive component targets the <em>leftover</em> X–y
+relationship explains why adding more components keeps improving prediction
+up to a point, then stops helping once the real signal is exhausted (this
+is exactly what the RMSECV-vs-components plot in the PLS notebook is
+showing you).</p>
+</section>
+<section id="vip-scores-which-original-variables-mattered">
+<h3>VIP scores — which original variables mattered?<a class="headerlink" href="#vip-scores-which-original-variables-mattered" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\text{VIP}_j = \sqrt{\frac{p}{\text{SS}_Y} \sum_{a=1}^A w_{aj}^2 \, \text{SS}_{Y,a}}\]</div>
+<p>Because PLS components are combinations of many original variables (e.g.
+spectral channels), it’s not immediately obvious from the components alone
+which <em>original</em> variables mattered most. The VIP score re-expresses each
+variable’s total contribution across all retained components into a single
+number; variables with VIP &gt; 1 contributed more than an “average” variable
+would and are worth a closer chemical look (e.g. do they correspond to a
+known IR absorption band?).</p>
+</section>
+<section id="comparison-of-latent-variable-methods">
+<h3>Comparison of latent-variable methods<a class="headerlink" href="#comparison-of-latent-variable-methods" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Uses X only?</p></th>
+<th class="head"><p>Uses y during decomposition?</p></th>
+<th class="head"><p>Typically needs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PCA (then regress)</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>More components (blind to y)</p></td>
+</tr>
+<tr class="row-odd"><td><p>PLS</p></td>
+<td><p>Yes + y</p></td>
+<td><p>Yes</p></td>
+<td><p>Fewer components (targeted at y)</p></td>
+</tr>
+<tr class="row-even"><td><p>MLR</p></td>
+<td><p>Yes + y</p></td>
+<td><p>No latent variables at all</p></td>
+<td><p>Struggles when predictors are collinear or numerous</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>PLS is usually a strong first choice whenever you have many, possibly
+collinear predictors and a response to predict — exactly the situation in
+spectroscopy (many correlated wavenumber channels) and most real process
+data. It is not automatically better than PCA-then-regress (PCR), though:
+when the directions of largest X-variance happen to align with the
+directions most predictive of y, the two methods can tie, and with small
+samples or a purely exploratory goal PCR’s y-blind components can even be
+preferable — see Notebook 15 §15.6–15.8 for worked examples of both.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\03_multivariate"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Part IV: Multivariate Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="01_mlr.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">11. Multiple Linear Regression (MLR)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-algebra-prerequisites">1. Linear Algebra Prerequisites</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-matrices-at-all">Why matrices at all?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#eigendecomposition-finding-a-shape-s-natural-axes">Eigendecomposition — finding a shape’s natural axes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-value-decomposition-svd-the-same-idea-computed-more-safely">Singular Value Decomposition (SVD) — the same idea, computed more safely</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-linear-regression-mlr">2. Multiple Linear Regression (MLR)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-idea">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multicollinearity-when-predictors-can-t-be-told-apart">Multicollinearity — when predictors can’t be told apart</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-component-analysis-pca">3. Principal Component Analysis (PCA)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-you-must-standardise-first">Why you must standardise first</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-practical-workflow">The practical workflow</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-discriminant-analysis-lda">4. Linear Discriminant Analysis (LDA)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assumptions">Assumptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-vs-lda-unsupervised-vs-supervised">PCA vs LDA — unsupervised vs supervised</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factor-analysis-fa">5. Factor Analysis (FA)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#communality-how-much-of-a-variable-is-shared">Communality — how much of a variable is “shared”</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-making-the-factors-interpretable">Rotation — making the factors interpretable</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fa-vs-pca">FA vs PCA</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partial-least-squares-pls">6. Partial Least Squares (PLS)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">The idea</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nipals-algorithm-in-words">The NIPALS algorithm, in words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vip-scores-which-original-variables-mattered">VIP scores — which original variables mattered?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-latent-variable-methods">Comparison of latent-variable methods</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

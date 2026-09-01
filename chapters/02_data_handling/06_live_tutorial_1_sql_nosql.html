@@ -1,0 +1,1667 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/02_data_handling/06_live_tutorial_1_sql_nosql';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="7. Live Tutorial 2: Querying and Plotting Real NOMAD Data" href="07_nomad_api_live_tutorial.html" />
+    <link rel="prev" title="5. Capstone: Building a FAIR Dataset" href="05_building_a_fair_dataset.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/02_data_handling/06_live_tutorial_1_sql_nosql.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/02_data_handling/06_live_tutorial_1_sql_nosql.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-in-60-seconds">6.1 Recap in 60 Seconds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#growing-the-dataset">6.2 Growing the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finishing-the-schema-the-instruments-table-live">6.3 Finishing the Schema: the <code class="docutils literal notranslate"><span class="pre">instruments</span></code> Table, Live</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-like-an-analyst-the-furnace-mystery">6.4 Querying Like an Analyst: the Furnace Mystery</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-same-investigation-in-mongodb">6.5 The Same Investigation in MongoDB</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-schema-flexibility-bites-live">6.6 When Schema Flexibility Bites — Live</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#going-further-indexing-and-query-performance-at-scale">6.7 <em>Going Further</em>: Indexing and Query Performance at Scale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-what-to-do-about-furnace-c">6.8 Summary: What to Do About Furnace-C</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="live-tutorial-1-from-lab-notebook-to-queryable-database-sql-and-nosql-in-practice">
+<h1>6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice<a class="headerlink" href="#live-tutorial-1-from-lab-notebook-to-queryable-database-sql-and-nosql-in-practice" title="Link to this heading">#</a></h1>
+<p>Notebook 3 introduced the <em>concepts</em> — rows vs. documents, a relational
+schema, a document store, and the trade-offs between them — using a
+deliberately small, five-batch dataset so the mechanics stayed visible.
+Today’s session is the payoff: a <strong>live investigation</strong>, using both
+database styles at once, on a dataset that is actually big enough to need
+a database in the first place — built end-to-end with the tools from
+Part I (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> for generating the data, <code class="docutils literal notranslate"><span class="pre">pandas</span></code> together with
+<code class="docutils literal notranslate"><span class="pre">sqlite3</span></code>/<code class="docutils literal notranslate"><span class="pre">mongomock</span></code> for storing and querying it, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>/<code class="docutils literal notranslate"><span class="pre">seaborn</span></code>
+and <code class="docutils literal notranslate"><span class="pre">plotly</span></code> for looking at the result).</p>
+<p><strong>The scenario</strong>: since Notebook 3 left off, the lab has kept
+synthesising LiFePO4 cathode batches — 40 more of them, spread across
+three calcination furnaces. The process engineer has a hunch: <em>one of the
+furnaces, overdue for calibration, might be quietly producing
+lower-capacity material.</em> Your job today is to finish building the
+database that can actually answer that question, then answer it — once in
+SQL, once in MongoDB — and decide what to do about it.</p>
+<p>Read the explanation, run the cell, look at the output, then do the
+linked exercise before moving on. Section 6.6 is marked <em>Going further</em> —
+useful, but not required for the core session.</p>
+<p><strong>Session plan</strong></p>
+<ol class="arabic simple">
+<li><p>Growing the dataset — Part I’s <code class="docutils literal notranslate"><span class="pre">numpy</span></code> random generator, at lab scale</p></li>
+<li><p>Finishing the schema — adding the <code class="docutils literal notranslate"><span class="pre">instruments</span></code> table live (Notebook 3’s Exercise 1)</p></li>
+<li><p>Querying like an analyst — <code class="docutils literal notranslate"><span class="pre">JOIN</span></code>, <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>, and the furnace mystery</p></li>
+<li><p>The same investigation in MongoDB — aggregation vs. <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code></p></li>
+<li><p>When schema flexibility bites — a live demonstration</p></li>
+<li><p><em>Going further</em> — indexing and query performance at scale</p></li>
+<li><p>Summary: what to do about Furnace-C</p></li>
+</ol>
+<section id="recap-in-60-seconds">
+<h2>6.1 Recap in 60 Seconds<a class="headerlink" href="#recap-in-60-seconds" title="Link to this heading">#</a></h2>
+<p>Notebook 3, Section 3.2 laid out the core choice: a <strong>relational</strong>
+database (SQL) enforces one fixed set of columns per table upfront and
+reunites related tables with <code class="docutils literal notranslate"><span class="pre">JOIN</span></code>; a <strong>document</strong> database (MongoDB)
+lets every record carry its own, potentially nested shape, at the cost of
+that upfront enforcement. Section 3.3–3.7 built the same five-batch
+dataset both ways. Today reuses exactly those APIs
+(<code class="docutils literal notranslate"><span class="pre">sqlite3</span></code>/<code class="docutils literal notranslate"><span class="pre">SQLAlchemy</span></code>, <code class="docutils literal notranslate"><span class="pre">mongomock</span></code>) — nothing new to install — just at a
+scale, and with a real question, that makes the differences matter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">mongomock</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pio</span>
+
+<span class="c1"># Emit plain HTML output (not the notebook-widget MIME type), so the</span>
+<span class="c1"># plotly figure below renders correctly in the built Jupyter Book pages.</span>
+<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;notebook_connected&quot;</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">2026</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="growing-the-dataset">
+<h2>6.2 Growing the Dataset<a class="headerlink" href="#growing-the-dataset" title="Link to this heading">#</a></h2>
+<p>Notebook 3 hand-typed five batches as literal tuples — fine for showing
+the mechanics of a schema, but nothing you would call “a database problem”
+yet. A real lab generates data continuously; today we simulate the 40
+batches synthesised since Notebook 3, using the same vectorised random
+generation from Part I, Notebook 2 (<code class="docutils literal notranslate"><span class="pre">rng</span> <span class="pre">=</span> <span class="pre">np.random.default_rng(...)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rng.uniform</span></code>, <code class="docutils literal notranslate"><span class="pre">rng.choice</span></code>) instead of typing numbers by hand.</p>
+<p>Two synthesis methods are used, same as before (<code class="docutils literal notranslate"><span class="pre">solid-state</span> <span class="pre">reaction</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sol-gel</span></code>), each with its own temperature range and its own true
+relationship between calcination temperature and capacity. Every batch’s
+critical <code class="docutils literal notranslate"><span class="pre">calcination_2</span></code> step is run on one of three furnaces —
+<strong>Furnace-A</strong>, <strong>Furnace-B</strong>, or <strong>Furnace-C</strong> — chosen at random, exactly
+as it would be in a real lab where whichever furnace is free gets used
+next.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">]</span>
+<span class="n">furnace_pool</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Furnace-A&#39;</span><span class="p">,</span> <span class="s1">&#39;Furnace-B&#39;</span><span class="p">,</span> <span class="s1">&#39;Furnace-C&#39;</span><span class="p">]</span>
+
+<span class="n">n_new</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">new_batches</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_new</span><span class="p">):</span>
+    <span class="n">sample_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;batch_</span><span class="si">{</span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+    <span class="n">furnace</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">furnace_pool</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">:</span>
+        <span class="n">calc2_temp</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">700</span><span class="p">,</span> <span class="mi">760</span><span class="p">)</span>
+        <span class="n">base_capacity</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">+</span> <span class="mf">0.08</span> <span class="o">*</span> <span class="n">calc2_temp</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">calc2_temp</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">630</span><span class="p">,</span> <span class="mi">690</span><span class="p">)</span>
+        <span class="n">base_capacity</span> <span class="o">=</span> <span class="mi">220</span> <span class="o">-</span> <span class="mf">0.09</span> <span class="o">*</span> <span class="n">calc2_temp</span>
+
+    <span class="c1"># Furnace-C is overdue for calibration -- a hidden systematic offset,</span>
+    <span class="c1"># exactly the kind of thing today&#39;s session is trying to uncover.</span>
+    <span class="n">calibration_penalty</span> <span class="o">=</span> <span class="mf">4.5</span> <span class="k">if</span> <span class="n">furnace</span> <span class="o">==</span> <span class="s1">&#39;Furnace-C&#39;</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="n">capacity</span> <span class="o">=</span> <span class="n">base_capacity</span> <span class="o">-</span> <span class="n">calibration_penalty</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+    <span class="n">efficiency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.85</span> <span class="o">+</span> <span class="mf">0.0006</span> <span class="o">*</span> <span class="n">capacity</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.008</span><span class="p">),</span> <span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">)</span>
+
+    <span class="n">new_batches</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="n">sample_id</span><span class="p">,</span>
+        <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
+        <span class="s1">&#39;furnace&#39;</span><span class="p">:</span> <span class="n">furnace</span><span class="p">,</span>
+        <span class="s1">&#39;calc2_temp&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">calc2_temp</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">capacity</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">efficiency</span><span class="p">),</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">})</span>
+
+<span class="n">df_preview</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">new_batches</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_preview</span><span class="p">)</span><span class="si">}</span><span class="s1"> new batches generated since Notebook 3.&#39;</span><span class="p">)</span>
+<span class="n">df_preview</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>40 new batches generated since Notebook 3.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sample_id</th>
+      <th>method</th>
+      <th>furnace</th>
+      <th>calc2_temp</th>
+      <th>capacity_mAh_g</th>
+      <th>coulombic_efficiency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>batch_10</td>
+      <td>solid-state reaction</td>
+      <td>Furnace-B</td>
+      <td>728.0</td>
+      <td>162.4</td>
+      <td>0.953</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>batch_11</td>
+      <td>sol-gel</td>
+      <td>Furnace-C</td>
+      <td>640.6</td>
+      <td>157.0</td>
+      <td>0.942</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>batch_12</td>
+      <td>sol-gel</td>
+      <td>Furnace-C</td>
+      <td>668.2</td>
+      <td>155.1</td>
+      <td>0.944</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>batch_13</td>
+      <td>sol-gel</td>
+      <td>Furnace-B</td>
+      <td>650.3</td>
+      <td>161.1</td>
+      <td>0.936</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>batch_14</td>
+      <td>solid-state reaction</td>
+      <td>Furnace-B</td>
+      <td>739.8</td>
+      <td>158.7</td>
+      <td>0.950</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Checkpoint / Exercise A</strong>: Change the random seed (<code class="docutils literal notranslate"><span class="pre">np.random.default_rng(2026)</span></code>
+in Section 6.1) to a different integer and re-run Sections 6.1–6.2. Do the
+<em>number</em> of Furnace-C batches change? Does the <em>hidden calibration penalty</em>
+(4.5 mAh/g) change? Only one of the two should — which, and why?</p>
+</section>
+<section id="finishing-the-schema-the-instruments-table-live">
+<h2>6.3 Finishing the Schema: the <code class="docutils literal notranslate"><span class="pre">instruments</span></code> Table, Live<a class="headerlink" href="#finishing-the-schema-the-instruments-table-live" title="Link to this heading">#</a></h2>
+<p>Notebook 3’s Exercise 1 asked you to <em>design</em>, on paper, an <code class="docutils literal notranslate"><span class="pre">instruments</span></code>
+table linked to <code class="docutils literal notranslate"><span class="pre">synthesis_steps</span></code> by a foreign key. Today we actually
+build it — inside the same three-table relational schema as Notebook 3,
+now with a fourth table and a new foreign-key column — and immediately
+put it to work on the furnace question.</p>
+<p>Each <code class="docutils literal notranslate"><span class="pre">synthesis_steps</span></code> row gets an <code class="docutils literal notranslate"><span class="pre">instrument_id</span></code> pointing at whichever
+piece of equipment ran that step. Notice <code class="docutils literal notranslate"><span class="pre">Furnace-C</span></code>’s calibration date
+below the moment the table prints — that is the process engineer’s whole
+reason for suspicion, in one column.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;:memory:&#39;</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;PRAGMA foreign_keys = ON&#39;</span><span class="p">)</span>
+
+<span class="n">conn</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">CREATE TABLE instruments (</span>
+<span class="s1">    instrument_id          INTEGER PRIMARY KEY,</span>
+<span class="s1">    name                   TEXT NOT NULL,</span>
+<span class="s1">    technique              TEXT NOT NULL,</span>
+<span class="s1">    last_calibration_date  TEXT NOT NULL</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE samples (</span>
+<span class="s1">    sample_id   TEXT PRIMARY KEY,</span>
+<span class="s1">    material    TEXT NOT NULL,</span>
+<span class="s1">    method      TEXT NOT NULL,</span>
+<span class="s1">    atmosphere  TEXT,</span>
+<span class="s1">    creator     TEXT</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE synthesis_steps (</span>
+<span class="s1">    step_id       INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">    sample_id     TEXT NOT NULL REFERENCES samples(sample_id),</span>
+<span class="s1">    step_order    INTEGER NOT NULL,</span>
+<span class="s1">    step_name     TEXT NOT NULL,</span>
+<span class="s1">    temperature_C REAL,</span>
+<span class="s1">    duration_h    REAL,</span>
+<span class="s1">    instrument_id INTEGER REFERENCES instruments(instrument_id)</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE results (</span>
+<span class="s1">    sample_id             TEXT PRIMARY KEY REFERENCES samples(sample_id),</span>
+<span class="s1">    capacity_mAh_g        REAL NOT NULL,</span>
+<span class="s1">    coulombic_efficiency  REAL NOT NULL</span>
+<span class="s1">);</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span>
+    <span class="s1">&#39;INSERT INTO instruments (instrument_id, name, technique, last_calibration_date) &#39;</span>
+    <span class="s1">&#39;VALUES (?, ?, ?, ?)&#39;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Mixer-1&#39;</span><span class="p">,</span>   <span class="s1">&#39;mixing&#39;</span><span class="p">,</span>      <span class="s1">&#39;2025-06-01&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Furnace-A&#39;</span><span class="p">,</span> <span class="s1">&#39;calcination&#39;</span><span class="p">,</span> <span class="s1">&#39;2025-05-01&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Furnace-B&#39;</span><span class="p">,</span> <span class="s1">&#39;calcination&#39;</span><span class="p">,</span> <span class="s1">&#39;2025-04-12&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Furnace-C&#39;</span><span class="p">,</span> <span class="s1">&#39;calcination&#39;</span><span class="p">,</span> <span class="s1">&#39;2024-09-05&#39;</span><span class="p">),</span>   <span class="c1"># overdue -- flagged by the process engineer</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Schema created: instruments, samples, synthesis_steps, results&#39;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM instruments&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Schema created: instruments, samples, synthesis_steps, results
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>instrument_id</th>
+      <th>name</th>
+      <th>technique</th>
+      <th>last_calibration_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Mixer-1</td>
+      <td>mixing</td>
+      <td>2025-06-01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Furnace-A</td>
+      <td>calcination</td>
+      <td>2025-05-01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Furnace-B</td>
+      <td>calcination</td>
+      <td>2025-04-12</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Furnace-C</td>
+      <td>calcination</td>
+      <td>2024-09-05</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Now insert every batch — Notebook 3’s original five (<code class="docutils literal notranslate"><span class="pre">batch_05</span></code>–<code class="docutils literal notranslate"><span class="pre">batch_09</span></code>,
+now properly linked to instruments for the first time) plus today’s 40
+new ones — the same <code class="docutils literal notranslate"><span class="pre">executemany</span></code> insert pattern as Notebook 3, Section
+3.3, just looped over more rows. <code class="docutils literal notranslate"><span class="pre">calcination_1</span></code> always runs on the same
+dedicated preheat furnace (<code class="docutils literal notranslate"><span class="pre">Furnace-A</span></code>); <code class="docutils literal notranslate"><span class="pre">mixing</span></code> always runs on the lab’s
+one mixer; only <code class="docutils literal notranslate"><span class="pre">calcination_2</span></code> — the step under suspicion — varies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FURNACE_ID</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Furnace-A&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Furnace-B&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Furnace-C&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+
+<span class="n">original_batches</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># (sample_id, method, calc2_temp, furnace, capacity, efficiency)</span>
+    <span class="p">(</span><span class="s1">&#39;batch_05&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="s1">&#39;Furnace-A&#39;</span><span class="p">,</span> <span class="mf">148.2</span><span class="p">,</span> <span class="mf">0.91</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;batch_06&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">725</span><span class="p">,</span> <span class="s1">&#39;Furnace-B&#39;</span><span class="p">,</span> <span class="mf">155.9</span><span class="p">,</span> <span class="mf">0.93</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;batch_07&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="s1">&#39;Furnace-A&#39;</span><span class="p">,</span> <span class="mf">161.4</span><span class="p">,</span> <span class="mf">0.94</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;batch_08&#39;</span><span class="p">,</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>              <span class="mi">650</span><span class="p">,</span> <span class="s1">&#39;Furnace-B&#39;</span><span class="p">,</span> <span class="mf">172.1</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;batch_09&#39;</span><span class="p">,</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>              <span class="mi">680</span><span class="p">,</span> <span class="s1">&#39;Furnace-C&#39;</span><span class="p">,</span> <span class="mf">168.7</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">all_batches</span> <span class="o">=</span> <span class="n">original_batches</span> <span class="o">+</span> <span class="p">[</span>
+    <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;calc2_temp&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;furnace&#39;</span><span class="p">],</span>
+     <span class="n">b</span><span class="p">[</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">new_batches</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">sample_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">calc2_temp</span><span class="p">,</span> <span class="n">furnace</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">efficiency</span> <span class="ow">in</span> <span class="n">all_batches</span><span class="p">:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s1">&#39;INSERT INTO samples (sample_id, material, method, atmosphere, creator) &#39;</span>
+        <span class="s1">&#39;VALUES (?, ?, ?, ?, ?)&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">sample_id</span><span class="p">,</span> <span class="s1">&#39;LiFePO4&#39;</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="s1">&#39;Ar&#39;</span><span class="p">,</span> <span class="s1">&#39;A. Lindqvist&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;mixing&#39;</span><span class="p">,</span>        <span class="kc">None</span><span class="p">,</span>       <span class="mf">2.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;calcination_1&#39;</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span>        <span class="mf">4.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;calcination_2&#39;</span><span class="p">,</span> <span class="n">calc2_temp</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">FURNACE_ID</span><span class="p">[</span><span class="n">furnace</span><span class="p">]),</span>
+    <span class="p">]</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span>
+        <span class="s1">&#39;INSERT INTO synthesis_steps &#39;</span>
+        <span class="s1">&#39;(sample_id, step_order, step_name, temperature_C, duration_h, instrument_id) &#39;</span>
+        <span class="s1">&#39;VALUES (?, ?, ?, ?, ?, ?)&#39;</span><span class="p">,</span>
+        <span class="p">[(</span><span class="n">sample_id</span><span class="p">,</span> <span class="o">*</span><span class="n">step</span><span class="p">)</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s1">&#39;INSERT INTO results (sample_id, capacity_mAh_g, coulombic_efficiency) &#39;</span>
+        <span class="s1">&#39;VALUES (?, ?, ?)&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">sample_id</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">efficiency</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="n">n_samples</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT COUNT(*) FROM samples&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">n_steps</span>   <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT COUNT(*) FROM synthesis_steps&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s1"> samples, </span><span class="si">{</span><span class="n">n_steps</span><span class="si">}</span><span class="s1"> synthesis steps, all now linked to instruments.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>45 samples, 135 synthesis steps, all now linked to instruments.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint / Exercise B</strong>: Write a <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> between <code class="docutils literal notranslate"><span class="pre">synthesis_steps</span></code> and
+<code class="docutils literal notranslate"><span class="pre">instruments</span></code> that lists every <code class="docutils literal notranslate"><span class="pre">calcination_2</span></code> step alongside the furnace
+that ran it, for <code class="docutils literal notranslate"><span class="pre">batch_05</span></code>–<code class="docutils literal notranslate"><span class="pre">batch_09</span></code> only (<code class="docutils literal notranslate"><span class="pre">WHERE</span> <span class="pre">sample_id</span> <span class="pre">IN</span> <span class="pre">(...)</span></code>).
+This is exactly the query Notebook 3’s Exercise 1 asked for — you can now
+actually run it.</p>
+</section>
+<section id="querying-like-an-analyst-the-furnace-mystery">
+<h2>6.4 Querying Like an Analyst: the Furnace Mystery<a class="headerlink" href="#querying-like-an-analyst-the-furnace-mystery" title="Link to this heading">#</a></h2>
+<p>Time to investigate. A <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> across all four tables reunites each
+sample with its <code class="docutils literal notranslate"><span class="pre">calcination_2</span></code> furnace and its measured capacity — the
+same <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> pattern as Notebook 3, Section 3.4, just spanning one more
+table. Rather than a <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> in SQL itself, we pull the <em>unaggregated</em>
+per-batch rows into a DataFrame and use <code class="docutils literal notranslate"><span class="pre">pandas</span></code>’ <code class="docutils literal notranslate"><span class="pre">.groupby()</span></code> (Part I,
+Notebook 3) to summarise — the two-step workflow (“filter and join in SQL,
+aggregate and plot in pandas”) most real analyses actually use, because it
+keeps the raw rows available for plotting afterwards too.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_furnace</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    SELECT s.sample_id, s.method, i.name AS furnace,</span>
+<span class="s1">           st.temperature_C AS calc2_temp, r.capacity_mAh_g</span>
+<span class="s1">    FROM samples s</span>
+<span class="s1">    JOIN synthesis_steps st ON st.sample_id = s.sample_id AND st.step_name = &#39;calcination_2&#39;</span>
+<span class="s1">    JOIN instruments i      ON i.instrument_id = st.instrument_id</span>
+<span class="s1">    JOIN results r          ON r.sample_id = s.sample_id</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+
+<span class="n">summary</span> <span class="o">=</span> <span class="n">df_furnace</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;furnace&#39;</span><span class="p">)[</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">summary</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+    <tr>
+      <th>furnace</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Furnace-A</th>
+      <td>14</td>
+      <td>157.64</td>
+      <td>4.51</td>
+    </tr>
+    <tr>
+      <th>Furnace-B</th>
+      <td>19</td>
+      <td>160.48</td>
+      <td>4.37</td>
+    </tr>
+    <tr>
+      <th>Furnace-C</th>
+      <td>12</td>
+      <td>156.83</td>
+      <td>5.03</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Furnace-A&#39;</span><span class="p">,</span> <span class="s1">&#39;Furnace-B&#39;</span><span class="p">,</span> <span class="s1">&#39;Furnace-C&#39;</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_furnace</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;furnace&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_furnace</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;furnace&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+              <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Furnace (calcination_2 step)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Capacity (mAh/g)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Capacity by furnace — all </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_furnace</span><span class="p">)</span><span class="si">}</span><span class="s1"> batches&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/435958ec2c49aacab1248b5345f60735c31c357998d3a124968ef66fce75f9e4.png" src="../../_images/435958ec2c49aacab1248b5345f60735c31c357998d3a124968ef66fce75f9e4.png" />
+</div>
+</div>
+<p>The boxplot only shows two variables at once. To see whether the
+furnace effect holds <em>across the calcination-temperature range too</em>, an
+interactive <code class="docutils literal notranslate"><span class="pre">plotly</span></code> scatter (Part I, Notebook 5) is more useful here than
+a static one — hover over any point below to see exactly which batch it
+is.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig_px</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">df_furnace</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;calc2_temp&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;furnace&#39;</span><span class="p">,</span>
+    <span class="n">hover_data</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sample_id&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">],</span>
+    <span class="n">category_orders</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;furnace&#39;</span><span class="p">:</span> <span class="n">order</span><span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Capacity vs. calcination temperature, coloured by furnace&#39;</span><span class="p">,</span>
+    <span class="n">template</span><span class="o">=</span><span class="s1">&#39;plotly_white&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig_px</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">        <script>
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        </script>
+        <script type="module">import "https://cdn.plot.ly/plotly-3.7.0.min"</script>
+        </div><div class="output text_html"><div style="height:525px; width:100%;">            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.7.0.min.js" integrity="sha256-jvTGqxNp8AGWEcvNLVuKr+8j5dGe9Yw51LQkmDH+IYA=" crossorigin="anonymous"></script>                <div id="96112609-b26c-4ee6-aa23-7af537fea65a" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("96112609-b26c-4ee6-aa23-7af537fea65a")) {                    Plotly.newPlot(                        "96112609-b26c-4ee6-aa23-7af537fea65a",                        [{"customdata":[["batch_05","solid-state reaction"],["batch_07","solid-state reaction"],["batch_15","solid-state reaction"],["batch_18","sol-gel"],["batch_22","solid-state reaction"],["batch_23","sol-gel"],["batch_25","sol-gel"],["batch_28","sol-gel"],["batch_30","sol-gel"],["batch_32","sol-gel"],["batch_33","solid-state reaction"],["batch_39","solid-state reaction"],["batch_40","sol-gel"],["batch_44","solid-state reaction"]],"hovertemplate":"furnace=Furnace-A\u003cbr\u003ecalc2_temp=%{x}\u003cbr\u003ecapacity_mAh_g=%{y}\u003cbr\u003esample_id=%{customdata[0]}\u003cbr\u003emethod=%{customdata[1]}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Furnace-A","marker":{"color":"#636efa","symbol":"circle"},"mode":"markers","name":"Furnace-A","orientation":"v","showlegend":true,"x":{"dtype":"f8","bdata":"AAAAAADghUAAAAAAAHCHQJqZmZmZ\u002fYZAmpmZmZkthEAAAAAAANCGQAAAAAAAXIRAZmZmZmZ2hUAAAAAAAHSFQDMzMzMz14RAzczMzMzwhEBmZmZmZuqGQM3MzMzMkIZAmpmZmZnJhEDNzMzMzPCGQA=="},"xaxis":"x","y":{"dtype":"f8","bdata":"ZmZmZmaGYkDNzMzMzCxkQGZmZmZmZmNAAAAAAAAAZECamZmZmVlkQDMzMzMzo2NAzczMzMyMY0BmZmZmZoZjQJqZmZmZ2WNAMzMzMzPzY0CamZmZmfliQAAAAAAAMGNAmpmZmZmZZEAzMzMzMyNkQA=="},"yaxis":"y","type":"scatter"},{"customdata":[["batch_06","solid-state reaction"],["batch_08","sol-gel"],["batch_10","solid-state reaction"],["batch_13","sol-gel"],["batch_14","solid-state reaction"],["batch_17","sol-gel"],["batch_19","solid-state reaction"],["batch_20","sol-gel"],["batch_21","sol-gel"],["batch_24","solid-state reaction"],["batch_26","solid-state reaction"],["batch_27","sol-gel"],["batch_29","sol-gel"],["batch_31","solid-state reaction"],["batch_35","solid-state reaction"],["batch_36","sol-gel"],["batch_38","sol-gel"],["batch_42","solid-state reaction"],["batch_48","solid-state reaction"]],"hovertemplate":"furnace=Furnace-B\u003cbr\u003ecalc2_temp=%{x}\u003cbr\u003ecapacity_mAh_g=%{y}\u003cbr\u003esample_id=%{customdata[0]}\u003cbr\u003emethod=%{customdata[1]}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Furnace-B","marker":{"color":"#EF553B","symbol":"circle"},"mode":"markers","name":"Furnace-B","orientation":"v","showlegend":true,"x":{"dtype":"f8","bdata":"AAAAAACohkAAAAAAAFCEQAAAAAAAwIZAZmZmZmZShEBmZmZmZh6HQAAAAAAAgIRAZmZmZmY6hkCamZmZmXmEQAAAAAAAeIRAAAAAAABUh0CamZmZmcmGQM3MzMzM0IRAAAAAAABohUAzMzMzM3uHQJqZmZmZaYdAmpmZmZkVhUDNzMzMzOCDQDMzMzMzU4ZAmpmZmZm9hkA="},"xaxis":"x","y":{"dtype":"f8","bdata":"zczMzMx8Y0AzMzMzM4NlQM3MzMzMTGRAMzMzMzMjZEBmZmZmZtZjQM3MzMzM7GNAAAAAAABwZEDNzMzMzLxkQAAAAAAAIGRAMzMzMzODY0BmZmZmZkZkQGZmZmZmxmNAAAAAAAAQY0AAAAAAAABkQDMzMzMz02NAzczMzMz8Y0CamZmZmalkQJqZmZmZeWNAAAAAAAAQZEA="},"yaxis":"y","type":"scatter"},{"customdata":[["batch_09","sol-gel"],["batch_11","sol-gel"],["batch_12","sol-gel"],["batch_16","solid-state reaction"],["batch_34","sol-gel"],["batch_37","sol-gel"],["batch_41","solid-state reaction"],["batch_43","solid-state reaction"],["batch_45","solid-state reaction"],["batch_46","sol-gel"],["batch_47","sol-gel"],["batch_49","solid-state reaction"]],"hovertemplate":"furnace=Furnace-C\u003cbr\u003ecalc2_temp=%{x}\u003cbr\u003ecapacity_mAh_g=%{y}\u003cbr\u003esample_id=%{customdata[0]}\u003cbr\u003emethod=%{customdata[1]}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Furnace-C","marker":{"color":"#00cc96","symbol":"circle"},"mode":"markers","name":"Furnace-C","orientation":"v","showlegend":true,"x":{"dtype":"f8","bdata":"AAAAAABAhUDNzMzMzASEQJqZmZmZ4YRAZmZmZmZeh0BmZmZmZlqEQAAAAAAARIVAMzMzMzOrhkBmZmZmZu6FQM3MzMzMMIZAAAAAAABIhUBmZmZmZtaDQJqZmZmZNYZA"},"xaxis":"x","y":{"dtype":"f8","bdata":"ZmZmZmYWZUAAAAAAAKBjQDMzMzMzY2NAzczMzMzsY0AzMzMzMzNjQM3MzMzM3GJAmpmZmZkZY0DNzMzMzAxkQAAAAAAAQGNAAAAAAADQY0CamZmZmQlkQJqZmZmZ6WJA"},"yaxis":"y","type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"calc2_temp"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"capacity_mAh_g"}},"legend":{"title":{"text":"furnace"},"tracegroupgap":0},"title":{"text":"Capacity vs. calcination temperature, coloured by furnace"}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('96112609-b26c-4ee6-aa23-7af537fea65a');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div></div></div>
+</div>
+<p><strong>Checkpoint / Exercise C</strong>: Redo the <code class="docutils literal notranslate"><span class="pre">summary</span></code> table above with a
+<em>two-level</em> <code class="docutils literal notranslate"><span class="pre">groupby(['method',</span> <span class="pre">'furnace'])</span></code> instead of just
+<code class="docutils literal notranslate"><span class="pre">groupby('furnace')</span></code>. Does the Furnace-C gap hold up within <em>both</em>
+synthesis methods separately, or mostly within one of them? That matters
+for how confident the process engineer should be.</p>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">JOIN</span></code> reunites the normalised tables Notebook 3 split apart; <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>
+(or, as used here, <code class="docutils literal notranslate"><span class="pre">pandas.groupby()</span></code> on the joined result) answers
+“compare X by category” questions — the single most common shape of
+real database question.</p></li>
+<li><p>Furnace-C’s mean capacity (156.8 mAh/g) is clearly lower than
+Furnace-B’s (160.5), but only slightly below Furnace-A’s (157.6) —
+a real but <em>modest</em> gap, not the dramatic split the process engineer’s
+hunch might suggest. That is exactly the situation a plot alone cannot
+resolve: is 156.8 vs. 157.6 a genuine (if small) furnace effect, or just
+batch-to-batch noise with only 12–19 samples per furnace? Notebook 8
+(Hypothesis Testing, Part III) gives you the formal tool — a two-sample
+t-test or ANOVA — to actually answer that, rather than eyeballing a
+boxplot.</p></li>
+</ul>
+</div>
+</section>
+<section id="the-same-investigation-in-mongodb">
+<h2>6.5 The Same Investigation in MongoDB<a class="headerlink" href="#the-same-investigation-in-mongodb" title="Link to this heading">#</a></h2>
+<p>Mirror all 45 batches into a MongoDB-style document collection — same
+<code class="docutils literal notranslate"><span class="pre">mongomock</span></code> stand-in as Notebook 3, Section 3.6, same “embed the synthesis
+history inside the sample” shape, now with an <code class="docutils literal notranslate"><span class="pre">instrument</span></code> field on each
+step.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">mongomock</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">()</span>   <span class="c1"># pymongo.MongoClient(...) against a real server</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="s1">&#39;materials_lab&#39;</span><span class="p">]</span>
+<span class="n">coll</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="s1">&#39;cathode_samples&#39;</span><span class="p">]</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">sample_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">calc2_temp</span><span class="p">,</span> <span class="n">furnace</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">efficiency</span> <span class="ow">in</span> <span class="n">all_batches</span><span class="p">:</span>
+    <span class="n">documents</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="n">sample_id</span><span class="p">,</span>
+        <span class="s1">&#39;material&#39;</span><span class="p">:</span> <span class="s1">&#39;LiFePO4&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
+        <span class="s1">&#39;atmosphere&#39;</span><span class="p">:</span> <span class="s1">&#39;Ar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;steps&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;mixing&#39;</span><span class="p">,</span>        <span class="s1">&#39;instrument&#39;</span><span class="p">:</span> <span class="s1">&#39;Mixer-1&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;calcination_1&#39;</span><span class="p">,</span> <span class="s1">&#39;instrument&#39;</span><span class="p">:</span> <span class="s1">&#39;Furnace-A&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="mi">350</span><span class="p">,</span> <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;calcination_2&#39;</span><span class="p">,</span> <span class="s1">&#39;instrument&#39;</span><span class="p">:</span> <span class="n">furnace</span><span class="p">,</span>
+             <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="n">calc2_temp</span><span class="p">,</span> <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">},</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">:</span> <span class="n">capacity</span><span class="p">,</span>
+            <span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">:</span> <span class="n">efficiency</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+
+<span class="n">coll</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">coll</span><span class="o">.</span><span class="n">count_documents</span><span class="p">({}),</span> <span class="s1">&#39;documents inserted (5 from Notebook 3 + 40 new)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>45 documents inserted (5 from Notebook 3 + 40 new)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Grouping by furnace now needs one extra pipeline stage compared to
+Notebook 3, Section 3.6: <code class="docutils literal notranslate"><span class="pre">steps</span></code> is an <strong>array</strong>, so <code class="docutils literal notranslate"><span class="pre">$unwind</span></code> first turns
+each document’s step list into one pipeline document per step, then
+<code class="docutils literal notranslate"><span class="pre">$match</span></code> keeps only the <code class="docutils literal notranslate"><span class="pre">calcination_2</span></code> steps, and <code class="docutils literal notranslate"><span class="pre">$group</span></code> aggregates —
+MongoDB’s equivalent of the <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> + <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> above, in one call.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;$unwind&#39;</span><span class="p">:</span> <span class="s1">&#39;$steps&#39;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;$match&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;steps.name&#39;</span><span class="p">:</span> <span class="s1">&#39;calcination_2&#39;</span><span class="p">}},</span>
+    <span class="p">{</span><span class="s1">&#39;$group&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="s1">&#39;$steps.instrument&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;n_batches&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$sum&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s1">&#39;mean_capacity&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$avg&#39;</span><span class="p">:</span> <span class="s1">&#39;$results.capacity_mAh_g&#39;</span><span class="p">},</span>
+    <span class="p">}},</span>
+<span class="p">]</span>
+<span class="n">df_mongo_furnace</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">coll</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)))</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="s1">&#39;furnace&#39;</span><span class="p">})</span>
+    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;furnace&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">df_mongo_furnace</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_batches</th>
+      <th>mean_capacity</th>
+      <th>furnace</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>14</td>
+      <td>157.64</td>
+      <td>Furnace-A</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>19</td>
+      <td>160.48</td>
+      <td>Furnace-B</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>12</td>
+      <td>156.83</td>
+      <td>Furnace-C</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Same question, two completely different query languages — they had
+better agree. This is exactly the kind of cross-check <code class="docutils literal notranslate"><span class="pre">numpy.allclose</span></code>
+(Part I, Notebook 2) is for: comparing two floating-point results without
+demanding bit-for-bit equality.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql_means</span>   <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="n">mongo_means</span> <span class="o">=</span> <span class="n">df_mongo_furnace</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;furnace&#39;</span><span class="p">)[</span><span class="s1">&#39;mean_capacity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SQL means:  &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">sql_means</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mongo means:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">mongo_means</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SQL and MongoDB agree:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">sql_means</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">mongo_means</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SQL means:   [157.64 160.48 156.83]
+Mongo means: [157.64 160.48 156.83]
+SQL and MongoDB agree: True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="when-schema-flexibility-bites-live">
+<h2>6.6 When Schema Flexibility Bites — Live<a class="headerlink" href="#when-schema-flexibility-bites-live" title="Link to this heading">#</a></h2>
+<p>A rushed technician logs one more Furnace-C batch, <code class="docutils literal notranslate"><span class="pre">batch_50</span></code> — but
+mistypes the step name as <code class="docutils literal notranslate"><span class="pre">'clacination_2'</span></code>. Nothing in MongoDB’s document
+model stops this insert; there is no fixed column list to violate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sloppy_doc</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="s1">&#39;batch_50&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;material&#39;</span><span class="p">:</span> <span class="s1">&#39;LiFePO4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;atmosphere&#39;</span><span class="p">:</span> <span class="s1">&#39;Ar&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;steps&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;mixing&#39;</span><span class="p">,</span>        <span class="s1">&#39;instrument&#39;</span><span class="p">:</span> <span class="s1">&#39;Mixer-1&#39;</span><span class="p">,</span>   <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;calcination_1&#39;</span><span class="p">,</span> <span class="s1">&#39;instrument&#39;</span><span class="p">:</span> <span class="s1">&#39;Furnace-A&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="mi">350</span><span class="p">,</span> <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;clacination_2&#39;</span><span class="p">,</span> <span class="s1">&#39;instrument&#39;</span><span class="p">:</span> <span class="s1">&#39;Furnace-C&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="mi">655</span><span class="p">,</span> <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">},</span>  <span class="c1"># typo!</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">:</span> <span class="mf">158.9</span><span class="p">,</span> <span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">:</span> <span class="mf">0.91</span><span class="p">},</span>
+<span class="p">}</span>
+<span class="n">coll</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">sloppy_doc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">coll</span><span class="o">.</span><span class="n">count_documents</span><span class="p">({}),</span> <span class="s1">&#39;documents now — batch_50 accepted with no error at all.&#39;</span><span class="p">)</span>
+
+<span class="n">df_after</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">coll</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)))</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="s1">&#39;furnace&#39;</span><span class="p">})</span>
+    <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;furnace&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Furnace-C count before batch_50:&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Furnace-C&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Furnace-C count after inserting batch_50:&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_after</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Furnace-C&#39;</span><span class="p">,</span> <span class="s1">&#39;n_batches&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;batch_50 is genuinely in the database, but invisible to the exact-match&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;$match: {&#39;steps.name&#39;: &#39;calcination_2&#39;} stage -- the furnace investigation&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;silently ran on incomplete data, and nothing in MongoDB flagged it.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>46 documents now — batch_50 accepted with no error at all.
+
+Furnace-C count before batch_50: 12
+Furnace-C count after inserting batch_50: 12
+batch_50 is genuinely in the database, but invisible to the exact-match
+$match: {&#39;steps.name&#39;: &#39;calcination_2&#39;} stage -- the furnace investigation
+silently ran on incomplete data, and nothing in MongoDB flagged it.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Is this really “SQL good, MongoDB bad”? Not quite — try the <em>same two
+mistakes</em> against the relational schema and see which one SQLite actually
+catches.</p>
+<p><strong>Mistake 1: an invalid reference</strong> (<code class="docutils literal notranslate"><span class="pre">instrument_id</span></code> pointing at an
+instrument that doesn’t exist) — this is exactly what the <code class="docutils literal notranslate"><span class="pre">FOREIGN</span> <span class="pre">KEY</span></code>
+constraint exists to prevent, in <em>either</em> database style (a real MongoDB
+schema would need equivalent application-level validation to catch it,
+since <code class="docutils literal notranslate"><span class="pre">mongomock</span></code>/MongoDB have no native foreign keys at all).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s2">&quot;INSERT INTO synthesis_steps &quot;</span>
+        <span class="s2">&quot;(sample_id, step_order, step_name, temperature_C, duration_h, instrument_id) &quot;</span>
+        <span class="s2">&quot;VALUES (&#39;batch_09&#39;, 4, &#39;calcination_2&#39;, 655, 6.0, 40)&quot;</span>   <span class="c1"># instrument_id 40 doesn&#39;t exist</span>
+    <span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rejected immediately:&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rejected immediately: FOREIGN KEY constraint failed
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Mistake 2: the same spelling typo as <code class="docutils literal notranslate"><span class="pre">batch_50</span></code>’s</strong> — this one is
+<em>not</em> a foreign-key problem, it’s a plain text column with no constraint
+saying which strings are valid.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="s2">&quot;INSERT INTO synthesis_steps &quot;</span>
+    <span class="s2">&quot;(sample_id, step_order, step_name, temperature_C, duration_h, instrument_id) &quot;</span>
+    <span class="s2">&quot;VALUES (&#39;batch_09&#39;, 5, &#39;clacination_2&#39;, 655, 6.0, 4)&quot;</span>
+<span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accepted without complaint -- step_name has no CHECK constraint, so plain SQLite&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;is just as blind to this specific typo as MongoDB was.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accepted without complaint -- step_name has no CHECK constraint, so plain SQLite
+is just as blind to this specific typo as MongoDB was.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>The real lesson isn’t “SQL enforces everything, MongoDB enforces
+nothing” — it’s that <strong>each database only enforces exactly what you
+told it to.</strong> A <code class="docutils literal notranslate"><span class="pre">FOREIGN</span> <span class="pre">KEY</span></code> protects referential integrity (Mistake 1)
+in SQL; MongoDB has no native equivalent and needs application-level
+validation (Notebook 4’s <code class="docutils literal notranslate"><span class="pre">validate_entry</span></code> function is exactly that
+pattern) to get the same guarantee.</p></li>
+<li><p>Neither database protects you from a free-text typo (Mistake 2) unless
+you explicitly add something to catch it — a <code class="docutils literal notranslate"><span class="pre">CHECK</span></code> constraint or a
+lookup table in SQL, a validation function before every <code class="docutils literal notranslate"><span class="pre">insert_one</span></code> in
+MongoDB. “Which database did I choose?” matters less here than “what did
+I actually tell it to enforce?”</p></li>
+<li><p>Exercise (Core practice, below) asks you to close exactly this gap with
+a <code class="docutils literal notranslate"><span class="pre">CHECK</span></code> constraint.</p></li>
+</ul>
+</div>
+</section>
+<section id="going-further-indexing-and-query-performance-at-scale">
+<h2>6.7 <em>Going Further</em>: Indexing and Query Performance at Scale<a class="headerlink" href="#going-further-indexing-and-query-performance-at-scale" title="Link to this heading">#</a></h2>
+<p>Everything above ran instantly because 45 rows is nothing for a database
+to search — it can just scan the whole table every time. A real lab
+accumulates thousands of synthesis steps over the years; at that scale,
+<em>how</em> a database finds matching rows starts to matter. Simulate that
+scale directly, generating 200,000 synthetic rows the same vectorised way
+as Section 6.2, and time a lookup query before and after adding an
+<strong>index</strong> — a separate, sorted structure the database can binary-search
+instead of scanning row by row — using <code class="docutils literal notranslate"><span class="pre">time.perf_counter()</span></code>, the same
+timing tool Part I, Notebook 1 used for comparing implementations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">conn2</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;:memory:&#39;</span><span class="p">)</span>
+<span class="n">conn2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="s1">&#39;CREATE TABLE big_steps (id INTEGER PRIMARY KEY, sample_id TEXT, &#39;</span>
+    <span class="s1">&#39;instrument_id INTEGER, capacity_mAh_g REAL)&#39;</span>
+<span class="p">)</span>
+
+<span class="n">n_big</span> <span class="o">=</span> <span class="mi">200_000</span>
+<span class="n">big_instrument_ids</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_big</span><span class="p">)</span>
+<span class="n">big_capacity</span>       <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_big</span><span class="p">)</span>
+
+<span class="n">cur2</span> <span class="o">=</span> <span class="n">conn2</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur2</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span>
+    <span class="s1">&#39;INSERT INTO big_steps (sample_id, instrument_id, capacity_mAh_g) VALUES (?, ?, ?)&#39;</span><span class="p">,</span>
+    <span class="p">[(</span><span class="sa">f</span><span class="s1">&#39;sim_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">iid</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">cap</span><span class="p">))</span>
+     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">iid</span><span class="p">,</span> <span class="n">cap</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">big_instrument_ids</span><span class="p">,</span> <span class="n">big_capacity</span><span class="p">))],</span>
+<span class="p">)</span>
+<span class="n">conn2</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">n_big</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> synthetic step rows inserted (simulating years of accumulated lab data).&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>200,000 synthetic step rows inserted (simulating years of accumulated lab data).
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_repeat</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;sim_150000&#39;</span>   <span class="c1"># a single, specific row -- the realistic case: &quot;look up this one sample&quot;</span>
+
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_repeat</span><span class="p">):</span>
+    <span class="n">cur2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT capacity_mAh_g FROM big_steps WHERE sample_id = ?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">target</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+<span class="n">t_no_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_repeat</span>
+
+<span class="n">cur2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;CREATE INDEX idx_sample_id ON big_steps(sample_id)&#39;</span><span class="p">)</span>
+
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_repeat</span><span class="p">):</span>
+    <span class="n">cur2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT capacity_mAh_g FROM big_steps WHERE sample_id = ?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">target</span><span class="p">,))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+<span class="n">t_with_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_repeat</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Without index: </span><span class="si">{</span><span class="n">t_no_index</span><span class="o">*</span><span class="mf">1e6</span><span class="si">:</span><span class="s1">8.1f</span><span class="si">}</span><span class="s1"> µs/query  (average of </span><span class="si">{</span><span class="n">n_repeat</span><span class="si">}</span><span class="s1"> runs)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;With index:    </span><span class="si">{</span><span class="n">t_with_index</span><span class="o">*</span><span class="mf">1e6</span><span class="si">:</span><span class="s1">8.1f</span><span class="si">}</span><span class="s1"> µs/query  (average of </span><span class="si">{</span><span class="n">n_repeat</span><span class="si">}</span><span class="s1"> runs)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Speedup:       </span><span class="si">{</span><span class="n">t_no_index</span><span class="o">/</span><span class="n">t_with_index</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">x&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Without index:   5489.0 µs/query  (average of 20 runs)
+With index:         6.0 µs/query  (average of 20 runs)
+Speedup:       921.0x
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plan</span> <span class="o">=</span> <span class="n">cur2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="s2">&quot;EXPLAIN QUERY PLAN SELECT capacity_mAh_g FROM big_steps WHERE sample_id = &#39;sim_150000&#39;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">plan</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SEARCH ... USING INDEX confirms SQLite used the B-tree index instead of scanning&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;all 200,000 rows -- before CREATE INDEX, this would instead read </span><span class="se">\&#39;</span><span class="s1">SCAN big_steps</span><span class="se">\&#39;</span><span class="s1">.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3, 0, 62, &#39;SEARCH big_steps USING INDEX idx_sample_id (sample_id=?)&#39;)
+
+SEARCH ... USING INDEX confirms SQLite used the B-tree index instead of scanning
+all 200,000 rows -- before CREATE INDEX, this would instead read &#39;SCAN big_steps&#39;.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>Indexing trades a small amount of storage and slower <em>writes</em> for much
+faster <em>reads</em> on the indexed column — worth it for a column you filter
+on often (<code class="docutils literal notranslate"><span class="pre">sample_id</span></code> here), not worth it for columns you rarely search
+directly.</p></li>
+<li><p>The speedup above depends on <strong>selectivity</strong>: <code class="docutils literal notranslate"><span class="pre">sample_id</span></code> has 200,000
+distinct values, so an index narrows the search from “scan everything”
+to “look up one row” almost immediately. A column like <code class="docutils literal notranslate"><span class="pre">instrument_id</span></code>
+(only 4 distinct values) selects roughly a quarter of the table either
+way — indexing it would help far less. Deeper-practice Exercise 1
+(below) asks you to check this directly.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mongomock</span></code> is a pure-Python reference implementation with no real index
+data structures, so this benchmark cannot be reproduced with it — but a
+real MongoDB server’s <code class="docutils literal notranslate"><span class="pre">db.collection.create_index()</span></code> gives the same
+benefit, and <code class="docutils literal notranslate"><span class="pre">.explain()</span></code> is Mongo’s equivalent of <code class="docutils literal notranslate"><span class="pre">EXPLAIN</span> <span class="pre">QUERY</span> <span class="pre">PLAN</span></code>.</p></li>
+</ul>
+</div>
+</section>
+<section id="summary-what-to-do-about-furnace-c">
+<h2>6.8 Summary: What to Do About Furnace-C<a class="headerlink" href="#summary-what-to-do-about-furnace-c" title="Link to this heading">#</a></h2>
+<p>So — is Furnace-C the culprit? Across all 45 batches, Furnace-C’s mean
+capacity (156.8 mAh/g) is clearly below Furnace-B’s (160.5) and slightly
+below Furnace-A’s (157.6) — a real but modest gap, and one that survived
+being computed two independent ways (SQL <code class="docutils literal notranslate"><span class="pre">JOIN</span></code>+<code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> and a MongoDB
+aggregation pipeline, Section 6.4–6.5). Checkpoint C asked you to check
+whether it holds within both synthesis methods separately — with only
+12–19 samples per furnace, that check matters. This is <strong>suggestive, not
+proof</strong> — Notebook 8 (Hypothesis Testing, Part III) is where you get the
+formal tool to turn “looks a bit lower” into “is statistically different.”
+The honest recommendation today is: flag Furnace-C for recalibration
+regardless (its calibration date alone justifies that), and re-run the
+comparison with a proper hypothesis test once you get to Notebook 8 before
+treating the gap as confirmed.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>What today added on top of Notebook 3</p></th>
+<th class="head"><p>Where</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A realistic <em>scale</em> (45 batches, not 5) generated with Part I’s <code class="docutils literal notranslate"><span class="pre">numpy</span></code> tools</p></td>
+<td><p>6.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>The <code class="docutils literal notranslate"><span class="pre">instruments</span></code> table Notebook 3’s Exercise 1 only sketched, built and linked live</p></td>
+<td><p>6.3</p></td>
+</tr>
+<tr class="row-even"><td><p>A real cross-table investigation, cross-checked between SQL and MongoDB</p></td>
+<td><p>6.4–6.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>An honest, non-partisan look at what each schema does and doesn’t enforce</p></td>
+<td><p>6.6</p></td>
+</tr>
+<tr class="row-even"><td><p>What changes at real-lab scale: indexing and query performance</p></td>
+<td><p>6.7</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Next up, Notebook 7 takes the same “query, build a DataFrame, plot” workflow
+outside your own laptop entirely, against the real, public NOMAD
+repository.</p>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p><em>(Checkpoints A–C are inline above, at the point in the notebook where you
+have the context to attempt them. The following are additional practice
+beyond the core session.)</em></p>
+<p><strong>Core practice</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Close the typo gap in SQL</strong>: Add a <code class="docutils literal notranslate"><span class="pre">CHECK</span></code> constraint to
+<code class="docutils literal notranslate"><span class="pre">synthesis_steps.step_name</span></code> restricting it to
+<code class="docutils literal notranslate"><span class="pre">('mixing',</span> <span class="pre">'calcination_1',</span> <span class="pre">'calcination_2')</span></code> (SQLite supports
+<code class="docutils literal notranslate"><span class="pre">CHECK</span></code> in <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code>). Re-attempt the <code class="docutils literal notranslate"><span class="pre">'clacination_2'</span></code> insert from
+Section 6.6, Mistake 2 — confirm it is now rejected.</p></li>
+<li><p><strong>Close the typo gap in MongoDB</strong>: Write a small Python function
+<code class="docutils literal notranslate"><span class="pre">validate_step(doc)</span></code> that checks every entry in <code class="docutils literal notranslate"><span class="pre">doc['steps']</span></code> has a
+<code class="docutils literal notranslate"><span class="pre">name</span></code> in the same allowed set, and call it before <code class="docutils literal notranslate"><span class="pre">insert_one</span></code> — the
+application-level enforcement MongoDB does not give you for free
+(compare to Notebook 4’s <code class="docutils literal notranslate"><span class="pre">validate_entry</span></code>). Confirm it catches
+<code class="docutils literal notranslate"><span class="pre">batch_50</span></code>’s typo.</p></li>
+<li><p><strong>Two-level breakdown, written up</strong>: Using Checkpoint C’s
+<code class="docutils literal notranslate"><span class="pre">groupby(['method',</span> <span class="pre">'furnace'])</span></code> result, write 2–3 sentences
+summarising what you would tell the process engineer: is Furnace-C’s
+effect consistent across both synthesis methods, or concentrated in
+one?</p></li>
+</ol>
+<p><strong>Deeper practice</strong></p>
+<ol class="arabic simple" start="4">
+<li><p><strong>Selectivity matters</strong>: Repeat the Section 6.7 benchmark, but index
+<code class="docutils literal notranslate"><span class="pre">instrument_id</span></code> instead of <code class="docutils literal notranslate"><span class="pre">sample_id</span></code>, and time a query filtering on
+<code class="docutils literal notranslate"><span class="pre">instrument_id</span> <span class="pre">=</span> <span class="pre">4</span></code>. Is the speedup as large as it was for <code class="docutils literal notranslate"><span class="pre">sample_id</span></code>?
+Explain the difference in terms of how many rows each query actually
+matches.</p></li>
+<li><p><strong>From this notebook to a real, shared lab database</strong>: Describe (2–3
+sentences each) what would need to change to run today’s SQL section
+against a real, shared PostgreSQL server instead of in-memory SQLite
+(Notebook 3, Section 3.5 already showed you the one line), and what
+would need to change to run the MongoDB section against a real MongoDB
+server instead of <code class="docutils literal notranslate"><span class="pre">mongomock</span></code> (hint: only the client constructor).</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\02_data_handling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05_building_a_fair_dataset.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">5. Capstone: Building a FAIR Dataset</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07_nomad_api_live_tutorial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-in-60-seconds">6.1 Recap in 60 Seconds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#growing-the-dataset">6.2 Growing the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finishing-the-schema-the-instruments-table-live">6.3 Finishing the Schema: the <code class="docutils literal notranslate"><span class="pre">instruments</span></code> Table, Live</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-like-an-analyst-the-furnace-mystery">6.4 Querying Like an Analyst: the Furnace Mystery</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-same-investigation-in-mongodb">6.5 The Same Investigation in MongoDB</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-schema-flexibility-bites-live">6.6 When Schema Flexibility Bites — Live</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#going-further-indexing-and-query-performance-at-scale">6.7 <em>Going Further</em>: Indexing and Query Performance at Scale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-what-to-do-about-furnace-c">6.8 Summary: What to Do About Furnace-C</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

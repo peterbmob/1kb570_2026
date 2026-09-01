@@ -1,0 +1,1673 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/04_doe/08_live_tutorial_2_minitab_to_sixfactor';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="24. Live Tutorial 3: Model Reduction and Fractional Designs" href="09_live_tutorial_3_model_reduction_fractional.html" />
+    <link rel="prev" title="22. Live Tutorial 1: Two-Factor DoE, Start to Finish" href="07_live_tutorial_1_factorial_designs.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_data_handling/overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/03_databases_sql_nosql.html">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part V: Design of Experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/04_doe/08_live_tutorial_2_minitab_to_sixfactor.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/04_doe/08_live_tutorial_2_minitab_to_sixfactor.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-video-to-python-a-3-factor-sintering-study">23.1 From a Video to Python: A 3-Factor Sintering Study</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom">23.2 Fitting the Full Model — and Why It Has Zero Residual Degrees of Freedom</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-chart-model-reduction-and-confirmation">23.3 Pareto Chart, Model Reduction, and Confirmation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raising-the-stakes-box-draper-s-six-factor-study">23.4 Raising the Stakes: Box &amp; Draper’s Six-Factor Study</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-effects-by-hand-the-yates-method">23.5 Computing Effects by Hand — The Yates Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-same-effects-automatically-statsmodels-ols">23.6 The Same Effects, Automatically — statsmodels OLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#screening-without-replication-pareto-and-normal-probability-plots">23.7 Screening Without Replication: Pareto and Normal-Probability Plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-result-what-the-book-says">23.8 Reading the Result: What the Book Says</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="live-tutorial-2-from-minitab-to-six-factors-two-ways-to-read-an-effect">
+<h1>23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect<a class="headerlink" href="#live-tutorial-2-from-minitab-to-six-factors-two-ways-to-read-an-effect" title="Link to this heading">#</a></h1>
+<p>Every DoE practitioner eventually makes this comparison: a point-and-click
+tool walks you through a factorial analysis one dialog box at a time, and
+you want to know whether the same analysis, done in a few lines of Python,
+gives the identical answer. Part A recreates that comparison directly —
+in the style of a Minitab “DOE — Full Factorial Analysis” walkthrough —
+on a small, synthetic 3-factor materials study. Part B then raises the
+stakes with <strong>real, published textbook data</strong>: Box &amp; Draper’s 2⁶
+full-factorial study (<em>Empirical Model-Building and Response Surfaces</em>,
+Wiley 1984, Ch. 4), 64 genuine experimental runs and 6 factors, analysed
+first by hand (Yates’ contrast method) and then by an auto-generated
+<code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> formula — plus a screening tool built specifically for
+designs with no replication at all: the normal-probability plot.</p>
+<p><strong>Session plan</strong></p>
+<ol class="arabic simple">
+<li><p>From a video to Python: a 3-factor sintering study</p></li>
+<li><p>Fitting the full model — and why it has zero residual degrees of freedom</p></li>
+<li><p>Pareto chart, model reduction, and confirmation</p></li>
+<li><p>Raising the stakes: Box &amp; Draper’s six-factor study</p></li>
+<li><p>Computing effects by hand — the Yates method</p></li>
+<li><p>The same effects, automatically — statsmodels OLS</p></li>
+<li><p>Screening without replication: Pareto and normal-probability plots</p></li>
+<li><p>Reading the result: what the book says</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span><span class="p">,</span> <span class="n">combinations</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.graphics.gofplots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smg</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;colorblind&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">606</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="from-a-video-to-python-a-3-factor-sintering-study">
+<h2>23.1 From a Video to Python: A 3-Factor Sintering Study<a class="headerlink" href="#from-a-video-to-python-a-3-factor-sintering-study" title="Link to this heading">#</a></h2>
+<p><strong>Hot-pressing a ceramic pellet</strong>: three process factors, response =
+relative density (%TD, percent of theoretical density), 5 replicate
+pellets pressed at each of the 8 corner settings.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Factor</p></th>
+<th class="head"><p>Low (<span class="math notranslate nohighlight">\(-1\)</span>)</p></th>
+<th class="head"><p>High (<span class="math notranslate nohighlight">\(+1\)</span>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A — Dwell time</p></td>
+<td><p>1 h</p></td>
+<td><p>3 h</p></td>
+</tr>
+<tr class="row-odd"><td><p>B — Temperature</p></td>
+<td><p>1000°C</p></td>
+<td><p>1200°C</p></td>
+</tr>
+<tr class="row-even"><td><p>C — Pressure</p></td>
+<td><p>10 MPa</p></td>
+<td><p>30 MPa</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Exactly as a Minitab walkthrough would, we first record each factor’s real
+low/high values, then encode them to <span class="math notranslate nohighlight">\(\pm 1\)</span> using the span-and-average
+trick — this is what makes “the coefficient on A” mean the same thing
+regardless of whether A is measured in hours, °C, or MPa.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factor_ranges</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Dwell_time_h&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span>
+    <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Temperature_C&#39;</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1200.0</span><span class="p">),</span>
+    <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Pressure_MPa&#39;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">inputs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span> <span class="ow">in</span> <span class="n">factor_ranges</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;factor&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;factor&#39;</span><span class="p">)</span>
+<span class="n">inputs_df</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputs_df</span><span class="p">[</span><span class="s1">&#39;low&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">inputs_df</span><span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">inputs_df</span><span class="p">[</span><span class="s1">&#39;span&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputs_df</span><span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">inputs_df</span><span class="p">[</span><span class="s1">&#39;low&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">inputs_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>low</th>
+      <th>high</th>
+      <th>label</th>
+      <th>average</th>
+      <th>span</th>
+    </tr>
+    <tr>
+      <th>factor</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>Dwell_time_h</td>
+      <td>2.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>1000.0</td>
+      <td>1200.0</td>
+      <td>Temperature_C</td>
+      <td>1100.0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>10.0</td>
+      <td>30.0</td>
+      <td>Pressure_MPa</td>
+      <td>20.0</td>
+      <td>10.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">encoded_inputs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">encoded_inputs</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+
+<span class="c1"># Decode coded -1/+1 back to real units -- the video&#39;s span+average trick, in reverse</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]:</span>
+    <span class="n">results</span><span class="p">[</span><span class="n">inputs_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">inputs_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;average&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">results</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">*</span> <span class="n">inputs_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;span&#39;</span><span class="p">]</span>
+<span class="n">results</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>Dwell_time_h</th>
+      <th>Temperature_C</th>
+      <th>Pressure_MPa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>1.0</td>
+      <td>1000.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>1000.0</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>1.0</td>
+      <td>1200.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>1200.0</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>3.0</td>
+      <td>1000.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>3.0</td>
+      <td>1000.0</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>3.0</td>
+      <td>1200.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3.0</td>
+      <td>1200.0</td>
+      <td>30.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># True process (coded units): dwell time (A) and pressure (C) both raise density,</span>
+<span class="c1"># temperature (B) barely matters in this range, and there&#39;s a genuine A:C synergy</span>
+<span class="c1"># (longer dwell matters more when pressure is also high) -- everything else is noise.</span>
+<span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span>
+<span class="n">true_density</span> <span class="o">=</span> <span class="mf">92.0</span> <span class="o">+</span> <span class="mf">3.5</span><span class="o">*</span><span class="n">A</span> <span class="o">+</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">B</span> <span class="o">+</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">C</span> <span class="o">+</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">C</span>
+
+<span class="n">n_reps</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">true_density</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">),</span> <span class="n">n_reps</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_reps</span><span class="p">):</span>
+    <span class="n">results</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Y</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[[</span><span class="sa">f</span><span class="s1">&#39;Y</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_reps</span><span class="p">)]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[[</span><span class="sa">f</span><span class="s1">&#39;Y</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_reps</span><span class="p">)]]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span><span class="p">[[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;Y1&#39;</span><span class="p">,</span> <span class="s1">&#39;Y2&#39;</span><span class="p">,</span> <span class="s1">&#39;Y3&#39;</span><span class="p">,</span> <span class="s1">&#39;Y4&#39;</span><span class="p">,</span> <span class="s1">&#39;Y5&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>Y1</th>
+      <th>Y2</th>
+      <th>Y3</th>
+      <th>Y4</th>
+      <th>Y5</th>
+      <th>y</th>
+      <th>s</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>87.48</td>
+      <td>87.89</td>
+      <td>87.51</td>
+      <td>87.69</td>
+      <td>87.62</td>
+      <td>87.638</td>
+      <td>0.164225</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>89.22</td>
+      <td>88.57</td>
+      <td>89.37</td>
+      <td>89.18</td>
+      <td>88.60</td>
+      <td>88.988</td>
+      <td>0.374793</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>87.79</td>
+      <td>87.89</td>
+      <td>88.56</td>
+      <td>88.45</td>
+      <td>87.97</td>
+      <td>88.132</td>
+      <td>0.348597</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>89.41</td>
+      <td>89.29</td>
+      <td>89.31</td>
+      <td>89.39</td>
+      <td>89.43</td>
+      <td>89.366</td>
+      <td>0.062290</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>92.16</td>
+      <td>91.94</td>
+      <td>91.66</td>
+      <td>92.15</td>
+      <td>92.07</td>
+      <td>91.996</td>
+      <td>0.207437</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>98.13</td>
+      <td>98.26</td>
+      <td>98.71</td>
+      <td>98.46</td>
+      <td>98.42</td>
+      <td>98.396</td>
+      <td>0.219386</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>92.45</td>
+      <td>92.24</td>
+      <td>92.52</td>
+      <td>92.87</td>
+      <td>92.86</td>
+      <td>92.588</td>
+      <td>0.273075</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>99.36</td>
+      <td>99.68</td>
+      <td>99.20</td>
+      <td>99.24</td>
+      <td>98.92</td>
+      <td>99.280</td>
+      <td>0.275681</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom">
+<h2>23.2 Fitting the Full Model — and Why It Has Zero Residual Degrees of Freedom<a class="headerlink" href="#fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom" title="Link to this heading">#</a></h2>
+<p>First check whether the <strong>scatter itself</strong> depends on the settings — a
+real process-control question, not just a formality: if pressure also
+controls how <em>repeatable</em> the density is, that matters as much as the
+average density itself.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_s</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;s ~ A + B + C + A:B + A:C + B:C&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mod_s</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Largest |coefficient|: </span><span class="si">{</span><span class="n">mod_s</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Intercept&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> -- &#39;</span>
+      <span class="s1">&#39;no term stands out; replicate-to-replicate scatter looks like pure measurement noise.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercept    0.241
+A            0.003
+B           -0.001
+C           -0.008
+A:B          0.031
+A:C          0.011
+B:C         -0.063
+dtype: float64
+
+Largest |coefficient|: 0.063 -- no term stands out; replicate-to-replicate scatter looks like pure measurement noise.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_full</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y ~ A * B * C&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mod_full</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Residual df: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">mod_full</span><span class="o">.</span><span class="n">df_resid</span><span class="p">)</span><span class="si">}</span><span class="s1">  (8 corner averages - 8 parameters)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Zero residual degrees of freedom: the full model fits the 8 corner averages&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exactly, so there is no p-value or F-test available for any term -- only the&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;coefficients themselves, ranked by magnitude, are usable for screening. This is&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exactly the situation a Minitab full-factorial walkthrough runs into as well.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercept    92.048
+A             3.517
+B             0.293
+A:B           0.075
+C             1.959
+A:C           1.314
+B:C           0.022
+A:B:C         0.051
+dtype: float64
+
+Residual df: 0  (8 corner averages - 8 parameters)
+Zero residual degrees of freedom: the full model fits the 8 corner averages
+exactly, so there is no p-value or F-test available for any term -- only the
+coefficients themselves, ranked by magnitude, are usable for screening. This is
+exactly the situation a Minitab full-factorial walkthrough runs into as well.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pareto-chart-model-reduction-and-confirmation">
+<h2>23.3 Pareto Chart, Model Reduction, and Confirmation<a class="headerlink" href="#pareto-chart-model-reduction-and-confirmation" title="Link to this heading">#</a></h2>
+<p>With no p-values to rank by, fall back on <strong>magnitude</strong>: a Pareto chart of
+the standardized effects (twice each coefficient, same convention as
+Notebook 22), sorted largest to smallest, with a cumulative-percentage
+line to separate the “vital few” from the “trivial many” — the same 80/20
+logic behind every Pareto chart in this course.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">effects</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">mod_full</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">effects_df</span> <span class="o">=</span> <span class="n">effects</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s1">&#39;standardized_effect&#39;</span><span class="p">)</span>
+<span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;cum_pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;standardized_effect&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+                          <span class="o">/</span> <span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;standardized_effect&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">effects_df</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">effects_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;standardized_effect&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">effects_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;cum_pct&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;|Standardized effect|&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Cumulative %&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pareto chart -- sintering density study (Part A)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       standardized_effect  cum_pct
+A                    7.034     48.6
+C                    3.919     75.7
+A:C                  2.627     93.9
+B                    0.587     97.9
+A:B                  0.151     99.0
+A:B:C                0.102     99.7
+B:C                  0.044    100.0
+</pre></div>
+</div>
+<img alt="../../_images/da2b888e0f9d25d43a013ec9ccee9dbbe27a3eed16a9e8eebf8bfa64afe9462b.png" src="../../_images/da2b888e0f9d25d43a013ec9ccee9dbbe27a3eed16a9e8eebf8bfa64afe9462b.png" />
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p><code class="docutils literal notranslate"><span class="pre">A</span></code> (dwell time, effect 7.03) and <code class="docutils literal notranslate"><span class="pre">C</span></code> (pressure, effect 3.92) together
+already cover 75.7% of the cumulative standardized effect; <code class="docutils literal notranslate"><span class="pre">A:C</span></code>
+(effect 2.63) pushes that to 93.9%, and <code class="docutils literal notranslate"><span class="pre">B</span></code> (0.59) and the remaining
+interactions trail far behind, together barely 6%. This matches the true
+built-in structure closely — true effects of 7.0 (<code class="docutils literal notranslate"><span class="pre">A</span></code>), 4.0 (<code class="docutils literal notranslate"><span class="pre">C</span></code>), 2.4
+(<code class="docutils literal notranslate"><span class="pre">A:C</span></code>), and 0.6 (<code class="docutils literal notranslate"><span class="pre">B</span></code>) — though as Section 23.3’s next cell shows, “close
+to the true ranking” and “clears an 80% cumulative cutoff” are not always
+the same thing.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keep_terms</span> <span class="o">=</span> <span class="n">effects_df</span><span class="p">[</span><span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;cum_pct&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">80</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">keep_terms</span><span class="p">:</span>                      <span class="c1"># always keep at least the single largest term</span>
+    <span class="n">keep_terms</span> <span class="o">=</span> <span class="p">[</span><span class="n">effects_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Terms kept (cumulative &lt;= 80%):&#39;</span><span class="p">,</span> <span class="n">keep_terms</span><span class="p">)</span>
+
+<span class="n">formula_reduced</span> <span class="o">=</span> <span class="s1">&#39;y ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keep_terms</span><span class="p">)</span>
+<span class="n">mod_reduced_A</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula_reduced</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mod_reduced_A</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Terms kept (cumulative &lt;= 80%): [&#39;A&#39;, &#39;C&#39;]
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept     92.0480      0.603    152.559      0.000      90.497      93.599
+A              3.5170      0.603      5.829      0.002       1.966       5.068
+C              1.9595      0.603      3.248      0.023       0.409       3.510
+==============================================================================
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>The mechanical 80%-cumulative rule keeps only <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code> here — <code class="docutils literal notranslate"><span class="pre">A:C</span></code>’s
+cumulative total (93.9%) falls just past the 80% line, so a strict
+cutoff drops a genuinely real interaction (true effect 2.4) purely
+because of where the cumulative percentage happened to cross 80% after
+<code class="docutils literal notranslate"><span class="pre">C</span></code>. The 2-term reduced model still fits well (R²=0.899) and both
+coefficients land close to true (<code class="docutils literal notranslate"><span class="pre">A</span></code>: fitted 3.517 vs. true 3.5; <code class="docutils literal notranslate"><span class="pre">C</span></code>:
+fitted 1.960 vs. true 2.0), so this isn’t a <em>bad</em> model — but it is a
+reminder that an 80% cumulative threshold, like any rule of thumb, is a
+starting point for judgement, not a substitute for it. A Minitab analyst
+eyeballing the same chart, seeing the clear gap between <code class="docutils literal notranslate"><span class="pre">A:C</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code>,
+would likely have kept <code class="docutils literal notranslate"><span class="pre">A:C</span></code> too.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;y_pred&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mod_reduced_A</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;y_pred&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">lims</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lims</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Identity line&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Observed density (%TD)&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Predicted density (%TD)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Reduced model: predicted vs. observed&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reduced model R2 = </span><span class="si">{</span><span class="n">mod_reduced_A</span><span class="o">.</span><span class="n">rsquared</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a8ca34dc2ef0a785c5fe443f842676ef523a474bf14a8825fe1008ffd39da98c.png" src="../../_images/a8ca34dc2ef0a785c5fe443f842676ef523a474bf14a8825fe1008ffd39da98c.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced model R2 = 0.8990
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Checkpoint</strong>: does <code class="docutils literal notranslate"><span class="pre">keep_terms</span></code> recover <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code> — the two largest
+terms actually built into <code class="docutils literal notranslate"><span class="pre">true_density</span></code> — and correctly leave out <code class="docutils literal notranslate"><span class="pre">B</span></code>?
+Then look at where <code class="docutils literal notranslate"><span class="pre">A:C</span></code> (also genuinely built in, but smaller) falls
+relative to the 80% cumulative line: is it kept or dropped, and does that
+match what you’d have chosen by eye from the Pareto chart? This is the
+same reduction logic as Notebook 24 (Live Tutorial 3) §24.2, just driven
+by effect magnitude instead of a p-value, because Section 23.2 showed
+there are no p-values available here at all.</p>
+</section>
+<section id="raising-the-stakes-box-draper-s-six-factor-study">
+<h2>23.4 Raising the Stakes: Box &amp; Draper’s Six-Factor Study<a class="headerlink" href="#raising-the-stakes-box-draper-s-six-factor-study" title="Link to this heading">#</a></h2>
+<p>Part A was small and synthetic — 8 runs, 3 factors, invented numbers.
+Part B uses <strong>genuine published data</strong>: a <span class="math notranslate nohighlight">\(2^6\)</span> full-factorial study from
+Box &amp; Draper’s <em>Empirical Model-Building and Response Surfaces</em> (Wiley,
+1984), Chapter 4 — 64 real experimental runs, 6 coded factors
+(<span class="math notranslate nohighlight">\(x_1,\ldots,x_6\)</span>), and 3 recorded response variables. We work with
+<span class="math notranslate nohighlight">\(y_1\)</span> throughout this section (Exercise 2 asks you to repeat the analysis
+for <span class="math notranslate nohighlight">\(y_2\)</span> or <span class="math notranslate nohighlight">\(y_3\)</span>). The same two techniques from Part A — manual
+contrast-based effects and a <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> OLS fit — scale up completely
+unchanged; only the <em>practicality</em> of writing out the model formula by
+hand changes, which is exactly the problem Section 23.6 solves.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">encoded_inputs6</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="n">doe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">encoded_inputs6</span><span class="p">)</span>
+<span class="n">doe</span> <span class="o">=</span> <span class="n">doe</span><span class="p">[</span><span class="n">doe</span><span class="o">.</span><span class="n">columns</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+<span class="n">doe</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;x</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+
+<span class="c1"># Real published data: Box &amp; Draper (1984), Ch. 4 -- three response variables</span>
+<span class="c1"># recorded from the same 64-run 2^6 design.</span>
+<span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.4</span><span class="p">,</span> <span class="mf">9.7</span><span class="p">,</span> <span class="mf">7.4</span><span class="p">,</span> <span class="mf">10.6</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">7.9</span><span class="p">,</span> <span class="mf">10.3</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">,</span> <span class="mf">14.3</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">,</span> <span class="mf">7.8</span><span class="p">,</span> <span class="mf">17.2</span><span class="p">,</span> <span class="mf">9.4</span><span class="p">,</span> <span class="mf">12.1</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">,</span> <span class="mf">15.8</span><span class="p">,</span> <span class="mf">8.3</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">7.9</span><span class="p">,</span> <span class="mf">10.7</span><span class="p">,</span> <span class="mf">7.2</span><span class="p">,</span> <span class="mf">7.2</span><span class="p">,</span> <span class="mf">7.9</span><span class="p">,</span> <span class="mf">10.2</span><span class="p">,</span> <span class="mf">10.3</span><span class="p">,</span> <span class="mf">9.9</span><span class="p">,</span> <span class="mf">7.4</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">,</span> <span class="mf">15.1</span><span class="p">,</span> <span class="mf">8.7</span><span class="p">,</span> <span class="mf">12.1</span><span class="p">,</span> <span class="mf">12.6</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">,</span> <span class="mf">11.3</span><span class="p">,</span> <span class="mf">10.6</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="mf">12.5</span><span class="p">,</span> <span class="mf">11.1</span><span class="p">,</span> <span class="mf">12.9</span><span class="p">,</span> <span class="mf">14.6</span><span class="p">,</span> <span class="mf">12.7</span><span class="p">,</span> <span class="mf">10.8</span><span class="p">,</span> <span class="mf">17.1</span><span class="p">,</span> <span class="mf">13.6</span><span class="p">,</span> <span class="mf">14.6</span><span class="p">,</span> <span class="mf">13.3</span><span class="p">,</span> <span class="mf">14.4</span><span class="p">,</span> <span class="mf">11.0</span><span class="p">,</span> <span class="mf">12.5</span><span class="p">,</span> <span class="mf">8.9</span><span class="p">,</span> <span class="mf">13.1</span><span class="p">,</span> <span class="mf">7.6</span><span class="p">,</span> <span class="mf">8.6</span><span class="p">,</span> <span class="mf">11.8</span><span class="p">,</span> <span class="mf">12.4</span><span class="p">,</span> <span class="mf">13.4</span><span class="p">,</span> <span class="mf">14.6</span><span class="p">,</span> <span class="mf">14.9</span><span class="p">,</span> <span class="mf">11.8</span><span class="p">,</span> <span class="mf">15.6</span><span class="p">,</span> <span class="mf">12.8</span><span class="p">,</span> <span class="mf">13.5</span><span class="p">,</span> <span class="mf">15.8</span><span class="p">]</span>
+<span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+<span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">36</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span>  <span class="mi">30</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">doe</span><span class="p">)</span><span class="si">}</span><span class="s1"> runs, 6 factors, 3 response variables (y1, y2, y3).&#39;</span><span class="p">)</span>
+<span class="n">doe</span><span class="p">[[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">,</span> <span class="s1">&#39;x4&#39;</span><span class="p">,</span> <span class="s1">&#39;x5&#39;</span><span class="p">,</span> <span class="s1">&#39;x6&#39;</span><span class="p">,</span> <span class="s1">&#39;y1&#39;</span><span class="p">,</span> <span class="s1">&#39;y2&#39;</span><span class="p">,</span> <span class="s1">&#39;y3&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>64 runs, 6 factors, 3 response variables (y1, y2, y3).
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x1</th>
+      <th>x2</th>
+      <th>x3</th>
+      <th>x4</th>
+      <th>x5</th>
+      <th>x6</th>
+      <th>y1</th>
+      <th>y2</th>
+      <th>y3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>3.4</td>
+      <td>15</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>9.7</td>
+      <td>5</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>7.4</td>
+      <td>23</td>
+      <td>37</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>10.6</td>
+      <td>8</td>
+      <td>34</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>-1</td>
+      <td>6.5</td>
+      <td>20</td>
+      <td>30</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="computing-effects-by-hand-the-yates-method">
+<h2>23.5 Computing Effects by Hand — The Yates Method<a class="headerlink" href="#computing-effects-by-hand-the-yates-method" title="Link to this heading">#</a></h2>
+<p>The same contrast formula from Notebook 22 §22.2 generalises cleanly to
+any number of factors: for a <span class="math notranslate nohighlight">\(k\)</span>-way interaction, the “column” is simply
+the elementwise product of the <span class="math notranslate nohighlight">\(k\)</span> individual coded columns, and the
+effect is that contrast divided by <span class="math notranslate nohighlight">\(n/2\)</span> (<span class="math notranslate nohighlight">\(n=64\)</span> runs here, so <span class="math notranslate nohighlight">\(n/2=32\)</span>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">,</span> <span class="s1">&#39;x4&#39;</span><span class="p">,</span> <span class="s1">&#39;x5&#39;</span><span class="p">,</span> <span class="s1">&#39;x6&#39;</span><span class="p">]}</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]:</span>
+    <span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="p">))</span>
+
+<span class="n">effects_y1</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">combo</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+        <span class="n">factors</span> <span class="o">=</span> <span class="p">(</span><span class="n">combo</span><span class="p">,)</span> <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">combo</span>   <span class="c1"># k=1 entries are bare strings, not tuples</span>
+        <span class="n">sign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">([</span><span class="n">doe</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">effects_y1</span><span class="p">[</span><span class="n">combo</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sign</span> <span class="o">*</span> <span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y1&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">32</span>   <span class="c1"># n/2 = 64/2 = 32</span>
+
+<span class="n">effects_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">effects_y1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">effects_series</span><span class="p">)</span><span class="si">}</span><span class="s1"> effects computed by hand for y1 &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;(main effects through the 6-way interaction, 2^6 - 1 = 63 terms).&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">effects_series</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>63 effects computed by hand for y1 (main effects through the 6-way interaction, 2^6 - 1 = 63 terms).
+x4                      2.984375
+x6                      2.690625
+x1                      1.746875
+(x1, x2, x4, x5)        1.159375
+(x1, x2)                0.890625
+(x2, x4)                0.859375
+(x1, x6)                0.821875
+(x1, x2, x4)            0.815625
+(x1, x3, x4, x6)        0.765625
+(x1, x2, x3, x4, x6)    0.740625
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-same-effects-automatically-statsmodels-ols">
+<h2>23.6 The Same Effects, Automatically — statsmodels OLS<a class="headerlink" href="#the-same-effects-automatically-statsmodels-ols" title="Link to this heading">#</a></h2>
+<p>Writing a 63-term formula string by hand for 6 factors is not realistic —
+this is precisely where a Minitab-style point-and-click tool starts to
+look genuinely convenient, and precisely where a few lines of Python that
+<em>generate</em> the formula string win the comparison back.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="n">combo</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">combo</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">combo</span><span class="p">)</span>
+         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="k">for</span> <span class="n">combo</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+<span class="n">formula_full6</span> <span class="o">=</span> <span class="s1">&#39;y1 ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s1"> terms in the auto-generated formula &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;(2^6 - 1 = 63, matching the effects computed by hand above).&#39;</span><span class="p">)</span>
+
+<span class="n">mod_y1</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula_full6</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">doe</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Residual df: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">mod_y1</span><span class="o">.</span><span class="n">df_resid</span><span class="p">)</span><span class="si">}</span><span class="s1">  (64 runs - 64 parameters -- &#39;</span>
+      <span class="s1">&#39;the same zero-df situation as Part A, at 8x the scale.)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>63 terms in the auto-generated formula (2^6 - 1 = 63, matching the effects computed by hand above).
+Residual df: 0  (64 runs - 64 parameters -- the same zero-df situation as Part A, at 8x the scale.)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ols_effects</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">mod_y1</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+
+<span class="c1"># Match manual-effect names (tuples for multi-factor terms) to statsmodels&#39; &#39;x1:x2&#39; keys</span>
+<span class="n">manual_named</span> <span class="o">=</span> <span class="n">effects_series</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+<span class="n">manual_named</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">manual_named</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+
+<span class="n">compare</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;manual_Yates&#39;</span><span class="p">:</span> <span class="n">manual_named</span><span class="p">,</span> <span class="s1">&#39;statsmodels_2xOLS&#39;</span><span class="p">:</span> <span class="n">ols_effects</span><span class="p">})</span>
+<span class="n">compare</span> <span class="o">=</span> <span class="n">compare</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;manual_Yates&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">compare</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Max absolute difference across all 63 effects: &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="p">(</span><span class="n">compare</span><span class="p">[</span><span class="s2">&quot;manual_Yates&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">compare</span><span class="p">[</span><span class="s2">&quot;statsmodels_2xOLS&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>             manual_Yates  statsmodels_2xOLS
+x4                 2.9844             2.9844
+x6                 2.6906             2.6906
+x1                 1.7469             1.7469
+x1:x2:x4:x5        1.1594             1.1594
+x1:x2              0.8906             0.8906
+x2:x4              0.8594             0.8594
+x1:x6              0.8219             0.8219
+x1:x2:x4           0.8156             0.8156
+
+Max absolute difference across all 63 effects: 0.000000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>The manual Yates effects and the <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">statsmodels</span></code> coefficients agree to
+<strong>0.000000</strong> across all 63 terms — not “close,” identical to floating-point
+precision. This is Notebook 22 §22.2’s checkpoint again, now demonstrated
+at 6 factors and 63 terms instead of 2 factors and 3: a factorial effect
+is a regression coefficient in different units, full stop, regardless of
+how many factors are involved or which method computed it first.</p>
+</div>
+</section>
+<section id="screening-without-replication-pareto-and-normal-probability-plots">
+<h2>23.7 Screening Without Replication: Pareto and Normal-Probability Plots<a class="headerlink" href="#screening-without-replication-pareto-and-normal-probability-plots" title="Link to this heading">#</a></h2>
+<p>With 64 unreplicated runs and 63 possible effects, there is no pure-error
+degrees of freedom for a formal F-test — the same zero-df situation as
+Section 23.2, just at 8× the scale, and now with far too many bars for a
+Pareto chart alone to read comfortably. The <strong>normal-probability (QQ)
+plot</strong> solves this directly: if every effect were pure noise, the sorted
+effects would fall on a straight line against their theoretical normal
+quantiles; genuinely active effects break away from that line, and you
+don’t need to pick a magnitude threshold by eye to see it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">sorted_effects</span> <span class="o">=</span> <span class="n">ols_effects</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_effects</span><span class="p">)),</span> <span class="n">sorted_effects</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Effect (63 terms, largest to smallest)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;|Effect|&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pareto chart -- all 63 effects (y1)&#39;</span><span class="p">)</span>
+
+<span class="n">smg</span><span class="o">.</span><span class="n">ProbPlot</span><span class="p">(</span><span class="n">ols_effects</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Normal-probability plot of the same 63 effects&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Largest 6 effects by magnitude:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sorted_effects</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/04ebf96fc0e38ac2d12a09d4acf0bca8d504922b799e1ccc236a30584da66836.png" src="../../_images/04ebf96fc0e38ac2d12a09d4acf0bca8d504922b799e1ccc236a30584da66836.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Largest 6 effects by magnitude:
+x4             2.984375
+x6             2.690625
+x1             1.746875
+x1:x2:x4:x5    1.159375
+x1:x2          0.890625
+x2:x4          0.859375
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>The three largest effects — <code class="docutils literal notranslate"><span class="pre">x4</span></code> (2.98), <code class="docutils literal notranslate"><span class="pre">x6</span></code> (2.69), <code class="docutils literal notranslate"><span class="pre">x1</span></code> (1.75) — are
+exactly the three terms Box &amp; Draper’s own analysis singles out (Section
+23.8). But the break is not a clean cliff: the fourth-largest effect,
+<code class="docutils literal notranslate"><span class="pre">x1:x2:x4:x5</span></code> (1.16), is a 4-way interaction bigger than several
+2-way interactions further down the list, and the decline from there
+(0.89, 0.86, 0.82, …) is gradual rather than sharp. With 63 unreplicated
+effects, both the Pareto chart and the normal-probability plot narrow the
+field usefully, but neither hands you an unambiguous stopping point on
+its own here — a genuine, honest limitation of magnitude-only screening,
+and exactly why Section 23.8 leans on the published analysis (which had
+the benefit of domain knowledge about which interactions are physically
+plausible) rather than a purely mechanical rule.</p>
+</div>
+<p><strong>Checkpoint</strong>: which effects visibly break away from the straight line
+of small, noise-like effects bunched near the origin of the
+normal-probability plot? Keep your answer in mind for Section 23.8.</p>
+</section>
+<section id="reading-the-result-what-the-book-says">
+<h2>23.8 Reading the Result: What the Book Says<a class="headerlink" href="#reading-the-result-what-the-book-says" title="Link to this heading">#</a></h2>
+<p>Box &amp; Draper’s own analysis of this dataset settles on three dominant
+terms for <span class="math notranslate nohighlight">\(y_1\)</span>: <span class="math notranslate nohighlight">\(x_1\)</span>, <span class="math notranslate nohighlight">\(x_4\)</span>, and <span class="math notranslate nohighlight">\(x_6\)</span>. Fit that reduced model, check
+its residual standard deviation two independent ways, and look at both a
+predicted-vs-observed plot and a residual plot — the same confirmation
+habit as Notebook 22 §22.5, now applied to a real published result
+instead of a synthetic one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_final</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y1 ~ x1 + x4 + x6&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">doe</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mod_final</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Residual standard deviation: </span><span class="si">{</span><span class="n">mod_final</span><span class="o">.</span><span class="n">scale</span><span class="o">**</span><span class="mf">0.5</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">  &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;(matches sqrt(sum(resid^2)/df_resid) = &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mod_final</span><span class="o">.</span><span class="n">resid</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mod_final</span><span class="o">.</span><span class="n">df_resid</span><span class="p">)</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept     11.1234      0.238     46.741      0.000      10.647      11.599
+x1             0.8734      0.238      3.670      0.001       0.397       1.349
+x4             1.4922      0.238      6.270      0.000       1.016       1.968
+x6             1.3453      0.238      5.653      0.000       0.869       1.821
+==============================================================================
+
+Residual standard deviation: 1.904  (matches sqrt(sum(resid^2)/df_resid) = 1.904)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y1_pred&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mod_final</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">doe</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y1&#39;</span><span class="p">],</span> <span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y1_pred&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">lims</span> <span class="o">=</span> <span class="p">[</span><span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lims</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Observed y1&#39;</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Predicted y1&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Predicted vs. observed&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y1_pred&#39;</span><span class="p">],</span> <span class="n">mod_final</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted y1&#39;</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Residual&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Residuals vs. predicted&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reduced model (x1, x4, x6 only): R2=</span><span class="si">{</span><span class="n">mod_final</span><span class="o">.</span><span class="n">rsquared</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;R2_adj=</span><span class="si">{</span><span class="n">mod_final</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/d56b8635f9275c3b3c048812830d442a5679124f52b7ef05c96558f896cc1259.png" src="../../_images/d56b8635f9275c3b3c048812830d442a5679124f52b7ef05c96558f896cc1259.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced model (x1, x4, x6 only): R2=0.585, R2_adj=0.565
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>All three terms are significant (p≤0.001) and each fitted coefficient is
+exactly half its Section 23.5/23.6 effect — <code class="docutils literal notranslate"><span class="pre">x1</span></code>: 0.873 (effect 1.747),
+<code class="docutils literal notranslate"><span class="pre">x4</span></code>: 1.492 (effect 2.984), <code class="docutils literal notranslate"><span class="pre">x6</span></code>: 1.345 (effect 2.691) — the same
+coefficient-equals-half-the-effect relationship checked in every factorial
+notebook so far. With only 3 of 63 possible terms, the model explains a
+real but modest 58.5% of the variance in <span class="math notranslate nohighlight">\(y_1\)</span> (R²_adj=0.565) and has a
+residual standard deviation of 1.90 against <span class="math notranslate nohighlight">\(y_1\)</span> values ranging roughly
+3–17 — a genuinely useful screening result on real data, not a
+picture-perfect fit, which is an honest note to end on: real published
+data rarely reduces as cleanly as a synthetic teaching example does.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p><strong>Core practice</strong></p>
+<ol class="arabic simple">
+<li><p><strong>A different dominant factor</strong>: Redo Part A (Sections 23.1–23.3) with
+a different <code class="docutils literal notranslate"><span class="pre">true_density</span></code> — make <code class="docutils literal notranslate"><span class="pre">B</span></code> (temperature) the dominant term
+instead of <code class="docutils literal notranslate"><span class="pre">A</span></code>, and remove the <code class="docutils literal notranslate"><span class="pre">A:C</span></code> interaction. Confirm the Pareto
+chart and the automatic 80%-cumulative reduction correctly identify the
+new dominant factor.</p></li>
+<li><p><strong>Repeat for <span class="math notranslate nohighlight">\(y_2\)</span> or <span class="math notranslate nohighlight">\(y_3\)</span></strong>: Redo Sections 23.5–23.8 for one of the
+other two Box &amp; Draper response variables. Which of <span class="math notranslate nohighlight">\(x_1,\ldots,x_6\)</span>
+turn out to matter for that response, and how much overlap is there
+with the terms that mattered for <span class="math notranslate nohighlight">\(y_1\)</span>?</p></li>
+</ol>
+<p><strong>Deeper practice</strong></p>
+<ol class="arabic simple" start="3">
+<li><p><strong>When does the formula-generation trick stop being optional?</strong>
+Section 23.6’s auto-generated formula has 63 terms for 6 factors.
+Work out how many terms a full factorial model would need for 8
+factors, and for 10 — at what point does writing the formula by hand
+go from “tedious but possible” to “not realistically possible without
+a bug”?</p></li>
+<li><p><strong>A fractional alternative</strong>: Fit a Resolution IV half-fraction
+(<code class="docutils literal notranslate"><span class="pre">pyDOE3.fracfact</span></code>, Notebook 18) of the 6-factor design instead of the
+full 64 runs, using only the 32 runs it selects. Is the reduced model
+from Section 23.8 (<span class="math notranslate nohighlight">\(x_1\)</span>, <span class="math notranslate nohighlight">\(x_4\)</span>, <span class="math notranslate nohighlight">\(x_6\)</span>) still recoverable, and what
+happens to any of those three terms that turn out to be aliased with
+each other on the half-fraction?</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\04_doe"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="07_live_tutorial_1_factorial_designs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="09_live_tutorial_3_model_reduction_fractional.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">24. Live Tutorial 3: Model Reduction and Fractional Designs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-video-to-python-a-3-factor-sintering-study">23.1 From a Video to Python: A 3-Factor Sintering Study</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom">23.2 Fitting the Full Model — and Why It Has Zero Residual Degrees of Freedom</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-chart-model-reduction-and-confirmation">23.3 Pareto Chart, Model Reduction, and Confirmation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raising-the-stakes-box-draper-s-six-factor-study">23.4 Raising the Stakes: Box &amp; Draper’s Six-Factor Study</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-effects-by-hand-the-yates-method">23.5 Computing Effects by Hand — The Yates Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-same-effects-automatically-statsmodels-ols">23.6 The Same Effects, Automatically — statsmodels OLS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#screening-without-replication-pareto-and-normal-probability-plots">23.7 Screening Without Replication: Pareto and Normal-Probability Plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-result-what-the-book-says">23.8 Reading the Result: What the Book Says</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1366 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. Databases for FAIR Data: SQL and Document Stores &#8212; Data Handling, Statistics &amp; Design of Experiments for Material Scientists</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/02_data_handling/03_databases_sql_nosql';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository" href="04_nomad_oasis_database.html" />
+    <link rel="prev" title="2. Ontologies &amp; EMMO" href="02_ontologies_and_emmo.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data Handling, Statistics & Design of Experiments for Material Scientists</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Data Handling, Statistics & Design of Experiments for Material Scientists
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part I: Prerequisites — Python for Data Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01_python_intro/overview.html">Part I: Prerequisites — Python for Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/01_python_basics.html">1. Python Basics for Material Scientists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/02_numpy_arrays.html">2. NumPy Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/03_pandas_dataframes.html">3. Pandas DataFrames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/04_matplotlib_seaborn.html">4. Data Visualization with Matplotlib &amp; Seaborn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/05_plotly_interactive.html">5. Interactive Visualisation with Plotly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/06_environment_setup.html">6. Setting Up Your Own Python Environment: Local, Anaconda, and the Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01_python_intro/07_git_github_collaboration.html">7. Version Control and Collaboration with GitHub</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part II: Data Handling &amp; Materials Ontologies</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Part II: Data Handling &amp; Materials Ontologies</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_fair_data_and_metadata.html">1. FAIR Data &amp; Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_ontologies_and_emmo.html">2. Ontologies &amp; EMMO</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3. Databases for FAIR Data: SQL and Document Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_nomad_oasis_database.html">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_building_a_fair_dataset.html">5. Capstone: Building a FAIR Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_live_tutorial_1_sql_nosql.html">6. Live Tutorial 1: From Lab Notebook to Queryable Database — SQL and NoSQL in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_nomad_api_live_tutorial.html">7. Live Tutorial 2: Querying and Plotting Real NOMAD Data</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part III: Applied Statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02_statistics/overview.html">Part III: Applied Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/theory.html">Theoretical Background: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/01_descriptive_stats.html">6. Descriptive Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/02_distributions.html">7. Probability Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/03_hypothesis_testing.html">8. Hypothesis Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/04_anova.html">9. Analysis of Variance (ANOVA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/05_simple_regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/06_live_tutorial_1_ttests.html">11. Live Tutorial 1: A Day in the Quality Lab — t-Tests in Practice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02_statistics/07_live_tutorial_2_anova_regression.html">12. Live Tutorial 2: ANOVA &amp; Regression — One Process Study, Start to Finish</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part IV: Multivariate Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03_multivariate/overview.html">Part IV: Multivariate Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/theory.html">Theoretical Background: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/01_mlr.html">11. Multiple Linear Regression (MLR)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/02_pca.html">12. Principal Component Analysis (PCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/03_lda.html">13. Linear Discriminant Analysis (LDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/04_fa.html">14. Factor Analysis (FA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/05_pls.html">15. Partial Least Squares (PLS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/06_live_tutorial_1_pca_fa.html">16. Live Tutorial 1: PCA &amp; Factor Analysis — Finding Structure in a Cathode Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03_multivariate/07_live_tutorial_2_pls_lda.html">17. Live Tutorial 2: PLS/PCR &amp; LDA — Supervised Modelling of Electrolyte Spectra</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part V: Design of Experiments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04_doe/overview.html">Part V: Design of Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/theory.html">Theoretical Background: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/01_intro_doe.html">16. Introduction to Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/02_full_factorial.html">17. Full Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/03_fractional_factorial.html">18. Fractional Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/04_rsm.html">19. Response Surface Methodology (RSM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/05_optimization_doe.html">20. Optimisation Using DoE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/06_simplex.html">21. Simplex Optimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/07_live_tutorial_1_factorial_designs.html">22. Live Tutorial 1: Two-Factor DoE, Start to Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/08_live_tutorial_2_minitab_to_sixfactor.html">23. Live Tutorial 2: From Minitab to Six Factors — Two Ways to Read an Effect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/09_live_tutorial_3_model_reduction_fractional.html">24. Live Tutorial 3: Model Reduction and Fractional Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04_doe/10_live_tutorial_4_optimization_mixture.html">25. Live Tutorial 4: Optimization and Mixture Designs</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VI: Introduction to AI and Machine Learning (Extra Material)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05_ml/overview.html">Part VI: Introduction to AI and Machine Learning (Extra Material)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/01_clustering.html">16. Unsupervised Clustering and Dimensionality Reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/02_gaussian_process.html">17. Gaussian Process Regression (Kriging)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/03_bayesian_optimization.html">18. Bayesian Optimisation for Experiment Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/04_ensemble_methods.html">19. Ensemble Methods: Random Forest and Gradient Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05_ml/05_neural_networks.html">20. Neural Networks and Deep Learning Basics</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VII: Course Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../06_project/project.html">Course Project: Independent Data Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../06_project/data_access.html">Data Access Guide</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part VIII: Exercise Solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07_solutions/overview.html">Part VIII: Exercise Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/01_python_solutions.html">Part I Solutions: Python for Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/02_data_handling_solutions.html">Part II Solutions: Data Handling &amp; Materials Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/03_statistics_solutions.html">Part III Solutions: Applied Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/04_multivariate_solutions.html">Part IV Solutions: Multivariate Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/05_doe_solutions.html">Part V Solutions: Design of Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07_solutions/06_ml_solutions.html">Part VI Solutions: Introduction to AI and Machine Learning</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/peterbmob/1KB570/blob/main/chapters/02_data_handling/03_databases_sql_nosql.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/chapters/02_data_handling/03_databases_sql_nosql.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3. Databases for FAIR Data: SQL and Document Stores</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-a-database-at-all">3.1 Why a Database at All?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-data-models-rows-vs-documents">3.2 Two Data Models: Rows vs. Documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-a-relational-schema-with-sqlite3">3.3 Hands-on: A Relational Schema with <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-with-sql-join-group-by-and-pandas">3.4 Querying with SQL: <code class="docutils literal notranslate"><span class="pre">JOIN</span></code>, <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>, and pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-sqlite-to-a-shared-server-sqlalchemy-and-postgresql">3.5 From SQLite to a Shared Server: SQLAlchemy and PostgreSQL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-a-document-store-with-mongodb">3.6 Hands-on: A Document Store with MongoDB</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-a-document-store">Querying a Document Store</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-trade-off-no-schema-means-no-free-enforcement">The Trade-off: No Schema Means No Free Enforcement</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-a-model-sql-document-or-a-domain-repository">3.7 Choosing a Model: SQL, Document, or a Domain Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="databases-for-fair-data-sql-and-document-stores">
+<h1>3. Databases for FAIR Data: SQL and Document Stores<a class="headerlink" href="#databases-for-fair-data-sql-and-document-stores" title="Link to this heading">#</a></h1>
+<p>Notebook 1 gave you metadata: a way to describe one measurement so it is
+self-explanatory. Notebook 2 gave you EMMO: a way to make sure “yield
+strength” means the same thing in your dataset as in someone else’s. Both
+solve a <em>meaning</em> problem. Neither solves a much more mundane <em>storage</em>
+problem: once you have hundreds of samples’ worth of self-describing,
+EMMO-tagged records, where do they actually live, and how do you ask a
+question across all of them at once — <em>“which batches were quenched in water
+and reached over 160 mAh/g?”</em> — without opening every file by hand?</p>
+<p>That is what a <strong>database</strong> is for: software whose whole job is to store many
+structured records reliably, enforce (or deliberately not enforce) their
+structure, and answer queries over them efficiently, at a scale where “just
+loop over the files in Python” stops working. NOMAD and NOMAD Oasis (Notebook
+4) are one, materials-science-specific answer to this problem — a
+purpose-built, EMMO-aware repository. This notebook looks one level below
+that, at the two general-purpose kinds of database almost every research-data
+system, NOMAD included, is built on top of: <strong>relational</strong> databases (SQL) and
+<strong>document</strong> databases (NoSQL) — using the same running example throughout, so
+you can compare the same data in three different shapes.</p>
+<p><strong>Topics</strong></p>
+<ol class="arabic simple">
+<li><p>Why a database, not just files?</p></li>
+<li><p>Two data models: rows vs. documents</p></li>
+<li><p>Hands-on: a relational schema with <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code></p></li>
+<li><p>Querying with SQL: <code class="docutils literal notranslate"><span class="pre">JOIN</span></code>, <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>, and pandas</p></li>
+<li><p>From SQLite to a shared server: SQLAlchemy and PostgreSQL</p></li>
+<li><p>Hands-on: a document store with MongoDB’s <code class="docutils literal notranslate"><span class="pre">pymongo</span></code> API</p></li>
+<li><p>Choosing a model: SQL, document, or a domain repository like NOMAD</p></li>
+</ol>
+<section id="why-a-database-at-all">
+<h2>3.1 Why a Database at All?<a class="headerlink" href="#why-a-database-at-all" title="Link to this heading">#</a></h2>
+<p>A dict in a notebook (Notebook 1) or a folder of small JSON files works fine
+for a handful of records. It stops working the moment you have thousands of
+them, several people writing to the same collection at once, or a question
+that spans every record at once — filtering, joining, aggregating. A
+<strong>database</strong> is software purpose-built for exactly that: it stores many
+structured records, keeps them consistent even under concurrent writes, and
+answers queries efficiently without you writing a manual loop over every file.</p>
+<p>This is a genuinely different concern from the ones Notebooks 1–2 covered.
+Metadata and EMMO are about <em>meaning</em> — making sure “temperature” is
+unambiguous. A database is about <em>infrastructure</em> — where the records actually
+live and how you get at them at scale. NOMAD and NOMAD Oasis (Notebook 4)
+bundle both concerns together for materials science specifically; this
+notebook looks at the general-purpose infrastructure layer underneath, using
+two kinds of database you will run into far beyond materials science.</p>
+</section>
+<section id="two-data-models-rows-vs-documents">
+<h2>3.2 Two Data Models: Rows vs. Documents<a class="headerlink" href="#two-data-models-rows-vs-documents" title="Link to this heading">#</a></h2>
+<p>The two dominant families of database differ in one fundamental choice: does
+every record have to fit the <em>same</em>, fixed set of columns (relational), or can
+each record carry its own, potentially nested shape (document)?</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p><strong>Relational (SQL)</strong></p></th>
+<th class="head"><p><strong>Document (NoSQL)</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Shape</p></td>
+<td><p>Fixed-column tables of rows</p></td>
+<td><p>Collections of nested, JSON-like documents</p></td>
+</tr>
+<tr class="row-odd"><td><p>Schema</p></td>
+<td><p>Enforced upfront by the database (<code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code>)</p></td>
+<td><p>Flexible — each document can carry its own fields</p></td>
+</tr>
+<tr class="row-even"><td><p>Relationships</p></td>
+<td><p>Foreign keys + <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> across tables</p></td>
+<td><p>Usually embedded directly inside one document</p></td>
+</tr>
+<tr class="row-odd"><td><p>Query language</p></td>
+<td><p>SQL (<code class="docutils literal notranslate"><span class="pre">SELECT</span></code> / <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> / <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> / <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>)</p></td>
+<td><p>A method-call API (e.g. <code class="docutils literal notranslate"><span class="pre">find()</span></code>, <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p>Common systems</p></td>
+<td><p>PostgreSQL, MySQL/MariaDB, SQLite</p></td>
+<td><p>MongoDB, CouchDB</p></td>
+</tr>
+<tr class="row-odd"><td><p>Python driver</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> (stdlib) or <code class="docutils literal notranslate"><span class="pre">psycopg2</span></code> (PostgreSQL), often via <code class="docutils literal notranslate"><span class="pre">SQLAlchemy</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pymongo</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Good fit for</p></td>
+<td><p>Data that really is tabular, with strict integrity needs — sample/operator/instrument registries</p></td>
+<td><p>Nested, variable-shape data — different instruments reporting different fields per technique</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>If “nested, JSON-like document” sounds familiar, it should: every FAIR record
+from Notebook 1, and the <code class="docutils literal notranslate"><span class="pre">nomad_style_entry</span></code> dict you will build in Notebook
+4, are already shaped like a document, not a row. This notebook builds the
+same underlying dataset both ways, so you can see exactly what changes when
+you pick one model over the other.</p>
+</section>
+<section id="hands-on-a-relational-schema-with-sqlite3">
+<h2>3.3 Hands-on: A Relational Schema with <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code><a class="headerlink" href="#hands-on-a-relational-schema-with-sqlite3" title="Link to this heading">#</a></h2>
+<p>We will store the same kind of running example NOMAD’s own notebook uses: a
+batch of LiFePO4 cathode-material syntheses, each with a sequence of synthesis
+steps and a set of measured results. <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> is in Python’s standard library
+— no install, no server, no account — and speaks real SQL, so everything below
+is genuine, runnable relational-database code, not a simulation.</p>
+<p>A relational design <strong>normalises</strong> this into three tables, connected by keys:
+one row per sample (<code class="docutils literal notranslate"><span class="pre">samples</span></code>), one row per synthesis step <em>per</em> sample
+(<code class="docutils literal notranslate"><span class="pre">synthesis_steps</span></code> — a <strong>one-to-many</strong> relationship, enforced with a <code class="docutils literal notranslate"><span class="pre">FOREIGN</span> <span class="pre">KEY</span></code>), and one row per sample’s results (<code class="docutils literal notranslate"><span class="pre">results</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;:memory:&#39;</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;PRAGMA foreign_keys = ON&#39;</span><span class="p">)</span>   <span class="c1"># SQLite disables FK enforcement unless asked</span>
+
+<span class="n">conn</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">CREATE TABLE samples (</span>
+<span class="s1">    sample_id   TEXT PRIMARY KEY,</span>
+<span class="s1">    material    TEXT NOT NULL,</span>
+<span class="s1">    method      TEXT NOT NULL,</span>
+<span class="s1">    atmosphere  TEXT,</span>
+<span class="s1">    creator     TEXT</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE synthesis_steps (</span>
+<span class="s1">    step_id       INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">    sample_id     TEXT NOT NULL REFERENCES samples(sample_id),</span>
+<span class="s1">    step_order    INTEGER NOT NULL,</span>
+<span class="s1">    step_name     TEXT NOT NULL,</span>
+<span class="s1">    temperature_C REAL,</span>
+<span class="s1">    duration_h    REAL</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE results (</span>
+<span class="s1">    sample_id             TEXT PRIMARY KEY REFERENCES samples(sample_id),</span>
+<span class="s1">    capacity_mAh_g        REAL NOT NULL,</span>
+<span class="s1">    coulombic_efficiency  REAL NOT NULL</span>
+<span class="s1">);</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Schema created: samples, synthesis_steps, results&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Schema created: samples, synthesis_steps, results
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">batches</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># (sample_id, method, calcination_2_temperature_C, capacity_mAh_g, coulombic_efficiency)</span>
+    <span class="p">(</span><span class="s1">&#39;batch_05&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mf">148.2</span><span class="p">,</span> <span class="mf">0.91</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;batch_06&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">725</span><span class="p">,</span> <span class="mf">155.9</span><span class="p">,</span> <span class="mf">0.93</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;batch_07&#39;</span><span class="p">,</span> <span class="s1">&#39;solid-state reaction&#39;</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mf">161.4</span><span class="p">,</span> <span class="mf">0.94</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;batch_08&#39;</span><span class="p">,</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>              <span class="mi">650</span><span class="p">,</span> <span class="mf">172.1</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;batch_09&#39;</span><span class="p">,</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>              <span class="mi">680</span><span class="p">,</span> <span class="mf">168.7</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">sample_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">calc2_temp</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">efficiency</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s1">&#39;INSERT INTO samples (sample_id, material, method, atmosphere, creator) &#39;</span>
+        <span class="s1">&#39;VALUES (?, ?, ?, ?, ?)&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">sample_id</span><span class="p">,</span> <span class="s1">&#39;LiFePO4&#39;</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="s1">&#39;Ar&#39;</span><span class="p">,</span> <span class="s1">&#39;A. Lindqvist&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;mixing&#39;</span><span class="p">,</span>        <span class="kc">None</span><span class="p">,</span>       <span class="mf">2.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;calcination_1&#39;</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span>        <span class="mf">4.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;calcination_2&#39;</span><span class="p">,</span> <span class="n">calc2_temp</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span>
+        <span class="s1">&#39;INSERT INTO synthesis_steps &#39;</span>
+        <span class="s1">&#39;(sample_id, step_order, step_name, temperature_C, duration_h) &#39;</span>
+        <span class="s1">&#39;VALUES (?, ?, ?, ?, ?)&#39;</span><span class="p">,</span>
+        <span class="p">[(</span><span class="n">sample_id</span><span class="p">,</span> <span class="o">*</span><span class="n">step</span><span class="p">)</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s1">&#39;INSERT INTO results (sample_id, capacity_mAh_g, coulombic_efficiency) &#39;</span>
+        <span class="s1">&#39;VALUES (?, ?, ?)&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">sample_id</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">efficiency</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT COUNT(*) FROM samples&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;samples&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT COUNT(*) FROM synthesis_steps&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;synthesis steps&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5 samples
+15 synthesis steps
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="querying-with-sql-join-group-by-and-pandas">
+<h2>3.4 Querying with SQL: <code class="docutils literal notranslate"><span class="pre">JOIN</span></code>, <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>, and pandas<a class="headerlink" href="#querying-with-sql-join-group-by-and-pandas" title="Link to this heading">#</a></h2>
+<p>A relational database’s whole point is answering exactly this kind of
+cross-table question without a manual loop: “for every sample, show its method
+and its measured capacity” needs a <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> to pull <code class="docutils literal notranslate"><span class="pre">results</span></code> back together with
+<code class="docutils literal notranslate"><span class="pre">samples</span></code>; “what’s the mean capacity per method” needs a <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>.
+<code class="docutils literal notranslate"><span class="pre">pandas.read_sql_query</span></code> runs the SQL and hands the result back as a DataFrame
+directly — the same object Part I’s plotting and Part III’s statistics expect.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    SELECT s.sample_id, s.method, r.capacity_mAh_g, r.coulombic_efficiency</span>
+<span class="s1">    FROM samples s</span>
+<span class="s1">    JOIN results r ON r.sample_id = s.sample_id</span>
+<span class="s1">    ORDER BY r.capacity_mAh_g DESC</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sample_id</th>
+      <th>method</th>
+      <th>capacity_mAh_g</th>
+      <th>coulombic_efficiency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>batch_08</td>
+      <td>sol-gel</td>
+      <td>172.1</td>
+      <td>0.95</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>batch_09</td>
+      <td>sol-gel</td>
+      <td>168.7</td>
+      <td>0.92</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>batch_07</td>
+      <td>solid-state reaction</td>
+      <td>161.4</td>
+      <td>0.94</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>batch_06</td>
+      <td>solid-state reaction</td>
+      <td>155.9</td>
+      <td>0.93</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>batch_05</td>
+      <td>solid-state reaction</td>
+      <td>148.2</td>
+      <td>0.91</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_by_method</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    SELECT s.method, COUNT(*) AS n_batches, AVG(r.capacity_mAh_g) AS mean_capacity</span>
+<span class="s1">    FROM samples s</span>
+<span class="s1">    JOIN results r ON r.sample_id = s.sample_id</span>
+<span class="s1">    GROUP BY s.method</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="n">df_by_method</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>method</th>
+      <th>n_batches</th>
+      <th>mean_capacity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>sol-gel</td>
+      <td>2</td>
+      <td>170.4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>solid-state reaction</td>
+      <td>3</td>
+      <td>155.2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The other thing a relational database buys you — for free, with no custom
+validator function like the one Notebook 4 writes by hand — is that it
+<em>refuses</em> data that breaks the schema. Compare this to <code class="docutils literal notranslate"><span class="pre">validate_entry</span></code> from
+Notebook 4: there, checking structure was something you had to remember to
+call; here, it is the database’s job, every single time, whether you remember
+or not.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Missing a required field (samples.method is NOT NULL)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s2">&quot;INSERT INTO samples (sample_id, material, method) VALUES (&#39;batch_10&#39;, &#39;LiFePO4&#39;, NULL)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rejected, as expected:&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+<span class="c1"># Referencing a sample that doesn&#39;t exist (synthesis_steps.sample_id is a FOREIGN KEY)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s1">&#39;INSERT INTO synthesis_steps (sample_id, step_order, step_name) VALUES (?, ?, ?)&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;batch_does_not_exist&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;mixing&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rejected, as expected:&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rejected, as expected: NOT NULL constraint failed: samples.method
+Rejected, as expected: FOREIGN KEY constraint failed
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="from-sqlite-to-a-shared-server-sqlalchemy-and-postgresql">
+<h2>3.5 From SQLite to a Shared Server: SQLAlchemy and PostgreSQL<a class="headerlink" href="#from-sqlite-to-a-shared-server-sqlalchemy-and-postgresql" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> stores everything in one file (or, as above, only in memory) —
+perfect for this notebook, useless for a lab where five people need to query
+the same live database at once. A real shared installation almost always means
+<strong>PostgreSQL</strong> (or MySQL/MariaDB): a server process other machines connect to
+over the network, speaking the same relational model — though not always
+identical SQL syntax, as the next cell’s caveat explains.</p>
+<p>You <em>could</em> talk to PostgreSQL directly with its Python driver, <code class="docutils literal notranslate"><span class="pre">psycopg2</span></code>
+(<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">psycopg2-binary</span></code>). In practice, most Python code goes through
+<strong>SQLAlchemy</strong> instead: a layer that lets the same <em>SQLAlchemy</em> code (its
+<code class="docutils literal notranslate"><span class="pre">text()</span></code>/engine API, or its ORM) run against SQLite, PostgreSQL, or MySQL,
+differing only in one connection string. That portability guarantee applies
+to code written <em>through</em> SQLAlchemy, like the cell below — it does not
+automatically extend to hand-written SQL DDL: Section 3.3’s raw <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code>
+schema uses SQLite-specific syntax (<code class="docutils literal notranslate"><span class="pre">INTEGER</span> <span class="pre">PRIMARY</span> <span class="pre">KEY</span> <span class="pre">AUTOINCREMENT</span></code>,
+<code class="docutils literal notranslate"><span class="pre">PRAGMA</span> <span class="pre">foreign_keys</span></code>) that PostgreSQL doesn’t accept as-is (it uses
+<code class="docutils literal notranslate"><span class="pre">SERIAL</span></code>/<code class="docutils literal notranslate"><span class="pre">GENERATED</span> <span class="pre">...</span> <span class="pre">AS</span> <span class="pre">IDENTITY</span></code> instead, and has no <code class="docutils literal notranslate"><span class="pre">PRAGMA</span></code> statements
+at all). The cell below runs against a fresh in-memory SQLite database, so it
+needs no server to follow along — but the comment shows exactly what would
+change to point <em>this SQLAlchemy code</em> at a real, shared PostgreSQL server
+instead: just the URL.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">text</span>
+
+<span class="c1"># in-memory SQLite -- this cell runs with no server at all:</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;sqlite:///:memory:&#39;</span><span class="p">)</span>
+
+<span class="c1"># a real, shared lab server would instead be, e.g.:</span>
+<span class="c1"># engine = create_engine(&#39;postgresql+psycopg2://user:password@labserver:5432/materials_db&#39;)</span>
+
+<span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span> <span class="k">as</span> <span class="n">sa_conn</span><span class="p">:</span>
+    <span class="n">sa_conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span>
+        <span class="s1">&#39;CREATE TABLE samples (sample_id TEXT PRIMARY KEY, method TEXT NOT NULL)&#39;</span>
+    <span class="p">))</span>
+    <span class="n">sa_conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">text</span><span class="p">(</span><span class="s1">&#39;INSERT INTO samples (sample_id, method) VALUES (:sid, :method)&#39;</span><span class="p">),</span>
+        <span class="p">[{</span><span class="s1">&#39;sid&#39;</span><span class="p">:</span> <span class="n">sid</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">}</span> <span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">],</span>
+    <span class="p">)</span>
+
+<span class="n">df_sa</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM samples&#39;</span><span class="p">),</span> <span class="n">engine</span><span class="p">)</span>
+<span class="n">df_sa</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sample_id</th>
+      <th>method</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>batch_05</td>
+      <td>solid-state reaction</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>batch_06</td>
+      <td>solid-state reaction</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>batch_07</td>
+      <td>solid-state reaction</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>batch_08</td>
+      <td>sol-gel</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>batch_09</td>
+      <td>sol-gel</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The cell above — written through SQLAlchemy’s <code class="docutils literal notranslate"><span class="pre">text()</span></code>/engine API — would run
+<strong>unchanged</strong> against a real PostgreSQL server if you swapped that one
+<code class="docutils literal notranslate"><span class="pre">create_engine(...)</span></code> line for the commented-out one: that connection-string
+portability is the entire reason SQLAlchemy exists. That guarantee is
+specific to SQLAlchemy-mediated code, though — it does <strong>not</strong> extend to
+Section 3.3’s hand-written <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> schema (cells <code class="docutils literal notranslate"><span class="pre">nb3_04</span></code>–<code class="docutils literal notranslate"><span class="pre">nb3_10</span></code>), which
+uses SQLite-only syntax (<code class="docutils literal notranslate"><span class="pre">AUTOINCREMENT</span></code>, <code class="docutils literal notranslate"><span class="pre">PRAGMA</span></code>) and would need rewriting,
+not just a connection-string swap, to run on PostgreSQL.</p>
+</section>
+<section id="hands-on-a-document-store-with-mongodb">
+<h2>3.6 Hands-on: A Document Store with MongoDB<a class="headerlink" href="#hands-on-a-document-store-with-mongodb" title="Link to this heading">#</a></h2>
+<p>MongoDB’s Python driver is <code class="docutils literal notranslate"><span class="pre">pymongo</span></code>, and talking to a real MongoDB server
+looks like <code class="docutils literal notranslate"><span class="pre">pymongo.MongoClient('mongodb://&lt;host&gt;:27017')</span></code>. Since a real
+server isn’t something every reader has running, this section uses <code class="docutils literal notranslate"><span class="pre">mongomock</span></code>
+instead: a pure-Python, in-memory stand-in that implements the same <code class="docutils literal notranslate"><span class="pre">pymongo</span></code>
+API. Every method called below — <code class="docutils literal notranslate"><span class="pre">insert_many</span></code>, <code class="docutils literal notranslate"><span class="pre">find</span></code>, <code class="docutils literal notranslate"><span class="pre">aggregate</span></code> — is the
+exact call you would make against a real server; only the client constructor
+differs, and only for this notebook’s sake.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mongomock</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">mongomock</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">()</span>   <span class="c1"># pymongo.MongoClient(...) against a real server</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="s1">&#39;materials_lab&#39;</span><span class="p">]</span>
+<span class="n">samples_collection</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="s1">&#39;cathode_samples&#39;</span><span class="p">]</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">sample_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">calc2_temp</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">efficiency</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+    <span class="n">documents</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="n">sample_id</span><span class="p">,</span>
+        <span class="s1">&#39;material&#39;</span><span class="p">:</span> <span class="s1">&#39;LiFePO4&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
+        <span class="s1">&#39;atmosphere&#39;</span><span class="p">:</span> <span class="s1">&#39;Ar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;steps&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;mixing&#39;</span><span class="p">,</span> <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;calcination_1&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="mi">350</span><span class="p">,</span> <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;calcination_2&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_C&#39;</span><span class="p">:</span> <span class="n">calc2_temp</span><span class="p">,</span> <span class="s1">&#39;duration_h&#39;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">},</span>
+        <span class="p">],</span>
+        <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;capacity_mAh_g&#39;</span><span class="p">:</span> <span class="n">capacity</span><span class="p">,</span>
+            <span class="s1">&#39;coulombic_efficiency&#39;</span><span class="p">:</span> <span class="n">efficiency</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">})</span>
+
+<span class="n">samples_collection</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">samples_collection</span><span class="o">.</span><span class="n">count_documents</span><span class="p">({}),</span> <span class="s1">&#39;documents inserted&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5 documents inserted
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice the whole synthesis history — every step, in order — lives <strong>inside</strong>
+one document, with no separate table and no <code class="docutils literal notranslate"><span class="pre">JOIN</span></code>: this is the “embed instead
+of relate” choice document databases make by default, and exactly the same
+nested shape as <code class="docutils literal notranslate"><span class="pre">nomad_style_entry</span></code> in Notebook 4.</p>
+<section id="querying-a-document-store">
+<h3>Querying a Document Store<a class="headerlink" href="#querying-a-document-store" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">find()</span></code> takes a filter dict, including <strong>dot notation</strong> to reach into nested
+fields — <code class="docutils literal notranslate"><span class="pre">'results.capacity_mAh_g'</span></code> reaches inside the embedded <code class="docutils literal notranslate"><span class="pre">results</span></code>
+sub-document with no <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> needed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">samples_collection</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">samples_collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;results.capacity_mAh_g&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$gte&#39;</span><span class="p">:</span> <span class="mi">160</span><span class="p">}},</span>
+        <span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;sample_id&#39;: &#39;batch_08&#39;}
+{&#39;sample_id&#39;: &#39;batch_09&#39;}
+
+{&#39;sample_id&#39;: &#39;batch_07&#39;, &#39;results&#39;: {&#39;capacity_mAh_g&#39;: 161.4, &#39;coulombic_efficiency&#39;: 0.94}}
+{&#39;sample_id&#39;: &#39;batch_08&#39;, &#39;results&#39;: {&#39;capacity_mAh_g&#39;: 172.1, &#39;coulombic_efficiency&#39;: 0.95}}
+{&#39;sample_id&#39;: &#39;batch_09&#39;, &#39;results&#39;: {&#39;capacity_mAh_g&#39;: 168.7, &#39;coulombic_efficiency&#39;: 0.92}}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <strong>aggregation pipeline</strong> is MongoDB’s equivalent of SQL’s <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> —
+compare this <code class="docutils literal notranslate"><span class="pre">$group</span></code> stage directly to <code class="docutils literal notranslate"><span class="pre">df_by_method</span></code> in Section 3.4: same
+question, same answer, different query language.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;$group&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="s1">&#39;$method&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;n_batches&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$sum&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s1">&#39;mean_capacity&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$avg&#39;</span><span class="p">:</span> <span class="s1">&#39;$results.capacity_mAh_g&#39;</span><span class="p">},</span>
+    <span class="p">}},</span>
+<span class="p">]</span>
+<span class="n">df_mongo_group</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">samples_collection</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)))</span>
+<span class="n">df_mongo_group</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="s1">&#39;method&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_batches</th>
+      <th>mean_capacity</th>
+      <th>method</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>170.4</td>
+      <td>sol-gel</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>155.2</td>
+      <td>solid-state reaction</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="the-trade-off-no-schema-means-no-free-enforcement">
+<h3>The Trade-off: No Schema Means No Free Enforcement<a class="headerlink" href="#the-trade-off-no-schema-means-no-free-enforcement" title="Link to this heading">#</a></h3>
+<p>Add a sixth document that only has some of the usual fields — a batch that has
+been synthesised but not yet measured, so it has no <code class="docutils literal notranslate"><span class="pre">results</span></code> at all. A
+relational <code class="docutils literal notranslate"><span class="pre">results</span></code> table would simply have no matching row for it; a
+document database accepts the document exactly as given, with no error and no
+migration:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples_collection</span><span class="o">.</span><span class="n">insert_one</span><span class="p">({</span>
+    <span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="s1">&#39;batch_10&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;material&#39;</span><span class="p">:</span> <span class="s1">&#39;LiFePO4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;sol-gel&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;exploratory batch, cycling not yet complete&#39;</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">samples_collection</span><span class="o">.</span><span class="n">count_documents</span><span class="p">({}),</span> <span class="s1">&#39;documents now&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">samples_collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;sample_id&#39;</span><span class="p">:</span> <span class="s1">&#39;batch_10&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6 documents now
+{&#39;sample_id&#39;: &#39;batch_10&#39;, &#39;material&#39;: &#39;LiFePO4&#39;, &#39;method&#39;: &#39;sol-gel&#39;, &#39;notes&#39;: &#39;exploratory batch, cycling not yet complete&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The flexibility this buys you is also exactly its risk: nothing stopped
+<code class="docutils literal notranslate"><span class="pre">batch_10</span></code> from being inserted without <code class="docutils literal notranslate"><span class="pre">results</span></code> or <code class="docutils literal notranslate"><span class="pre">steps</span></code> at all, and
+nothing would stop a typo’d field name (e.g. <code class="docutils literal notranslate"><span class="pre">'metod'</span></code>) from silently creating
+a <em>new</em> field instead of raising an error the way SQLite’s <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">NULL</span></code> did in
+Section 3.4. Document databases trade upfront enforcement for upfront
+flexibility — which one you want depends on how settled your data’s shape
+already is.</p>
+</section>
+</section>
+<section id="choosing-a-model-sql-document-or-a-domain-repository">
+<h2>3.7 Choosing a Model: SQL, Document, or a Domain Repository<a class="headerlink" href="#choosing-a-model-sql-document-or-a-domain-repository" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p><strong>Relational (SQL)</strong></p></th>
+<th class="head"><p><strong>Document (MongoDB)</strong></p></th>
+<th class="head"><p><strong>Domain repository (NOMAD, Notebook 4)</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Schema enforcement</p></td>
+<td><p>Strict, upfront</p></td>
+<td><p>Flexible, per-document</p></td>
+<td><p>Strict, via the Metainfo/ELN schema</p></td>
+</tr>
+<tr class="row-odd"><td><p>Best for</p></td>
+<td><p>Fixed-shape registries: samples, instruments, operators</p></td>
+<td><p>Heterogeneous, nested, evolving data</p></td>
+<td><p>FAIR, EMMO-tagged materials data specifically</p></td>
+</tr>
+<tr class="row-even"><td><p>You set up yourself</p></td>
+<td><p>Tables, and a server</p></td>
+<td><p>Collections, and a server</p></td>
+<td><p>Existing parsers/schemas for common computational data come built in; the Oasis server itself and any ELN schema for your own experimental workflow still need setting up (Notebook 4 §4.1, §4.3)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ontology-aware?</p></td>
+<td><p>No — you would add EMMO links yourself</p></td>
+<td><p>No — same</p></td>
+<td><p>Yes, natively (Section 4.4)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>None of these is “correct” in general — they answer different questions. A
+lab’s instrument-booking calendar is a textbook relational problem (rooms,
+users, bookings, all fixed-shape, all needing strict integrity). A folder of
+heterogeneous instrument exports, where every technique reports different
+fields, is a much more natural fit for a document store. And when what you
+specifically need is FAIR, EMMO-aware materials data with search and
+provenance handled for you, that is exactly the gap NOMAD Oasis (Notebook 4)
+fills — built, as it happens, on general-purpose storage ideas much like the
+ones in this notebook.</p>
+</section>
+<hr class="docutils" />
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Extend the relational schema</strong>: Add an <code class="docutils literal notranslate"><span class="pre">instruments</span></code> table
+(<code class="docutils literal notranslate"><span class="pre">instrument_id</span></code> primary key, <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">serial_number</span></code>) and an <code class="docutils literal notranslate"><span class="pre">instrument_id</span></code>
+foreign-key column on <code class="docutils literal notranslate"><span class="pre">synthesis_steps</span></code>, for whichever instrument ran each
+calcination step. Insert one instrument, update two <code class="docutils literal notranslate"><span class="pre">synthesis_steps</span></code> rows to
+reference it, then write a <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> query that lists each step alongside its
+instrument’s name.</p></li>
+<li><p><strong>Break the document schema on purpose</strong>: Insert one more document into
+<code class="docutils literal notranslate"><span class="pre">samples_collection</span></code> with a typo’d field name (<code class="docutils literal notranslate"><span class="pre">'metod'</span></code> instead of
+<code class="docutils literal notranslate"><span class="pre">'method'</span></code>). Re-run the Section 3.6 query <code class="docutils literal notranslate"><span class="pre">find({'method':</span> <span class="pre">'sol-gel'})</span></code> — does
+your new document show up? What would you need to add to catch this kind of
+mistake in a document database, given that there is no <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">NULL</span></code>-style
+constraint to rely on?</p></li>
+<li><p><strong>Design question</strong>: A shared battery-cycler log records one entry per
+charge/discharge cycle, but different battery chemistries report different
+diagnostic fields (a Li-ion cell reports internal resistance; a Na-ion cell in
+the same lab reports something else). Using the criteria from Section 3.7,
+would you model this relationally, as documents, or hand it to a NOMAD Oasis
+instead? Justify your answer in 2–3 sentences.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters\02_data_handling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_ontologies_and_emmo.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2. Ontologies &amp; EMMO</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_nomad_oasis_database.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">4. NOMAD &amp; NOMAD Oasis: Anatomy of a Research-Data Repository</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-a-database-at-all">3.1 Why a Database at All?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-data-models-rows-vs-documents">3.2 Two Data Models: Rows vs. Documents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-a-relational-schema-with-sqlite3">3.3 Hands-on: A Relational Schema with <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-with-sql-join-group-by-and-pandas">3.4 Querying with SQL: <code class="docutils literal notranslate"><span class="pre">JOIN</span></code>, <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>, and pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-sqlite-to-a-shared-server-sqlalchemy-and-postgresql">3.5 From SQLite to a Shared Server: SQLAlchemy and PostgreSQL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-a-document-store-with-mongodb">3.6 Hands-on: A Document Store with MongoDB</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-a-document-store">Querying a Document Store</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-trade-off-no-schema-means-no-free-enforcement">The Trade-off: No Schema Means No Free Enforcement</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-a-model-sql-document-or-a-domain-repository">3.7 Choosing a Model: SQL, Document, or a Domain Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Department of Chemistry–Ångström, Uppsala University
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
