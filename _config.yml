@@ -38,7 +38,7 @@ sphinx:
 
 # ---- Repository (needed for launch buttons below) ----
 repository:
-  url: https://github.com/peterbmob/1KB570
+  url: https://github.com/peterbmob/1kb570_2026
   branch: main
 
 # ---- Launch buttons: open a notebook directly in Google Colab ----

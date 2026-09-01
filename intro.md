@@ -27,13 +27,17 @@ By the end of the course you will be able to:
 ## How to use this book
 
 Every chapter contains **executable code cells**.  
-You can run them locally after installing the requirements:
+To work with the whole book on your own computer, clone the repository and
+install the requirements:
 
 ```bash
+git clone https://github.com/peterbmob/1kb570_2026.git
+cd 1kb570_2026
 pip install -r requirements.txt
 ```
 
-Or launch an individual notebook in JupyterLab / Google Colab.
+Or launch an individual notebook in JupyterLab / Google Colab — every
+notebook page has an **Open in Colab** button.
 
 The chapters build on each other, but each notebook is also self-contained —
 intermediate learners can jump directly to the topic they need.
