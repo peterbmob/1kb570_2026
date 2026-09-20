@@ -495,6 +495,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-a-no-interaction">Case A: No Interaction</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-b-a-real-interaction-same-process-different-luck">Case B: A Real Interaction — Same Process, Different Luck</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-three-panels">Reading the Three Panels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-factorial-designs-really-win-many-factors">Where Factorial Designs Really Win: Many Factors</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-terminology">16.2 Key Terminology</a></li>
@@ -647,7 +648,11 @@ exactly as the OFAT recipe describes.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Case A -- no interaction (gamma=0), starting from T=380°C, P=0.41 Pa&#39;</span><span class="p">)</span>
 <span class="n">ofat_A</span> <span class="o">=</span> <span class="n">run_ofat</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span> <span class="mf">0.41</span><span class="p">)</span>
 <span class="n">fact_A_df</span><span class="p">,</span> <span class="n">fact_A_idx</span> <span class="o">=</span> <span class="n">run_factorial</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fact_A_best</span> <span class="o">=</span> <span class="n">fact_A_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_A_idx</span><span class="p">,</span> <span class="s1">&#39;sigma&#39;</span><span class="p">]</span>
+<span class="c1"># Score BOTH strategies the same way: the TRUE (noise-free) conductivity at the</span>
+<span class="c1"># setting each one picks. (Scoring the factorial by its best *noisy* reading would</span>
+<span class="c1"># let measurement noise push it above 100% of the optimum.)</span>
+<span class="n">fact_A_pick</span> <span class="o">=</span> <span class="n">fact_A_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_A_idx</span><span class="p">]</span>
+<span class="n">fact_A_best</span> <span class="o">=</span> <span class="n">conductivity</span><span class="p">(</span><span class="n">fact_A_pick</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">],</span> <span class="n">fact_A_pick</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OFAT best (16 runs):      </span><span class="si">{</span><span class="n">ofat_A</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> S/cm  &quot;</span>
       <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ofat_A</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">true_val</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% of optimum)  &quot;</span>
@@ -660,7 +665,7 @@ exactly as the OFAT recipe describes.</p>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Case A -- no interaction (gamma=0), starting from T=380°C, P=0.41 Pa
 OFAT best (16 runs):      1746 S/cm  (97.0% of optimum)  at T=440°C, P=0.342 Pa
-Factorial best (7 runs):  1795 S/cm  (99.7% of optimum)
+Factorial best (7 runs):  1800 S/cm  (100.0% of optimum)
 </pre></div>
 </div>
 </div>
@@ -668,7 +673,8 @@ Factorial best (7 runs):  1795 S/cm  (99.7% of optimum)
 <div class="tip admonition">
 <p class="admonition-title">Take-home message</p>
 <ul class="simple">
-<li><p>With no interaction, OFAT reaches 97.0% of the true optimum from a starting guess that wasn’t close in either factor — not far behind the factorial’s 99.7%, using the same total run count either way. This is the direct answer to <em>“does OFAT work fine when there’s no correlation between factors?”</em>: broadly, yes — each one-factor-at-a-time scan lands close to that factor’s own true optimum, because a factor’s own optimum genuinely doesn’t depend on where the other factor happens to be fixed.</p></li>
+<li><p>With no interaction, OFAT reaches 97.0% of the true optimum from a starting guess that wasn’t close in either factor — not far behind the factorial’s 100.0%. This is the direct answer to <em>“does OFAT work fine when there’s no correlation between factors?”</em>: broadly, yes — each one-factor-at-a-time scan lands close to that factor’s own true optimum, because a factor’s own optimum genuinely doesn’t depend on where the other factor happens to be fixed.</p></li>
+<li><p>Both strategies are scored the same way — by the <em>true</em>, noise-free conductivity at the setting each one picks — so neither can exceed 100% of the optimum. The factorial’s 100.0% is also flattered by this toy: the surface’s peak sits exactly at the middle of the tested region, which is where the factorial’s centre points are. Read it as “a factorial can do at least as well here”, not as “a factorial always finds the optimum”.</p></li>
 <li><p>The remaining ~3% gap isn’t from interaction at all (there is none, by construction) — it’s simply that a modest, realistic step around current practice doesn’t cover the space as thoroughly as factorial’s runs, spread deliberately across the full range. That’s a real but small cost, nothing like what’s coming next.</p></li>
 </ul>
 </div>
@@ -693,7 +699,8 @@ be starting from.</p></li>
 <span class="n">ofat_B_unlucky</span> <span class="o">=</span> <span class="n">run_ofat</span><span class="p">(</span><span class="mi">580</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span> <span class="mf">0.41</span><span class="p">)</span>
 <span class="n">ofat_B_lucky</span>   <span class="o">=</span> <span class="n">run_ofat</span><span class="p">(</span><span class="mi">580</span><span class="p">,</span> <span class="mi">380</span><span class="p">,</span> <span class="mf">0.14</span><span class="p">)</span>
 <span class="n">fact_B_df</span><span class="p">,</span> <span class="n">fact_B_idx</span> <span class="o">=</span> <span class="n">run_factorial</span><span class="p">(</span><span class="mi">580</span><span class="p">)</span>
-<span class="n">fact_B_best</span> <span class="o">=</span> <span class="n">fact_B_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_B_idx</span><span class="p">,</span> <span class="s1">&#39;sigma&#39;</span><span class="p">]</span>
+<span class="n">fact_B_pick</span> <span class="o">=</span> <span class="n">fact_B_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fact_B_idx</span><span class="p">]</span>
+<span class="n">fact_B_best</span> <span class="o">=</span> <span class="n">conductivity</span><span class="p">(</span><span class="n">fact_B_pick</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">],</span> <span class="n">fact_B_pick</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">],</span> <span class="mi">580</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OFAT, unlucky start (P=0.41 Pa): </span><span class="si">{</span><span class="n">ofat_B_unlucky</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> S/cm  &quot;</span>
       <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ofat_B_unlucky</span><span class="p">[</span><span class="s1">&#39;best_val&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">true_val</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)  &quot;</span>
@@ -711,7 +718,7 @@ be starting from.</p></li>
 two equally plausible starting pressures
 OFAT, unlucky start (P=0.41 Pa): 1694 S/cm  (94.1%)  at T=440°C, P=0.342 Pa
 OFAT, lucky start   (P=0.14 Pa): 1773 S/cm  (98.5%)  at T=406°C, P=0.111 Pa
-Factorial (7 runs):              1809 S/cm  (100.5%)
+Factorial (7 runs):              1780 S/cm  (98.9%)
 </pre></div>
 </div>
 </div>
@@ -720,7 +727,7 @@ Factorial (7 runs):              1809 S/cm  (100.5%)
 <p class="admonition-title">Take-home message</p>
 <ul class="simple">
 <li><p>Same interaction, same starting temperature, only the starting <em>pressure</em> differs — and the two OFAT outcomes diverge sharply: 94.1% of the true optimum from the unlucky start, 98.5% from the lucky one. Nothing about either starting guess looked more reasonable than the other beforehand; the difference is pure luck, driven entirely by which side of the interaction that guess happened to sit on.</p></li>
-<li><p>Factorial’s result (100.5%) barely moves between the two scenarios — it doesn’t depend on a starting guess at all, because its four corners already sample <em>both</em> sides of the interaction every time, regardless of where “current practice” happens to be. That is the real argument for factorial designs: not a guaranteed bigger margin on any one run (Case A already showed OFAT can do fine), but immunity to exactly the kind of luck that separates a 94% OFAT result from a 98% one here — and it does this in 7 runs to OFAT’s 16, so it is not just more reliable, it is also cheaper.</p></li>
+<li><p>Factorial’s result (98.9%) does not depend on a starting guess at all, because its corners already sample <em>both</em> sides of the interaction every time, regardless of where “current practice” happens to be. But be honest about the size of the win: 98.9% against the lucky OFAT’s 98.5% is a very small margin. <strong>With only two factors, OFAT can do perfectly well — and if it gets lucky it does about as well as the factorial.</strong> What the factorial buys here is not a bigger number, it is not needing the luck (and 7 runs instead of 16). The decisive advantage does not show up at two factors; it comes with a larger set of factors, in the section after these panels.</p></li>
 <li><p>Look at the middle and right panels below: the contours are now visibly tilted, not the simple bullseye of Case A — that tilt <em>is</em> the interaction, and it is exactly what lets one starting guess succeed and an equally sensible one fail.</p></li>
 </ul>
 </div>
@@ -790,7 +797,7 @@ Factorial (7 runs):              1809 S/cm  (100.5%)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6a079b60c6bbac7777596894568775ae6c42956f1a44dd4488124fade0a0488e.png" src="../../_images/6a079b60c6bbac7777596894568775ae6c42956f1a44dd4488124fade0a0488e.png" />
+<img alt="../../_images/42e6db003bdef8a4aa95934d5ab6b45af1be7cab0aac19ad3e4f31c55beca250.png" src="../../_images/42e6db003bdef8a4aa95934d5ab6b45af1be7cab0aac19ad3e4f31c55beca250.png" />
 </div>
 </div>
 </section>
@@ -815,11 +822,81 @@ guess to begin with.</p></li>
 each strategy, how close its result landed to the real answer — never
 available in a real experiment.</p></li>
 </ul>
-<p>This is the core justification for everything else in Part V: a small,
-structured set of experiments beats the same style of one-at-a-time trial,
-not because it is guaranteed to win by more on any single run, but because
-its outcome does not depend on a piece of luck you have no way to control
-for in advance.</p>
+<p>At two factors this is a modest advantage — mostly about robustness to luck,
+not about a bigger result. The next section shows where factorial designs
+really earn their place in Part V: when the number of factors grows.</p>
+</section>
+<section id="where-factorial-designs-really-win-many-factors">
+<h3>Where Factorial Designs Really Win: Many Factors<a class="headerlink" href="#where-factorial-designs-really-win-many-factors" title="Link to this heading">#</a></h3>
+<p>Two factors were the right place to <em>start</em> — you can draw the whole
+surface — but not where a factorial design earns its keep. The gap opens as
+the number of factors <span class="math notranslate nohighlight">\(k\)</span> grows, for two independent reasons:</p>
+<ol class="arabic simple">
+<li><p><strong>Every run works for every effect.</strong> OFAT estimates a factor’s effect
+from just two runs (the baseline and the one changed run); all its other
+runs are ignored for that factor. An orthogonal factorial design uses
+<em>all</em> <span class="math notranslate nohighlight">\(N\)</span> runs for <em>every</em> effect, so for the same number of runs each
+effect is estimated more precisely — by a factor <span class="math notranslate nohighlight">\(\sqrt{(k+1)/2}\)</span> when
+both strategies get <span class="math notranslate nohighlight">\(N=k+1\)</span> runs.</p></li>
+<li><p><strong>Interactions.</strong> <span class="math notranslate nohighlight">\(k\)</span> factors have <span class="math notranslate nohighlight">\(k(k-1)/2\)</span> pairs that could interact
+(3, 21, 105 for <span class="math notranslate nohighlight">\(k=3, 7, 15\)</span>). OFAT cannot detect any of them; a
+factorial (or fractional factorial) design can.</p></li>
+</ol>
+<p>The cell below checks reason 1 by simulation: the same number of runs
+(<span class="math notranslate nohighlight">\(k+1\)</span>) for each strategy, additive true effects, the same measurement
+noise <span class="math notranslate nohighlight">\(\sigma=1\)</span>. It reports the root-mean-square error of the estimated
+effects over 20 000 repeated experiments. The factorial side uses a
+Plackett–Burman screening design (Section 16.4), which has exactly <span class="math notranslate nohighlight">\(k+1\)</span>
+runs for <span class="math notranslate nohighlight">\(k=3, 7, 15\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyDOE3</span>
+
+<span class="n">rng_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">2026</span><span class="p">)</span>
+<span class="n">sigma</span><span class="p">,</span> <span class="n">n_rep</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">20000</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">15</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">pyDOE3</span><span class="o">.</span><span class="n">pbdesign</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>                    <span class="c1"># N x k design, N = k+1 runs</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">rng_k</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>               <span class="c1"># true half-effects (effect = 2b)</span>
+
+    <span class="c1"># Factorial: every run contributes to every effect estimate</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">b</span> <span class="o">+</span> <span class="n">rng_k</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="p">(</span><span class="n">n_rep</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+    <span class="n">est_fact</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">Y</span> <span class="o">@</span> <span class="n">X</span>                <span class="c1"># mean(high) - mean(low)</span>
+
+    <span class="c1"># OFAT: one baseline run (all factors low) + one changed run per factor</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">rng_k</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="p">(</span><span class="n">n_rep</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">yi</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">b</span> <span class="o">+</span> <span class="n">rng_k</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="p">(</span><span class="n">n_rep</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+    <span class="n">est_ofat</span> <span class="o">=</span> <span class="n">yi</span> <span class="o">-</span> <span class="n">y0</span>
+
+    <span class="n">rmse_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">est_ofat</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="n">rmse_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">est_fact</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;factors k&#39;</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span> <span class="s1">&#39;runs (each)&#39;</span><span class="p">:</span> <span class="n">N</span><span class="p">,</span>
+                 <span class="s1">&#39;RMS error, OFAT&#39;</span><span class="p">:</span> <span class="n">rmse_o</span><span class="p">,</span> <span class="s1">&#39;RMS error, factorial&#39;</span><span class="p">:</span> <span class="n">rmse_f</span><span class="p">,</span>
+                 <span class="s1">&#39;OFAT / factorial&#39;</span><span class="p">:</span> <span class="n">rmse_o</span> <span class="o">/</span> <span class="n">rmse_f</span><span class="p">,</span>
+                 <span class="s1">&#39;theory sqrt((k+1)/2)&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+                 <span class="s1">&#39;pairs that could interact&#39;</span><span class="p">:</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> factors k  runs (each)  RMS error, OFAT  RMS error, factorial  OFAT / factorial  theory sqrt((k+1)/2)  pairs that could interact
+         3            4             1.41                  1.00              1.41                  1.41                          3
+         7            8             1.41                  0.71              2.00                  2.00                         21
+        15           16             1.42                  0.50              2.84                  2.83                        105
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<ul class="simple">
+<li><p>With the same number of runs, OFAT’s error in estimating a factor’s effect stays at about 1.4 (that is <span class="math notranslate nohighlight">\(\sigma\sqrt2\)</span>: each estimate rests on two runs) no matter how many factors there are, while the factorial’s error keeps shrinking as factors are added: 1.00 at <span class="math notranslate nohighlight">\(k=3\)</span>, 0.71 at <span class="math notranslate nohighlight">\(k=7\)</span>, 0.50 at <span class="math notranslate nohighlight">\(k=15\)</span>. The ratio — 1.41, 2.00, 2.84 — matches the theoretical <span class="math notranslate nohighlight">\(\sqrt{(k+1)/2}\)</span> almost exactly. At <span class="math notranslate nohighlight">\(k=2\)</span> there is little to gain (the ITO example above); the advantage grows steadily from there.</p></li>
+<li><p>OFAT is also blind to every pairwise interaction — 3, 21 and 105 of them at <span class="math notranslate nohighlight">\(k=3, 7, 15\)</span> — while a factorial design can estimate them (subject to the aliasing Notebook 18 explains).</p></li>
+<li><p>These designs are <em>saturated</em> (no runs left over to estimate the noise), which is fine for making the two strategies equal in cost but is not how a real screening study is run; Notebook 18 shows the properly-sized versions.</p></li>
+</ul>
+</div>
 </section>
 </section>
 <section id="key-terminology">
@@ -981,6 +1058,10 @@ ranges. Write a function that both codes and decodes the variables:</p>
 <li><p><strong>Design table</strong>: Build a manual 2² design table (4 corner runs + 1 centre
 point) for the ITO example and add a column for the response value using
 the <code class="docutils literal notranslate"><span class="pre">conductivity()</span></code> function with noise σ=20 S/cm.</p></li>
+<li><p><strong>Many-factor comparison</strong>: Extend the simulation above to <span class="math notranslate nohighlight">\(k=11\)</span>
+(<code class="docutils literal notranslate"><span class="pre">pyDOE3.pbdesign(11)</span></code> has 12 runs, again <span class="math notranslate nohighlight">\(k+1\)</span>). Before running it,
+predict the ratio of OFAT’s to the factorial’s RMS error from
+<span class="math notranslate nohighlight">\(\sqrt{(k+1)/2}\)</span>, then check your prediction.</p></li>
 </ol>
 </section>
 </section>
@@ -1055,6 +1136,7 @@ the <code class="docutils literal notranslate"><span class="pre">conductivity()<
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-a-no-interaction">Case A: No Interaction</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-b-a-real-interaction-same-process-different-luck">Case B: A Real Interaction — Same Process, Different Luck</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-three-panels">Reading the Three Panels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-factorial-designs-really-win-many-factors">Where Factorial Designs Really Win: Many Factors</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-terminology">16.2 Key Terminology</a></li>
