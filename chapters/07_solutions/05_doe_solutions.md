@@ -239,12 +239,16 @@ x1:x2          3.349     94.5
 x2:x3          2.227     99.8
 x1:x2:x3       0.078    100.0
 ```
-The 80% cumulative line falls *between* `x1:x3` (74.9%) and `x2` (86.4%) —
-a strict 80% cutoff would keep only three terms and drop `x2`, even though
-`x2` is a genuine, moderate-sized effect (true value −3). This is the same
-lesson Notebook 23 §23.3 draws from an almost identical situation: an 80%
-threshold is a starting point, not a substitute for looking at where the
-actual gap in the bar heights falls.
+The 80% line falls *between* `x1:x3` (74.9%) and `x2` (86.4%). The
+smallest set of terms that reaches 80% therefore has four members — `x1`,
+`x3`, `x1:x3` and `x2`, the term that crosses the line — which is right:
+`x2` is a genuine, moderate-sized effect (true value −3). Beware the
+tempting shortcut "keep the terms with `cum_pct <= 80`": it stops
+*before* the line and would drop `x2`. Even read correctly, the 80% line
+is a first look, not a decision rule: the next bar, `x1:x2` (3.35), is
+not much smaller than `x2` (4.79), so where the real gap falls still
+needs judgement — and with many terms the line fails outright (Notebook
+23 §23.7).
 :::
 
 ## Notebook 18: Fractional Factorial Designs
@@ -859,33 +863,34 @@ results1['y'] = results1[[f'Y{i+1}' for i in range(5)]].mean(axis=1)
 mod_full1 = smf.ols('y ~ A*B*C', data=results1).fit()
 effects1 = (2*mod_full1.params.drop('Intercept')).abs().sort_values(ascending=False)
 cum_pct1 = (effects1.cumsum()/effects1.sum()*100).round(1)
-print(pd.DataFrame({'standardized_effect': effects1.round(3), 'cum_pct': cum_pct1}))
+print(pd.DataFrame({'abs_effect': effects1.round(3), 'cum_pct': cum_pct1}))
 
-keep_terms1 = cum_pct1[cum_pct1 <= 80].index.tolist() or [effects1.index[0]]
-print('Terms kept (<=80% cumulative):', keep_terms1)
+keep_terms1 = cum_pct1.index[cum_pct1.shift(fill_value=0) < 80].tolist()   # smallest set reaching 80 %
+print('Terms kept (smallest set reaching 80%):', keep_terms1)
 ```
 Output:
 ```
-       standardized_effect  cum_pct
-B                     8.987     58.1
-C                     3.919     83.5
-A                     2.034     96.6
+   abs_effect  cum_pct
+B       8.987     58.1
+C       3.919     83.5
+A       2.034     96.6
 ...
 ```
 `B` correctly comes out as the largest bar (8.987, matching its built-in
 true effect of 4.5×2=9.0), confirming the Pareto chart correctly tracks
-whichever coefficient is dominant, not literally "A" by position. But the
-80%-cumulative rule again keeps **only `B`** — `C`'s cumulative total
-(83.5%) falls just past the 80% line, the same narrow-miss pattern Section
-23.3 found for `A:C` in the original run. This is a useful confirmation
-that the earlier finding wasn't a fluke of that particular simulation: an
-80%-cumulative cutoff is sensitive to exactly where the running total
-happens to cross the line, regardless of which factor is dominant.
+whichever coefficient is dominant, not literally "A" by position. The
+smallest set reaching 80% is **`B` and `C`** — `C` takes the running
+total past the line (83.5%) — but it drops **`A`** (2.034, true effect
+2.0), a genuine factor. As in Section 23.3, the 80% line is a first look,
+not a decision rule: where the running total happens to cross 80% decides
+what is kept, not the noise. With the 40 individual pellets (Section
+23.2), `A`'s true coefficient of 1.0 against a pellet scatter of σ = 0.3
+would be flagged easily.
 :::
 
-**Exercise 2 — Repeat for y2 or y3**
+**Exercise 2 — Repeat for hue (y2) or brightness (y3)**
 
-> **Hint:** The Yates-effect loop in Section 23.5 and the auto-generated
+> **Hint:** The contrast loop in Section 23.5 and the auto-generated
 > formula in Section 23.6 both work on any column name — just swap `'y1'`
 > for `'y3'` (or `'y2'`) throughout, then look at the top few `|effect|`
 > values to decide which terms belong in your own reduced model.
