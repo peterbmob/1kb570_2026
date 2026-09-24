@@ -492,10 +492,16 @@
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-video-to-python-a-3-factor-sintering-study">23.1 From a Video to Python: A 3-Factor Sintering Study</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom">23.2 Fitting the Full Model — and Why It Has Zero Residual Degrees of Freedom</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-chart-model-reduction-and-confirmation">23.3 Pareto Chart, Model Reduction, and Confirmation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom">23.2 Fitting the Full Model — and Why It Has Zero Residual Degrees of Freedom</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-replicates-were-there-all-along">The replicates were there all along</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-chart-and-model-reduction">23.3 Pareto Chart and Model Reduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raising-the-stakes-box-draper-s-six-factor-study">23.4 Raising the Stakes: Box &amp; Draper’s Six-Factor Study</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-effects-by-hand-the-yates-method">23.5 Computing Effects by Hand — The Yates Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-effects-by-hand-contrasts-and-yates-algorithm">23.5 Computing Effects by Hand — Contrasts and Yates’ Algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yates-algorithm-the-same-contrasts-from-sums-and-differences">Yates’ algorithm: the same contrasts from sums and differences</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-same-effects-automatically-statsmodels-ols">23.6 The Same Effects, Automatically — statsmodels OLS</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#screening-without-replication-pareto-and-normal-probability-plots">23.7 Screening Without Replication: Pareto and Normal-Probability Plots</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-result-what-the-book-says">23.8 Reading the Result: What the Book Says</a></li>
@@ -522,16 +528,17 @@ on a small, synthetic 3-factor materials study. Part B then raises the
 stakes with <strong>real, published textbook data</strong>: Box &amp; Draper’s 2⁶
 full-factorial study (<em>Empirical Model-Building and Response Surfaces</em>,
 Wiley 1984, Ch. 4), 64 genuine experimental runs and 6 factors, analysed
-first by hand (Yates’ contrast method) and then by an auto-generated
+first by hand (the contrast method, and Yates’ classic sums-and-differences
+algorithm) and then by an auto-generated
 <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> formula — plus a screening tool built specifically for
 designs with no replication at all: the normal-probability plot.</p>
 <p><strong>Session plan</strong></p>
 <ol class="arabic simple">
 <li><p>From a video to Python: a 3-factor sintering study</p></li>
 <li><p>Fitting the full model — and why it has zero residual degrees of freedom</p></li>
-<li><p>Pareto chart, model reduction, and confirmation</p></li>
+<li><p>Pareto chart and model reduction</p></li>
 <li><p>Raising the stakes: Box &amp; Draper’s six-factor study</p></li>
-<li><p>Computing effects by hand — the Yates method</p></li>
+<li><p>Computing effects by hand — contrasts and Yates’ algorithm</p></li>
 <li><p>The same effects, automatically — statsmodels OLS</p></li>
 <li><p>Screening without replication: Pareto and normal-probability plots</p></li>
 <li><p>Reading the result: what the book says</p></li>
@@ -945,10 +952,13 @@ regardless of whether A is measured in hours, °C, or MPa.</p>
 </section>
 <section id="fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom">
 <h2>23.2 Fitting the Full Model — and Why It Has Zero Residual Degrees of Freedom<a class="headerlink" href="#fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom" title="Link to this heading">#</a></h2>
+<p>Like a Minitab walkthrough, we summarise the 5 pellets at each corner by
+two numbers — the mean <code class="docutils literal notranslate"><span class="pre">y</span></code> and the standard deviation <code class="docutils literal notranslate"><span class="pre">s</span></code> — and model each.</p>
 <p>First check whether the <strong>scatter itself</strong> depends on the settings — a
 real process-control question, not just a formality: if pressure also
 controls how <em>repeatable</em> the density is, that matters as much as the
-average density itself.</p>
+average density itself. It is also a sanity check before averaging:
+averages are only comparable if every corner scatters about the same.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_s</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;s ~ A + B + C + A:B + A:C + B:C&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
@@ -978,10 +988,10 @@ Largest |coefficient|: 0.063 -- no term stands out; replicate-to-replicate scatt
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_full</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y ~ A * B * C&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mod_full</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Residual df: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">mod_full</span><span class="o">.</span><span class="n">df_resid</span><span class="p">)</span><span class="si">}</span><span class="s1">  (8 corner averages - 8 parameters)&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Zero residual degrees of freedom: the full model fits the 8 corner averages&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exactly, so there is no p-value or F-test available for any term -- only the&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;coefficients themselves, ranked by magnitude, are usable for screening. This is&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exactly the situation a Minitab full-factorial walkthrough runs into as well.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Zero residual degrees of freedom: 8 parameters fit the 8 corner averages exactly,&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;so this model gives no p-value or F-test for any term -- only the coefficients&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;themselves, ranked by magnitude. (The 40 individual pellets do carry an error&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;estimate -- see the next cell.)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -997,36 +1007,85 @@ A:B:C         0.051
 dtype: float64
 
 Residual df: 0  (8 corner averages - 8 parameters)
-Zero residual degrees of freedom: the full model fits the 8 corner averages
-exactly, so there is no p-value or F-test available for any term -- only the
-coefficients themselves, ranked by magnitude, are usable for screening. This is
-exactly the situation a Minitab full-factorial walkthrough runs into as well.
+Zero residual degrees of freedom: 8 parameters fit the 8 corner averages exactly,
+so this model gives no p-value or F-test for any term -- only the coefficients
+themselves, ranked by magnitude. (The 40 individual pellets do carry an error
+estimate -- see the next cell.)
 </pre></div>
 </div>
 </div>
 </div>
+<section id="the-replicates-were-there-all-along">
+<h3>The replicates were there all along<a class="headerlink" href="#the-replicates-were-there-all-along" title="Link to this heading">#</a></h3>
+<p>Zero residual degrees of freedom is a consequence of fitting the
+<strong>averages</strong>, not of the design: every corner was pressed five times. Fit
+the same model to the 40 individual pellets instead, and the replicates
+supply <span class="math notranslate nohighlight">\(40 - 8 = 32\)</span> degrees of freedom of <strong>pure error</strong> — and with them,
+real p-values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># One row per pellet (40 rows) instead of one row per corner (8 rows)</span>
+<span class="n">long</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Y</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_reps</span><span class="p">)],</span>
+                    <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+<span class="n">mod_long</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;density ~ A * B * C&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">long</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Residual df: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">mod_long</span><span class="o">.</span><span class="n">df_resid</span><span class="p">)</span><span class="si">}</span><span class="s1">  (40 pellets - 8 parameters, all pure error)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;coef&#39;</span><span class="p">:</span> <span class="n">mod_long</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="n">mod_long</span><span class="o">.</span><span class="n">pvalues</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)}))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Residual df: 32  (40 pellets - 8 parameters, all pure error)
+             coef  p_value
+Intercept  92.048   0.0000
+A           3.517   0.0000
+B           0.294   0.0000
+A:B         0.075   0.0740
+C           1.960   0.0000
+A:C         1.314   0.0000
+B:C         0.022   0.5941
+A:B:C       0.051   0.2212
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>The coefficients are identical to the averages model — only the degrees of
+freedom change. With 32 df of pure error, <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">A:C</span></code> all have
+p &lt; 0.0001, while <code class="docutils literal notranslate"><span class="pre">A:B</span></code> (p = 0.07), <code class="docutils literal notranslate"><span class="pre">B:C</span></code> (0.59) and <code class="docutils literal notranslate"><span class="pre">A:B:C</span></code> (0.22) do
+not: exactly the true model, including the small <code class="docutils literal notranslate"><span class="pre">B</span></code> (true coefficient
+0.3). Replicates buy you p-values — but only if you analyse the
+replicates, not just their average. The rest of Part A deliberately works
+from the averages alone, because that is the situation of every
+<strong>unreplicated</strong> design, including Part B.</p>
+</div>
 </section>
-<section id="pareto-chart-model-reduction-and-confirmation">
-<h2>23.3 Pareto Chart, Model Reduction, and Confirmation<a class="headerlink" href="#pareto-chart-model-reduction-and-confirmation" title="Link to this heading">#</a></h2>
-<p>With no p-values to rank by, fall back on <strong>magnitude</strong>: a Pareto chart of
-the standardized effects (twice each coefficient, same convention as
-Notebook 22), sorted largest to smallest, with a cumulative-percentage
-line to separate the “vital few” from the “trivial many” — the same 80/20
-logic behind every Pareto chart in this course.</p>
+</section>
+<section id="pareto-chart-and-model-reduction">
+<h2>23.3 Pareto Chart and Model Reduction<a class="headerlink" href="#pareto-chart-and-model-reduction" title="Link to this heading">#</a></h2>
+<p>Now suppose we only had the averages — the situation of every
+unreplicated design. With no p-values to rank by, fall back on
+<strong>magnitude</strong>: a Pareto chart of the effects (twice each coefficient, same
+convention as Notebook 22), sorted largest to smallest, with a
+cumulative-percentage line to separate the “vital few” from the “trivial
+many” — the same 80/20 logic behind every Pareto chart in this course.</p>
+<p>Minitab calls its version a Pareto chart of the <em>standardized</em> effects:
+each effect divided by its standard error, i.e. a t-value. That needs
+residual degrees of freedom, so here we rank the plain effects.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">effects</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">mod_full</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">effects_df</span> <span class="o">=</span> <span class="n">effects</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s1">&#39;standardized_effect&#39;</span><span class="p">)</span>
-<span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;cum_pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;standardized_effect&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
-                          <span class="o">/</span> <span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;standardized_effect&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">effects_df</span> <span class="o">=</span> <span class="n">effects</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s1">&#39;abs_effect&#39;</span><span class="p">)</span>
+<span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;cum_pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;abs_effect&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+                          <span class="o">/</span> <span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;abs_effect&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">effects_df</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">effects_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;standardized_effect&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">effects_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;abs_effect&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
 <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">effects_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;cum_pct&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;|Standardized effect|&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Cumulative %&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;|Effect|&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Cumulative %&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pareto chart -- sintering density study (Part A)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1034,23 +1093,23 @@ logic behind every Pareto chart in this course.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       standardized_effect  cum_pct
-A                    7.034     48.6
-C                    3.919     75.7
-A:C                  2.627     93.9
-B                    0.587     97.9
-A:B                  0.151     99.0
-A:B:C                0.102     99.7
-B:C                  0.044    100.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       abs_effect  cum_pct
+A           7.034     48.6
+C           3.919     75.7
+A:C         2.627     93.9
+B           0.587     97.9
+A:B         0.151     99.0
+A:B:C       0.102     99.7
+B:C         0.044    100.0
 </pre></div>
 </div>
-<img alt="../../_images/da2b888e0f9d25d43a013ec9ccee9dbbe27a3eed16a9e8eebf8bfa64afe9462b.png" src="../../_images/da2b888e0f9d25d43a013ec9ccee9dbbe27a3eed16a9e8eebf8bfa64afe9462b.png" />
+<img alt="../../_images/75977bdabea6cc4a393487e4c6d553e86676ee88f9971136a7e581276a1a200c.png" src="../../_images/75977bdabea6cc4a393487e4c6d553e86676ee88f9971136a7e581276a1a200c.png" />
 </div>
 </div>
 <div class="tip admonition">
 <p class="admonition-title">Take-home message</p>
 <p><code class="docutils literal notranslate"><span class="pre">A</span></code> (dwell time, effect 7.03) and <code class="docutils literal notranslate"><span class="pre">C</span></code> (pressure, effect 3.92) together
-already cover 75.7% of the cumulative standardized effect; <code class="docutils literal notranslate"><span class="pre">A:C</span></code>
+already cover 75.7% of the cumulative effect; <code class="docutils literal notranslate"><span class="pre">A:C</span></code>
 (effect 2.63) pushes that to 93.9%, and <code class="docutils literal notranslate"><span class="pre">B</span></code> (0.59) and the remaining
 interactions trail far behind, together barely 6%. This matches the true
 built-in structure closely — true effects of 7.0 (<code class="docutils literal notranslate"><span class="pre">A</span></code>), 4.0 (<code class="docutils literal notranslate"><span class="pre">C</span></code>), 2.4
@@ -1096,7 +1155,9 @@ fitted 1.960 vs. true 2.0), so this isn’t a <em>bad</em> model — but it is a
 reminder that an 80% cumulative threshold, like any rule of thumb, is a
 starting point for judgement, not a substitute for it. A Minitab analyst
 eyeballing the same chart, seeing the clear gap between <code class="docutils literal notranslate"><span class="pre">A:C</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code>,
-would likely have kept <code class="docutils literal notranslate"><span class="pre">A:C</span></code> too.</p>
+would likely have kept <code class="docutils literal notranslate"><span class="pre">A:C</span></code> too. And when replicates exist, a real test
+beats both: the 40-pellet fit in Section 23.2 flags <code class="docutils literal notranslate"><span class="pre">A:C</span></code> (and even the
+small <code class="docutils literal notranslate"><span class="pre">B</span></code>) at p &lt; 0.0001.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1123,17 +1184,17 @@ would likely have kept <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <p><strong>Checkpoint</strong>: does <code class="docutils literal notranslate"><span class="pre">keep_terms</span></code> recover <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code> — the two largest
-terms actually built into <code class="docutils literal notranslate"><span class="pre">true_density</span></code> — and correctly leave out <code class="docutils literal notranslate"><span class="pre">B</span></code>?
-Then look at where <code class="docutils literal notranslate"><span class="pre">A:C</span></code> (also genuinely built in, but smaller) falls
-relative to the 80% cumulative line: is it kept or dropped, and does that
-match what you’d have chosen by eye from the Pareto chart? This is the
-same reduction logic as Notebook 24 (Live Tutorial 3) §24.2, just driven
-by effect magnitude instead of a p-value, because Section 23.2 showed
-there are no p-values available here at all.</p>
+terms built into <code class="docutils literal notranslate"><span class="pre">true_density</span></code>? Then look at the two smaller terms that
+are also built in, <code class="docutils literal notranslate"><span class="pre">A:C</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code>: where do they fall relative to the 80%
+cumulative line, and does that match what you’d have chosen by eye from the
+Pareto chart — or what the 40-pellet fit in Section 23.2 says? This is the
+same reduction logic as Notebook 24 (Live Tutorial 3) §24.2, just driven by
+effect magnitude instead of a p-value, because the averages alone carry no
+p-values.</p>
 </section>
 <section id="raising-the-stakes-box-draper-s-six-factor-study">
 <h2>23.4 Raising the Stakes: Box &amp; Draper’s Six-Factor Study<a class="headerlink" href="#raising-the-stakes-box-draper-s-six-factor-study" title="Link to this heading">#</a></h2>
-<p>Part A was small and synthetic — 8 runs, 3 factors, invented numbers.
+<p>Part A was small and synthetic — 8 corners, 3 factors, invented numbers.
 Part B uses <strong>genuine published data</strong>: a <span class="math notranslate nohighlight">\(2^6\)</span> full-factorial study from
 Box &amp; Draper’s <em>Empirical Model-Building and Response Surfaces</em> (Wiley,
 1984), Chapter 4 — 64 real experimental runs, 6 coded factors
@@ -1142,7 +1203,9 @@ Box &amp; Draper’s <em>Empirical Model-Building and Response Surfaces</em> (Wi
 for <span class="math notranslate nohighlight">\(y_2\)</span> or <span class="math notranslate nohighlight">\(y_3\)</span>). The same two techniques from Part A — manual
 contrast-based effects and a <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> OLS fit — scale up completely
 unchanged; only the <em>practicality</em> of writing out the model formula by
-hand changes, which is exactly the problem Section 23.6 solves.</p>
+hand changes, which is exactly the problem Section 23.6 solves. Unlike
+Part A, this design is <strong>unreplicated</strong>: one run per corner, so there is
+no pure error at all.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">encoded_inputs6</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
@@ -1259,12 +1322,13 @@ hand changes, which is exactly the problem Section 23.6 solves.</p>
 </div></div></div>
 </div>
 </section>
-<section id="computing-effects-by-hand-the-yates-method">
-<h2>23.5 Computing Effects by Hand — The Yates Method<a class="headerlink" href="#computing-effects-by-hand-the-yates-method" title="Link to this heading">#</a></h2>
+<section id="computing-effects-by-hand-contrasts-and-yates-algorithm">
+<h2>23.5 Computing Effects by Hand — Contrasts and Yates’ Algorithm<a class="headerlink" href="#computing-effects-by-hand-contrasts-and-yates-algorithm" title="Link to this heading">#</a></h2>
 <p>The same contrast formula from Notebook 22 §22.2 generalises cleanly to
 any number of factors: for a <span class="math notranslate nohighlight">\(k\)</span>-way interaction, the “column” is simply
 the elementwise product of the <span class="math notranslate nohighlight">\(k\)</span> individual coded columns, and the
-effect is that contrast divided by <span class="math notranslate nohighlight">\(n/2\)</span> (<span class="math notranslate nohighlight">\(n=64\)</span> runs here, so <span class="math notranslate nohighlight">\(n/2=32\)</span>).</p>
+effect is that contrast divided by <span class="math notranslate nohighlight">\(n/2\)</span> (<span class="math notranslate nohighlight">\(n=64\)</span> runs here, all of them
+corners, so <span class="math notranslate nohighlight">\(n/2=32\)</span>).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">,</span> <span class="s1">&#39;x4&#39;</span><span class="p">,</span> <span class="s1">&#39;x5&#39;</span><span class="p">,</span> <span class="s1">&#39;x6&#39;</span><span class="p">]}</span>
@@ -1302,6 +1366,87 @@ dtype: float64
 </div>
 </div>
 </div>
+<section id="yates-algorithm-the-same-contrasts-from-sums-and-differences">
+<h3>Yates’ algorithm: the same contrasts from sums and differences<a class="headerlink" href="#yates-algorithm-the-same-contrasts-from-sums-and-differences" title="Link to this heading">#</a></h3>
+<p>Before computers, nobody built 63 sign columns. <strong>Yates’ algorithm</strong>
+(Yates, 1937) produces every contrast at once from the responses in
+<strong>standard order</strong> — the first factor flips fastest, which is why the
+data cell above reversed the column order — using nothing but pairwise
+sums and differences. For a design with <span class="math notranslate nohighlight">\(k\)</span> factors, repeat <span class="math notranslate nohighlight">\(k\)</span> times:</p>
+<ol class="arabic simple">
+<li><p>take the column in pairs: (1st, 2nd), (3rd, 4th), …;</p></li>
+<li><p>top half of the new column: the <strong>sums</strong> of the pairs;</p></li>
+<li><p>bottom half: the <strong>differences</strong>, second minus first.</p></li>
+</ol>
+<p>After <span class="math notranslate nohighlight">\(k\)</span> passes the column holds the contrasts in standard order — I, A,
+B, AB, C, AC, BC, ABC, … — and dividing by <span class="math notranslate nohighlight">\(n\)</span> (for I) or <span class="math notranslate nohighlight">\(n/2\)</span> (for all
+others) gives the average and the effects. For a four-run <span class="math notranslate nohighlight">\(2^2\)</span> example
+with <span class="math notranslate nohighlight">\(y\)</span> = 20, 40, 30, 70:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>y</p></th>
+<th class="head"><p>Pass 1</p></th>
+<th class="head"><p>Pass 2</p></th>
+<th class="head"><p>Contrast of</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>20</p></td>
+<td><p>20 + 40 = 60</p></td>
+<td><p>60 + 100 = 160</p></td>
+<td><p>I</p></td>
+</tr>
+<tr class="row-odd"><td><p>40</p></td>
+<td><p>30 + 70 = 100</p></td>
+<td><p>20 + 40 = 60</p></td>
+<td><p>A</p></td>
+</tr>
+<tr class="row-even"><td><p>30</p></td>
+<td><p>40 − 20 = 20</p></td>
+<td><p>100 − 60 = 40</p></td>
+<td><p>B</p></td>
+</tr>
+<tr class="row-odd"><td><p>70</p></td>
+<td><p>70 − 30 = 40</p></td>
+<td><p>40 − 20 = 20</p></td>
+<td><p>AB</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>so the average is 160/4 = 40 and the effects are 60/2 = 30 (A), 40/2 = 20
+(B) and 20/2 = 10 (AB) — the same numbers the contrast method gives, with
+no sign columns at all. The next cell runs the six passes for the 64 runs
+of <span class="math notranslate nohighlight">\(y_1\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Yates&#39; algorithm on the 64 responses (already in standard order: x1 flips fastest)</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">doe</span><span class="p">[</span><span class="s1">&#39;y1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>                                    <span class="c1"># k = 6 factors -&gt; 6 passes</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                        <span class="c1"># (1st, 2nd), (3rd, 4th), ...</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">pairs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>          <span class="c1"># top half: sums</span>
+                          <span class="n">pairs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pairs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]])</span> <span class="c1"># bottom half: second minus first</span>
+
+<span class="c1"># Position i holds the term whose factors are the 1-bits of i (e.g. 3 = 000011 -&gt; x1:x2)</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;x</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">)]</span>
+<span class="n">yates_effects</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="mi">32</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+<span class="n">contrast_effects</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({(</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">k</span><span class="p">):</span> <span class="n">v</span>
+                              <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">effects_y1</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Average from Yates (I / 64): </span><span class="si">{</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">64</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Yates effects identical to the contrast method for all 63 terms:&#39;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">yates_effects</span><span class="p">,</span> <span class="n">contrast_effects</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">yates_effects</span><span class="o">.</span><span class="n">index</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average from Yates (I / 64): 11.1234
+Yates effects identical to the contrast method for all 63 terms: True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="the-same-effects-automatically-statsmodels-ols">
 <h2>23.6 The Same Effects, Automatically — statsmodels OLS<a class="headerlink" href="#the-same-effects-automatically-statsmodels-ols" title="Link to this heading">#</a></h2>
@@ -1338,24 +1483,24 @@ Residual df: 0  (64 runs - 64 parameters -- the same zero-df situation as Part A
 <span class="n">manual_named</span> <span class="o">=</span> <span class="n">effects_series</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
 <span class="n">manual_named</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">manual_named</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
 
-<span class="n">compare</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;manual_Yates&#39;</span><span class="p">:</span> <span class="n">manual_named</span><span class="p">,</span> <span class="s1">&#39;statsmodels_2xOLS&#39;</span><span class="p">:</span> <span class="n">ols_effects</span><span class="p">})</span>
-<span class="n">compare</span> <span class="o">=</span> <span class="n">compare</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;manual_Yates&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">compare</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;by_hand&#39;</span><span class="p">:</span> <span class="n">manual_named</span><span class="p">,</span> <span class="s1">&#39;statsmodels_2xOLS&#39;</span><span class="p">:</span> <span class="n">ols_effects</span><span class="p">})</span>
+<span class="n">compare</span> <span class="o">=</span> <span class="n">compare</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;by_hand&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">compare</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Max absolute difference across all 63 effects: &#39;</span>
-      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="p">(</span><span class="n">compare</span><span class="p">[</span><span class="s2">&quot;manual_Yates&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">compare</span><span class="p">[</span><span class="s2">&quot;statsmodels_2xOLS&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+      <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="p">(</span><span class="n">compare</span><span class="p">[</span><span class="s2">&quot;by_hand&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">compare</span><span class="p">[</span><span class="s2">&quot;statsmodels_2xOLS&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>             manual_Yates  statsmodels_2xOLS
-x4                 2.9844             2.9844
-x6                 2.6906             2.6906
-x1                 1.7469             1.7469
-x1:x2:x4:x5        1.1594             1.1594
-x1:x2              0.8906             0.8906
-x2:x4              0.8594             0.8594
-x1:x6              0.8219             0.8219
-x1:x2:x4           0.8156             0.8156
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>             by_hand  statsmodels_2xOLS
+x4            2.9844             2.9844
+x6            2.6906             2.6906
+x1            1.7469             1.7469
+x1:x2:x4:x5   1.1594             1.1594
+x1:x2         0.8906             0.8906
+x2:x4         0.8594             0.8594
+x1:x6         0.8219             0.8219
+x1:x2:x4      0.8156             0.8156
 
 Max absolute difference across all 63 effects: 0.000000
 </pre></div>
@@ -1364,7 +1509,8 @@ Max absolute difference across all 63 effects: 0.000000
 </div>
 <div class="tip admonition">
 <p class="admonition-title">Take-home message</p>
-<p>The manual Yates effects and the <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">statsmodels</span></code> coefficients agree to
+<p>The hand-computed effects (contrast method or Yates’ algorithm) and the
+<code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">statsmodels</span></code> coefficients agree to
 <strong>0.000000</strong> across all 63 terms — not “close,” identical to floating-point
 precision. This is Notebook 22 §22.2’s checkpoint again, now demonstrated
 at 6 factors and 63 terms instead of 2 factors and 3: a factorial effect
@@ -1378,73 +1524,85 @@ how many factors are involved or which method computed it first.</p>
 degrees of freedom for a formal F-test — the same zero-df situation as
 Section 23.2, just at 8× the scale, and now with far too many bars for a
 Pareto chart alone to read comfortably. The <strong>normal-probability (QQ)
-plot</strong> solves this directly: if every effect were pure noise, the sorted
-effects would fall on a straight line against their theoretical normal
-quantiles; genuinely active effects break away from that line, and you
-don’t need to pick a magnitude threshold by eye to see it.</p>
+plot</strong> solves this: if every effect were pure noise, the sorted effects
+would fall on a straight line against their theoretical normal quantiles;
+genuinely active effects break away from that line.</p>
+<p>Keep the <strong>sign</strong> of each effect for this plot. Noise effects scatter
+symmetrically around zero, so real positive effects break away at the top
+right and real negative ones at the bottom left. (Lecture 4’s half-normal
+plot uses |effect| instead, against half-normal quantiles.) The reference
+line is drawn through the quartiles — the middle half of the effects,
+where the noise lives — so the few large effects cannot pull it towards
+themselves.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
-<span class="n">sorted_effects</span> <span class="o">=</span> <span class="n">ols_effects</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sorted_effects</span> <span class="o">=</span> <span class="n">ols_effects</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>          <span class="c1"># |effects|, largest first</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_effects</span><span class="p">)),</span> <span class="n">sorted_effects</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Effect (63 terms, largest to smallest)&#39;</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;|Effect|&#39;</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pareto chart -- all 63 effects (y1)&#39;</span><span class="p">)</span>
 
-<span class="n">smg</span><span class="o">.</span><span class="n">ProbPlot</span><span class="p">(</span><span class="n">ols_effects</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Normal-probability plot of the same 63 effects&#39;</span><span class="p">)</span>
+<span class="n">signed_effects</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">mod_y1</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">)</span>               <span class="c1"># keep the sign for a normal plot</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="n">smg</span><span class="o">.</span><span class="n">ProbPlot</span><span class="p">(</span><span class="n">signed_effects</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>                                     <span class="c1"># line through the quartiles</span>
+<span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">theoretical_quantiles</span><span class="p">,</span> <span class="n">pp</span><span class="o">.</span><span class="n">sorted_data</span><span class="p">,</span> <span class="n">signed_effects</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>                                                <span class="c1"># label only the largest few</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Normal-probability plot of the same 63 effects (signed)&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Largest 6 effects by magnitude:&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sorted_effects</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Largest 6 effects by size (with sign):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">signed_effects</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">signed_effects</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/04ebf96fc0e38ac2d12a09d4acf0bca8d504922b799e1ccc236a30584da66836.png" src="../../_images/04ebf96fc0e38ac2d12a09d4acf0bca8d504922b799e1ccc236a30584da66836.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Largest 6 effects by magnitude:
-x4             2.984375
-x6             2.690625
-x1             1.746875
-x1:x2:x4:x5    1.159375
-x1:x2          0.890625
-x2:x4          0.859375
+<img alt="../../_images/3928e8e38c49492406c08777ac2fc639573e1422fb0cc36cac33ddf91a9da230.png" src="../../_images/3928e8e38c49492406c08777ac2fc639573e1422fb0cc36cac33ddf91a9da230.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Largest 6 effects by size (with sign):
+x4             2.984
+x6             2.691
+x1             1.747
+x1:x2:x4:x5   -1.159
+x1:x2          0.891
+x2:x4         -0.859
 dtype: float64
 </pre></div>
 </div>
 </div>
 </div>
-<div class="tip admonition">
-<p class="admonition-title">Take-home message</p>
-<p>The three largest effects — <code class="docutils literal notranslate"><span class="pre">x4</span></code> (2.98), <code class="docutils literal notranslate"><span class="pre">x6</span></code> (2.69), <code class="docutils literal notranslate"><span class="pre">x1</span></code> (1.75) — are
-exactly the three terms Box &amp; Draper’s own analysis singles out (Section
-23.8). But the break is not a clean cliff: the fourth-largest effect,
-<code class="docutils literal notranslate"><span class="pre">x1:x2:x4:x5</span></code> (1.16), is a 4-way interaction bigger than several
-2-way interactions further down the list, and the decline from there
-(0.89, 0.86, 0.82, …) is gradual rather than sharp. With 63 unreplicated
-effects, both the Pareto chart and the normal-probability plot narrow the
-field usefully, but neither hands you an unambiguous stopping point on
-its own here — a genuine, honest limitation of magnitude-only screening,
-and exactly why Section 23.8 leans on the published analysis (which had
-the benefit of domain knowledge about which interactions are physically
-plausible) rather than a purely mechanical rule.</p>
-</div>
 <p><strong>Checkpoint</strong>: which effects visibly break away from the straight line
 of small, noise-like effects bunched near the origin of the
 normal-probability plot? Keep your answer in mind for Section 23.8.</p>
+<div class="tip admonition">
+<p class="admonition-title">Take-home message</p>
+<p>The three largest effects — <code class="docutils literal notranslate"><span class="pre">x4</span></code> (+2.98), <code class="docutils literal notranslate"><span class="pre">x6</span></code> (+2.69), <code class="docutils literal notranslate"><span class="pre">x1</span></code> (+1.75) —
+break away at the top right, and they are exactly the three terms Box &amp;
+Draper’s own analysis singles out (Section 23.8). The Pareto chart alone is
+ambiguous: the fourth bar, <code class="docutils literal notranslate"><span class="pre">x1:x2:x4:x5</span></code> (1.16), is a 4-way interaction
+bigger than several 2-way interactions further down, and the bars shrink
+gradually from there (0.89, 0.86, 0.82, …). The normal plot settles it:
+with its sign (−1.16), that effect sits right on the line at the bottom
+left, just where the most negative of 63 noise effects belongs — and real
+high-order interactions are rare anyway (<em>effect sparsity</em>). Keeping the
+sign is what makes the normal plot more informative than a bar chart of
+sizes. It is still a judgement by eye, not a formal test, so domain
+knowledge about which interactions are physically plausible remains part
+of the decision.</p>
+</div>
 </section>
 <section id="reading-the-result-what-the-book-says">
 <h2>23.8 Reading the Result: What the Book Says<a class="headerlink" href="#reading-the-result-what-the-book-says" title="Link to this heading">#</a></h2>
 <p>Box &amp; Draper’s own analysis of this dataset settles on three dominant
-terms for <span class="math notranslate nohighlight">\(y_1\)</span>: <span class="math notranslate nohighlight">\(x_1\)</span>, <span class="math notranslate nohighlight">\(x_4\)</span>, and <span class="math notranslate nohighlight">\(x_6\)</span>. Fit that reduced model, check
-its residual standard deviation two independent ways, and look at both a
-predicted-vs-observed plot and a residual plot — the same confirmation
-habit as Notebook 22 §22.5, now applied to a real published result
-instead of a synthetic one.</p>
+terms for <span class="math notranslate nohighlight">\(y_1\)</span>: <span class="math notranslate nohighlight">\(x_1\)</span>, <span class="math notranslate nohighlight">\(x_4\)</span>, and <span class="math notranslate nohighlight">\(x_6\)</span>. Fit that reduced model and
+validate it: check its residual standard deviation two independent ways,
+and look at both a predicted-vs-observed plot and a residual plot. This
+checks the fit on the same 64 runs; a <em>confirmation</em> in the sense of
+Notebook 22 §22.5 would need new experiments.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_final</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y1 ~ x1 + x4 + x6&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">doe</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
@@ -1615,10 +1773,16 @@ each other on the half-fraction?</p></li>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-video-to-python-a-3-factor-sintering-study">23.1 From a Video to Python: A 3-Factor Sintering Study</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom">23.2 Fitting the Full Model — and Why It Has Zero Residual Degrees of Freedom</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-chart-model-reduction-and-confirmation">23.3 Pareto Chart, Model Reduction, and Confirmation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-full-model-and-why-it-has-zero-residual-degrees-of-freedom">23.2 Fitting the Full Model — and Why It Has Zero Residual Degrees of Freedom</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-replicates-were-there-all-along">The replicates were there all along</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-chart-and-model-reduction">23.3 Pareto Chart and Model Reduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raising-the-stakes-box-draper-s-six-factor-study">23.4 Raising the Stakes: Box &amp; Draper’s Six-Factor Study</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-effects-by-hand-the-yates-method">23.5 Computing Effects by Hand — The Yates Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-effects-by-hand-contrasts-and-yates-algorithm">23.5 Computing Effects by Hand — Contrasts and Yates’ Algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yates-algorithm-the-same-contrasts-from-sums-and-differences">Yates’ algorithm: the same contrasts from sums and differences</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-same-effects-automatically-statsmodels-ols">23.6 The Same Effects, Automatically — statsmodels OLS</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#screening-without-replication-pareto-and-normal-probability-plots">23.7 Screening Without Replication: Pareto and Normal-Probability Plots</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-result-what-the-book-says">23.8 Reading the Result: What the Book Says</a></li>
