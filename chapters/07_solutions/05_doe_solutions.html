@@ -729,12 +729,16 @@ horizontal reference at 80%.</p>
 <span class="n">x1</span><span class="p">:</span><span class="n">x2</span><span class="p">:</span><span class="n">x3</span>       <span class="mf">0.078</span>    <span class="mf">100.0</span>
 </pre></div>
 </div>
-<p class="sd-card-text">The 80% cumulative line falls <em>between</em> <code class="docutils literal notranslate"><span class="pre">x1:x3</span></code> (74.9%) and <code class="docutils literal notranslate"><span class="pre">x2</span></code> (86.4%) —
-a strict 80% cutoff would keep only three terms and drop <code class="docutils literal notranslate"><span class="pre">x2</span></code>, even though
-<code class="docutils literal notranslate"><span class="pre">x2</span></code> is a genuine, moderate-sized effect (true value −3). This is the same
-lesson Notebook 23 §23.3 draws from an almost identical situation: an 80%
-threshold is a starting point, not a substitute for looking at where the
-actual gap in the bar heights falls.</p>
+<p class="sd-card-text">The 80% line falls <em>between</em> <code class="docutils literal notranslate"><span class="pre">x1:x3</span></code> (74.9%) and <code class="docutils literal notranslate"><span class="pre">x2</span></code> (86.4%). The
+smallest set of terms that reaches 80% therefore has four members — <code class="docutils literal notranslate"><span class="pre">x1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">x3</span></code>, <code class="docutils literal notranslate"><span class="pre">x1:x3</span></code> and <code class="docutils literal notranslate"><span class="pre">x2</span></code>, the term that crosses the line — which is right:
+<code class="docutils literal notranslate"><span class="pre">x2</span></code> is a genuine, moderate-sized effect (true value −3). Beware the
+tempting shortcut “keep the terms with <code class="docutils literal notranslate"><span class="pre">cum_pct</span> <span class="pre">&lt;=</span> <span class="pre">80</span></code>”: it stops
+<em>before</em> the line and would drop <code class="docutils literal notranslate"><span class="pre">x2</span></code>. Even read correctly, the 80% line
+is a first look, not a decision rule: the next bar, <code class="docutils literal notranslate"><span class="pre">x1:x2</span></code> (3.35), is
+not much smaller than <code class="docutils literal notranslate"><span class="pre">x2</span></code> (4.79), so where the real gap falls still
+needs judgement — and with many terms the line fails outright (Notebook
+23 §23.7).</p>
 </div>
 </details></section>
 <section id="notebook-18-fractional-factorial-designs">
@@ -1368,33 +1372,34 @@ rest of Sections 23.1–23.3’s code (design generation, Pareto chart,
 <span class="n">mod_full1</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y ~ A*B*C&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">results1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="n">effects1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mod_full1</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">cum_pct1</span> <span class="o">=</span> <span class="p">(</span><span class="n">effects1</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span><span class="o">/</span><span class="n">effects1</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;standardized_effect&#39;</span><span class="p">:</span> <span class="n">effects1</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;cum_pct&#39;</span><span class="p">:</span> <span class="n">cum_pct1</span><span class="p">}))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;abs_effect&#39;</span><span class="p">:</span> <span class="n">effects1</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;cum_pct&#39;</span><span class="p">:</span> <span class="n">cum_pct1</span><span class="p">}))</span>
 
-<span class="n">keep_terms1</span> <span class="o">=</span> <span class="n">cum_pct1</span><span class="p">[</span><span class="n">cum_pct1</span> <span class="o">&lt;=</span> <span class="mi">80</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="ow">or</span> <span class="p">[</span><span class="n">effects1</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Terms kept (&lt;=80</span><span class="si">% c</span><span class="s1">umulative):&#39;</span><span class="p">,</span> <span class="n">keep_terms1</span><span class="p">)</span>
+<span class="n">keep_terms1</span> <span class="o">=</span> <span class="n">cum_pct1</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">cum_pct1</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>   <span class="c1"># smallest set reaching 80 %</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Terms kept (smallest set reaching 80%):&#39;</span><span class="p">,</span> <span class="n">keep_terms1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sd-card-text">Output:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>       <span class="n">standardized_effect</span>  <span class="n">cum_pct</span>
-<span class="n">B</span>                     <span class="mf">8.987</span>     <span class="mf">58.1</span>
-<span class="n">C</span>                     <span class="mf">3.919</span>     <span class="mf">83.5</span>
-<span class="n">A</span>                     <span class="mf">2.034</span>     <span class="mf">96.6</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">abs_effect</span>  <span class="n">cum_pct</span>
+<span class="n">B</span>       <span class="mf">8.987</span>     <span class="mf">58.1</span>
+<span class="n">C</span>       <span class="mf">3.919</span>     <span class="mf">83.5</span>
+<span class="n">A</span>       <span class="mf">2.034</span>     <span class="mf">96.6</span>
 <span class="o">...</span>
 </pre></div>
 </div>
 <p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">B</span></code> correctly comes out as the largest bar (8.987, matching its built-in
 true effect of 4.5×2=9.0), confirming the Pareto chart correctly tracks
-whichever coefficient is dominant, not literally “A” by position. But the
-80%-cumulative rule again keeps <strong>only <code class="docutils literal notranslate"><span class="pre">B</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">C</span></code>’s cumulative total
-(83.5%) falls just past the 80% line, the same narrow-miss pattern Section
-23.3 found for <code class="docutils literal notranslate"><span class="pre">A:C</span></code> in the original run. This is a useful confirmation
-that the earlier finding wasn’t a fluke of that particular simulation: an
-80%-cumulative cutoff is sensitive to exactly where the running total
-happens to cross the line, regardless of which factor is dominant.</p>
+whichever coefficient is dominant, not literally “A” by position. The
+smallest set reaching 80% is <strong><code class="docutils literal notranslate"><span class="pre">B</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code></strong> — <code class="docutils literal notranslate"><span class="pre">C</span></code> takes the running
+total past the line (83.5%) — but it drops <strong><code class="docutils literal notranslate"><span class="pre">A</span></code></strong> (2.034, true effect
+2.0), a genuine factor. As in Section 23.3, the 80% line is a first look,
+not a decision rule: where the running total happens to cross 80% decides
+what is kept, not the noise. With the 40 individual pellets (Section
+23.2), <code class="docutils literal notranslate"><span class="pre">A</span></code>’s true coefficient of 1.0 against a pellet scatter of σ = 0.3
+would be flagged easily.</p>
 </div>
-</details><p><strong>Exercise 2 — Repeat for y2 or y3</strong></p>
+</details><p><strong>Exercise 2 — Repeat for hue (y2) or brightness (y3)</strong></p>
 <blockquote>
-<div><p><strong>Hint:</strong> The Yates-effect loop in Section 23.5 and the auto-generated
+<div><p><strong>Hint:</strong> The contrast loop in Section 23.5 and the auto-generated
 formula in Section 23.6 both work on any column name — just swap <code class="docutils literal notranslate"><span class="pre">'y1'</span></code>
 for <code class="docutils literal notranslate"><span class="pre">'y3'</span></code> (or <code class="docutils literal notranslate"><span class="pre">'y2'</span></code>) throughout, then look at the top few <code class="docutils literal notranslate"><span class="pre">|effect|</span></code>
 values to decide which terms belong in your own reduced model.</p>

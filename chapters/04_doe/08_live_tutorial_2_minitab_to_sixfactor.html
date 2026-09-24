@@ -1155,14 +1155,19 @@ from the averages alone, because that is the situation of every
 <p>Now suppose we only had the averages — the situation of every
 unreplicated design. Leaving out high-order interactions buys a few
 degrees of freedom at best (one here); the other classic tool needs none —
-rank the effects by <strong>magnitude</strong>: a Pareto chart of the effects (twice each coefficient, same
-convention as Notebook 22), sorted largest to smallest, with a
-cumulative-percentage line to separate the “vital few” from the “trivial
-many” — the same 80/20 logic behind every Pareto chart in this course.</p>
+rank the effects by <strong>magnitude</strong>: a Pareto chart of the effects (twice
+each coefficient, same convention as Notebook 22), sorted largest to
+smallest, with a cumulative-percentage line.</p>
+<p>The 80% line on such a chart comes from Pareto analysis of <em>causes</em>
+(defects, downtime), where “the few causes that make up 80% of the
+problem” is a sensible target. Read correctly, it keeps the <strong>smallest set
+of terms that reaches 80%</strong> of the total. For effects it is a first look,
+not a decision rule — Section 23.7 shows why.</p>
 <p>Minitab calls its version a Pareto chart of the <em>standardized</em> effects:
-each effect divided by its standard error, i.e. a t-value. That needs
-residual degrees of freedom (Minitab’s one, from leaving out <code class="docutils literal notranslate"><span class="pre">A:B:C</span></code>); here
-we rank the plain effects, which need none.</p>
+each effect divided by its standard error, i.e. a t-value, with a
+significance line instead of a cumulative one. That needs residual degrees
+of freedom (Minitab’s one, from leaving out <code class="docutils literal notranslate"><span class="pre">A:B:C</span></code>); here we rank the
+plain effects, which need none.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">effects</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">mod_full</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1200,20 +1205,17 @@ B:C         0.044    100.0
 <div class="tip admonition">
 <p class="admonition-title">Take-home message</p>
 <p><code class="docutils literal notranslate"><span class="pre">A</span></code> (dwell time, effect 7.03) and <code class="docutils literal notranslate"><span class="pre">C</span></code> (pressure, effect 3.92) together
-already cover 75.7% of the cumulative effect; <code class="docutils literal notranslate"><span class="pre">A:C</span></code>
-(effect 2.63) pushes that to 93.9%, and <code class="docutils literal notranslate"><span class="pre">B</span></code> (0.59) and the remaining
+cover 75.7% of the total; <code class="docutils literal notranslate"><span class="pre">A:C</span></code> (effect 2.63) takes it past the 80% line
+to 93.9%. After that comes a big gap: <code class="docutils literal notranslate"><span class="pre">B</span></code> (0.59) and the remaining
 interactions trail far behind, together barely 6%. This matches the true
 built-in structure closely — true effects of 7.0 (<code class="docutils literal notranslate"><span class="pre">A</span></code>), 4.0 (<code class="docutils literal notranslate"><span class="pre">C</span></code>), 2.4
-(<code class="docutils literal notranslate"><span class="pre">A:C</span></code>), and 0.6 (<code class="docutils literal notranslate"><span class="pre">B</span></code>) — though as Section 23.3’s next cell shows, “close
-to the true ranking” and “clears an 80% cumulative cutoff” are not always
-the same thing.</p>
+(<code class="docutils literal notranslate"><span class="pre">A:C</span></code>), and 0.6 (<code class="docutils literal notranslate"><span class="pre">B</span></code>).</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keep_terms</span> <span class="o">=</span> <span class="n">effects_df</span><span class="p">[</span><span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;cum_pct&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">80</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">keep_terms</span><span class="p">:</span>                      <span class="c1"># always keep at least the single largest term</span>
-    <span class="n">keep_terms</span> <span class="o">=</span> <span class="p">[</span><span class="n">effects_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Terms kept (cumulative &lt;= 80%):&#39;</span><span class="p">,</span> <span class="n">keep_terms</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">before</span> <span class="o">=</span> <span class="n">effects_df</span><span class="p">[</span><span class="s1">&#39;cum_pct&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>     <span class="c1"># running total BEFORE each term</span>
+<span class="n">keep_terms</span> <span class="o">=</span> <span class="n">effects_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">before</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>   <span class="c1"># smallest set that reaches 80 %</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Terms kept (smallest set reaching 80%):&#39;</span><span class="p">,</span> <span class="n">keep_terms</span><span class="p">)</span>
 
 <span class="n">formula_reduced</span> <span class="o">=</span> <span class="s1">&#39;y ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keep_terms</span><span class="p">)</span>
 <span class="n">mod_reduced_A</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula_reduced</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
@@ -1222,13 +1224,14 @@ the same thing.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Terms kept (cumulative &lt;= 80%): [&#39;A&#39;, &#39;C&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Terms kept (smallest set reaching 80%): [&#39;A&#39;, &#39;C&#39;, &#39;A:C&#39;]
 ==============================================================================
                  coef    std err          t      P&gt;|t|      [0.025      0.975]
 ------------------------------------------------------------------------------
-Intercept     92.0480      0.603    152.559      0.000      90.497      93.599
-A              3.5170      0.603      5.829      0.002       1.966       5.068
-C              1.9595      0.603      3.248      0.023       0.409       3.510
+Intercept     92.0480      0.154    597.514      0.000      91.620      92.476
+A              3.5170      0.154     22.830      0.000       3.089       3.945
+C              1.9595      0.154     12.720      0.000       1.532       2.387
+A:C            1.3135      0.154      8.526      0.001       0.886       1.741
 ==============================================================================
 </pre></div>
 </div>
@@ -1236,19 +1239,18 @@ C              1.9595      0.603      3.248      0.023       0.409       3.510
 </div>
 <div class="tip admonition">
 <p class="admonition-title">Take-home message</p>
-<p>The mechanical 80%-cumulative rule keeps only <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code> here — <code class="docutils literal notranslate"><span class="pre">A:C</span></code>’s
-cumulative total (93.9%) falls just past the 80% line, so a strict
-cutoff drops a genuinely real interaction (true effect 2.4) purely
-because of where the cumulative percentage happened to cross 80% after
-<code class="docutils literal notranslate"><span class="pre">C</span></code>. The 2-term reduced model still fits well (R²=0.899) and both
-coefficients land close to true (<code class="docutils literal notranslate"><span class="pre">A</span></code>: fitted 3.517 vs. true 3.5; <code class="docutils literal notranslate"><span class="pre">C</span></code>:
-fitted 1.960 vs. true 2.0), so this isn’t a <em>bad</em> model — but it is a
-reminder that an 80% cumulative threshold, like any rule of thumb, is a
-starting point for judgement, not a substitute for it. A Minitab analyst
-eyeballing the same chart, seeing the clear gap between <code class="docutils literal notranslate"><span class="pre">A:C</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code>,
-would likely have kept <code class="docutils literal notranslate"><span class="pre">A:C</span></code> too. And when replicates exist, a real test
-beats both: the 40-pellet fit in Section 23.2 flags <code class="docutils literal notranslate"><span class="pre">A:C</span></code> (and even the
-small <code class="docutils literal notranslate"><span class="pre">B</span></code>) at p &lt; 0.0001.</p>
+<p>A term is kept as long as the running total <em>before</em> it is still below
+80%, so the term that crosses the line is included: <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">A:C</span></code>.
+(The tempting shortcut <code class="docutils literal notranslate"><span class="pre">cum_pct</span> <span class="pre">&lt;=</span> <span class="pre">80</span></code> stops <em>before</em> the line: it would
+keep only <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code>, covering just 75.7%, and drop the real <code class="docutils literal notranslate"><span class="pre">A:C</span></code>.) This
+is the same set as the big gap in the bars and as Minitab’s one-df model,
+and the reduced model fits the 8 averages very well (R²=0.995), with
+coefficients close to the truth (3.52 vs. 3.5, 1.96 vs. 2.0, 1.31 vs.
+1.2). It still misses the small but real <code class="docutils literal notranslate"><span class="pre">B</span></code> (true effect 0.6): nothing
+based on size alone can tell a small real effect from noise, while the
+40-pellet fit in Section 23.2 flags it at p &lt; 0.0001. And the 80% line only
+behaves here because there are just 7 terms — Section 23.7 shows what
+happens with 63.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1268,20 +1270,19 @@ small <code class="docutils literal notranslate"><span class="pre">B</span></cod
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/a8ca34dc2ef0a785c5fe443f842676ef523a474bf14a8825fe1008ffd39da98c.png" src="../../_images/a8ca34dc2ef0a785c5fe443f842676ef523a474bf14a8825fe1008ffd39da98c.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced model R2 = 0.8990
+<img alt="../../_images/9499c3b3cefe52f4ebc26d8f6aec8436ca77a1206917e52e775c511e13f452bf.png" src="../../_images/9499c3b3cefe52f4ebc26d8f6aec8436ca77a1206917e52e775c511e13f452bf.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reduced model R2 = 0.9947
 </pre></div>
 </div>
 </div>
 </div>
-<p><strong>Checkpoint</strong>: does <code class="docutils literal notranslate"><span class="pre">keep_terms</span></code> recover <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code> — the two largest
-terms built into <code class="docutils literal notranslate"><span class="pre">true_density</span></code>? Then look at the two smaller terms that
-are also built in, <code class="docutils literal notranslate"><span class="pre">A:C</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code>: where do they fall relative to the 80%
-cumulative line, and does that match what you’d have chosen by eye from the
-Pareto chart — or what the 40-pellet fit in Section 23.2 says? This is the
-same reduction logic as Notebook 24 (Live Tutorial 3) §24.2, just driven by
-effect magnitude instead of a p-value, because the averages alone carry no
-p-values.</p>
+<p><strong>Checkpoint</strong>: does <code class="docutils literal notranslate"><span class="pre">keep_terms</span></code> recover the three largest terms built
+into <code class="docutils literal notranslate"><span class="pre">true_density</span></code> — <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">A:C</span></code>? Where does the fourth real term,
+<code class="docutils literal notranslate"><span class="pre">B</span></code>, fall relative to the 80% line, and would you have drawn the line in
+the same place by eye from the Pareto chart? Compare with what the
+40-pellet fit in Section 23.2 says. This is the same reduction logic as
+Notebook 24 (Live Tutorial 3) §24.2, just driven by effect magnitude
+instead of a p-value, because the averages alone carry no p-values.</p>
 </section>
 <section id="raising-the-stakes-box-draper-s-dyestuff-study">
 <h2>23.4 Raising the Stakes: Box &amp; Draper’s Dyestuff Study<a class="headerlink" href="#raising-the-stakes-box-draper-s-dyestuff-study" title="Link to this heading">#</a></h2>
@@ -1866,6 +1867,12 @@ themselves.</p>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Largest 6 effects by size (with sign):&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">signed_effects</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">signed_effects</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># Part A&#39;s 80 % line, applied to 63 effects: how many terms does it take to reach 80 % of the total?</span>
+<span class="n">cum_pct6</span> <span class="o">=</span> <span class="n">sorted_effects</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">sorted_effects</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">n_keep</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">cum_pct6</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Terms needed to reach 80% of the total: </span><span class="si">{</span><span class="n">n_keep</span><span class="si">}</span><span class="s1"> of 63 &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;(the three largest make up only </span><span class="si">{</span><span class="n">cum_pct6</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1879,6 +1886,8 @@ x1:x2:x4:x5   -1.159
 x1:x2          0.891
 x2:x4         -0.859
 dtype: float64
+
+Terms needed to reach 80% of the total: 32 of 63 (the three largest make up only 23.5%)
 </pre></div>
 </div>
 </div>
@@ -1902,6 +1911,12 @@ sign is what makes the normal plot more informative than a bar chart of
 sizes. It is still a judgement by eye, not a formal test, so domain
 knowledge about which interactions are physically plausible remains part
 of the decision.</p>
+<p>Part A’s 80% line, by contrast, fails completely here: reaching 80% of
+the total takes <strong>32 of the 63 terms</strong>, because the three real effects
+make up only 23.5% of it. The 60 noise effects are never exactly zero,
+and together they add up to most of the total — the more terms a design
+has, the more of the total the noise takes. That is why the 80% line is
+a first look, not a decision rule.</p>
 </div>
 </section>
 <section id="reading-the-result-what-the-book-says">
@@ -1993,9 +2008,10 @@ data rarely reduces as cleanly as a synthetic teaching example does.</p>
 <ol class="arabic simple">
 <li><p><strong>A different dominant factor</strong>: Redo Part A (Sections 23.1–23.3) with
 a different <code class="docutils literal notranslate"><span class="pre">true_density</span></code> — make <code class="docutils literal notranslate"><span class="pre">B</span></code> (temperature) the dominant term
-instead of <code class="docutils literal notranslate"><span class="pre">A</span></code>, and remove the <code class="docutils literal notranslate"><span class="pre">A:C</span></code> interaction. Confirm the Pareto
-chart and the automatic 80%-cumulative reduction correctly identify the
-new dominant factor.</p></li>
+instead of <code class="docutils literal notranslate"><span class="pre">A</span></code>, and remove the <code class="docutils literal notranslate"><span class="pre">A:C</span></code> interaction. Confirm that the Pareto
+chart and the 80%-cumulative reduction (the smallest set of terms that
+reaches 80%) pick out the new dominant factor — and check which real
+terms, if any, they miss.</p></li>
 <li><p><strong>Repeat for hue (<span class="math notranslate nohighlight">\(y_2\)</span>) or brightness (<span class="math notranslate nohighlight">\(y_3\)</span>)</strong>: Redo Sections
 23.5–23.8 for one of the other two responses of the dyestuff study. Which of <span class="math notranslate nohighlight">\(x_1,\ldots,x_6\)</span>
 turn out to matter for that response, and how much overlap is there

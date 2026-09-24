@@ -740,7 +740,8 @@ coefficient on coded ±1 columns, in different units.</p>
 <strong>full 11-run dataset</strong> including centre points, and rank every effect by
 magnitude — the Pareto chart Notebook 17 introduced, extended here with a
 formal statistical-significance threshold instead of just an
-80%-cumulative rule of thumb.</p>
+80%-cumulative line, which is a first look rather than a decision rule
+(Notebook 23).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_full</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;ILSS_MPa ~ x1*x2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">design_full</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
