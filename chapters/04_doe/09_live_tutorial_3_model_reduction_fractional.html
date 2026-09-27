@@ -492,7 +492,10 @@
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-why-screening-needs-model-reduction">24.1 Recap: Why Screening Needs Model Reduction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-reduction-from-a-candidate-list-to-a-defensible-model">24.2 Model Reduction: From a Candidate List to a Defensible Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-reduction-from-a-candidate-list-to-a-defensible-model">24.2 Model Reduction: From a Candidate List to a Defensible Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p-values-and-aic-answer-different-questions">p-values and AIC answer different questions</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fractional-factorial-revisited-through-a-reduction-lens">24.3 Fractional Factorial, Revisited Through a Reduction Lens</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
 </ul>
@@ -593,9 +596,11 @@ columns.</p>
 </table>
 </div>
 <p>A <span class="math notranslate nohighlight">\(2^{5-1}\)</span> half-fraction (generator <span class="math notranslate nohighlight">\(I=ABCDE\)</span>, Resolution V — Notebook 18’s
-construction) gives 16 runs. Rather than fit <em>every</em> possible interaction
-(most would be unestimable — only 16 runs total), the process engineer
-writes down a <strong>candidate list</strong>: all 5 main effects, plus 4 interactions
+construction) gives 16 runs. All 10 two-factor interactions <em>could</em> be
+estimated on this design, but the 5 main effects + 10 interactions +
+intercept = 16 parameters would use up every run, leaving no residual
+degrees of freedom (Notebook 23 §23.2). So the process engineer writes
+down a <strong>candidate list</strong>: all 5 main effects, plus 4 interactions
 she has a physical reason to suspect.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -705,11 +710,48 @@ Reduced model:   R2_adj=0.984, AIC=54.5
 </div>
 <p><strong>Checkpoint</strong>: backward elimination should have removed <code class="docutils literal notranslate"><span class="pre">B:C</span></code> and <code class="docutils literal notranslate"><span class="pre">A:E</span></code>
 — exactly the two terms built with a true coefficient of zero in Section
-24.2 — while keeping every genuinely non-zero term. This is model reduction
-doing its job: a screening design’s whole purpose is separating real
-effects from a longer list of <em>plausible</em> ones, and this workflow makes
-that separation defensible (p-values and AIC) rather than a judgement
-call.</p>
+24.2 — while keeping every genuinely non-zero term. But look at the last
+two lines of the output: the <strong>candidate</strong> model has the <em>lower</em> (better)
+AIC, 49.6 against 54.5. The p-value rule and AIC disagree about <code class="docutils literal notranslate"><span class="pre">A:E</span></code>.</p>
+<section id="p-values-and-aic-answer-different-questions">
+<h3>p-values and AIC answer different questions<a class="headerlink" href="#p-values-and-aic-answer-different-questions" title="Link to this heading">#</a></h3>
+<p>The p-value rule (α = 0.05) asks whether there is clear <strong>evidence</strong> that
+a term is real. AIC asks whether a term improves <strong>prediction</strong> enough to
+pay for its extra parameter: it charges 2 units per parameter, so dropping
+a term raises AIC whenever that term’s t² exceeds about 2. <code class="docutils literal notranslate"><span class="pre">A:E</span></code> has
+t = −2.00 (p = 0.085), so t² ≈ 4: not enough evidence at α = 0.05, but
+enough to pay its way under AIC. The next cell traces AIC along the
+elimination path.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># AIC along the elimination path (lower is better)</span>
+<span class="k">for</span> <span class="n">terms</span> <span class="ow">in</span> <span class="p">[</span><span class="n">candidates</span><span class="p">,</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">candidates</span> <span class="k">if</span> <span class="n">t</span> <span class="o">!=</span> <span class="s1">&#39;B:C&#39;</span><span class="p">],</span> <span class="n">kept_terms</span><span class="p">]:</span>
+    <span class="n">fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">df_adh</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s1"> terms: AIC = </span><span class="si">{</span><span class="n">fit</span><span class="o">.</span><span class="n">aic</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># AIC&#39;s rule &quot;keep a term if t^2 &gt; 2&quot; corresponds to a significance level of about 16 %</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">AIC keeps a single term roughly when p &lt; </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">chi2</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9 terms: AIC = 49.6
+8 terms: AIC = 49.3
+7 terms: AIC = 54.5
+
+AIC keeps a single term roughly when p &lt; 0.16
+</pre></div>
+</div>
+</div>
+</div>
+<p>AIC agrees with dropping <code class="docutils literal notranslate"><span class="pre">B:C</span></code> (49.6 → 49.3) but not with dropping <code class="docutils literal notranslate"><span class="pre">A:E</span></code>
+(49.3 → 54.5). Here the p-value rule happened to be right — <code class="docutils literal notranslate"><span class="pre">A:E</span></code>’s true
+coefficient is 0, and a null term lands at p ≤ 0.085 about 1 time in 12 —
+but with a different draw a <em>real</em> small effect could land at p = 0.08,
+and then AIC would be the one that is right. Neither criterion is a fact;
+each is a rule with a known error rate. Report which one you used, and
+why.</p>
+</section>
 </section>
 <section id="fractional-factorial-revisited-through-a-reduction-lens">
 <h2>24.3 Fractional Factorial, Revisited Through a Reduction Lens<a class="headerlink" href="#fractional-factorial-revisited-through-a-reduction-lens" title="Link to this heading">#</a></h2>
@@ -724,15 +766,18 @@ face value. Drop to a coarser Resolution III design and that safety net
 disappears — worth confirming directly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A Resolution III design for the same 5 factors: only 8 runs, but every</span>
-<span class="c1"># 2-factor interaction is now aliased with some main effect</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A Resolution III design for the same 5 factors: only 8 runs, and main effects</span>
+<span class="c1"># are now aliased with 2-factor interactions</span>
 <span class="n">design_res3</span> <span class="o">=</span> <span class="n">pyDOE3</span><span class="o">.</span><span class="n">fracfact</span><span class="p">(</span><span class="s1">&#39;a b c ab ac&#39;</span><span class="p">)</span>    <span class="c1"># 2^(5-2), Resolution III: D=AB, E=AC</span>
 <span class="n">df_res3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">design_res3</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_res3</span><span class="p">)</span><span class="si">}</span><span class="s1">-run Resolution III design for the same 5 factors (vs. </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_adh</span><span class="p">)</span><span class="si">}</span><span class="s1"> for Resolution V).&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">At Resolution III, main effects are aliased with 2-factor interactions --&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;e.g. D and E here are literally defined as D=AB, E=AC, so a &quot;D main effect&quot;&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;estimate is inseparably D + AB, not D alone. Always check a design</span><span class="se">\&#39;</span><span class="s1">s resolution&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;before trusting that a &quot;significant effect&quot; is the effect its name suggests.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;before trusting that a &quot;significant effect&quot; is the effect its name suggests.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">main</span><span class="p">,</span> <span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">),</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">)}</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">same</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">df_res3</span><span class="p">[</span><span class="n">main</span><span class="p">],</span> <span class="n">df_res3</span><span class="p">[</span><span class="n">f1</span><span class="p">]</span> <span class="o">*</span> <span class="n">df_res3</span><span class="p">[</span><span class="n">f2</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">main</span><span class="si">}</span><span class="s1"> column == </span><span class="si">{</span><span class="n">f1</span><span class="si">}</span><span class="s1"> x </span><span class="si">{</span><span class="n">f2</span><span class="si">}</span><span class="s1"> column: </span><span class="si">{</span><span class="n">same</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -743,6 +788,11 @@ At Resolution III, main effects are aliased with 2-factor interactions --
 e.g. D and E here are literally defined as D=AB, E=AC, so a &quot;D main effect&quot;
 estimate is inseparably D + AB, not D alone. Always check a design&#39;s resolution
 before trusting that a &quot;significant effect&quot; is the effect its name suggests.
+
+D column == A x B column: True
+E column == A x C column: True
+A column == B x D column: True
+C column == A x E column: True
 </pre></div>
 </div>
 </div>
@@ -751,8 +801,8 @@ before trusting that a &quot;significant effect&quot; is the effect its name sug
 freshly simulated response for <code class="docutils literal notranslate"><span class="pre">df_res3</span></code> (reuse Section 24.2’s true model,
 substituting <code class="docutils literal notranslate"><span class="pre">df_res3</span></code>’s columns). Compare the fitted coefficient for <code class="docutils literal notranslate"><span class="pre">D</span></code>
 to its true value (<code class="docutils literal notranslate"><span class="pre">-2</span></code>) — given <code class="docutils literal notranslate"><span class="pre">D</span></code> is aliased with <code class="docutils literal notranslate"><span class="pre">A:B</span></code> here, and <code class="docutils literal notranslate"><span class="pre">A:B</span></code>
-has a real, nonzero true effect, in which direction would you expect the
-estimate to be biased? Run it and check.</p>
+has a real, nonzero true coefficient (+2), what exactly will the fitted <code class="docutils literal notranslate"><span class="pre">D</span></code>
+coefficient estimate? Run it and check.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Exercise: simulate a response on the Resolution III design and check the bias ──</span>
@@ -763,9 +813,8 @@ estimate to be biased? Run it and check.</p>
 
 <span class="n">model_res3</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ A + B + C + D + E&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_res3</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model_res3</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Fitted D coefficient: </span><span class="si">{</span><span class="n">model_res3</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  (true D effect: -2.0)&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;D is aliased with A:B (true A:B effect: +2.0) -- the fitted D coefficient should be&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pulled toward -2.0 + 2.0 = 0.0, i.e. biased upward (less negative) from the true -2.0.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Fitted D coefficient: </span><span class="si">{</span><span class="n">model_res3</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  (true D coefficient: -2.0)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;D is aliased with A:B (true A:B coefficient: +2.0), so the fit estimates D + A:B = -2.0 + 2.0 = 0.0&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -778,9 +827,32 @@ D            -0.739
 E            -1.034
 dtype: float64
 
-Fitted D coefficient: -0.739  (true D effect: -2.0)
-D is aliased with A:B (true A:B effect: +2.0) -- the fitted D coefficient should be
-pulled toward -2.0 + 2.0 = 0.0, i.e. biased upward (less negative) from the true -2.0.
+Fitted D coefficient: -0.739  (true D coefficient: -2.0)
+D is aliased with A:B (true A:B coefficient: +2.0), so the fit estimates D + A:B = -2.0 + 2.0 = 0.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>One simulated experiment gives one noisy number. To see what the fitted
+<code class="docutils literal notranslate"><span class="pre">D</span></code> coefficient estimates <em>on average</em>, repeat the 8-run experiment 1000
+times with fresh noise.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Repeat the 8-run experiment 1000 times with fresh noise: where does the D estimate land on average?</span>
+<span class="n">X8</span> <span class="o">=</span> <span class="n">df_res3</span><span class="p">[[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">]]</span>
+<span class="n">d_hat</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">true_strength_res3</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X8</span><span class="p">))</span>                   <span class="c1"># a fresh experiment</span>
+    <span class="n">d_hat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y ~ A + B + C + D + E&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">X8</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mean D estimate over 1000 experiments: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d_hat</span><span class="p">)</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">   (D + A:B = -2.0 + 2.0 = 0)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Scatter (SD) of a single estimate:      </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">d_hat</span><span class="p">)</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">   (sigma / sqrt(8) = </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean D estimate over 1000 experiments: 0.017   (D + A:B = -2.0 + 2.0 = 0)
+Scatter (SD) of a single estimate:      0.353   (sigma / sqrt(8) = 0.354)
 </pre></div>
 </div>
 </div>
@@ -788,17 +860,17 @@ pulled toward -2.0 + 2.0 = 0.0, i.e. biased upward (less negative) from the true
 <div class="tip admonition">
 <p class="admonition-title">Take-home message</p>
 <p>On the Resolution V design, backward elimination dropped exactly the two
-null terms it should have — <code class="docutils literal notranslate"><span class="pre">B:C</span></code> (p=0.449) and <code class="docutils literal notranslate"><span class="pre">A:E</span></code> (p=0.085) — while
-every genuinely non-zero candidate survived with its fitted coefficient
-close to true (e.g. <code class="docutils literal notranslate"><span class="pre">A:B</span></code> 2.09 vs. true 2.0, <code class="docutils literal notranslate"><span class="pre">C:D</span></code> -1.82 vs. true -1.5).
-On the Resolution III design, the fitted <code class="docutils literal notranslate"><span class="pre">D</span></code> coefficient came out at
-<strong>-0.739</strong> — nowhere near its true value of <strong>-2.0</strong>, but also not simply
-noisy: it landed almost exactly where the aliasing predicts. <code class="docutils literal notranslate"><span class="pre">D</span></code> is
-literally <code class="docutils literal notranslate"><span class="pre">D=AB</span></code> on this design, so the fit can only ever report <code class="docutils literal notranslate"><span class="pre">D</span></code>’s
-effect <em>plus</em> <code class="docutils literal notranslate"><span class="pre">A:B</span></code>’s effect (true value +2.0) as one inseparable number;
-<span class="math notranslate nohighlight">\(-2.0 + 2.0 = 0.0\)</span>, and the observed <span class="math notranslate nohighlight">\(-0.739\)</span> sits between that
-alias-contaminated prediction and the clean <span class="math notranslate nohighlight">\(-2.0\)</span> (with sampling noise
-on top). <strong>Resolution is not a detail you check after the fact — it
+null terms — <code class="docutils literal notranslate"><span class="pre">B:C</span></code> (p=0.449) and <code class="docutils literal notranslate"><span class="pre">A:E</span></code> (p=0.085) — while every genuinely
+non-zero candidate survived with its fitted coefficient close to the truth
+(e.g. <code class="docutils literal notranslate"><span class="pre">A:B</span></code> 2.09 vs. 2.0, <code class="docutils literal notranslate"><span class="pre">C:D</span></code> −1.82 vs. −1.5). AIC would have kept
+<code class="docutils literal notranslate"><span class="pre">A:E</span></code>: the choice of criterion is itself a decision to report.</p>
+<p>On the Resolution III design, the fitted “D” coefficient does <strong>not</strong>
+estimate D. Because the D column <em>is</em> the A × B column, it estimates
+D + A:B = −2.0 + 2.0 = 0 — exactly, not approximately: averaged over 1000
+simulated experiments it comes out at 0.02. A single experiment adds noise
+on top (here −0.74, about two standard deviations of 0.35 from 0), but
+aliasing is all or nothing, and no amount of replication can split the
+sum. <strong>Resolution is not a detail you check after the fact — it
 determines whether “the model said X” is even a meaningful sentence.</strong></p>
 </div>
 </section>
@@ -897,7 +969,10 @@ into one 16-run dataset, and confirm the combined design now estimates
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-why-screening-needs-model-reduction">24.1 Recap: Why Screening Needs Model Reduction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-reduction-from-a-candidate-list-to-a-defensible-model">24.2 Model Reduction: From a Candidate List to a Defensible Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-reduction-from-a-candidate-list-to-a-defensible-model">24.2 Model Reduction: From a Candidate List to a Defensible Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p-values-and-aic-answer-different-questions">p-values and AIC answer different questions</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fractional-factorial-revisited-through-a-reduction-lens">24.3 Fractional Factorial, Revisited Through a Reduction Lens</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
 </ul>

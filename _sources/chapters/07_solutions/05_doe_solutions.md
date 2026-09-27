@@ -1015,7 +1015,7 @@ E          -1.0338    0.722  -1.433  0.288
 ```
 With only 8 runs (2 residual df), `A`, `B`, `C` still reach significance
 (p≤0.035), but `D` and `E` do **not** (p=0.414, 0.288) — even though both
-have real, nonzero true effects (−2.0 and −1.0). `D`'s failure has two
+have real, nonzero true coefficients (−2.0 and −1.0). `D`'s failure has two
 compounding causes: it is aliased with the genuinely real `A:B`
 interaction (true +2.0), which pulls its estimate from −2.0 toward
 $-2.0+2.0=0.0$ (fitted: −0.739, "hiding" the missing A:B signal inside
@@ -1209,11 +1209,14 @@ This isn't a bug in the filter: Section 25.5's own unconstrained search
 already reported EC=0.15 as the best blend (the bright region hugs the
 EC–EMC edge right down to the low end of EC, per that section's
 take-home message), so the practical minimum-EC requirement here happens
-not to bind at all — the best electrolyte for conductivity already
-satisfies the low-temperature-performance constraint with nothing to
-trade off. As with Notebook 20's Exercise 2, this is a legitimate,
-useful finding in its own right: a constraint you assumed would cost you
-something sometimes turns out to be free.
+not to bind at all — according to the *fitted* model, the constraint costs
+nothing. But Section 25.5 shows that the fitted optimum is misleading: the
+true best blend is pure DMC (6.0 mS/cm), which EC ≥ 0.15 excludes. With
+the true coefficients, the best blend satisfying the constraint is EC 0.15
+/ DMC 0.85 at 5.93 mS/cm — on a different edge from the fitted model's
+answer — so the constraint really costs about 0.07 mS/cm. A constraint
+that looks free under an uncertain model may not be; check the answer
+against the model's uncertainty (Section 25.5) before relying on it.
 :::
 
 **Exercise 5 — Steepest ascent, followed through**
