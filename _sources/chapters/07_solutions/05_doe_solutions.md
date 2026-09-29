@@ -1236,8 +1236,8 @@ def true_adhesive_extended(df):
     return 18 + 4*Ae + 6*Be + 3*Ce - 2*De - 1*Ee + 2*Ae*Be - 1.5*Ce*De
 
 n_steps = 20
-path_ext = pd.DataFrame([direction_normalized * step_size * i for i in range(n_steps)],
-                         columns=direction_normalized.index)
+path_ext = pd.DataFrame([start.values + direction_normalized.values * step_size * i
+                         for i in range(n_steps)], columns=list('ABCDE'))   # Section 25.1's path, from the corner
 path_ext['y_true'] = true_adhesive_extended(path_ext)
 path_ext['delta'] = path_ext['y_true'].diff()
 initial_gain = path_ext['delta'].iloc[1]
@@ -1248,15 +1248,20 @@ print('Initial marginal gain per step:', round(initial_gain, 3), 'MPa')
 print('First step where gain < 50% of initial:', first_below_half)
 print(path_ext[['y_true', 'delta', 'pct_of_initial_gain']].round(2))
 ```
-Output: the per-step marginal gain starts at **4.21 MPa/step**, and falls
-below **50% of that initial rate by step 7** (2.28 MPa/step, 54.2% of the
-initial gain) — well before the raw response stops climbing altogether
-(it is still gaining, just more and more slowly, by step 19). Because a
+Output: starting from Section 25.1's best corner (34.66 MPa on this
+saturating version of the process), the per-step marginal gain starts at
+**3.35 MPa/step** and falls below **50% of that initial rate at step 4**
+(1.61 MPa/step, 48.1% of the initial gain) — well before the raw response
+stops climbing altogether (it is still gaining, just more and more
+slowly, at step 19). For comparison, the textbook path from the centre
+(4.21 MPa/step at first) reaches the same point only at step 7 (1.82
+MPa/step, 43.3%), at a lower strength (40.7 vs. 44.5 MPa): the corner
+start saves three experiments. Because a
 `tanh` saturation never actually reverses (it approaches a limit, it
 doesn't peak and fall), there is no single unambiguous "stop here" step
 the way a true quadratic optimum would give you; the 50%-of-initial-gain
 threshold is a reasonable, defensible proxy for "diminishing returns have
-become impossible to ignore," and step 7 is where an engineer running this
+become impossible to ignore," and step 4 is where an engineer running this
 sequence in real life would notice each additional experiment buying
 markedly less than the first few did — precisely the moment Notebook 22
 (Live Tutorial 1) §22.4's curvature test is designed to formalise, and
