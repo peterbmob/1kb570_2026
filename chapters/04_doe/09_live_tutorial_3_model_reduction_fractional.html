@@ -717,11 +717,17 @@ AIC, 49.6 against 54.5. The p-value rule and AIC disagree about <code class="doc
 <h3>p-values and AIC answer different questions<a class="headerlink" href="#p-values-and-aic-answer-different-questions" title="Link to this heading">#</a></h3>
 <p>The p-value rule (α = 0.05) asks whether there is clear <strong>evidence</strong> that
 a term is real. AIC asks whether a term improves <strong>prediction</strong> enough to
-pay for its extra parameter: it charges 2 units per parameter, so dropping
-a term raises AIC whenever that term’s t² exceeds about 2. <code class="docutils literal notranslate"><span class="pre">A:E</span></code> has
-t = −2.00 (p = 0.085), so t² ≈ 4: not enough evidence at α = 0.05, but
-enough to pay its way under AIC. The next cell traces AIC along the
-elimination path.</p>
+pay for its extra parameter. For a least-squares model with <span class="math notranslate nohighlight">\(n\)</span> runs and
+<span class="math notranslate nohighlight">\(k\)</span> parameters, <span class="math notranslate nohighlight">\(\text{AIC} = n\ln(\text{SSE}/n) + 2k\)</span> (plus a constant
+that is the same for every model): a misfit part and a penalty of 2 per
+parameter. Dropping one term with t-value <span class="math notranslate nohighlight">\(t\)</span>, from a model with df
+residual degrees of freedom, changes AIC by</p>
+<div class="math notranslate nohighlight">
+\[\Delta\text{AIC} = n\ln\!\left(1 + t^2/\text{df}\right) - 2 .\]</div>
+<p><code class="docutils literal notranslate"><span class="pre">A:E</span></code> has t = −2.00 (p = 0.085) with df = 7, so dropping it changes AIC
+by 16 ln(1 + 4/7) − 2 = <strong>+5.2</strong>: not enough evidence at α = 0.05, but
+more than enough to pay its way under AIC. The next cell traces AIC along
+the elimination path, and works out where AIC draws its line.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># AIC along the elimination path (lower is better)</span>
@@ -729,8 +735,13 @@ elimination path.</p>
     <span class="n">fit</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;strength_MPa ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">df_adh</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span><span class="si">}</span><span class="s1"> terms: AIC = </span><span class="si">{</span><span class="n">fit</span><span class="o">.</span><span class="n">aic</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<span class="c1"># AIC&#39;s rule &quot;keep a term if t^2 &gt; 2&quot; corresponds to a significance level of about 16 %</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">AIC keeps a single term roughly when p &lt; </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">chi2</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># Where does AIC draw the line? Dropping a term lowers AIC only when n*ln(1 + t^2/df) &lt; 2</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_adh</span><span class="p">),</span> <span class="mi">7</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">df</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>                        <span class="c1"># t^2 at which dropping leaves AIC unchanged</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Here (n = </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">, df = </span><span class="si">{</span><span class="n">df</span><span class="si">}</span><span class="s1">): AIC keeps a term when t^2 &gt; </span><span class="si">{</span><span class="n">t2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;i.e. when p &lt; </span><span class="si">{</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t2</span><span class="p">),</span><span class="w"> </span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># Large experiments: n*ln(1 + t^2/df) -&gt; t^2, so the rule becomes t^2 &gt; 2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Large experiments (t^2 &gt; 2):   AIC keeps a term when p &lt; </span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">chi2</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -739,13 +750,16 @@ elimination path.</p>
 8 terms: AIC = 49.3
 7 terms: AIC = 54.5
 
-AIC keeps a single term roughly when p &lt; 0.16
+Here (n = 16, df = 7): AIC keeps a term when t^2 &gt; 0.93, i.e. when p &lt; 0.37
+Large experiments (t^2 &gt; 2):   AIC keeps a term when p &lt; 0.16
 </pre></div>
 </div>
 </div>
 </div>
 <p>AIC agrees with dropping <code class="docutils literal notranslate"><span class="pre">B:C</span></code> (49.6 → 49.3) but not with dropping <code class="docutils literal notranslate"><span class="pre">A:E</span></code>
-(49.3 → 54.5). Here the p-value rule happened to be right — <code class="docutils literal notranslate"><span class="pre">A:E</span></code>’s true
+(49.3 → 54.5). In a 16-run experiment AIC is far more lenient than
+α = 0.05: it keeps any term with p below about 0.37. The often-quoted
+“p &lt; 0.16” is only the large-experiment limit. Here the p-value rule happened to be right — <code class="docutils literal notranslate"><span class="pre">A:E</span></code>’s true
 coefficient is 0, and a null term lands at p ≤ 0.085 about 1 time in 12 —
 but with a different draw a <em>real</em> small effect could land at p = 0.08,
 and then AIC would be the one that is right. Neither criterion is a fact;
