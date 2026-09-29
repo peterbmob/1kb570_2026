@@ -592,7 +592,8 @@ held fixed; the term <span class="math notranslate nohighlight">\(2AB\)</span> r
 <p>At the centre, A = B = 0, so the interaction adds <strong>no slope</strong>: uphill is
 given by the main effects alone. Anywhere else, the interaction tilts it —
 the uphill arrows are <strong>not parallel</strong>. That raises a practical question:
-the textbook path starts at the centre, but its first steps only re-visit
+the classic recipe (Box &amp; Wilson) starts the path at the centre, but its
+first steps only re-visit
 the box that has already been tested. Why not start at the <strong>best corner
 of the box</strong>, with the slope <em>there</em>? The next cell compares both.</p>
 <div class="cell docutils container">
@@ -757,7 +758,7 @@ appears (Notebook 22, Live Tutorial 1, Section 22.4&#39;s test) and it is time f
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The path, drawn: where each factor is set, and what the strength does -- with the</span>
-<span class="c1"># textbook path from the centre for comparison</span>
+<span class="c1"># classic path from the centre (Box &amp; Wilson) for comparison</span>
 <span class="n">centre_dir</span> <span class="o">=</span> <span class="n">slopes</span><span class="p">[</span><span class="s1">&#39;at the centre&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">slopes</span><span class="p">[</span><span class="s1">&#39;at the centre&#39;</span><span class="p">])</span>
 <span class="n">centre_path</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">centre_dir</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="n">step_size</span> <span class="o">*</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;ABCDE&#39;</span><span class="p">))</span>
 <span class="n">steps</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
@@ -775,7 +776,7 @@ appears (Notebook 22, Live Tutorial 1, Section 22.4&#39;s test) and it is time f
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">model_reduced</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;reduced model predicts&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">true_adhesive_strength</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="s1">&#39;s--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;true strength (hidden)&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">true_adhesive_strength</span><span class="p">(</span><span class="n">centre_path</span><span class="p">),</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;textbook: start at the centre (true)&#39;</span><span class="p">)</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;classic: start at the centre (true)&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;strength (MPa)&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Does strength climb?&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -786,11 +787,8 @@ appears (Notebook 22, Live Tutorial 1, Section 22.4&#39;s test) and it is time f
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/0bc84487aab24fbad06234a20f3b7d4afdef167eb802af93aafec4ed08a8a85e.png" src="../../_images/0bc84487aab24fbad06234a20f3b7d4afdef167eb802af93aafec4ed08a8a85e.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True strength, start at the best corner:
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> [37.5 43.5 49.9 56.8 64.2 72. ]
+<img alt="../../_images/dce6c067f532c6aeac89e960d5bf91651ce007b027b9e24ae99558d45d67dcfb.png" src="../../_images/dce6c067f532c6aeac89e960d5bf91651ce007b027b9e24ae99558d45d67dcfb.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True strength, start at the best corner: [37.5 43.5 49.9 56.8 64.2 72. ]
 True strength, start at the centre:      [18.  22.3 27.  32.1 37.7 43.7]
 </pre></div>
 </div>
@@ -800,7 +798,7 @@ True strength, start at the centre:      [18.  22.3 27.  32.1 37.7 43.7]
 by hand from the reduced model’s coefficients (A 4.19, B 6.18, C 2.98,
 D −1.59, E −1.11, A:B 2.09, C:D −1.82), as in the toy table. Which
 factor’s slope changes most compared with the centre, and why? And how
-many steps of the textbook centre path would you spend before reaching the
+many steps of the classic centre path would you spend before reaching the
 strength the corner path starts with?</p>
 <div class="tip admonition">
 <p class="admonition-title">Take-home message</p>
@@ -813,7 +811,7 @@ through C:D, a thinner bondline helps more at high clamp pressure.</p></li>
 <li><p><strong>Where to start</strong>: at the centre if interactions are small; at the
 <strong>model’s</strong> best corner, with its local slope, if they matter — as here.
 That corner is one of the 16 runs already made, so starting there is not
-an extrapolation. The textbook centre path would spend its first 3 steps
+an extrapolation. The classic centre path would spend its first 3 steps
 re-visiting the tested box and reach the corner’s 37.5 MPa only at
 step 4.</p></li>
 <li><p>Each step is a real experiment: stop when the response stops improving,
