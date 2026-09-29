@@ -846,6 +846,24 @@ proportions sum to exactly 1. For <span class="math notranslate nohighlight">\(q
 giving the 3 pure-component vertices plus the 3 binary-blend edge
 midpoints — 6 points total, and every one of them a physically realisable
 blend by construction.</p>
+<p>A <strong>simplex-centroid design</strong> takes a different route: <strong>one point for
+every non-empty subset</strong> of the <span class="math notranslate nohighlight">\(q\)</span> components, blended in <strong>equal</strong>
+proportions — the pure components (subsets of 1), the 50/50 binary blends
+(subsets of 2), the 1/3–1/3–1/3 blend (subsets of 3), and so on: <span class="math notranslate nohighlight">\(2^q - 1\)</span>
+points. For <span class="math notranslate nohighlight">\(q = 3\)</span>: the same 6 points as the {3, 2} lattice <strong>plus the
+overall centroid</strong> (1/3, 1/3, 1/3) — 7 points.</p>
+<p>That one extra point matters:</p>
+<ul class="simple">
+<li><p>The {3, 2} lattice has <strong>no interior point</strong>: every run is on an edge, so
+no run ever contains all three components. The centroid is that blend.</p></li>
+<li><p>The lattice’s 6 points exactly match the 6 parameters of the quadratic
+mixture model (25.4): a perfect fit with no degrees of freedom left. The
+centroid — replicated — gives the degrees of freedom to test the model.</p></li>
+<li><p>Only a design with the centroid can fit the <strong>special cubic</strong> term
+<span class="math notranslate nohighlight">\(x_1 x_2 x_3\)</span> (Exercise 3).</p></li>
+</ul>
+<p>The design used in 25.4 is exactly the simplex-centroid design, with its
+centroid run three times.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">simplex_lattice</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
@@ -866,16 +884,31 @@ blend by construction.</p>
 
 <span class="n">lattice_32</span> <span class="o">=</span> <span class="n">simplex_lattice</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">centroid_3</span> <span class="o">=</span> <span class="n">simplex_centroid</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="si">}</span><span class="s1"> simplex-lattice design (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lattice_32</span><span class="p">)</span><span class="si">}</span><span class="s1"> points):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">{{</span><span class="s1">3, 2</span><span class="se">}}</span><span class="s1"> simplex-lattice design (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lattice_32</span><span class="p">)</span><span class="si">}</span><span class="s1"> points):&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lattice_32</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;EC&#39;</span><span class="p">,</span> <span class="s1">&#39;EMC&#39;</span><span class="p">,</span> <span class="s1">&#39;DMC&#39;</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Simplex-centroid design (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">centroid_3</span><span class="p">)</span><span class="si">}</span><span class="s1"> points) includes the same vertices/edges&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;plus the overall centroid (1/3, 1/3, 1/3):&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">centroid_3</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;EC&#39;</span><span class="p">,</span> <span class="s1">&#39;EMC&#39;</span><span class="p">,</span> <span class="s1">&#39;DMC&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Simplex-centroid design (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">centroid_3</span><span class="p">)</span><span class="si">}</span><span class="s1"> points): the same 6 points plus the overall centroid&#39;</span><span class="p">,</span>
+      <span class="n">centroid_3</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># Both designs on the triangle: corners = pure components (EC bottom left, EMC bottom right, DMC top)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">4.3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">pts</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;{3, 2} simplex-lattice: 6 points&#39;</span><span class="p">,</span> <span class="n">lattice_32</span><span class="p">),</span>
+                                   <span class="p">(</span><span class="s1">&#39;Simplex-centroid: 7 points&#39;</span><span class="p">,</span> <span class="n">centroid_3</span><span class="p">)]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Polygon</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)],</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">))</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">pts</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>      <span class="c1"># blend -&gt; position in the triangle</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:blue&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="p">(</span><span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;EC&#39;</span><span class="p">,</span> <span class="s1">&#39;EMC&#39;</span><span class="p">,</span> <span class="s1">&#39;DMC&#39;</span><span class="p">],</span> <span class="p">[(</span><span class="o">-</span><span class="mf">0.07</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.09</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.07</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.09</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.91</span><span class="p">)]):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">12</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.15</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:orange&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;overall centroid</span><span class="se">\n</span><span class="s1">(1/3, 1/3, 1/3)&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mf">0.72</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">),</span>
+                 <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;-&gt;&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3, 2) simplex-lattice design (6 points):
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{3, 2} simplex-lattice design (6 points):
     EC  EMC  DMC
 0  0.0  0.0  1.0
 1  0.0  0.5  0.5
@@ -884,18 +917,10 @@ blend by construction.</p>
 4  0.5  0.5  0.0
 5  1.0  0.0  0.0
 
-Simplex-centroid design (7 points) includes the same vertices/edges
-plus the overall centroid (1/3, 1/3, 1/3):
-      EC    EMC    DMC
-0  1.000  0.000  0.000
-1  0.000  1.000  0.000
-2  0.000  0.000  1.000
-3  0.500  0.500  0.000
-4  0.500  0.000  0.500
-5  0.000  0.500  0.500
-6  0.333  0.333  0.333
+Simplex-centroid design (7 points): the same 6 points plus the overall centroid [0.333 0.333 0.333]
 </pre></div>
 </div>
+<img alt="../../_images/87c638f657651b6c245286306cde75024ec839617b0fa24c88e14c3e5d0d7a1e.png" src="../../_images/87c638f657651b6c245286306cde75024ec839617b0fa24c88e14c3e5d0d7a1e.png" />
 </div>
 </div>
 </section>
