@@ -146,15 +146,21 @@ df_mp = pd.DataFrame([d.dict() for d in docs])
 ---
 
 ### 2. MatBench — ready-to-use benchmark datasets
-**URL**: [matbench.chemml.io](https://matbench.chemml.io) /
+**URL**: [matbench.materialsproject.org](https://matbench.materialsproject.org/) /
          [matminer](https://hackingmaterials.lbl.gov/matminer/)  
 **Type**: Curated property-prediction datasets (experimental + computed)  
 **Access**: `pip install matminer`
 
+Matbench is a suite of 13 benchmark tasks, from 312 steels to 132 752
+DFT formation energies, with a public leaderboard of what published models
+reach on each one — a useful reality check for your own error numbers.
+The tasks, and about 30 further datasets that are not part of the
+benchmark, all load through `matminer`:
+
 ```python
 from matminer.datasets import load_dataset
 
-# Steel fatigue/strength dataset (300+ alloys, 6 composition + process features)
+# Steel strength dataset (312 alloys, 13 alloying elements in wt %)
 df_steel = load_dataset("steel_strength")
 print(df_steel.head())
 print(df_steel.columns.tolist())
@@ -162,19 +168,20 @@ print(df_steel.columns.tolist())
 # Experimental band gaps (~4600 materials)
 df_gap = load_dataset("matbench_expt_gap")
 
-# Dielectric constant (4764 DFT computed)
+# Refractive index (4764 DFT-computed structures)
 df_diel = load_dataset("matbench_dielectric")
 
-# Superconductor critical temperature (~16 000 compounds)
-df_sc = load_dataset("matbench_superconductivity")
+# Superconductor critical temperature (~16 000 compounds; a matminer
+# dataset, not one of the 13 Matbench tasks)
+df_sc = load_dataset("superconductivity2018")
 ```
 
 | Dataset | n | Features | Response |
 |---|---|---|---|
-| `steel_strength` | 312 | 6 (C, Mn, Si, Cr, Ni, Mo + process) | UTS (MPa) |
+| `steel_strength` | 312 | 13 alloying elements (wt %) | Yield strength, UTS (MPa), elongation (%) |
 | `matbench_expt_gap` | 4604 | formula string | Eg (eV) |
-| `matbench_dielectric` | 4764 | structure | Dielectric constant |
-| `matbench_superconductivity` | 16 414 | formula + Eg | Tc (K) |
+| `matbench_dielectric` | 4764 | structure | Refractive index |
+| `superconductivity2018` | 16 414 | formula string | Tc (K) |
 
 **Example questions (steel dataset)**:
 - Which alloying elements most strongly affect tensile strength? (MLR, PLS)
@@ -262,6 +269,183 @@ via the NIST Chemistry WebBook API.
 
 ---
 
+### 7. NOMAD — the repository from Part II
+**URL**: [nomad-lab.eu](https://nomad-lab.eu)  
+**Type**: Open repository of computational (mostly DFT) and experimental
+materials data, uploaded by research groups worldwide  
+**Access**: REST API with `requests` — no API key, no extra package
+
+You already queried NOMAD in Part II
+([Live Tutorial 2](../02_data_handling/07_nomad_api_live_tutorial.ipynb)).
+For a project, the same `POST /entries/query` call becomes your data
+source: filter on composition and on which properties are available, ask
+only for the fields you need, and page through the results.
+
+```python
+import requests
+
+NOMAD_URL = "https://nomad-lab.eu/prod/v1/api/v1"
+
+query = {
+    "query": {
+        "results.material.elements": ["O"],
+        "results.material.n_elements": 2,          # strictly binary oxides
+        "results.properties.available_properties":
+            "electronic.band_structure_electronic.band_gap",
+    },
+    "pagination": {"page_size": 100},
+    "required": {"include": [
+        "entry_id",
+        "results.material.chemical_formula_reduced",
+        "results.material.symmetry.crystal_system",
+        "results.properties.structures.structure_original.cell_volume",
+        "results.properties.electronic.band_structure_electronic.band_gap.value",
+        "results.method.simulation.dft.xc_functional_type",
+    ]},
+}
+page = requests.post(f"{NOMAD_URL}/entries/query", json=query, timeout=60).json()
+print(page["pagination"]["total"])     # about 21 000 entries (October 2026)
+```
+
+The [Data Access Guide](data_access.ipynb) turns the nested JSON answer
+into a flat DataFrame. Three things to handle before you model anything:
+
+- **Units are SI.** Band gaps arrive in joule and volumes in m³ — convert
+  to eV and Å³ first.
+- **Rows are not independent.** NOMAD stores every upload, so the same
+  compound appears many times, computed by different groups with
+  different codes and functionals. In a 300-entry sample of the query
+  above there were only 25 distinct compounds. Split train and test sets
+  **by formula**, exactly as described under "Tips" below.
+- **The method is a variable.** LDA and GGA functionals underestimate
+  band gaps, so keep `xc_functional_type` as a column: either filter on
+  it or use it as a factor.
+
+**Example questions**:
+- For the same oxide, how much does the computed band gap differ between
+  LDA, GGA, and hybrid functionals? (ANOVA or paired *t*-test)
+- Can crystal system, volume per atom, and elemental descriptors predict
+  the band gap? (PLS vs Random Forest)
+
+---
+
+### 8. Kaggle
+**URL**: [kaggle.com/datasets](https://www.kaggle.com/datasets)  
+**Type**: Community-uploaded datasets on every subject; quality varies from
+excellent to unusable  
+**Access**: `pip install kagglehub` — public datasets download without an
+account
+
+```python
+import os
+import kagglehub
+import pandas as pd
+
+# The identifier is the last two parts of the dataset's URL:
+# kaggle.com/datasets/munumbutt/superconductor-dataset
+path = kagglehub.dataset_download("munumbutt/superconductor-dataset")
+df_sc = pd.read_csv(os.path.join(path, "train.csv"))
+```
+
+Only datasets that ask you to accept terms first, and all competition
+data, need a Kaggle API token
+([how to authenticate](https://github.com/Kaggle/kagglehub#authenticate)).
+
+| Identifier | n | Content | Response |
+|---|---|---|---|
+| `munumbutt/superconductor-dataset` | 21 263 | 81 ready-made elemental features | Tc (K) |
+| `vinven7/comprehensive-database-of-minerals` | 3112 | Element counts, crystal structure, molar mass | Mohs hardness, specific gravity, refractive index |
+| `patrickfleith/nasa-battery-dataset` | 7565 | Li-ion cell test cycles, one time-series CSV each (228 MB) | Capacity, resistances |
+| `uciml/glass` | 214 | 9 oxide % (same data as UCI ID 42) | Glass type |
+
+Anyone can upload to Kaggle, so treat every dataset as unverified until
+you have checked it yourself:
+
+- **Find the original source.** Many datasets are re-uploads. The
+  superconductor table above is the UCI "Superconductivty Data" set
+  (Hamidieh, 2018); cite that paper, not the Kaggle page.
+- **Check the licence** on the dataset page before you reuse the data.
+- **Look for placeholder values.** In the minerals database about 80 % of
+  the Mohs hardness values are `0`, which means *not recorded*, not
+  *infinitely soft*. `df.describe()` will not warn you; a histogram will.
+
+**Example questions**:
+- The Kaggle superconductor table has ready-made features, and
+  `superconductivity2018` from matminer has only formulae. Do your own
+  CBFV features (see "Tips" below) predict Tc as well as the published
+  ones?
+- Does battery capacity fade faster at low ambient temperature? (ANOVA,
+  regression on cycle number)
+
+---
+
+### 9. Systembolaget — a product catalogue as a dataset
+**URL**: [github.com/C4illin/systembolaget-data](https://github.com/C4illin/systembolaget-data)  
+**Type**: Unofficial, community-maintained copy of Systembolaget's product
+catalogue, updated daily  
+**Size**: about 27 000 products, 81 fields each (October 2026)  
+**Access**: one JSON file, no key
+
+Not a materials dataset — but relating the composition of a formulated
+product to its properties is the same statistical problem, and this
+catalogue is real, large, and far from clean.
+
+```python
+import requests
+import pandas as pd
+
+# One request returns everything: about 100 MB. Download once, keep the
+# columns you need, and save them as a CSV.
+r = requests.get("https://susbolaget.emrik.org/v1/products", timeout=300)
+df_sb = pd.DataFrame(r.json())
+```
+
+| Column | Meaning |
+|---|---|
+| `categoryLevel1` … `categoryLevel3` | Product type, in Swedish (`Vin`, `Öl`, `Sprit`, …) down to style |
+| `alcoholPercentage`, `sugarContentGramPer100ml` | Composition |
+| `volume`, `price` | ml and SEK — compute price per litre before comparing products |
+| `tasteClockBitter`, `tasteClockBody`, `tasteClockSweetness`, … | Systembolaget's seven taste ratings, scale 1–12 |
+| `country`, `vintage`, `packagingLevel1`, `isOrganic` | Origin and packaging |
+
+Two things to handle first:
+
+- **A taste rating of `0` means "not rated".** 60 % of the products,
+  mostly wines and spirits that are only sold to order, have no taste
+  ratings at all. Replace `0` with `NaN` in those seven columns before
+  any PCA or regression.
+- **Price is extremely right-skewed** (from 23 to almost 400 000 SEK per
+  litre). Model `log(price per litre)`, not the price itself.
+
+**Example questions**:
+- Do the taste ratings separate beer styles in a PCA score plot, and can
+  LDA classify the style from them?
+- How much of the price per litre is explained by alcohol content, sugar,
+  country, and packaging? (MLR on the log price)
+- Is organic wine more expensive than conventional wine of the same type?
+  (*t*-test)
+
+---
+
+### 10. More Places to Look
+
+| Repository | What you find there |
+|---|---|
+| [JARVIS](https://jarvis.nist.gov) | NIST's database of DFT-computed materials properties; Python access with `jarvis-tools` |
+| [OQMD](https://oqmd.org) | DFT formation energies and stabilities for a very large set of inorganic compounds |
+| [Crystallography Open Database](https://www.crystallography.net/cod/) | Open-access experimental crystal structures as CIF files |
+| [Materials Cloud Archive](https://archive.materialscloud.org) | Datasets published alongside computational-materials papers, each with a DOI |
+| [Battery Archive](https://www.batteryarchive.org) | Battery cycling data collected from several laboratories |
+| [OpenML](https://www.openml.org) | Tabular machine-learning datasets; loads with `sklearn.datasets.fetch_openml` |
+| [Hugging Face Datasets](https://huggingface.co/datasets) | General dataset hub; loads with the `datasets` package |
+| [Mendeley Data](https://data.mendeley.com) | General research-data repository, similar to Zenodo |
+
+Whichever source you pick, Section 2 of your notebook has to answer the
+same questions: who produced the data, under which licence, and what each
+column means.
+
+---
+
 ## Suggested Project Topics
 
 Below are five concrete project suggestions to help you get started. You are
@@ -316,7 +500,7 @@ and is sufficiently complex (see requirements above).
 ---
 
 ### Project E — Superconductor Critical Temperature
-**Dataset**: `matbench_superconductivity` (Tc ≥ 0, ~16 k compounds)  
+**Dataset**: `superconductivity2018` (Tc ≥ 0, ~16 k compounds)  
 **Analysis pathway**:
 1. Exploratory analysis: distribution of Tc; identify chemical families
 2. Compute Magpie-style elemental features with `matminer`
@@ -390,7 +574,7 @@ exploration, not for the audience.
 
 ### Featurizing chemical formulae with CBFV
 
-Several suggested datasets (`matbench_expt_gap`, `matbench_superconductivity`,
+Several suggested datasets (`matbench_expt_gap`, `superconductivity2018`,
 and the NIST-JANAF heat-capacity data used in the Advanced Regression
 exercise) give you only a **chemical formula string** (e.g. `"Fe2O3"`) as
 input — not usable directly by MLR, PLS, PCA, or any `scikit-learn` model,

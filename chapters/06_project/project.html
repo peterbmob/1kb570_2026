@@ -519,6 +519,10 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uci-machine-learning-repository-materials-datasets">4. UCI Machine Learning Repository — Materials Datasets</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zenodo-figshare-dataset-from-published-papers">5. Zenodo &amp; Figshare — Dataset from Published Papers</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nist-standard-reference-database">6. NIST Standard Reference Database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nomad-the-repository-from-part-ii">7. NOMAD — the repository from Part II</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kaggle">8. Kaggle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#systembolaget-a-product-catalogue-as-a-dataset">9. Systembolaget — a product catalogue as a dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#more-places-to-look">10. More Places to Look</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-project-topics">Suggested Project Topics</a><ul class="nav section-nav flex-column">
@@ -768,13 +772,18 @@ crystal structure features, clustering by composition</p>
 <hr class="docutils" />
 <section id="matbench-ready-to-use-benchmark-datasets">
 <h3>2. MatBench — ready-to-use benchmark datasets<a class="headerlink" href="#matbench-ready-to-use-benchmark-datasets" title="Link to this heading">#</a></h3>
-<p><strong>URL</strong>: <a class="reference external" href="https://matbench.chemml.io">matbench.chemml.io</a> /
+<p><strong>URL</strong>: <a class="reference external" href="https://matbench.materialsproject.org/">matbench.materialsproject.org</a> /
 <a class="reference external" href="https://hackingmaterials.lbl.gov/matminer/">matminer</a><br />
 <strong>Type</strong>: Curated property-prediction datasets (experimental + computed)<br />
 <strong>Access</strong>: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">matminer</span></code></p>
+<p>Matbench is a suite of 13 benchmark tasks, from 312 steels to 132 752
+DFT formation energies, with a public leaderboard of what published models
+reach on each one — a useful reality check for your own error numbers.
+The tasks, and about 30 further datasets that are not part of the
+benchmark, all load through <code class="docutils literal notranslate"><span class="pre">matminer</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matminer.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
 
-<span class="c1"># Steel fatigue/strength dataset (300+ alloys, 6 composition + process features)</span>
+<span class="c1"># Steel strength dataset (312 alloys, 13 alloying elements in wt %)</span>
 <span class="n">df_steel</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;steel_strength&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df_steel</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df_steel</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
@@ -782,11 +791,12 @@ crystal structure features, clustering by composition</p>
 <span class="c1"># Experimental band gaps (~4600 materials)</span>
 <span class="n">df_gap</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;matbench_expt_gap&quot;</span><span class="p">)</span>
 
-<span class="c1"># Dielectric constant (4764 DFT computed)</span>
+<span class="c1"># Refractive index (4764 DFT-computed structures)</span>
 <span class="n">df_diel</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;matbench_dielectric&quot;</span><span class="p">)</span>
 
-<span class="c1"># Superconductor critical temperature (~16 000 compounds)</span>
-<span class="n">df_sc</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;matbench_superconductivity&quot;</span><span class="p">)</span>
+<span class="c1"># Superconductor critical temperature (~16 000 compounds; a matminer</span>
+<span class="c1"># dataset, not one of the 13 Matbench tasks)</span>
+<span class="n">df_sc</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;superconductivity2018&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -800,8 +810,8 @@ crystal structure features, clustering by composition</p>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">steel_strength</span></code></p></td>
 <td><p>312</p></td>
-<td><p>6 (C, Mn, Si, Cr, Ni, Mo + process)</p></td>
-<td><p>UTS (MPa)</p></td>
+<td><p>13 alloying elements (wt %)</p></td>
+<td><p>Yield strength, UTS (MPa), elongation (%)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matbench_expt_gap</span></code></p></td>
 <td><p>4604</p></td>
@@ -811,11 +821,11 @@ crystal structure features, clustering by composition</p>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">matbench_dielectric</span></code></p></td>
 <td><p>4764</p></td>
 <td><p>structure</p></td>
-<td><p>Dielectric constant</p></td>
+<td><p>Refractive index</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">matbench_superconductivity</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">superconductivity2018</span></code></p></td>
 <td><p>16 414</p></td>
-<td><p>formula + Eg</p></td>
+<td><p>formula string</p></td>
 <td><p>Tc (K)</p></td>
 </tr>
 </tbody>
@@ -931,6 +941,244 @@ crystal structure features, clustering by composition</p>
 wide range of materials and compounds. Data can be downloaded as CSV or accessed
 via the NIST Chemistry WebBook API.</p>
 </section>
+<hr class="docutils" />
+<section id="nomad-the-repository-from-part-ii">
+<h3>7. NOMAD — the repository from Part II<a class="headerlink" href="#nomad-the-repository-from-part-ii" title="Link to this heading">#</a></h3>
+<p><strong>URL</strong>: <a class="reference external" href="https://nomad-lab.eu">nomad-lab.eu</a><br />
+<strong>Type</strong>: Open repository of computational (mostly DFT) and experimental
+materials data, uploaded by research groups worldwide<br />
+<strong>Access</strong>: REST API with <code class="docutils literal notranslate"><span class="pre">requests</span></code> — no API key, no extra package</p>
+<p>You already queried NOMAD in Part II
+(<a class="reference internal" href="../02_data_handling/07_nomad_api_live_tutorial.html"><span class="std std-doc">Live Tutorial 2</span></a>).
+For a project, the same <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/entries/query</span></code> call becomes your data
+source: filter on composition and on which properties are available, ask
+only for the fields you need, and page through the results.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="n">NOMAD_URL</span> <span class="o">=</span> <span class="s2">&quot;https://nomad-lab.eu/prod/v1/api/v1&quot;</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;results.material.elements&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;O&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;results.material.n_elements&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>          <span class="c1"># strictly binary oxides</span>
+        <span class="s2">&quot;results.properties.available_properties&quot;</span><span class="p">:</span>
+            <span class="s2">&quot;electronic.band_structure_electronic.band_gap&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;pagination&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;page_size&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+    <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;entry_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;results.material.chemical_formula_reduced&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;results.material.symmetry.crystal_system&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;results.properties.structures.structure_original.cell_volume&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;results.properties.electronic.band_structure_electronic.band_gap.value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;results.method.simulation.dft.xc_functional_type&quot;</span><span class="p">,</span>
+    <span class="p">]},</span>
+<span class="p">}</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">NOMAD_URL</span><span class="si">}</span><span class="s2">/entries/query&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">page</span><span class="p">[</span><span class="s2">&quot;pagination&quot;</span><span class="p">][</span><span class="s2">&quot;total&quot;</span><span class="p">])</span>     <span class="c1"># about 21 000 entries (October 2026)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="data_access.html"><span class="std std-doc">Data Access Guide</span></a> turns the nested JSON answer
+into a flat DataFrame. Three things to handle before you model anything:</p>
+<ul class="simple">
+<li><p><strong>Units are SI.</strong> Band gaps arrive in joule and volumes in m³ — convert
+to eV and Å³ first.</p></li>
+<li><p><strong>Rows are not independent.</strong> NOMAD stores every upload, so the same
+compound appears many times, computed by different groups with
+different codes and functionals. In a 300-entry sample of the query
+above there were only 25 distinct compounds. Split train and test sets
+<strong>by formula</strong>, exactly as described under “Tips” below.</p></li>
+<li><p><strong>The method is a variable.</strong> LDA and GGA functionals underestimate
+band gaps, so keep <code class="docutils literal notranslate"><span class="pre">xc_functional_type</span></code> as a column: either filter on
+it or use it as a factor.</p></li>
+</ul>
+<p><strong>Example questions</strong>:</p>
+<ul class="simple">
+<li><p>For the same oxide, how much does the computed band gap differ between
+LDA, GGA, and hybrid functionals? (ANOVA or paired <em>t</em>-test)</p></li>
+<li><p>Can crystal system, volume per atom, and elemental descriptors predict
+the band gap? (PLS vs Random Forest)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="kaggle">
+<h3>8. Kaggle<a class="headerlink" href="#kaggle" title="Link to this heading">#</a></h3>
+<p><strong>URL</strong>: <a class="reference external" href="https://www.kaggle.com/datasets">kaggle.com/datasets</a><br />
+<strong>Type</strong>: Community-uploaded datasets on every subject; quality varies from
+excellent to unusable<br />
+<strong>Access</strong>: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">kagglehub</span></code> — public datasets download without an
+account</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">kagglehub</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># The identifier is the last two parts of the dataset&#39;s URL:</span>
+<span class="c1"># kaggle.com/datasets/munumbutt/superconductor-dataset</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">kagglehub</span><span class="o">.</span><span class="n">dataset_download</span><span class="p">(</span><span class="s2">&quot;munumbutt/superconductor-dataset&quot;</span><span class="p">)</span>
+<span class="n">df_sc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;train.csv&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Only datasets that ask you to accept terms first, and all competition
+data, need a Kaggle API token
+(<a class="reference external" href="https://github.com/Kaggle/kagglehub#authenticate">how to authenticate</a>).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Identifier</p></th>
+<th class="head"><p>n</p></th>
+<th class="head"><p>Content</p></th>
+<th class="head"><p>Response</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">munumbutt/superconductor-dataset</span></code></p></td>
+<td><p>21 263</p></td>
+<td><p>81 ready-made elemental features</p></td>
+<td><p>Tc (K)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vinven7/comprehensive-database-of-minerals</span></code></p></td>
+<td><p>3112</p></td>
+<td><p>Element counts, crystal structure, molar mass</p></td>
+<td><p>Mohs hardness, specific gravity, refractive index</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">patrickfleith/nasa-battery-dataset</span></code></p></td>
+<td><p>7565</p></td>
+<td><p>Li-ion cell test cycles, one time-series CSV each (228 MB)</p></td>
+<td><p>Capacity, resistances</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uciml/glass</span></code></p></td>
+<td><p>214</p></td>
+<td><p>9 oxide % (same data as UCI ID 42)</p></td>
+<td><p>Glass type</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Anyone can upload to Kaggle, so treat every dataset as unverified until
+you have checked it yourself:</p>
+<ul class="simple">
+<li><p><strong>Find the original source.</strong> Many datasets are re-uploads. The
+superconductor table above is the UCI “Superconductivty Data” set
+(Hamidieh, 2018); cite that paper, not the Kaggle page.</p></li>
+<li><p><strong>Check the licence</strong> on the dataset page before you reuse the data.</p></li>
+<li><p><strong>Look for placeholder values.</strong> In the minerals database about 80 % of
+the Mohs hardness values are <code class="docutils literal notranslate"><span class="pre">0</span></code>, which means <em>not recorded</em>, not
+<em>infinitely soft</em>. <code class="docutils literal notranslate"><span class="pre">df.describe()</span></code> will not warn you; a histogram will.</p></li>
+</ul>
+<p><strong>Example questions</strong>:</p>
+<ul class="simple">
+<li><p>The Kaggle superconductor table has ready-made features, and
+<code class="docutils literal notranslate"><span class="pre">superconductivity2018</span></code> from matminer has only formulae. Do your own
+CBFV features (see “Tips” below) predict Tc as well as the published
+ones?</p></li>
+<li><p>Does battery capacity fade faster at low ambient temperature? (ANOVA,
+regression on cycle number)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="systembolaget-a-product-catalogue-as-a-dataset">
+<h3>9. Systembolaget — a product catalogue as a dataset<a class="headerlink" href="#systembolaget-a-product-catalogue-as-a-dataset" title="Link to this heading">#</a></h3>
+<p><strong>URL</strong>: <a class="reference external" href="https://github.com/C4illin/systembolaget-data">github.com/C4illin/systembolaget-data</a><br />
+<strong>Type</strong>: Unofficial, community-maintained copy of Systembolaget’s product
+catalogue, updated daily<br />
+<strong>Size</strong>: about 27 000 products, 81 fields each (October 2026)<br />
+<strong>Access</strong>: one JSON file, no key</p>
+<p>Not a materials dataset — but relating the composition of a formulated
+product to its properties is the same statistical problem, and this
+catalogue is real, large, and far from clean.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># One request returns everything: about 100 MB. Download once, keep the</span>
+<span class="c1"># columns you need, and save them as a CSV.</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://susbolaget.emrik.org/v1/products&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">df_sb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">categoryLevel1</span></code> … <code class="docutils literal notranslate"><span class="pre">categoryLevel3</span></code></p></td>
+<td><p>Product type, in Swedish (<code class="docutils literal notranslate"><span class="pre">Vin</span></code>, <code class="docutils literal notranslate"><span class="pre">Öl</span></code>, <code class="docutils literal notranslate"><span class="pre">Sprit</span></code>, …) down to style</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alcoholPercentage</span></code>, <code class="docutils literal notranslate"><span class="pre">sugarContentGramPer100ml</span></code></p></td>
+<td><p>Composition</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">volume</span></code>, <code class="docutils literal notranslate"><span class="pre">price</span></code></p></td>
+<td><p>ml and SEK — compute price per litre before comparing products</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tasteClockBitter</span></code>, <code class="docutils literal notranslate"><span class="pre">tasteClockBody</span></code>, <code class="docutils literal notranslate"><span class="pre">tasteClockSweetness</span></code>, …</p></td>
+<td><p>Systembolaget’s seven taste ratings, scale 1–12</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">country</span></code>, <code class="docutils literal notranslate"><span class="pre">vintage</span></code>, <code class="docutils literal notranslate"><span class="pre">packagingLevel1</span></code>, <code class="docutils literal notranslate"><span class="pre">isOrganic</span></code></p></td>
+<td><p>Origin and packaging</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Two things to handle first:</p>
+<ul class="simple">
+<li><p><strong>A taste rating of <code class="docutils literal notranslate"><span class="pre">0</span></code> means “not rated”.</strong> 60 % of the products,
+mostly wines and spirits that are only sold to order, have no taste
+ratings at all. Replace <code class="docutils literal notranslate"><span class="pre">0</span></code> with <code class="docutils literal notranslate"><span class="pre">NaN</span></code> in those seven columns before
+any PCA or regression.</p></li>
+<li><p><strong>Price is extremely right-skewed</strong> (from 23 to almost 400 000 SEK per
+litre). Model <code class="docutils literal notranslate"><span class="pre">log(price</span> <span class="pre">per</span> <span class="pre">litre)</span></code>, not the price itself.</p></li>
+</ul>
+<p><strong>Example questions</strong>:</p>
+<ul class="simple">
+<li><p>Do the taste ratings separate beer styles in a PCA score plot, and can
+LDA classify the style from them?</p></li>
+<li><p>How much of the price per litre is explained by alcohol content, sugar,
+country, and packaging? (MLR on the log price)</p></li>
+<li><p>Is organic wine more expensive than conventional wine of the same type?
+(<em>t</em>-test)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="more-places-to-look">
+<h3>10. More Places to Look<a class="headerlink" href="#more-places-to-look" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Repository</p></th>
+<th class="head"><p>What you find there</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://jarvis.nist.gov">JARVIS</a></p></td>
+<td><p>NIST’s database of DFT-computed materials properties; Python access with <code class="docutils literal notranslate"><span class="pre">jarvis-tools</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://oqmd.org">OQMD</a></p></td>
+<td><p>DFT formation energies and stabilities for a very large set of inorganic compounds</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://www.crystallography.net/cod/">Crystallography Open Database</a></p></td>
+<td><p>Open-access experimental crystal structures as CIF files</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://archive.materialscloud.org">Materials Cloud Archive</a></p></td>
+<td><p>Datasets published alongside computational-materials papers, each with a DOI</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://www.batteryarchive.org">Battery Archive</a></p></td>
+<td><p>Battery cycling data collected from several laboratories</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://www.openml.org">OpenML</a></p></td>
+<td><p>Tabular machine-learning datasets; loads with <code class="docutils literal notranslate"><span class="pre">sklearn.datasets.fetch_openml</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://huggingface.co/datasets">Hugging Face Datasets</a></p></td>
+<td><p>General dataset hub; loads with the <code class="docutils literal notranslate"><span class="pre">datasets</span></code> package</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://data.mendeley.com">Mendeley Data</a></p></td>
+<td><p>General research-data repository, similar to Zenodo</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Whichever source you pick, Section 2 of your notebook has to answer the
+same questions: who produced the data, under which licence, and what each
+column means.</p>
+</section>
 </section>
 <hr class="docutils" />
 <section id="suggested-project-topics">
@@ -994,7 +1242,7 @@ difference, cation charge, anion radius, …)</p></li>
 <hr class="docutils" />
 <section id="project-e-superconductor-critical-temperature">
 <h3>Project E — Superconductor Critical Temperature<a class="headerlink" href="#project-e-superconductor-critical-temperature" title="Link to this heading">#</a></h3>
-<p><strong>Dataset</strong>: <code class="docutils literal notranslate"><span class="pre">matbench_superconductivity</span></code> (Tc ≥ 0, ~16 k compounds)<br />
+<p><strong>Dataset</strong>: <code class="docutils literal notranslate"><span class="pre">superconductivity2018</span></code> (Tc ≥ 0, ~16 k compounds)<br />
 <strong>Analysis pathway</strong>:</p>
 <ol class="arabic simple">
 <li><p>Exploratory analysis: distribution of Tc; identify chemical families</p></li>
@@ -1095,7 +1343,7 @@ exploration, not for the audience.</p>
 </section>
 <section id="featurizing-chemical-formulae-with-cbfv">
 <h3>Featurizing chemical formulae with CBFV<a class="headerlink" href="#featurizing-chemical-formulae-with-cbfv" title="Link to this heading">#</a></h3>
-<p>Several suggested datasets (<code class="docutils literal notranslate"><span class="pre">matbench_expt_gap</span></code>, <code class="docutils literal notranslate"><span class="pre">matbench_superconductivity</span></code>,
+<p>Several suggested datasets (<code class="docutils literal notranslate"><span class="pre">matbench_expt_gap</span></code>, <code class="docutils literal notranslate"><span class="pre">superconductivity2018</span></code>,
 and the NIST-JANAF heat-capacity data used in the Advanced Regression
 exercise) give you only a <strong>chemical formula string</strong> (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Fe2O3&quot;</span></code>) as
 input — not usable directly by MLR, PLS, PCA, or any <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> model,
@@ -1282,6 +1530,10 @@ notebook and adapt to your chosen dataset:</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uci-machine-learning-repository-materials-datasets">4. UCI Machine Learning Repository — Materials Datasets</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zenodo-figshare-dataset-from-published-papers">5. Zenodo &amp; Figshare — Dataset from Published Papers</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nist-standard-reference-database">6. NIST Standard Reference Database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nomad-the-repository-from-part-ii">7. NOMAD — the repository from Part II</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kaggle">8. Kaggle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#systembolaget-a-product-catalogue-as-a-dataset">9. Systembolaget — a product catalogue as a dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#more-places-to-look">10. More Places to Look</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-project-topics">Suggested Project Topics</a><ul class="nav section-nav flex-column">

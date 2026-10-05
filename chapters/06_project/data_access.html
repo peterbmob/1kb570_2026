@@ -493,6 +493,9 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-uci-machine-learning-repository">B. UCI Machine Learning Repository</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-materials-project-requires-a-free-api-key">C. Materials Project (requires a free API key)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-zenodo-downloading-a-csv-from-a-published-dataset">D. Zenodo — downloading a CSV from a published dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-nomad-no-api-key-needed">E. NOMAD (no API key needed)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#f-kaggle">F. Kaggle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#g-systembolaget-product-catalogue-large-download">G. Systembolaget product catalogue (large download)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-your-own-dataset">Tips for Your Own Dataset</a></li>
 </ul>
             </nav>
@@ -932,6 +935,263 @@ Name: count, dtype: int64
 </div>
 </div>
 </section>
+<section id="e-nomad-no-api-key-needed">
+<h2>E. NOMAD (no API key needed)<a class="headerlink" href="#e-nomad-no-api-key-needed" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NOMAD needs no API key and no extra package -- just `requests`.</span>
+<span class="c1"># Part II&#39;s Live Tutorial 2 walks through this API step by step; this cell</span>
+<span class="c1"># is the short version that ends in a project-ready DataFrame.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Composition</span>   <span class="c1"># installed together with matminer</span>
+
+<span class="n">NOMAD_URL</span> <span class="o">=</span> <span class="s1">&#39;https://nomad-lab.eu/prod/v1/api/v1&#39;</span>
+<span class="n">J_PER_EV</span> <span class="o">=</span> <span class="mf">1.602176634e-19</span>        <span class="c1"># NOMAD stores SI units: energies in joule</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;results.material.elements&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;results.material.n_elements&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>          <span class="c1"># strictly binary oxides</span>
+        <span class="s1">&#39;results.properties.available_properties&#39;</span><span class="p">:</span>
+            <span class="s1">&#39;electronic.band_structure_electronic.band_gap&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;page_size&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+    <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;entry_id&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;results.material.chemical_formula_reduced&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;results.material.symmetry.crystal_system&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;results.material.symmetry.space_group_number&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;results.properties.structures.structure_original.n_sites&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;results.properties.structures.structure_original.cell_volume&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;results.properties.electronic.band_structure_electronic.band_gap.value&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;results.properties.electronic.band_structure_electronic.band_gap.type&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;results.method.simulation.dft.xc_functional_type&#39;</span><span class="p">,</span>
+    <span class="p">]},</span>
+<span class="p">}</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">entries</span><span class="p">,</span> <span class="n">n_total</span> <span class="o">=</span> <span class="p">[],</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>                             <span class="c1"># 3 pages x 100 entries</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">NOMAD_URL</span><span class="si">}</span><span class="s1">/entries/query&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">n_total</span> <span class="o">=</span> <span class="n">page</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span>
+        <span class="n">entries</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">page</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+        <span class="n">after</span> <span class="o">=</span> <span class="n">page</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;next_page_after_value&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">after</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">query</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">][</span><span class="s1">&#39;page_after_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">after</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>                            <span class="c1"># be polite to a shared server</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">mat</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;material&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">struct</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;structures&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;structure_original&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">bands</span> <span class="o">=</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;electronic&#39;</span><span class="p">,</span> <span class="p">{})</span>
+                    <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;band_structure_electronic&#39;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bands</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>                <span class="c1"># a few entries hold several band structures</span>
+            <span class="n">bands</span> <span class="o">=</span> <span class="n">bands</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">gaps</span> <span class="o">=</span> <span class="n">bands</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;band_gap&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[{}]</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;entry_id&#39;</span><span class="p">:</span>       <span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry_id&#39;</span><span class="p">],</span>
+            <span class="c1"># NOMAD&#39;s &quot;reduced&quot; formula can still be a full cell (Ca4O4) -&gt; CaO</span>
+            <span class="s1">&#39;formula&#39;</span><span class="p">:</span>        <span class="n">Composition</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="s1">&#39;chemical_formula_reduced&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reduced_formula</span><span class="p">,</span>
+            <span class="s1">&#39;crystal_system&#39;</span><span class="p">:</span> <span class="n">mat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;crystal_system&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;space_group&#39;</span><span class="p">:</span>    <span class="n">mat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;space_group_number&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;n_sites&#39;</span><span class="p">:</span>        <span class="n">struct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;n_sites&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;cell_volume_A3&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cell_volume&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e30</span><span class="p">,</span>   <span class="c1"># m^3 -&gt; A^3</span>
+            <span class="s1">&#39;band_gap_eV&#39;</span><span class="p">:</span>    <span class="p">(</span><span class="n">gaps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span> <span class="o">/</span> <span class="n">J_PER_EV</span><span class="p">,</span>      <span class="c1"># J -&gt; eV</span>
+            <span class="s1">&#39;gap_type&#39;</span><span class="p">:</span>       <span class="n">gaps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;xc_functional&#39;</span><span class="p">:</span>  <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;simulation&#39;</span><span class="p">,</span> <span class="p">{})</span>
+                                  <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dft&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xc_functional_type&#39;</span><span class="p">)),</span>
+        <span class="p">})</span>
+    <span class="n">df_nomad</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    <span class="n">df_nomad</span><span class="p">[</span><span class="s1">&#39;volume_per_atom_A3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_nomad</span><span class="p">[</span><span class="s1">&#39;cell_volume_A3&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_nomad</span><span class="p">[</span><span class="s1">&#39;n_sites&#39;</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_total</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> binary-oxide entries with a computed band gap in NOMAD; &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;fetched </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_nomad</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distinct formulas in this sample: </span><span class="si">{</span><span class="n">df_nomad</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_nomad</span><span class="p">[[</span><span class="s1">&#39;formula&#39;</span><span class="p">,</span> <span class="s1">&#39;crystal_system&#39;</span><span class="p">,</span> <span class="s1">&#39;band_gap_eV&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;gap_type&#39;</span><span class="p">,</span> <span class="s1">&#39;xc_functional&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">df_nomad</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not query NOMAD: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>21,034 binary-oxide entries with a computed band gap in NOMAD; fetched 300.
+Distinct formulas in this sample: 25
+
+  formula crystal_system  band_gap_eV gap_type xc_functional
+0     CaO          cubic         3.64   direct           GGA
+1     CdO          cubic         0.00     None           LDA
+2   Pm2O3       trigonal        -0.05     None           GGA
+3     CdO          cubic         0.00     None           GGA
+4   Pm2O3       trigonal        -0.05     None           GGA
+5     PdO     tetragonal         0.00     None           LDA
+6     NiO          cubic         0.00     None           GGA
+7     CdO          cubic         0.00     None           GGA
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The same compound is uploaded many times (different groups, codes, and</span>
+<span class="c1"># exchange-correlation functionals), so rows are NOT independent samples.</span>
+<span class="k">if</span> <span class="n">df_nomad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Entries per formula (top 5):&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_nomad</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Entries per functional type:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_nomad</span><span class="p">[</span><span class="s1">&#39;xc_functional&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_nomad</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;volume_per_atom_A3&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;band_gap_eV&#39;</span><span class="p">,</span>
+                    <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;crystal_system&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Cell volume per atom (Å$^3$)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Computed band gap (eV)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Binary oxides in NOMAD — one page of a live query&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Crystal system&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">title_fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+              <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Entries per formula (top 5):
+formula
+CdO    29
+BaO    21
+FeO    21
+CaO    20
+PdO    19
+Name: count, dtype: int64
+
+Entries per functional type:
+xc_functional
+GGA            175
+LDA             97
+unavailable     24
+hybrid           3
+None             1
+Name: count, dtype: int64
+</pre></div>
+</div>
+<img alt="../../_images/66108d769ec7b96485ac7443acf7d1381d57df759051ccd225000e208ceb2c1d.png" src="../../_images/66108d769ec7b96485ac7443acf7d1381d57df759051ccd225000e208ceb2c1d.png" />
+</div>
+</div>
+</section>
+<section id="f-kaggle">
+<h2>F. Kaggle<a class="headerlink" href="#f-kaggle" title="Link to this heading">#</a></h2>
+<div class="cell tag_remove-stderr docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install kagglehub</span>
+<span class="c1"># Public datasets download without an account. Only datasets that ask you to</span>
+<span class="c1"># accept terms first (and all competition data) need a Kaggle API token --</span>
+<span class="c1"># see https://github.com/Kaggle/kagglehub#authenticate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">kagglehub</span>
+
+    <span class="c1"># The identifier is the last two parts of the dataset&#39;s URL:</span>
+    <span class="c1"># kaggle.com/datasets/munumbutt/superconductor-dataset</span>
+    <span class="n">kaggle_dir</span> <span class="o">=</span> <span class="n">kagglehub</span><span class="o">.</span><span class="n">dataset_download</span><span class="p">(</span><span class="s2">&quot;munumbutt/superconductor-dataset&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Files in the download: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">kaggle_dir</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">df_kaggle</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kaggle_dir</span><span class="p">,</span> <span class="s2">&quot;train.csv&quot;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape: </span><span class="si">{</span><span class="n">df_kaggle</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Last columns: </span><span class="si">{</span><span class="n">df_kaggle</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_kaggle</span><span class="p">[[</span><span class="s1">&#39;number_of_elements&#39;</span><span class="p">,</span> <span class="s1">&#39;mean_atomic_mass&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;mean_Valence&#39;</span><span class="p">,</span> <span class="s1">&#39;critical_temp&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">df_kaggle</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;kagglehub is not installed -- run `pip install kagglehub` and re-run this cell.&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">df_kaggle</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not download from Kaggle: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Files in the download: [&#39;train.csv&#39;]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape: (21263, 82)
+Last columns: [&#39;std_Valence&#39;, &#39;wtd_std_Valence&#39;, &#39;critical_temp&#39;]
+
+       number_of_elements  mean_atomic_mass  mean_Valence  critical_temp
+count            21263.00          21263.00      21263.00       21263.00
+mean                 4.12             87.56          3.20          34.42
+std                  1.44             29.68          1.04          34.25
+min                  1.00              6.94          1.00           0.00
+25%                  3.00             72.46          2.33           5.36
+50%                  4.00             84.92          2.83          20.00
+75%                  5.00            100.40          4.00          63.00
+max                  9.00            208.98          7.00         185.00
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="g-systembolaget-product-catalogue-large-download">
+<h2>G. Systembolaget product catalogue (large download)<a class="headerlink" href="#g-systembolaget-product-catalogue-large-download" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="c1"># One request returns the whole catalogue as a single JSON file of about</span>
+<span class="c1"># 100 MB, so this cell is switched off by default. Set the flag to True,</span>
+<span class="c1"># run it once, and work from the small CSV it saves afterwards.</span>
+<span class="n">DOWNLOAD_SYSTEMBOLAGET</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">SB_URL</span> <span class="o">=</span> <span class="s2">&quot;https://susbolaget.emrik.org/v1/products&quot;</span>
+<span class="n">SB_COLUMNS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;productId&#39;</span><span class="p">,</span> <span class="s1">&#39;productNameBold&#39;</span><span class="p">,</span> <span class="s1">&#39;productNameThin&#39;</span><span class="p">,</span> <span class="s1">&#39;producerName&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;categoryLevel1&#39;</span><span class="p">,</span> <span class="s1">&#39;categoryLevel2&#39;</span><span class="p">,</span> <span class="s1">&#39;categoryLevel3&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;assortmentText&#39;</span><span class="p">,</span> <span class="s1">&#39;packagingLevel1&#39;</span><span class="p">,</span> <span class="s1">&#39;isOrganic&#39;</span><span class="p">,</span> <span class="s1">&#39;vintage&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;alcoholPercentage&#39;</span><span class="p">,</span> <span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;sugarContentGramPer100ml&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tasteClockBitter&#39;</span><span class="p">,</span> <span class="s1">&#39;tasteClockBody&#39;</span><span class="p">,</span> <span class="s1">&#39;tasteClockSweetness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tasteClockFruitacid&#39;</span><span class="p">,</span> <span class="s1">&#39;tasteClockRoughness&#39;</span><span class="p">,</span> <span class="s1">&#39;tasteClockSmokiness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tasteClockCasque&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="k">if</span> <span class="n">DOWNLOAD_SYSTEMBOLAGET</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">SB_URL</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">df_sb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())[</span><span class="n">SB_COLUMNS</span><span class="p">]</span>          <span class="c1"># drop images, price history, ...</span>
+        <span class="n">df_sb</span><span class="p">[</span><span class="s1">&#39;price_per_litre&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_sb</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_sb</span><span class="p">[</span><span class="s1">&#39;volume&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>   <span class="c1"># SEK, ml</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_sb</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> products&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">df_sb</span><span class="p">[</span><span class="s1">&#39;categoryLevel1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">df_sb</span><span class="p">[[</span><span class="s1">&#39;alcoholPercentage&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;price_per_litre&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;sugarContentGramPer100ml&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">df_sb</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;systembolaget_products.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>   <span class="c1"># a few MB instead of 100</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not download: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Set DOWNLOAD_SYSTEMBOLAGET = True to fetch the catalogue (about 100 MB).&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Set DOWNLOAD_SYSTEMBOLAGET = True to fetch the catalogue (about 100 MB).
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 <section id="tips-for-your-own-dataset">
 <h2>Tips for Your Own Dataset<a class="headerlink" href="#tips-for-your-own-dataset" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
@@ -1030,6 +1290,9 @@ without re-reading the whole notebook.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-uci-machine-learning-repository">B. UCI Machine Learning Repository</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-materials-project-requires-a-free-api-key">C. Materials Project (requires a free API key)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-zenodo-downloading-a-csv-from-a-published-dataset">D. Zenodo — downloading a CSV from a published dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#e-nomad-no-api-key-needed">E. NOMAD (no API key needed)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#f-kaggle">F. Kaggle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#g-systembolaget-product-catalogue-large-download">G. Systembolaget product catalogue (large download)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-your-own-dataset">Tips for Your Own Dataset</a></li>
 </ul>
   </nav></div>
