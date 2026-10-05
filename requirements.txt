@@ -32,6 +32,7 @@ torch>=2.0
 # Materials data (chapter 6 project)
 matminer>=0.9
 ucimlrepo>=0.0.7
+kagglehub>=0.3       # optional: the Kaggle cell in data_access.ipynb skips itself without it
 
 # Jupyter / book
 jupyter>=1.0
